@@ -25,7 +25,10 @@ udefine ->
       for i in [0 .. @length - 1]
         callback @[i]
       null
-   
+    
+    filter: (callback) ->
+      @[i] for i in [0 .. @length - 1] when callback @[i] is true
+    
     byName: (name) -> @[@names[name]]
    
     byTag: (tag) -> @tags[tag].map (index) => @[index]
