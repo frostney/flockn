@@ -1,19 +1,19 @@
 udefine ->
-  class BehaviorGroup
+  class Group
     constructor: ->
       @length = 0
    
       @tags = {}
       @names = {}
    
-    push: (behavior, tags = behavior.tags) ->
-      return if Object.hasOwnProperty.call @names, behavior.name
+    push: (obj, tags = obj.tags) ->
+      return if Object.hasOwnProperty.call @names, obj.name
    
-      @[@length] = behavior
+      @[@length] = obj
       for tag in tags
         @tags[tag] = @tags[tag] or []
         @tags[tag].push @length
-      @names[behavior.name] = @length
+      @names[obj.name] = @length
    
       ++@length
    
