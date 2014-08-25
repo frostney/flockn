@@ -6,7 +6,7 @@ udefine ->
       @tags = {}
       @names = {}
    
-    push: (obj, tags = obj.tags) ->
+    push: (obj, tags = obj?.tags or []) ->
       return if Object.hasOwnProperty.call @names, obj.name
    
       @[@length] = obj
