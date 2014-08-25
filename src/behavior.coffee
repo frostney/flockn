@@ -3,10 +3,11 @@ udefine ['eventmap', 'mixedice', './group'], (Group) ->
   
   class Behavior
     constructor: (descriptor, args...) ->
-      mixedice [@, @::], new EventMap()
+      mixedice [@, Behavior::], new EventMap()
    
       @type = 'Behavior'
       @name = "#{@type}-#{Date.now()}"
+      @tags = []
    
       @children = new Group()
    
@@ -15,14 +16,17 @@ udefine ['eventmap', 'mixedice', './group'], (Group) ->
       descriptor.apply @, args
    
       @on 'update', (dt) =>
-        @children.forEach (child) -> child.update dt
+        @children.forEach (child) -> child.trigger 'update', dt
    
     addBehavior: (behavior, args...) ->
       unless behavior instanceof Behavior
-        if Object.hasOwnProperty.call store, behavior
-          behavior = new Behavior behavior, store[behavior], args
+        if typeof behavior is 'string'
+          if Object.hasOwnProperty.call store, behavior
+            behavior = new Behavior store[behavior], args
+        else
+          behavior = new Behavior behavior, args
       
-      @children[behavior.name] = behavior
+      @children.push behavior
       behavior.parent = @
       
     @define: (name, factory) ->
