@@ -1,6 +1,6 @@
-udefine(['mixedice', 'eventmap', './addable', './behavior', './group'], function(mixedice, EventMap, addable, Behavior, Group) {
+udefine(['mixedice', './addable', './base', './behavior', './group'], function(mixedice, addable, Base, Behavior, Group) {
   var GameObject = function() {
-    mixedice([this, GameObject.prototype], new EventMap());
+    mixedice([this, GameObject.prototype], new Base('GameObject'));
     
     var self = this;
     
@@ -8,9 +8,6 @@ udefine(['mixedice', 'eventmap', './addable', './behavior', './group'], function
     this.y = 0;
     
     this.parent = null;
-    
-    // GameObjects
-    this.children = new Group();
     
     // Behaviors
     this.behaviors = new Group();

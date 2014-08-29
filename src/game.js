@@ -1,6 +1,6 @@
-udefine([], function() {
+udefine(['mixedice', './base'], function(mixedice, Base) {
   var Game = function() {
-    this.scenes = {};
+    mixedice([this, Game.prototype], new Base('Game'));
   };
   
   Game.prototype.add = function(name) {

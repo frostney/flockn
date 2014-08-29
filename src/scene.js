@@ -1,11 +1,11 @@
-udefine(['mixedice', 'eventmap', './addable', './group', './gameobject'], function(mixedice, EventMap, addable, Group, GameObject) {
+udefine(['mixedice', './addable', './base', './group', './gameobject'], function(mixedice, addable, Base, Group, GameObject) {
   
   var Scene = function() {
-    mixedice([this, Scene.prototype], new EventMap());
+    mixedice([this, Scene.prototype], new Base('Scene'));
   };
   
   Scene.prototype.addGameObject = function() {
-    
+    addable(Scene, this.children).apply(this, arguments);
   };
   
   Scene.store = {};
