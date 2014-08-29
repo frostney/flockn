@@ -1,11 +1,11 @@
 udefine('addable', function() {
   return function(Factory, groupInstance) {
 
-    return function(child) {
+    return function() {
       var child = arguments[0];
       var args = 2 <= arguments.length ? [].slice.call(arguments, 1) : [];
 
-      if (!( child instanceof child)) {
+      if (!( child instanceof Factory)) {
         if ( typeof child === 'string') {
           if (Object.hasOwnProperty.call(store, child)) {
             child = new Factory(Factory.store[child], args);
@@ -42,23 +42,14 @@ udefine('snowflake/base', ['eventmap', 'mixedice', './group'], function(EventMap
   
 });
 
-udefine('snowflake/behavior', ['eventmap', 'mixedice', './addable', './group'], function(addable, Group) {
+udefine('snowflake/behavior', ['mixedice', './addable', './base', './group'], function(mixedice, addable, Base, Group) {
 
   var Behavior = function() {
     var descriptor = arguments[0];
     var args = 2 <= arguments.length ? [].slice.call(arguments, 1) : [];
     var self = this;
     
-    mixedice([this, Behavior.prototype], new EventMap());
-    
-    
-    this.type = 'Behavior';
-    this.name = this.type + "-" + (Date.now());
-    this.tags = [];
-    this.children = new Group();
-    
-    this.parent = null;
-    descriptor.apply(this, args);
+    mixedice([this, Behavior.prototype], new Base('Behavior'));
     
     this.on('update', function(dt) {
       self.children.forEach(function(child) {
@@ -80,9 +71,9 @@ udefine('snowflake/behavior', ['eventmap', 'mixedice', './addable', './group'], 
 
   return Behavior;
 }); 
-udefine('snowflake/game', [], function() {
+udefine('snowflake/game', ['mixedice', './base'], function(mixedice, Base) {
   var Game = function() {
-    this.scenes = {};
+    mixedice([this, Game.prototype], new Base('Game'));
   };
   
   Game.prototype.add = function(name) {
@@ -96,9 +87,9 @@ udefine('snowflake/game', [], function() {
   return Game;
 });
 
-udefine('snowflake/gameobject', ['mixedice', 'eventmap', './addable', './behavior', './group'], function(mixedice, EventMap, addable, Behavior, Group) {
+udefine('snowflake/gameobject', ['mixedice', './addable', './base', './behavior', './group'], function(mixedice, addable, Base, Behavior, Group) {
   var GameObject = function() {
-    mixedice([this, GameObject.prototype], new EventMap());
+    mixedice([this, GameObject.prototype], new Base());
     
     var self = this;
     
@@ -106,9 +97,6 @@ udefine('snowflake/gameobject', ['mixedice', 'eventmap', './addable', './behavio
     this.y = 0;
     
     this.parent = null;
-    
-    // GameObjects
-    this.children = new Group();
     
     // Behaviors
     this.behaviors = new Group();
@@ -237,14 +225,14 @@ udefine('snowflake/group', [], function() {
   return Group;
 });
 
-udefine('snowflake/scene', ['mixedice', 'eventmap', './addable', './group', './gameobject'], function(mixedice, EventMap, addable, Group, GameObject) {
+udefine('snowflake/scene', ['mixedice', './addable', './base', './group', './gameobject'], function(mixedice, addable, Base, Group, GameObject) {
   
   var Scene = function() {
-    mixedice([this, Scene.prototype], new EventMap());
+    mixedice([this, Scene.prototype], new Base('Scene'));
   };
   
   Scene.prototype.addGameObject = function() {
-    
+    addable(Scene, this.children).apply(this, arguments);
   };
   
   Scene.store = {};
