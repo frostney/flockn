@@ -1,0 +1,36 @@
+{
+  "name": "snowflake",
+  "version": "0.0.0",
+  "description": "0.1.0",
+  "main": "dist/snowflake.js",
+  "directories": {
+    "example": "examples",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "grunt test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/freezedev/snowflake.git"
+  },
+  "keywords": [
+    "game",
+    "engine",
+    "micro",
+    "small"
+  ],
+  "author": "Johannes Stein",
+  "license": "Public Domain",
+  "bugs": {
+    "url": "https://github.com/freezedev/snowflake/issues"
+  },
+  "homepage": "https://github.com/freezedev/snowflake",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-amd-tamer": "^0.1.7",
+    "grunt-contrib-uglify": "^0.5.1",
+    "load-grunt-config": "^0.13.1",
+    "time-grunt": "^1.0.0"
+  }
+}
