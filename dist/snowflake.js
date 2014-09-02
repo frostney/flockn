@@ -89,7 +89,7 @@ udefine('snowflake/game', ['mixedice', './base'], function(mixedice, Base) {
 
 udefine('snowflake/gameobject', ['mixedice', './addable', './base', './behavior', './group'], function(mixedice, addable, Base, Behavior, Group) {
   var GameObject = function() {
-    mixedice([this, GameObject.prototype], new Base());
+    mixedice([this, GameObject.prototype], new Base('GameObject'));
     
     var self = this;
     
