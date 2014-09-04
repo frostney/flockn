@@ -1,13 +1,13 @@
-udefine(['mixedice', './base'], function(mixedice, Base) {
+udefine(['mixedice', './addable', './base', './scene'], function(mixedice, addable, Base, Scene) {
   var Game = function() {
     mixedice([this, Game.prototype], new Base('Game'));
   };
   
-  Game.prototype.add = function(name) {
-    
+  Game.prototype.addScene = function(name) {
+    addable(Scene, this.children).apply(this, arguments);
   };
   
-  Game.prototype.show = function(name) {
+  Game.prototype.showScene = function(name) {
     
   };
   
