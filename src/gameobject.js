@@ -1,4 +1,4 @@
-udefine(['mixedice', './addable', './base', './behavior', './group'], function(mixedice, addable, Base, Behavior, Group) {
+udefine(['mixedice', './addable', './base', './behavior', './graphics', './group'], function(mixedice, addable, Base, Behavior, Graphics, Group) {
   var GameObject = function() {
     mixedice([this, GameObject.prototype], new Base('GameObject'));
     
@@ -16,6 +16,8 @@ udefine(['mixedice', './addable', './base', './behavior', './group'], function(m
     this.models = new Group();
     
     this.on('render', function() {
+    	Graphics.trigger('render', self);
+    	
       self.children.forEach(function(child) {
         child.trigger('render');
       });
