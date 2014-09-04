@@ -87,9 +87,9 @@ udefine('snowflake/game', ['mixedice', './base'], function(mixedice, Base) {
   return Game;
 });
 
-udefine('snowflake/gameobject', ['mixedice', './addable', './base', './behavior', './group'], function(mixedice, addable, Base, Behavior, Group) {
+udefine('snowflake/gameobject', ['mixedice', './addable', './base', './behavior', './graphics', './group'], function(mixedice, addable, Base, Behavior, Graphics, Group) {
   var GameObject = function() {
-    mixedice([this, GameObject.prototype], new Base());
+    mixedice([this, GameObject.prototype], new Base('GameObject'));
     
     var self = this;
     
@@ -105,6 +105,8 @@ udefine('snowflake/gameobject', ['mixedice', './addable', './base', './behavior'
     this.models = new Group();
     
     this.on('render', function() {
+    	Graphics.trigger('render', self.type, self);
+    	
       self.children.forEach(function(child) {
         child.trigger('render');
       });
@@ -136,6 +138,34 @@ udefine('snowflake/gameobject', ['mixedice', './addable', './base', './behavior'
   };
   
   return GameObject;
+});
+
+udefine('snowflake/graphics', ['eventmap'], function(EventMap) {
+	var Graphics = new EventMap();
+	
+	return Graphics;
+});
+
+udefine('snowflake/graphics/dom', ['../graphics'], function(Graphics) {
+	
+	Graphics.init = function(container) {
+		Graphics.renderer = 'DOM';
+		Graphics.container = container;
+	};
+	
+	Graphics.on('render', function(type, obj) {
+		
+		switch (type) {
+			case 'GameObject':
+				break;
+			default:
+				break;
+		}
+		
+	});
+	
+	return Graphics;
+	
 });
 
 udefine('snowflake/group', [], function() {
