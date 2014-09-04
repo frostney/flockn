@@ -1,4 +1,9 @@
 module.exports =
   compact:
-    files:
-      'dist/snowflake.min.js': 'dist/snowflake.js'
+    files: [{
+      expand: true
+      cwd: 'dist/'
+      src: '**/*.js'
+      dest: 'dist/'
+      ext: '.min.js'
+    }]
