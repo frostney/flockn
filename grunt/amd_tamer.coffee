@@ -1,7 +1,21 @@
+path = require 'path'
+
 module.exports =
-  concat:
-    options:
-      namespace: 'snowflake'
-      base: 'src/'
+  options:
+    namespace: 'snowflake'
+    base: 'src/'  
+  all:
     files:
-      'dist/snowflake.js': 'src/**/*.js'
+      'dist/snowflake.all.js': 'src/**/*.js'
+  base:
+    files:
+      'dist/files/snowflake.js': ['src/**/*.js', '!src/graphics/**/*.js']
+  graphics:
+    files: [{
+      expand: true
+      cwd: 'src/graphics/'
+      src: '*.js'
+      dest: 'dist/files/'
+      rename: (dest, src) ->
+        "#{dest}/snowflake.graphics.#{src}"
+    }]
