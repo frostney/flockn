@@ -16,7 +16,7 @@ udefine(['mixedice', './addable', './base', './behavior', './graphics', './group
     this.models = new Group();
     
     this.on('render', function() {
-    	Graphics.trigger('render', self);
+    	Graphics.trigger('render', self.type, self);
     	
       self.children.forEach(function(child) {
         child.trigger('render');
