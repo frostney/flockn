@@ -4,4 +4,4 @@ module.exports = (grunt) ->
 
   require('load-grunt-config')(grunt)
 
-  grunt.registerTask 'default', ['amd_tamer', 'uglify']
+  grunt.registerTask 'default', ['clean', 'amd_tamer', 'uglify']
