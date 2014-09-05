@@ -1,4 +1,4 @@
-udefine('addable', function() {
+udefine(function() {
   return function(Factory, groupInstance) {
 
     return function() {
