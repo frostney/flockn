@@ -1,6 +1,6 @@
-udefine(['mixedice', './addable', './base', './scene'], function(mixedice, addable, Base, Scene) {
+udefine(['mixedice', './addable', './base', './constructable', './scene'], function(mixedice, addable, Base, constructable, Scene) {
   var Game = function() {
-    mixedice([this, Game.prototype], new Base('Game'));
+    mixedice([this, Game.prototype], constructable(Base, 'Game', arguments));
   };
   
   Game.prototype.addScene = function(name) {

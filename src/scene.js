@@ -1,7 +1,7 @@
-udefine(['mixedice', './addable', './base', './group', './gameobject'], function(mixedice, addable, Base, Group, GameObject) {
+udefine(['mixedice', './addable', './base', './constructable', './group', './gameobject'], function(mixedice, addable, Base, constructable, Group, GameObject) {
   
   var Scene = function() {
-    mixedice([this, Scene.prototype], new Base('Scene'));
+    mixedice([this, Scene.prototype], constructable(Base, 'Scene', arguments));
   };
   
   Scene.prototype.addGameObject = function() {
