@@ -14,4 +14,6 @@ udefine(['mixedice', './addable', './base', './group', './gameobject'], function
     Scene.store[name] = factory;
   };
   
+  return Scene;
+  
 });
