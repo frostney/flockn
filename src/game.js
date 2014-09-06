@@ -8,7 +8,7 @@ udefine(['mixedice', './addable', './base', './scene'], function(mixedice, addab
   };
   
   Game.prototype.showScene = function(name) {
-    
+    this.activeScene = name;
   };
   
   return Game;
