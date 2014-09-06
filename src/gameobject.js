@@ -48,5 +48,13 @@ udefine(['mixedice', './addable', './base', './behavior', './constructable', './
     addable(Behavior, this.behaviors).apply(this, arguments);
   };
   
+  GameObject.prototype.toJSON = function() {
+  	
+  };
+  
+  GameObject.prototype.fromJSON = function() {
+  	
+  };
+  
   return GameObject;
 });
