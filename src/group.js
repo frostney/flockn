@@ -60,6 +60,16 @@ udefine([], function() {
     }
   };
   
+  Group.prototype.map = function(callback) {
+  	var mappedArray = [];
+    
+    for (var i = 0; i < this.length; i++) {
+      mappedArray.push(callback(this[i]));
+    }
+    
+    return mappedArray;
+  };
+  
   Group.prototype.filter = function(callback) {
     var filteredArray = [];
     
@@ -80,6 +90,10 @@ udefine([], function() {
     return this.tags[tag].map(function(index) {
       return this[index];
     }, this);
+  };
+  
+  Group.prototype.toJSON = function() {
+  	
   };
 
   return Group;
