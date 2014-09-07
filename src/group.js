@@ -60,6 +60,7 @@ udefine([], function() {
     }
   };
   
+  // TODO: Evaluate if Group#map and Group#filter should rather return a Group instance
   Group.prototype.map = function(callback) {
   	var mappedArray = [];
     

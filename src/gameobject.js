@@ -49,7 +49,23 @@ udefine(['mixedice', './addable', './base', './behavior', './constructable', './
   };
   
   GameObject.prototype.toJSON = function() {
+  	var obj = {};
   	
+  	for (var key in this) {
+  		if (Object.hasOwnProperty.call(this, key)) {
+  			var value = this[key];
+  			
+  			if (typeof value !== 'function') {
+  				if (value.toJSON && typeof value.toJSON === 'function') {
+  					obj[key] = value.toJSON();
+  				} else {
+  					obj[key] = value;
+  				}
+  			}
+  		}
+  	}
+  	
+  	return obj;
   };
   
   GameObject.prototype.fromJSON = function() {
