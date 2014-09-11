@@ -8,7 +8,7 @@ How does it work?
 
 ```javascript
 require(['flake/game'], function(Game) {
-  Game(function() {
+  new Game(function() {
   
     this.addScene('myscene', function() {
     
