@@ -9,6 +9,7 @@ udefine(['mixedice', './addable', './base', './constructable', './scene'], funct
   
   Game.prototype.showScene = function(name) {
     this.activeScene = name;
+    this.trigger('show', this.activeScene, this.children[this.activeScene]);
   };
   
   return Game;
