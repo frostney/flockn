@@ -16,7 +16,7 @@ udefine(function() {
       }
       groupInstance.push(child);
       child.parent = this;
-      child.trigger('add');
+      child.trigger('add', child, args);
     };
   };
 });
