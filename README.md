@@ -18,6 +18,10 @@ require(['flake/game'], function(Game) {
 });
 ```
 
+Building for yourself
+---------------------
+Type `grunt` to build everything.
+
 License
 -------
 This is public domain. If public domain does not work for you, you can use MIT alternatively.
