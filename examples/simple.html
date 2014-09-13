@@ -23,6 +23,10 @@
 					
 					this.addScene(function() {
 						this.name = 'main';
+						
+						this.addGameObject(function() {
+							this.name = 'myGameObject';
+						});
 					});
 					
 					console.log(this);
