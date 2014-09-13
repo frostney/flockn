@@ -1,7 +1,7 @@
 udefine(['mixedice', './addable', './base', './group', './updateable'], function(mixedice, addable, Base, Group, updateable) {
 
-  var Behavior = function() {
-    Base.extend([this, Behavior.prototype], 'Behavior').factory.call(this, arguments);
+  var Behavior = function(descriptor) {
+    Base.extend([this, Behavior.prototype], 'Behavior', descriptor);
     
     updateable.call(this);
   };

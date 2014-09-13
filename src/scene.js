@@ -1,7 +1,7 @@
 udefine(['mixedice', './addable', './base', './group', './gameobject', './renderable', './updateable'], function(mixedice, addable, Base, Group, GameObject, renderable, updateable) {
   
-  var Scene = function() {
-    Base.extend([this, Scene.prototype], 'Scene').factory.call(this, arguments);
+  var Scene = function(descriptor) {
+    Base.extend([this, Scene.prototype], 'Scene', descriptor);
     
     renderable.call(this);
     updateable.call(this);
