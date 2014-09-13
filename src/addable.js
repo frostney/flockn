@@ -8,14 +8,16 @@ udefine(function() {
       if (!( child instanceof Factory)) {
         if ( typeof child === 'string') {
           if (Object.hasOwnProperty.call(store, child)) {
-            child = new Factory(Factory.store[child], args);
+            child = new Factory(Factory.store[child]);
           }
         } else {
-          child = new Factory(child, args);
+          child = new Factory(child);
         }
       }
       groupInstance.push(child);
       child.parent = this;
+      
+      child.apply(args);
       child.trigger('add', child, args);
     };
   };
