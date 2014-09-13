@@ -1,9 +1,9 @@
-udefine(['mixedice', './addable', './base', './constructable',  './group'], function(mixedice, addable, Base, constructable, Group) {
+udefine(['mixedice', './addable', './base',  './group'], function(mixedice, addable, Base, Group) {
 
   var Behavior = function() {
     var self = this;
     
-    mixedice([this, Behavior.prototype], constructable(Base, 'Behavior', arguments));
+    Base.extend([this, Behavior.prototype], 'Behavior').factory.call(this, arguments);
     
     this.on('update', function(dt) {
       self.children.forEach(function(child) {
