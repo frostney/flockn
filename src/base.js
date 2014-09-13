@@ -2,6 +2,8 @@ udefine(['eventmap', 'mixedice', './group'], function(EventMap, mixedice, Group)
   'use strict';
 
   var Base = function(type) {
+    var self = this;
+    
     mixedice([this, Base.prototype], new EventMap());
 
     type = type || 'Base';
@@ -12,6 +14,20 @@ udefine(['eventmap', 'mixedice', './group'], function(EventMap, mixedice, Group)
     this.children = new Group();
 
     this.parent = null;
+    
+    this.on('render', function() {
+    	Graphics.trigger('render', self.type, self);
+    	
+      self.children.forEach(function(child) {
+        child.trigger('render');
+      });
+    });
+    
+    this.on('update', function() {
+      self.children.forEach(function(child) {
+        child.trigger('update');
+      });
+    });
 
     this.trigger('constructed');
   };

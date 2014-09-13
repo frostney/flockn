@@ -1,6 +1,9 @@
-udefine(['mixedice', './addable', './base', './scene'], function(mixedice, addable, Base, Scene) {
+udefine(['mixedice', './addable', './base', './scene', './renderable', './updateable'], function(mixedice, addable, Base, Scene, renderable, updateable) {
   var Game = function() {
   	Base.extend([this, Game.prototype], 'Game').factory.call(this, arguments);
+  	
+  	renderable.call(this);
+  	updateable.call(this);
   };
   
   Game.prototype.addScene = function(name) {
@@ -10,6 +13,13 @@ udefine(['mixedice', './addable', './base', './scene'], function(mixedice, addab
   Game.prototype.showScene = function(name) {
     this.activeScene = name;
     this.trigger('show', this.activeScene, this.children[this.activeScene]);
+  };
+  
+  Game.prototype.run = function(name) {
+  	
+  	if (name) {
+  		this.showScene(name);
+  	}
   };
   
   return Game;
