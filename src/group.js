@@ -21,7 +21,7 @@ udefine([], function() {
     
     this[this.length] = obj;
     
-    this.tags.forEach(function(tag) {
+    Object.keys(this.tags).forEach(function(tag) {
       this.tags[tag] = this.tags[tag] || [];
       this.tags[tag].push(this.length);
     }, this);
