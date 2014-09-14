@@ -2,6 +2,11 @@ udefine(['../graphics'], function(Graphics) {
 	
 	Graphics.init = function(container) {
 		Graphics.renderer = 'DOM';
+		
+		if (container.indexOf('#') === 0) {
+			container = container.slSice(1);
+		}
+		
 		Graphics.container = container;
 		Graphics.element = document.getElementById(container);
 		
