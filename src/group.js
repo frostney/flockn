@@ -94,7 +94,19 @@ udefine([], function() {
   };
   
   Group.prototype.toJSON = function() {
-  	
+  	return JSON.stringify(this, function(key, value) {
+  		// Avoiding cyclic dependencies
+  		if (key === 'parent') {
+  			return;
+  		}
+  		
+  		// Stringify the descriptor
+  		if (key === 'descriptor') {
+  			value = value.toString();
+  		}
+  		
+  		return value;
+  	});
   };
 
   return Group;
