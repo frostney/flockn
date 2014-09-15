@@ -1,4 +1,4 @@
-define(function() {
+udefine(function() {
 	return function() {
 		var self = this;
 		
