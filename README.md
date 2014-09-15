@@ -7,16 +7,24 @@ How does it work?
 -----------------
 
 ```javascript
-require(['flake/game'], function(Game) {
+require(['flocken/game'], function(Game) {
   new Game(function() {
   
-    this.addScene('myscene', function() {
-    
+    this.addScene(function() {
+    	this.name = 'myscene';
+    	
+    	this.addGameObject(function() {
+    		this.x = 100;
+    		this.y = 100;
+    	});
     });
   
   });
 });
 ```
+
+Philosophy
+----------
 
 License
 -------
