@@ -1,5 +1,24 @@
-udefine(['eventmap', 'mixedice', './graphics', './group'], function(EventMap, mixedice, Graphics, Group) {
+udefine(['eventmap', 'mixedice', './group'], function(EventMap, mixedice, Group) {
   'use strict';
+  
+  var objectIndex = 0;
+  
+  var prependMax = 10000;
+  
+  var numToIdString = function(num) {
+  	var stringNum = num + '';
+  	
+  	if (num >= prependMax) {
+  		return stringNum;
+  	} else {
+  		var prependLength = (prependMax + '').length - stringNum.length;
+  		for (var i = 0; i < prependLength; i++) {
+  			stringNum = '0' + stringNum;
+  		}
+  		
+  		return stringNum;
+  	}
+  };
 
   var Base = function(type, descriptor) {
     var self = this;
@@ -10,24 +29,42 @@ udefine(['eventmap', 'mixedice', './graphics', './group'], function(EventMap, mi
 
     this.type = type;
     this.name = this.type + '-' + Date.now();
+    
+ 		var currentObject = numToIdString(++objectIndex);
+    
+    Object.defineProperty(this, 'id', {
+    	get: function() {
+    		return this.type + '-' + currentObject;
+    	},
+    	enumerable: true
+    });
+    
     this.descriptor = descriptor;
 
     this.children = new Group();
+    
+    this.queue = [];
 
     this.parent = null;
-
+    
     this.trigger('constructed');
   };
 
-  Base.prototype.call = function() {
+  Base.prototype.call = Base.prototype.reset = function() {
     this.apply(arguments);
   };
 
   Base.prototype.apply = function(args) {
+  	// TODO: Reflect if function check should be enforced here
     if (this.descriptor) {
+    	
       this.descriptor.apply(this, args);
-      
       this.trigger('execute');
+      
+      this.queue.forEach(function(q) {
+      	q && q();
+      });
+      this.queue = [];
     }
   };
 
