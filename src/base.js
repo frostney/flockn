@@ -61,6 +61,8 @@ udefine(['eventmap', 'mixedice', './group'], function(EventMap, mixedice, Group)
       this.descriptor.apply(this, args);
       this.trigger('execute');
       
+      // TODO: Impose an order in the queue, such as:
+      // Game -> Scene -> GameObject -> Behavior
       this.queue.forEach(function(q) {
       	q && q();
       });

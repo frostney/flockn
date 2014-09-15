@@ -34,7 +34,8 @@ udefine(['../graphics'], function(Graphics) {
       if ((parent && parent.isRoot) || parent == null) {
         return Graphics.element;
       } else {
-        var element = document.getElementById(obj.parent);
+      	var parentId = obj.parent.id.toLowerCase();
+        var element = document.getElementById(parentId);
         if (element == null) {
           return Graphics.element;
         } else {
