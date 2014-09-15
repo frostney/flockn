@@ -28,7 +28,8 @@
   ],
   "dependencies": {
     "eventmap": "~1.3.13",
-    "mixedice": "~0.5.2"
+    "mixedice": "~0.5.2",
+    "gameboard": "~0.1.0"
   },
   "devDependencies": {
     "almond": "~0.3.0"
