@@ -1,4 +1,4 @@
-udefine(['eventmap', 'mixedice', './group'], function(EventMap, mixedice, Group) {
+udefine(['eventmap', 'mixedice', 'gameboard/input', './group'], function(EventMap, mixedice, Input, Group) {
   'use strict';
   
   var objectIndex = 0;
@@ -46,6 +46,8 @@ udefine(['eventmap', 'mixedice', './group'], function(EventMap, mixedice, Group)
     this.queue = [];
 
     this.parent = null;
+    
+    this.input = Input;
     
     this.trigger('constructed');
   };

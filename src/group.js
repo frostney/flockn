@@ -1,4 +1,4 @@
-udefine([], function() {
+udefine(['./serialize'], function(serialize) {
   var unidentified = 'untitled';
   var unidentifiedCounter = 0;
 
@@ -94,19 +94,7 @@ udefine([], function() {
   };
   
   Group.prototype.toJSON = function() {
-  	return JSON.stringify(this, function(key, value) {
-  		// Avoiding cyclic dependencies
-  		if (key === 'parent') {
-  			return;
-  		}
-  		
-  		// Stringify the descriptor
-  		if (key === 'descriptor') {
-  			value = value.toString();
-  		}
-  		
-  		return value;
-  	});
+  	return serialize(this);
   };
 
   return Group;
