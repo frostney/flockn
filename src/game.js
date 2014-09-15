@@ -1,6 +1,10 @@
-udefine(['mixedice', './addable', './base', './scene', './renderable', './updateable'], function(mixedice, addable, Base, Scene, renderable, updateable) {
+udefine(['mixedice', './addable', './base', './graphics', './scene', './renderable', './updateable'], function(mixedice, addable, Base, Graphics, Scene, renderable, updateable) {
   var Game = function(descriptor) {
-  	Base.extend([this, Game.prototype], 'Game', descriptor);
+  	Base.extend([this, Game.prototype], 'Game', function() {
+  		descriptor.call(this);
+  		
+  		Graphics.trigger('add', this);
+  	});
   	
   	this.call();
   	
@@ -8,8 +12,8 @@ udefine(['mixedice', './addable', './base', './scene', './renderable', './update
   	updateable.call(this);
   };
   
-  Game.prototype.addScene = function(name) {
-    addable(Scene, this.children).apply(this, arguments);
+  Game.prototype.addScene = function() {
+    this.queue.push(addable(Scene, this.children).apply(this, arguments));
   };
   
   Game.prototype.showScene = function(name) {

@@ -7,7 +7,7 @@ udefine(['mixedice', './addable', './base', './group', './updateable'], function
   };
 
   Behavior.prototype.addBehavior = function() {
-    addable(Behavior, this.children).apply(this, arguments);
+    this.queue.push(addable(Behavior, this.children).apply(this, arguments));
   };
 
 

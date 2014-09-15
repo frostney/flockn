@@ -7,8 +7,6 @@ udefine(['mixedice', './addable', './base', './behavior', './group', './renderab
     this.x = 0;
     this.y = 0;
     
-    this.parent = null;
-    
     // Behaviors
     this.behaviors = new Group();
     
@@ -32,11 +30,11 @@ udefine(['mixedice', './addable', './base', './behavior', './group', './renderab
   };
   
   GameObject.prototype.addGameObject = function() {
-    addable(GameObject, this.children).apply(this, arguments);
+    this.queue.push(addable(GameObject, this.children).apply(this, arguments));
   };
   
   GameObject.prototype.addBehavior = function() {
-    addable(Behavior, this.behaviors).apply(this, arguments);
+    this.queue.push(addable(Behavior, this.behaviors).apply(this, arguments));
   };
   
   GameObject.prototype.toJSON = function() {

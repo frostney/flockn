@@ -8,7 +8,7 @@ udefine(['mixedice', './addable', './base', './group', './gameobject', './render
   };
   
   Scene.prototype.addGameObject = function() {
-    addable(GameObject, this.children).apply(this, arguments);
+    this.queue.push(addable(GameObject, this.children).apply(this, arguments));
   };
   
   Scene.store = {};
