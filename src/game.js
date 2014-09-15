@@ -1,5 +1,11 @@
-udefine(['mixedice', './addable', './base', './graphics', './scene', './renderable', './updateable'], function(mixedice, addable, Base, Graphics, Scene, renderable, updateable) {
+udefine(['mixedice', 'gameboard/loop', './addable', './base', './graphics', './scene', './renderable', './updateable'], function(mixedice, Loop, addable, Base, Graphics, Scene, renderable, updateable) {
   var Game = function(descriptor) {
+  	if (!this instanceof Game) {
+  		return new Game(descriptor);
+  	}
+  	
+  	var self = this;
+  	
   	Base.extend([this, Game.prototype], 'Game', function() {
   		descriptor.call(this);
   		
@@ -10,6 +16,14 @@ udefine(['mixedice', './addable', './base', './graphics', './scene', './renderab
   	
   	renderable.call(this);
   	updateable.call(this);
+  	
+  	Loop.on('update', function() {
+  		self.trigger('update');
+  	});
+  	
+  	Loop.on('render', function() {
+  		self.trigger('update');
+  	});
   };
   
   Game.prototype.addScene = function() {
@@ -22,6 +36,7 @@ udefine(['mixedice', './addable', './base', './graphics', './scene', './renderab
   };
   
   Game.prototype.run = function(name) {
+  	Loop.run();
   	
   	if (name) {
   		this.showScene(name);
