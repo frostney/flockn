@@ -6,6 +6,8 @@
 		<script src="../bower_components/udefine/dist/udefine.js"></script>
 		<script src="../bower_components/mixedice/dist/mixedice.js"></script>
 		<script src="../bower_components/eventmap/dist/eventmap.js"></script>
+		<script src="../bower_components/animframe/dist/animframe.js"></script>
+		<script src="../bower_components/gameboard/dist/gameboard.js"></script>
 		<script src="../dist/snowflake.all.js"></script>
 	</head>
 	<body>
@@ -26,13 +28,17 @@
 						
 						this.addGameObject(function() {
 							this.name = 'myGameObject';
+							
+							this.on('update', function() {
+
+							});
 						});
 					});
 					
 					console.log(this);
 					console.log(this.children);
 					
-					this.showScene('main');
+					this.run('main');
 					
 				});
 			});
