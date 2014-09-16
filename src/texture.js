@@ -11,6 +11,8 @@ udefine(['mixedice', 'eventmap'], function(mixedice, EventMap) {
 		
 		this.data = null;
 		
+		this.parent = null;
+		
 		Object.defineProperty(this, 'filename', {
 			get: function() {
 				return filename;

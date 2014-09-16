@@ -1,4 +1,4 @@
-udefine(['mixedice', './addable', './base', './behavior', './group', './renderable', './serialize', './updateable'], function(mixedice, addable, Base, Behavior, Group, renderable, serialize, updateable) {
+udefine(['mixedice', './addable', './base', './behavior', './graphics', './group', './renderable', './serialize', './texture', './updateable'], function(mixedice, addable, Base, Behavior, Graphics, Group, renderable, serialize, Texture, updateable) {
   var GameObject = function(descriptor) {
     Base.extend([this, GameObject.prototype], 'GameObject', descriptor);
     
@@ -8,9 +8,13 @@ udefine(['mixedice', './addable', './base', './behavior', './group', './renderab
     this.y = 0;
     
     this.texture = new Texture();
+    this.texture.parent = this;
     this.texture.on('loaded', function() {
-    	self.width = this.texture.data.width;
-    	self.height = this.texture.data.height;
+    	self.width = self.texture.data.width;
+    	self.height = self.texture.data.height;
+    	
+    	// TODO: Evaluate if the Graphics trigger should only in the texture
+    	Graphics.trigger('texture-loaded', self, self.texture);
     });
     
     this.width = 0;
