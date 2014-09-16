@@ -1,4 +1,4 @@
-udefine(['eventmap', 'mixedice', 'gameboard/input', './group'], function(EventMap, mixedice, Input, Group) {
+udefine(['eventmap', 'mixedice', 'gameboard/input', './group', './world'], function(EventMap, mixedice, Input, Group, World) {
   'use strict';
   
   var objectIndex = 0;
@@ -49,6 +49,8 @@ udefine(['eventmap', 'mixedice', 'gameboard/input', './group'], function(EventMa
     
     this.input = Input;
     
+    this.world = World;
+    
     this.trigger('constructed');
   };
 
@@ -64,7 +66,7 @@ udefine(['eventmap', 'mixedice', 'gameboard/input', './group'], function(EventMa
       this.trigger('execute');
       
       // TODO: Impose an order in the queue, such as:
-      // Game -> Scene -> GameObject -> Behavior
+      // (Game) -> Scene -> GameObject -> Behavior
       this.queue.forEach(function(q) {
       	q && q();
       });
