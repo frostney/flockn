@@ -9,8 +9,13 @@ udefine(['mixedice', 'gameboard/loop', './addable', './base', './graphics', './s
   	Base.extend([this, Game.prototype], 'Game', function() {
   		descriptor.call(this);
   		
-  		Graphics.trigger('add', this);
+  		Graphics.trigger('initialize', this);
   	});
+  	
+  	this.container = null;
+  	this.width = window.innerWidth;
+  	this.height = window.innerHeight;
+  	this.color = 'rgb(255, 255, 255)';
   	
   	this.call();
   	
