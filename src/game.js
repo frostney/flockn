@@ -17,12 +17,12 @@ udefine(['mixedice', 'gameboard/loop', './addable', './base', './graphics', './s
   	renderable.call(this);
   	updateable.call(this);
   	
-  	Loop.on('update', function() {
-  		self.trigger('update');
+  	Loop.on('update', function(dt) {
+  		self.trigger('update', dt);
   	});
   	
   	Loop.on('render', function() {
-  		self.trigger('update');
+  		self.trigger('render');
   	});
   };
   
