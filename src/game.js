@@ -18,7 +18,7 @@ udefine(['mixedice', 'gameboard/loop', './addable', './base', './graphics', './s
   	updateable.call(this);
   	
   	Loop.on('update', function(dt) {
-  		self.trigger('update', dt);
+  		self.trigger('update', dt / 1000);
   	});
   	
   	Loop.on('render', function() {
