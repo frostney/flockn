@@ -7,49 +7,76 @@ udefine(['../graphics'], function(Graphics) {
   var unpixelize = function(str) {
     return parseFloat(str) || 0;
   };
+  
+  Graphics.renderer = 'DOM';
+  var rootElement = null;
+  
+  Graphics.on('initialize', function(Game) {
+  	var containerName = (function() {
+	  	if (Game.container == null) {
+	  		return Game.container = Game.id;
+	  	} else {
+		  	if (Game.container.indexOf('#') === 0) {
+		      return Game.container.slice(1);
+		    }
+	  	}
+  	})();
 
-  Graphics.init = function(container, width, height) {
-    Graphics.renderer = 'DOM';
+    Game.width = Game.width || window.innerWidth;
+    Game.height = Game.height || window.innerHeight;
 
-    if (container.indexOf('#') === 0) {
-      container = container.slice(1);
-    }
+    rootElement = document.getElementById(containerName);
 
-    width = width || 600;
-    height = height || 480;
-
-    Graphics.container = container;
-    Graphics.element = document.getElementById(container);
-
-    if (Graphics.element == null) {
+    if (rootElement == null) {
       var element = document.createElement('div');
-      element.id = container;
+      element.id = containerName.toLowerCase();
       document.body.appendChild(element);
 
-      Graphics.element = element;
+      rootElement = element;
     }
+   	
+   	rootElement.className = [Game.type.toLowerCase(), Game.name.toLowerCase()].join(' ');
 
-    Graphics.element.style.width = pixelize(width);
-    Graphics.element.style.height = pixelize(height);
-
-  };
+		rootElement.style.position = 'absolute';
+    rootElement.style.width = pixelize(Game.width);
+    rootElement.style.height = pixelize(Game.height);
+    rootElement.style.backgroundColor = Game.color;
+    rootElement.style.overflow = 'hidden';
+    
+    if (Game.width < window.innerWidth) {
+    	rootElement.style.left = '50%';
+    	rootElement.style.marginLeft = (Game.width * (-0.5)) + 'px';
+    }
+    
+    if (Game.height < window.innerHeight) {
+    	rootElement.style.top = '50%';
+    	rootElement.style.marginTop = (Game.width * (-0.5)) + 'px';
+    }
+  });
 
   Graphics.on('add', function(obj) {
+  	var elementId = obj.id.toLowerCase();
+  	
     // Remove previous elements of the same id
-    if (document.getElementById(obj.name) != null) {
-
+    if (document.getElementById(elementId) != null) {
+    	(function() {
+				var parentId = obj.parent.id.toLowerCase();
+				
+				var parentElem = document.getElementById(parentId);
+				parentElem.removeChild(document.getElementId(elementId));
+    	})();
     }
 
     var parent = obj.parent;
 
     var parentElem = (function() {
       if ((parent && parent.isRoot) || parent == null) {
-        return Graphics.element;
+        return rootElement;
       } else {
         var parentId = obj.parent.id.toLowerCase();
         var element = document.getElementById(parentId);
         if (element == null) {
-          return Graphics.element;
+          return rootElement;
         } else {
           return element;
         }
@@ -57,12 +84,14 @@ udefine(['../graphics'], function(Graphics) {
     })();
 
     var element = document.createElement('div');
-    element.id = obj.id.toLowerCase();
+    element.id = elementId;
     element.className = [obj.type.toLowerCase(), obj.name.toLowerCase()].join(' ');
     element.style.position = 'absolute';
 
     switch (obj.type) {
     case 'Scene':
+    	element.style.width = pixelize(obj.parent.width);
+    	element.style.height = pixelize(obj.parent.height);
       break;
     case 'GameObject':
       element.style.left = pixelize(obj.x);
@@ -94,6 +123,16 @@ udefine(['../graphics'], function(Graphics) {
     if (element != null) {
       switch (obj.type) {
       case 'GameObject':
+      	var elemVisible = element.style.display === 'block';
+      	
+      	if (elemVisible !== obj.visible) {
+      		element.style.display = (obj.visible) ? 'block' : 'hidden';
+      	}
+      
+      	if (!elemVisible) {
+      		return;
+      	}
+      
         var elemX = unpixelize(element.style.left);
         var elemY = unpixelize(element.style.top);
         var elemWidth = unpixelize(element.style.width);
@@ -113,6 +152,10 @@ udefine(['../graphics'], function(Graphics) {
 
         if (elemHeight !== obj.height) {
           element.style.height = pixelize(obj.height);
+        }
+        
+        if (obj.angle) {
+        	element.style.transform = 'rotate(' + obj.angle + 'deg)';
         }
         
         // Set background color
