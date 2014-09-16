@@ -4,6 +4,8 @@ udefine(['mixedice', './addable', './base', './behavior', './graphics', './group
     
     var self = this;
     
+    this.visible = true;
+    
     this.x = 0;
     this.y = 0;
     
@@ -19,6 +21,8 @@ udefine(['mixedice', './addable', './base', './behavior', './graphics', './group
     
     this.width = 0;
     this.height = 0;
+    
+    this.angle = 0;
     
     // Behaviors
     this.behaviors = new Group();
