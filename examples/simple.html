@@ -9,34 +9,69 @@
 		<script src="../bower_components/animframe/dist/animframe.js"></script>
 		<script src="../bower_components/gameboard/dist/gameboard.js"></script>
 		<script src="../dist/snowflake.all.js"></script>
+		<style>
+			body {
+				margin: 0;
+				background-color: #000;
+			}
+			
+			.game {
+				border: 1px solid #ccc;
+			}
+		</style>
 	</head>
 	<body>
 		
 		<script>
 			require(['snowflake/graphics/dom', 'snowflake/game'], function(Graphics, Game) {
-				Graphics.init('#container');
-				
-				console.log(Graphics);
-				console.log(Game);
-				
+
 				new Game(function() {
 					
-					console.log(this);
+					this.width = 300;
+					this.height = 300;
 					
 					this.addScene(function() {
 						this.name = 'main';
 						
 						this.addGameObject(function() {
+							var self = this;
+							
 							this.name = 'myGameObject';
 							
-							this.on('update', function() {
-
+							this.texture.filename = 'hero_front.png';
+							
+							this.input.key.on('down', function(keyCode) {
+								if (keyCode === this.up || keyCode === this.w) {
+									self.y -= 10;
+								}
+								
+								if (keyCode === this.down || keyCode === this.s) {
+									self.y += 10;
+								}
+								
+								if (keyCode === this.left || keyCode === this.a) {
+									self.x -= 10;
+								}
+								
+								if (keyCode === this.right || keyCode === this.d) {
+									self.x += 10;
+								}
+							});
+							
+							this.on('update', function(dt) {
+								self.angle += (dt * 10);
 							});
 						});
+						
+						this.addGameObject(function() {
+							this.texture.color = 'rgb(255, 0, 0)';
+							
+							this.x = 100;
+							this.y = 100;
+							this.width = 80;
+							this.height = 80;
+						});
 					});
-					
-					console.log(this);
-					console.log(this.children);
 					
 					this.run('main');
 					
