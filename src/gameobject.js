@@ -1,4 +1,4 @@
-udefine(['mixedice', './addable', './base', './behavior', './group', './renderable', './updateable'], function(mixedice, addable, Base, Behavior, Group, renderable, updateable) {
+udefine(['mixedice', './addable', './base', './behavior', './group', './renderable', './serialize', './updateable'], function(mixedice, addable, Base, Behavior, Group, renderable, serialize, updateable) {
   var GameObject = function(descriptor) {
     Base.extend([this, GameObject.prototype], 'GameObject', descriptor);
     
@@ -6,6 +6,15 @@ udefine(['mixedice', './addable', './base', './behavior', './group', './renderab
     
     this.x = 0;
     this.y = 0;
+    
+    this.texture = new Texture();
+    this.texture.on('loaded', function() {
+    	self.width = this.texture.data.width;
+    	self.height = this.texture.data.height;
+    });
+    
+    this.width = 0;
+    this.height = 0;
     
     // Behaviors
     this.behaviors = new Group();
@@ -38,23 +47,7 @@ udefine(['mixedice', './addable', './base', './behavior', './group', './renderab
   };
   
   GameObject.prototype.toJSON = function() {
-  	var obj = {};
-  	
-  	for (var key in this) {
-  		if (Object.hasOwnProperty.call(this, key)) {
-  			var value = this[key];
-  			
-  			if (typeof value !== 'function') {
-  				if (value.toJSON && typeof value.toJSON === 'function') {
-  					obj[key] = value.toJSON();
-  				} else {
-  					obj[key] = value;
-  				}
-  			}
-  		}
-  	}
-  	
-  	return obj;
+  	return serialize(this);
   };
   
   GameObject.prototype.fromJSON = function() {
