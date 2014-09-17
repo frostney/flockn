@@ -62,7 +62,7 @@ udefine(['./serialize'], function(serialize) {
     }
   };
   
-  // TODO: Evaluate if Group#map and Group#filter should rather return a Group instance
+  // TODO: Evaluate if Group#map and Group#filter should rather return a Group instance than an array
   Group.prototype.map = function(callback) {
   	var mappedArray = [];
     

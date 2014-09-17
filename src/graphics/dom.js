@@ -157,7 +157,7 @@ udefine(['../graphics'], function(Graphics) {
         }
         
         if (obj.angle) {
-        	element.style.transform = 'rotate(' + obj.angle + 'deg)';
+        	element.style.transform = element.style.mozTransform = element.style.webkitTransform = 'rotate(' + obj.angle + 'deg)';
         }
         
         if (obj.alpha !== 1) {
@@ -167,7 +167,16 @@ udefine(['../graphics'], function(Graphics) {
         // Set background color
         if (!obj.texture.filename) {
         	element.style.backgroundColor = obj.texture.color;
+        } else {
+        	if (obj.texture.offset.x !== 0) {
+        		element.style.backgroundPositionX = obj.texture.offset.x * (-1) + 'px';
+        	}
+        	
+        	if (obj.texture.offset.y !== 0) {
+        		element.style.backgroundPositionY = obj.texture.offset.y * (-1) + 'px';
+        	}
         }
+        
         break;
       case 'Scene':
       	var elemVisibleStyle = element.style.display;
