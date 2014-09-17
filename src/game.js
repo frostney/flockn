@@ -31,6 +31,14 @@ udefine(['mixedice', 'gameboard/loop', './addable', './base', './graphics', './s
   	Loop.on('render', function() {
   		self.trigger('render');
   	});
+  	
+  	root.addEventListener('resize', function() {
+  		self.trigger('resize');
+  	}, false);
+
+    root.addEventListener('orientationchange', function() {
+    	self.trigger('orientationchange');
+    }, false);
   };
   
   Game.prototype.addScene = function() {
