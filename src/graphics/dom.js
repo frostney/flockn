@@ -1,5 +1,5 @@
-udefine(['../graphics'], function(Graphics) {
-	'use strict';
+udefine(['../graphics', './rootelement'], function(Graphics, createRootElement) {
+  'use strict';
 
   var pixelize = function(num) {
     return num + 'px';
@@ -8,65 +8,29 @@ udefine(['../graphics'], function(Graphics) {
   var unpixelize = function(str) {
     return parseFloat(str) || 0;
   };
-  
+
   Graphics.renderer = 'DOM';
-  
+
   var rootElement = null;
-  
+
   Graphics.on('initialize', function(Game) {
-  	var containerName = (function() {
-	  	if (Game.container == null) {
-	  		return Game.container = Game.id;
-	  	} else {
-		  	if (Game.container.indexOf('#') === 0) {
-		      return Game.container.slice(1);
-		    }
-	  	}
-  	})();
-
-    Game.width = Game.width || window.innerWidth;
-    Game.height = Game.height || window.innerHeight;
-
-    rootElement = document.getElementById(containerName);
-
-    if (rootElement == null) {
-      var element = document.createElement('div');
-      element.id = containerName.toLowerCase();
-      document.body.appendChild(element);
-
-      rootElement = element;
-    }
-   	
-   	rootElement.className = [Game.type.toLowerCase(), Game.name.toLowerCase()].join(' ');
-
-		rootElement.style.position = 'absolute';
-    rootElement.style.width = pixelize(Game.width);
-    rootElement.style.height = pixelize(Game.height);
-    rootElement.style.backgroundColor = Game.color;
-    rootElement.style.overflow = 'hidden';
-    
-    if (Game.width < window.innerWidth) {
-    	rootElement.style.left = '50%';
-    	rootElement.style.marginLeft = (Game.width * (-0.5)) + 'px';
-    }
-    
-    if (Game.height < window.innerHeight) {
-    	rootElement.style.top = '50%';
-    	rootElement.style.marginTop = (Game.width * (-0.5)) + 'px';
-    }
+    rootElement = createRootElement.call(Game, 'div', function(rootElement) {
+      rootElement.style.backgroundColor = this.color;
+      rootElement.style.overflow = 'hidden';
+    });
   });
 
   Graphics.on('add', function(obj) {
-  	var elementId = obj.id.toLowerCase();
-  	
+    var elementId = obj.id.toLowerCase();
+
     // Remove previous elements of the same id
     if (document.getElementById(elementId) != null) {
-    	(function() {
-				var parentId = obj.parent.id.toLowerCase();
-				
-				var parentElem = document.getElementById(parentId);
-				parentElem.removeChild(document.getElementId(elementId));
-    	})();
+      (function() {
+        var parentId = obj.parent.id.toLowerCase();
+
+        var parentElem = document.getElementById(parentId);
+        parentElem.removeChild(document.getElementId(elementId));
+      })();
     }
 
     var parent = obj.parent;
@@ -92,8 +56,8 @@ udefine(['../graphics'], function(Graphics) {
 
     switch (obj.type) {
     case 'Scene':
-    	element.style.width = pixelize(obj.parent.width);
-    	element.style.height = pixelize(obj.parent.height);
+      element.style.width = pixelize(obj.parent.width);
+      element.style.height = pixelize(obj.parent.height);
       break;
     case 'GameObject':
       element.style.left = pixelize(obj.x);
@@ -125,16 +89,16 @@ udefine(['../graphics'], function(Graphics) {
     if (element != null) {
       switch (obj.type) {
       case 'GameObject':
-      	var elemVisible = element.style.display === 'block';
-      	
-      	if (elemVisible !== obj.visible) {
-      		element.style.display = (obj.visible) ? 'block' : 'hidden';
-      	}
-      
-      	if (!elemVisible) {
-      		return;
-      	}
-      
+        var elemVisible = element.style.display === 'block';
+
+        if (elemVisible !== obj.visible) {
+          element.style.display = (obj.visible) ? 'block' : 'hidden';
+        }
+
+        if (!elemVisible) {
+          return;
+        }
+
         var elemX = unpixelize(element.style.left);
         var elemY = unpixelize(element.style.top);
         var elemWidth = unpixelize(element.style.width);
@@ -155,44 +119,44 @@ udefine(['../graphics'], function(Graphics) {
         if (elemHeight !== obj.height) {
           element.style.height = pixelize(obj.height);
         }
-        
+
         if (obj.angle) {
-        	element.style.transform = element.style.mozTransform = element.style.webkitTransform = 'rotate(' + obj.angle + 'deg)';
+          element.style.transform = element.style.mozTransform = element.style.webkitTransform = 'rotate(' + obj.angle + 'deg)';
         }
-        
+
         if (obj.alpha !== 1) {
-        	element.style.opacity = obj.alpha;
+          element.style.opacity = obj.alpha;
         }
-        
+
         // Set background color
         if (!obj.texture.filename) {
-        	element.style.backgroundColor = obj.texture.color;
+          element.style.backgroundColor = obj.texture.color;
         } else {
-        	if (obj.texture.offset.x !== 0) {
-        		element.style.backgroundPositionX = obj.texture.offset.x * (-1) + 'px';
-        	}
-        	
-        	if (obj.texture.offset.y !== 0) {
-        		element.style.backgroundPositionY = obj.texture.offset.y * (-1) + 'px';
-        	}
+          if (obj.texture.offset.x !== 0) {
+            element.style.backgroundPositionX = obj.texture.offset.x * (-1) + 'px';
+          }
+
+          if (obj.texture.offset.y !== 0) {
+            element.style.backgroundPositionY = obj.texture.offset.y * (-1) + 'px';
+          }
         }
-        
+
         break;
       case 'Scene':
-      	var elemVisibleStyle = element.style.display;
-      	
-      	if (obj.parent.activeScene !== obj.name) {
-      		if (elemVisibleStyle !== 'hidden') {
-      			element.style.display = 'hidden';
-      		}
-      	} else {
-      		if (elemVisibleStyle !== 'block') {
-      			element.style.display = 'block';
-      		}
-      	}
-      	break;
+        var elemVisibleStyle = element.style.display;
+
+        if (obj.parent.activeScene !== obj.name) {
+          if (elemVisibleStyle !== 'hidden') {
+            element.style.display = 'hidden';
+          }
+        } else {
+          if (elemVisibleStyle !== 'block') {
+            element.style.display = 'block';
+          }
+        }
+        break;
       default:
-      	break;
+        break;
       }
 
     }
