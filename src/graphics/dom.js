@@ -158,12 +158,27 @@ udefine(['../graphics'], function(Graphics) {
         	element.style.transform = 'rotate(' + obj.angle + 'deg)';
         }
         
+        if (obj.alpha !== 1) {
+        	element.style.opacity = obj.alpha;
+        }
+        
         // Set background color
         if (!obj.texture.filename) {
         	element.style.backgroundColor = obj.texture.color;
         }
         break;
-      case 'Game':
+      case 'Scene':
+      	var elemVisibleStyle = element.style.display;
+      	
+      	if (obj.parent.activeScene !== obj.name) {
+      		if (elemVisibleStyle !== 'hidden') {
+      			element.style.display = 'hidden';
+      		}
+      	} else {
+      		if (elemVisibleStyle !== 'block') {
+      			element.style.display = 'block';
+      		}
+      	}
       	break;
       default:
       	break;
