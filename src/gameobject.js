@@ -24,6 +24,8 @@ udefine(['mixedice', './addable', './base', './behavior', './graphics', './group
     
     this.angle = 0;
     
+    this.alpha = 1;
+    
     // Behaviors
     this.behaviors = new Group();
     
