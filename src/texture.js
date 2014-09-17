@@ -15,6 +15,11 @@ udefine(['mixedice', 'eventmap'], function(mixedice, EventMap) {
 		
 		this.parent = null;
 		
+		this.offset = {
+			x: 0,
+			y: 0
+		};
+		
 		Object.defineProperty(this, 'filename', {
 			get: function() {
 				return filename;
@@ -22,6 +27,7 @@ udefine(['mixedice', 'eventmap'], function(mixedice, EventMap) {
 			set: function(value) {
 				filename = value;
 				
+				// TODO: Most of this should already be handled by the preloader
 				var img = new Image();
 				img.src = filename;
 				
