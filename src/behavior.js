@@ -4,6 +4,8 @@ udefine(['mixedice', './addable', './base', './group', './updateable'], function
   var Behavior = function(descriptor) {
     Base.extend([this, Behavior.prototype], 'Behavior', descriptor);
     
+    this.gameObject = null;
+    
     updateable.call(this);
   };
 
