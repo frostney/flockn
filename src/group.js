@@ -1,4 +1,6 @@
 udefine(['./serialize'], function(serialize) {
+	'use strict';
+	
   var unidentified = 'untitled';
   var unidentifiedCounter = 0;
 

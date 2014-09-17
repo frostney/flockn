@@ -1,4 +1,6 @@
 udefine(['mixedice', 'eventmap'], function(mixedice, EventMap) {
+	'use strict';
+	
 	var Texture = function() {
 		mixedice([this, Texture.prototype], new EventMap());
 		

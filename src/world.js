@@ -1,4 +1,6 @@
 udefine(['eventmap'], function(EventMap) {
+	'use strict';
+	
 	var events = new EventMap();
 	var World = {};
 	var data = {};

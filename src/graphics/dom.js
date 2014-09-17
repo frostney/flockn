@@ -1,4 +1,5 @@
 udefine(['../graphics'], function(Graphics) {
+	'use strict';
 
   var pixelize = function(num) {
     return num + 'px';
@@ -9,6 +10,7 @@ udefine(['../graphics'], function(Graphics) {
   };
   
   Graphics.renderer = 'DOM';
+  
   var rootElement = null;
   
   Graphics.on('initialize', function(Game) {

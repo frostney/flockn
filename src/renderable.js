@@ -1,4 +1,6 @@
 udefine(['./graphics'], function(Graphics) {
+	'use strict';
+	
 	return function() {
 		var self = this;
 		

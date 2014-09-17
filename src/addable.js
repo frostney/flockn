@@ -1,4 +1,6 @@
 udefine(['./graphics'], function(Graphics) {
+	'use strict';
+	
   return function(Factory, groupInstance) {
 
     var adder = function() {

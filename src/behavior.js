@@ -1,4 +1,5 @@
 udefine(['mixedice', './addable', './base', './group', './updateable'], function(mixedice, addable, Base, Group, updateable) {
+	'use strict';
 
   var Behavior = function(descriptor) {
     Base.extend([this, Behavior.prototype], 'Behavior', descriptor);

@@ -1,4 +1,6 @@
 udefine(['mixedice', 'gameboard/loop', './addable', './base', './graphics', './scene', './renderable', './updateable'], function(mixedice, Loop, addable, Base, Graphics, Scene, renderable, updateable) {
+	'use strict';
+	
   var Game = function(descriptor) {
   	if (!this instanceof Game) {
   		return new Game(descriptor);
