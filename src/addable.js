@@ -1,7 +1,7 @@
 udefine(['./graphics'], function(Graphics) {
-	'use strict';
-	
-  return function(Factory, groupInstance) {
+  'use strict';
+
+  return function(Factory, groupInstance, extraFn) {
 
     var adder = function() {
       var child = arguments[0];
@@ -18,6 +18,10 @@ udefine(['./graphics'], function(Graphics) {
       }
       groupInstance.push(child);
       child.parent = this;
+
+      if (extraFn) {
+        extraFn.call(this, child);
+      }
 
       Graphics.trigger('add', child);
 

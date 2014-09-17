@@ -55,7 +55,9 @@ udefine(['mixedice', './addable', './base', './behavior', './graphics', './group
   };
   
   GameObject.prototype.addBehavior = function() {
-    this.queue.push(addable(Behavior, this.behaviors).apply(this, arguments));
+    this.queue.push(addable(Behavior, this.behaviors, function(child) {
+    	child.gameObject = this;
+    }).apply(this, arguments));
   };
   
   GameObject.prototype.toJSON = function() {
