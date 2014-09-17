@@ -1,4 +1,4 @@
-udefine(['mixedice', 'gameboard/loop', './addable', './base', './graphics', './scene', './renderable', './updateable'], function(mixedice, Loop, addable, Base, Graphics, Scene, renderable, updateable) {
+udefine(['root', 'mixedice', 'gameboard/loop', './addable', './base', './graphics', './scene', './renderable', './updateable'], function(root, mixedice, Loop, addable, Base, Graphics, Scene, renderable, updateable) {
 	'use strict';
 	
   var Game = function(descriptor) {
@@ -15,8 +15,8 @@ udefine(['mixedice', 'gameboard/loop', './addable', './base', './graphics', './s
   	});
   	
   	this.container = null;
-  	this.width = window.innerWidth;
-  	this.height = window.innerHeight;
+  	this.width = root.innerWidth;
+  	this.height = root.innerHeight;
   	this.color = 'rgb(255, 255, 255)';
   	
   	this.call();
