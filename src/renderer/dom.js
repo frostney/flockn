@@ -156,6 +156,17 @@ udefine(['root', '../graphics', '../graphics/rootelement'], function(root, Graph
         // Set background color
         element.style.backgroundColor = obj.texture.color;
         
+        // Set border
+        if (obj.border.width > 0) {
+        	element.style.borderWidth = pixelize(obj.border.width);
+        	element.style.borderStyle = 'solid';
+        	element.style.borderColor = obj.border.color;
+        	
+        	if (obj.border.radius > 0) {
+        		element.style.borderRadius = pixelize(obj.border.radius);
+        	}
+        }
+        
         if (obj.texture.image.filename) {
           if (obj.texture.image.offset.x !== 0) {
             element.style.backgroundPositionX = obj.texture.image.offset.x * (-1) + 'px';
