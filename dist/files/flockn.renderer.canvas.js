@@ -1,4 +1,4 @@
-udefine('snowflake/renderer/canvas', ['../graphics', '../graphics/rootelement'], function(Graphics, createRootElement) {
+udefine('flockn/renderer/canvas', ['../graphics', '../graphics/rootelement'], function(Graphics, createRootElement) {
   'use strict';
 
   Graphics.renderer = 'Canvas';

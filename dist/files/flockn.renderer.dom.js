@@ -1,4 +1,4 @@
-udefine('snowflake/renderer/dom', ['root', '../graphics', '../graphics/rootelement'], function(root, Graphics, createRootElement) {
+udefine('flockn/renderer/dom', ['root', '../graphics', '../graphics/rootelement'], function(root, Graphics, createRootElement) {
   'use strict';
 
   var pixelize = function(num) {

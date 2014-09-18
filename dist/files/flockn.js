@@ -1,4 +1,4 @@
-udefine('snowflake/addable', ['./graphics'], function(Graphics) {
+udefine('flockn/addable', ['./graphics'], function(Graphics) {
   'use strict';
 
   return function(Factory, groupInstance, extraFn) {
@@ -48,7 +48,7 @@ udefine('snowflake/addable', ['./graphics'], function(Graphics) {
   };
 });
 
-udefine('snowflake/base', ['eventmap', 'mixedice', 'gameboard/input', './group', './world'], function(EventMap, mixedice, Input, Group, World) {
+udefine('flockn/base', ['eventmap', 'mixedice', 'gameboard/input', './group', './world'], function(EventMap, mixedice, Input, Group, World) {
   'use strict';
   
   var objectIndex = 0;
@@ -145,7 +145,7 @@ udefine('snowflake/base', ['eventmap', 'mixedice', 'gameboard/input', './group',
   return Base;
 
 });
-udefine('snowflake/behavior', ['mixedice', './addable', './base', './group', './updateable'], function(mixedice, addable, Base, Group, updateable) {
+udefine('flockn/behavior', ['mixedice', './addable', './base', './group', './updateable'], function(mixedice, addable, Base, Group, updateable) {
 	'use strict';
 
   var Behavior = function(descriptor) {
@@ -171,7 +171,7 @@ udefine('snowflake/behavior', ['mixedice', './addable', './base', './group', './
 
   return Behavior;
 }); 
-udefine('snowflake/game', ['root', 'mixedice', 'gameboard/loop', './addable', './base', './graphics', './scene', './renderable', './updateable'], function(root, mixedice, Loop, addable, Base, Graphics, Scene, renderable, updateable) {
+udefine('flockn/game', ['root', 'mixedice', 'gameboard/loop', './addable', './base', './graphics', './scene', './renderable', './updateable'], function(root, mixedice, Loop, addable, Base, Graphics, Scene, renderable, updateable) {
 	'use strict';
 	
   var Game = function(descriptor) {
@@ -245,7 +245,7 @@ udefine('snowflake/game', ['root', 'mixedice', 'gameboard/loop', './addable', '.
   return Game;
 });
 
-udefine('snowflake/gameobject', ['mixedice', './addable', './base', './behavior', './graphics', './group', './model', './renderable', './serialize', './texture', './updateable'], function(mixedice, addable, Base, Behavior, Graphics, Group, Model, renderable, serialize, Texture, updateable) {
+udefine('flockn/gameobject', ['mixedice', './addable', './base', './behavior', './graphics', './group', './model', './renderable', './serialize', './texture', './updateable'], function(mixedice, addable, Base, Behavior, Graphics, Group, Model, renderable, serialize, Texture, updateable) {
   'use strict';
 
   var GameObject = function(descriptor) {
@@ -408,7 +408,7 @@ udefine('snowflake/gameobject', ['mixedice', './addable', './base', './behavior'
   return GameObject;
 });
 
-udefine('snowflake/graphics', ['eventmap'], function(EventMap) {
+udefine('flockn/graphics', ['eventmap'], function(EventMap) {
 	'use strict';
 	
 	var Graphics = new EventMap();
@@ -416,7 +416,7 @@ udefine('snowflake/graphics', ['eventmap'], function(EventMap) {
 	return Graphics;
 });
 
-udefine('snowflake/graphics/rootelement', function() {
+udefine('flockn/graphics/rootelement', function() {
 	'use strict';
 	
 	return function(elementName, extraFn) {
@@ -465,7 +465,7 @@ udefine('snowflake/graphics/rootelement', function() {
 	};
 });
 
-udefine('snowflake/group', ['./serialize'], function(serialize) {
+udefine('flockn/group', ['./serialize'], function(serialize) {
 	'use strict';
 	
   var unidentified = 'untitled';
@@ -569,7 +569,7 @@ udefine('snowflake/group', ['./serialize'], function(serialize) {
   return Group;
 });
 
-udefine('snowflake/model', ['mixedice', 'eventmap'], function(mixedice, EventMap) {
+udefine('flockn/model', ['mixedice', 'eventmap'], function(mixedice, EventMap) {
 	'use strict';
 	
 	var Model = function() {
@@ -593,7 +593,7 @@ udefine('snowflake/model', ['mixedice', 'eventmap'], function(mixedice, EventMap
 	
 });
 
-udefine('snowflake/renderable', ['./graphics'], function(Graphics) {
+udefine('flockn/renderable', ['./graphics'], function(Graphics) {
 	'use strict';
 	
 	return function() {
@@ -609,275 +609,7 @@ udefine('snowflake/renderable', ['./graphics'], function(Graphics) {
 	};
 });
 
-udefine('snowflake/renderer/canvas', ['../graphics', '../graphics/rootelement'], function(Graphics, createRootElement) {
-  'use strict';
-
-  Graphics.renderer = 'Canvas';
-
-  var rootElement = null;
-  var context = null;
-
-  Graphics.on('initialize', function(Game) {
-    rootElement = createRootElement.call(this, 'canvas', function(rootElement) {
-      context = rootElement.getContext('2d');
-    });
-  });
-
-  Graphics.before('render', function(obj) {
-    switch (obj.type) {
-    case 'Game':
-      context.clearRect(0, 0, obj.width, obj.height);
-      break;
-    default:
-      break;
-    }
-  });
-
-  Graphics.on('render', function(obj) {
-    switch (obj.type) {
-    case 'GameObject':
-    	if (obj.texture.image.filename) {
-    		
-    	}
-    	
-    	if (obj.texture.label.text) {
-    		
-    	}
-      break;
-    case 'Scene':
-    	if (obj.parent.activeScene !== obj.name) {
-    		return;
-    	}
-      break;
-    default:
-      break;
-    }
-  });
-
-});
-
-udefine('snowflake/renderer/dom', ['root', '../graphics', '../graphics/rootelement'], function(root, Graphics, createRootElement) {
-  'use strict';
-
-  var pixelize = function(num) {
-    return num + 'px';
-  };
-
-  var unpixelize = function(str) {
-    return parseFloat(str) || 0;
-  };
-
-  Graphics.renderer = 'DOM';
-
-  var rootElement = null;
-
-  Graphics.on('initialize', function(Game) {
-    rootElement = createRootElement.call(Game, 'div', function(rootElement) {
-      rootElement.style.backgroundColor = this.color;
-      rootElement.style.overflow = 'hidden';
-    });
-  });
-
-  Graphics.on('add', function(obj) {
-    var elementId = obj.id.toLowerCase();
-
-    // Remove previous elements of the same id
-    if (document.getElementById(elementId) != null) {
-      (function() {
-        var parentId = obj.parent.id.toLowerCase();
-
-        var parentElem = document.getElementById(parentId);
-        parentElem.removeChild(document.getElementId(elementId));
-      })();
-    }
-
-    var parent = obj.parent;
-
-    var parentElem = (function() {
-      if ((parent && parent.isRoot) || parent == null) {
-        return rootElement;
-      } else {
-        var parentId = obj.parent.id.toLowerCase();
-        var element = document.getElementById(parentId);
-        if (element == null) {
-          return rootElement;
-        } else {
-          return element;
-        }
-      }
-    })();
-
-    var element = document.createElement('div');
-    element.id = elementId;
-    element.className = [obj.type.toLowerCase(), obj.name.toLowerCase()].join(' ');
-    element.style.position = 'absolute';
-
-    switch (obj.type) {
-    case 'Scene':
-      element.style.width = pixelize(obj.parent.width);
-      element.style.height = pixelize(obj.parent.height);
-      break;
-    case 'GameObject':
-      element.style.left = pixelize(obj.x);
-      element.style.top = pixelize(obj.y);
-      element.style.width = pixelize(obj.width);
-      element.style.height = pixelize(obj.height);
-      
-      // TODO: Normalize events
-      root.addEventListener('click', function(evt) {
-      	obj.trigger('click', evt);
-      }, true);
-      
-      root.addEventListener('mousedown', function(evt) {
-      	obj.trigger('mousedown', evt);
-      }, true);
-      
-      root.addEventListener('mouseup', function(evt) {
-      	obj.trigger('mouseup', evt);
-      }, true);
-      
-      root.addEventListener('mouseenter', function(evt) {
-      	obj.trigger('mouseenter', evt);
-      }, true);
-      
-      root.addEventListener('mouseleave', function(evt) {
-      	obj.trigger('mouseleave', evt);
-      }, true);
-      
-      root.addEventListener('mouseover', function(evt) {
-      	obj.trigger('mouseover', evt);
-      }, true);
-      break;
-    default:
-      break;
-    }
-
-    parentElem.appendChild(element);
-  });
-
-  Graphics.on('texture-image-loaded', function(obj, texture) {
-    var element = document.getElementById(obj.id.toLowerCase());
-
-    if (element != null) {
-      element.style.backgroundImage = 'url(' + texture.image.filename + ')';
-      element.style.width = pixelize(obj.width);
-      element.style.height = pixelize(obj.height);
-    }
-  });
-
-  Graphics.on('render', function(obj) {
-    // Update element attributes
-    var element = document.getElementById(obj.id.toLowerCase());
-
-    if (element != null) {
-      switch (obj.type) {
-      case 'GameObject':
-        var elemVisible = element.style.display === 'block';
-
-        if (elemVisible !== obj.visible) {
-          element.style.display = (obj.visible) ? 'block' : 'hidden';
-        }
-
-        if (!elemVisible) {
-          return;
-        }
-
-        var elemX = unpixelize(element.style.left);
-        var elemY = unpixelize(element.style.top);
-        var elemWidth = unpixelize(element.style.width);
-        var elemHeight = unpixelize(element.style.height);
-
-        if (elemX !== obj.x) {
-          element.style.left = pixelize(obj.x);
-        }
-
-        if (elemY !== obj.y) {
-          element.style.top = pixelize(obj.y);
-        }
-
-        if (elemWidth !== obj.width) {
-          element.style.width = pixelize(obj.width);
-        }
-
-        if (elemHeight !== obj.height) {
-          element.style.height = pixelize(obj.height);
-        }
-
-        if (obj.angle) {
-          element.style.transform = element.style.mozTransform = element.style.webkitTransform = 'rotate(' + obj.angle + 'deg)';
-        }
-
-        if (obj.alpha !== 1) {
-          element.style.opacity = obj.alpha;
-        }
-
-        // Set background color
-        element.style.backgroundColor = obj.texture.color;
-        
-        // Set border
-        if (obj.border.width > 0) {
-        	element.style.borderWidth = pixelize(obj.border.width);
-        	element.style.borderStyle = 'solid';
-        	element.style.borderColor = obj.border.color;
-        	
-        	if (obj.border.radius > 0) {
-        		element.style.borderRadius = pixelize(obj.border.radius);
-        	}
-        }
-        
-        if (obj.texture.image.filename) {
-          if (obj.texture.image.offset.x !== 0) {
-            element.style.backgroundPositionX = obj.texture.image.offset.x * (-1) + 'px';
-          }
-
-          if (obj.texture.image.offset.y !== 0) {
-            element.style.backgroundPositionY = obj.texture.image.offset.y * (-1) + 'px';
-          }
-        }
-        
-				if (obj.texture.label.text) {
-					element.innerText = obj.texture.label.text;
-					
-					if (obj.texture.label.font.size) {
-						element.style.fontSize = pixelize(obj.texture.label.font.size);
-					}
-					
-					if (obj.texture.label.font.color) {
-						element.style.color = obj.texture.label.font.color;
-					}
-					
-					if (obj.texture.label.font.name) {
-						element.style.fontFamily = obj.texture.label.font.name;
-					}
-				}       
-
-        break;
-      case 'Scene':
-        var elemVisibleStyle = element.style.display;
-
-        if (obj.parent.activeScene !== obj.name) {
-          if (elemVisibleStyle !== 'hidden') {
-            element.style.display = 'hidden';
-          }
-        } else {
-          if (elemVisibleStyle !== 'block') {
-            element.style.display = 'block';
-          }
-        }
-        break;
-      default:
-        break;
-      }
-
-    }
-
-  });
-
-  return Graphics;
-
-});
-
-udefine('snowflake/scene', ['mixedice', './addable', './base', './group', './gameobject', './renderable', './updateable'], function(mixedice, addable, Base, Group, GameObject, renderable, updateable) {
+udefine('flockn/scene', ['mixedice', './addable', './base', './group', './gameobject', './renderable', './updateable'], function(mixedice, addable, Base, Group, GameObject, renderable, updateable) {
   'use strict';
   
   var Scene = function(descriptor) {
@@ -901,7 +633,7 @@ udefine('snowflake/scene', ['mixedice', './addable', './base', './group', './gam
   
 });
 
-udefine('snowflake/serialize', function() {
+udefine('flockn/serialize', function() {
 	'use strict';
 	
   return function(obj) {
@@ -921,7 +653,7 @@ udefine('snowflake/serialize', function() {
   };
 });
 
-udefine('snowflake/texture', ['mixedice', 'eventmap'], function(mixedice, EventMap) {
+udefine('flockn/texture', ['mixedice', 'eventmap'], function(mixedice, EventMap) {
   'use strict';
 
   var Texture = function() {
@@ -1007,7 +739,7 @@ udefine('snowflake/texture', ['mixedice', 'eventmap'], function(mixedice, EventM
   return Texture;
 });
 
-udefine('snowflake/updateable', function() {
+udefine('flockn/updateable', function() {
 	'use strict';
 	
 	return function() {
@@ -1021,7 +753,7 @@ udefine('snowflake/updateable', function() {
 	};
 });
 
-udefine('snowflake/world', ['./model'], function(Model) {
+udefine('flockn/world', ['./model'], function(Model) {
 	'use strict';
 	
 	var world = new Model();
