@@ -1,4 +1,4 @@
-udefine(['../graphics', './rootelement'], function(Graphics, createRootElement) {
+udefine(['root', '../graphics', '../graphics/rootelement'], function(root, Graphics, createRootElement) {
   'use strict';
 
   var pixelize = function(num) {
@@ -64,6 +64,31 @@ udefine(['../graphics', './rootelement'], function(Graphics, createRootElement) 
       element.style.top = pixelize(obj.y);
       element.style.width = pixelize(obj.width);
       element.style.height = pixelize(obj.height);
+      
+      // TODO: Normalize events
+      root.addEventListener('click', function(evt) {
+      	obj.trigger('click', evt);
+      }, true);
+      
+      root.addEventListener('mousedown', function(evt) {
+      	obj.trigger('mousedown', evt);
+      }, true);
+      
+      root.addEventListener('mouseup', function(evt) {
+      	obj.trigger('mouseup', evt);
+      }, true);
+      
+      root.addEventListener('mouseenter', function(evt) {
+      	obj.trigger('mouseenter', evt);
+      }, true);
+      
+      root.addEventListener('mouseleave', function(evt) {
+      	obj.trigger('mouseleave', evt);
+      }, true);
+      
+      root.addEventListener('mouseover', function(evt) {
+      	obj.trigger('mouseover', evt);
+      }, true);
       break;
     default:
       break;

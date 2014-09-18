@@ -1,4 +1,4 @@
-udefine(['../graphics', './rootelement'], function(Graphics, createRootElement) {
+udefine(['../graphics', '../graphics/rootelement'], function(Graphics, createRootElement) {
   'use strict';
 
   Graphics.renderer = 'Canvas';
@@ -27,6 +27,9 @@ udefine(['../graphics', './rootelement'], function(Graphics, createRootElement) 
     case 'GameObject':
       break;
     case 'Scene':
+    	if (obj.parent.activeScene !== obj.name) {
+    		return;
+    	}
       break;
     default:
       break;
