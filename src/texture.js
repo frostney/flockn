@@ -12,6 +12,7 @@ udefine(['mixedice', 'eventmap'], function(mixedice, EventMap) {
     this.parent = null;
 
     this.image = {
+    	color: 'rgb(255, 255, 255)',
       offset: {
         x: 0,
         y: 0
@@ -23,8 +24,6 @@ udefine(['mixedice', 'eventmap'], function(mixedice, EventMap) {
 
     var filename = '';
 
-    // TODO: Filename is not clear enough, maybe
-    // image.filename
     Object.defineProperty(this.image, 'filename', {
       get: function() {
         return filename;
@@ -57,7 +56,9 @@ udefine(['mixedice', 'eventmap'], function(mixedice, EventMap) {
       align: {
       	x: 'center',
       	y: 'center'
-      }
+      },
+      width: 0,
+      height: 0
     };
     
     var text = '';
@@ -69,11 +70,14 @@ udefine(['mixedice', 'eventmap'], function(mixedice, EventMap) {
     	set: function(value) {
     		text = value;
     		
+    		// TODO: This should be handled somewhere else, but I'm not sure where
+    		
+    		
     		self.trigger('label-loaded');
     	}
     });
 
-    this.color = 'rgb(255, 255, 255)';
+    this.color = 'transparent';
 
   };
 
