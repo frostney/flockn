@@ -1,4 +1,4 @@
-udefine(['mixedice', './addable', './base', './behavior', './graphics', './group', './renderable', './serialize', './texture', './updateable'], function(mixedice, addable, Base, Behavior, Graphics, Group, renderable, serialize, Texture, updateable) {
+udefine(['mixedice', './addable', './base', './behavior', './graphics', './group', './model', './renderable', './serialize', './texture', './updateable'], function(mixedice, addable, Base, Behavior, Graphics, Group, Model, renderable, serialize, Texture, updateable) {
 	'use strict';
 	
   var GameObject = function(descriptor) {
@@ -63,6 +63,10 @@ udefine(['mixedice', './addable', './base', './behavior', './graphics', './group
     this.queue.push(addable(Behavior, this.behaviors, function(child) {
     	child.gameObject = this;
     }).apply(this, arguments));
+  };
+  
+  GameObject.prototype.addModel = function() {
+  	this.queue.push(addable(Model, this.models).apply(this, arguments));
   };
   
   GameObject.prototype.toJSON = function() {
