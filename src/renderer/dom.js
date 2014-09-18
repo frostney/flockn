@@ -97,7 +97,7 @@ udefine(['root', '../graphics', '../graphics/rootelement'], function(root, Graph
     parentElem.appendChild(element);
   });
 
-  Graphics.on('texture-loaded', function(obj, texture) {
+  Graphics.on('texture-image-loaded', function(obj, texture) {
     var element = document.getElementById(obj.id.toLowerCase());
 
     if (element != null) {
