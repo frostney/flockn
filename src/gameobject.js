@@ -11,11 +11,45 @@ udefine(['mixedice', './addable', './base', './behavior', './graphics', './group
     this.x = 0;
     this.y = 0;
     
-    // TODO: Those should be shorthands to update x and y
-    this.left = 0;
-    this.right = 0;
-    this.top = 0;
-    this.bottom = 0;
+    Object.defineProperty(this, 'left', {
+    	get: function() {
+    		return this.x;
+    	},
+    	set: function(value) {
+    		this.x = value;
+    	},
+    	enumerable: true
+    });
+    
+    Object.defineProperty(this, 'top', {
+    	get: function() {
+    		return this.y;
+    	},
+    	set: function(value) {
+    		this.y = value;
+    	},
+    	enumerable: true
+    });
+    
+    Object.defineProperty(this, 'right', {
+    	get: function() {
+    		return this.parent.width - this.width - this.x;
+    	},
+    	set: function(value) {
+    		this.x = this.parent.width - this.width - value;
+    	},
+    	enumerable: true
+    });
+    
+    Object.defineProperty(this, 'bottom', {
+    	get: function() {
+    		return this.parent.height - this.height - this.y;
+    	},
+    	set: function(value) {
+    		this.y = this.parent.height - this.height - value;
+    	},
+    	enumerable: true
+    });
 
     this.fitToTexture = true;
 
