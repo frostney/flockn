@@ -10,6 +10,12 @@ udefine(['mixedice', './addable', './base', './behavior', './graphics', './group
 
     this.x = 0;
     this.y = 0;
+    
+    // TODO: Those should be shorthands to update x and y
+    this.left = 0;
+    this.right = 0;
+    this.top = 0;
+    this.bottom = 0;
 
     this.fitToTexture = true;
 
@@ -19,6 +25,8 @@ udefine(['mixedice', './addable', './base', './behavior', './graphics', './group
       if (self.fitToTexture) {
         self.width = self.texture.data.width;
         self.height = self.texture.data.height;
+        
+        // TODO: Update this.origin as well
       }
 
       // TODO: Evaluate if the Graphics trigger should only be in the texture
@@ -35,6 +43,17 @@ udefine(['mixedice', './addable', './base', './behavior', './graphics', './group
     this.scale = {
       x: 1,
       y: 1
+    };
+    
+    this.origin = {
+    	x: (width / 2),
+    	y: (width / 2)
+    };
+    
+    this.border = {
+    	width: 0,
+    	color: 'rgb(0, 0, 0)',
+    	radius: 0
     };
 
     // Behaviors
