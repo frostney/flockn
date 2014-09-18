@@ -161,7 +161,7 @@ udefine(['root', '../graphics', '../graphics/rootelement'], function(root, Graph
             element.style.backgroundPositionX = obj.texture.image.offset.x * (-1) + 'px';
           }
 
-          if (obj.texture.offset.y !== 0) {
+          if (obj.texture.image.offset.y !== 0) {
             element.style.backgroundPositionY = obj.texture.image.offset.y * (-1) + 'px';
           }
         }
