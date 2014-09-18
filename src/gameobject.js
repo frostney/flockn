@@ -28,6 +28,11 @@ udefine(['mixedice', './addable', './base', './behavior', './graphics', './group
     
     this.alpha = 1;
     
+    this.scale = {
+    	x: 1,
+    	y: 1
+    };
+    
     // Behaviors
     this.behaviors = new Group();
     
