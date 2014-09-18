@@ -3,7 +3,7 @@ module.exports =
     report: 'gzip'
   all:
     files:
-      'dist/snowflake.all.min.js': 'dist/snowflake.all.js'
+      'dist/<%= package.name %>.all.min.js': 'dist/<%= package.name %>.all.js'
   compact:
     files: [{
       expand: true
