@@ -1,7 +1,7 @@
 Snowflake
 =========
 
-Snowflake is a micro-game engine for JavaScript/CoffeeScript.
+Snowflake is a micro-game engine for JavaScript (and also languages that compile to JavaScript such as CoffeeScript or TypeScript).
 
 How does it work?
 -----------------
@@ -25,6 +25,11 @@ require(['flocken/game'], function(Game) {
 
 Philosophy
 ----------
+
+
+Building for yourself
+---------------------
+Type `grunt` to build everything.
 
 License
 -------
