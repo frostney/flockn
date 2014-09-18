@@ -9,7 +9,7 @@ module.exports =
       'dist/snowflake.all.js': 'src/**/*.js'
   base:
     files:
-      'dist/files/snowflake.js': ['src/**/*.js', '!src/graphics/**/*.js']
+      'dist/files/snowflake.js': ['src/**/*.js', '!src/renderer/**/*.js']
   graphics:
     files: [{
       expand: true
