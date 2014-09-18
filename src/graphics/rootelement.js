@@ -4,7 +4,8 @@ udefine(function() {
 	return function(elementName, extraFn) {
 		var containerName = (function() {
 	  	if (this.container == null) {
-	  		return this.container = this.id;
+	  		this.container = this.id;
+	  		return this.container;
 	  	} else {
 		  	if (this.container.indexOf('#') === 0) {
 		      return this.container.slice(1);
