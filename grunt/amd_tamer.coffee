@@ -13,9 +13,9 @@ module.exports =
   graphics:
     files: [{
       expand: true
-      cwd: 'src/graphics/'
+      cwd: 'src/renderer/'
       src: '*.js'
       dest: 'dist/files/'
       rename: (dest, src) ->
-        "#{dest}/snowflake.graphics.#{src}"
+        "#{dest}/snowflake.renderer.#{src}"
     }]
