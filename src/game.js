@@ -53,8 +53,15 @@ udefine(['root', 'mixedice', 'gameboard/loop', './addable', './base', './graphic
   Game.prototype.run = function(name) {
   	Loop.run();
   	
+  	if (!name) {
+  		// If there's only one scene, specifying a name is not necessary
+  		if (this.children.length === 1) {
+  			name = this.children[0].name;
+  		}
+  	}
+  	
   	if (name) {
-  		this.showScene(name);
+  		this.showScene(name);  		
   	}
   };
   
