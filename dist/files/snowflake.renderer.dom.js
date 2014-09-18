@@ -65,8 +65,29 @@ udefine('snowflake/renderer/dom', ['root', '../graphics', '../graphics/rooteleme
       element.style.width = pixelize(obj.width);
       element.style.height = pixelize(obj.height);
       
-      root.addEventListener('click', function() {
-      	
+      // TODO: Normalize events
+      root.addEventListener('click', function(evt) {
+      	obj.trigger('click', evt);
+      }, true);
+      
+      root.addEventListener('mousedown', function(evt) {
+      	obj.trigger('mousedown', evt);
+      }, true);
+      
+      root.addEventListener('mouseup', function(evt) {
+      	obj.trigger('mouseup', evt);
+      }, true);
+      
+      root.addEventListener('mouseenter', function(evt) {
+      	obj.trigger('mouseenter', evt);
+      }, true);
+      
+      root.addEventListener('mouseleave', function(evt) {
+      	obj.trigger('mouseleave', evt);
+      }, true);
+      
+      root.addEventListener('mouseover', function(evt) {
+      	obj.trigger('mouseover', evt);
       }, true);
       break;
     default:
@@ -76,11 +97,11 @@ udefine('snowflake/renderer/dom', ['root', '../graphics', '../graphics/rooteleme
     parentElem.appendChild(element);
   });
 
-  Graphics.on('texture-loaded', function(obj, texture) {
+  Graphics.on('texture-image-loaded', function(obj, texture) {
     var element = document.getElementById(obj.id.toLowerCase());
 
     if (element != null) {
-      element.style.backgroundImage = 'url(' + texture.filename + ')';
+      element.style.backgroundImage = 'url(' + texture.image.filename + ')';
       element.style.width = pixelize(obj.width);
       element.style.height = pixelize(obj.height);
     }
@@ -133,17 +154,44 @@ udefine('snowflake/renderer/dom', ['root', '../graphics', '../graphics/rooteleme
         }
 
         // Set background color
-        if (!obj.texture.filename) {
-          element.style.backgroundColor = obj.texture.color;
-        } else {
-          if (obj.texture.offset.x !== 0) {
-            element.style.backgroundPositionX = obj.texture.offset.x * (-1) + 'px';
+        element.style.backgroundColor = obj.texture.color;
+        
+        // Set border
+        if (obj.border.width > 0) {
+        	element.style.borderWidth = pixelize(obj.border.width);
+        	element.style.borderStyle = 'solid';
+        	element.style.borderColor = obj.border.color;
+        	
+        	if (obj.border.radius > 0) {
+        		element.style.borderRadius = pixelize(obj.border.radius);
+        	}
+        }
+        
+        if (obj.texture.image.filename) {
+          if (obj.texture.image.offset.x !== 0) {
+            element.style.backgroundPositionX = obj.texture.image.offset.x * (-1) + 'px';
           }
 
-          if (obj.texture.offset.y !== 0) {
-            element.style.backgroundPositionY = obj.texture.offset.y * (-1) + 'px';
+          if (obj.texture.image.offset.y !== 0) {
+            element.style.backgroundPositionY = obj.texture.image.offset.y * (-1) + 'px';
           }
         }
+        
+				if (obj.texture.label.text) {
+					element.innerText = obj.texture.label.text;
+					
+					if (obj.texture.label.font.size) {
+						element.style.fontSize = pixelize(obj.texture.label.font.size);
+					}
+					
+					if (obj.texture.label.font.color) {
+						element.style.color = obj.texture.label.font.color;
+					}
+					
+					if (obj.texture.label.font.name) {
+						element.style.fontFamily = obj.texture.label.font.name;
+					}
+				}       
 
         break;
       case 'Scene':

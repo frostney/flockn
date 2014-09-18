@@ -25,6 +25,13 @@ udefine('snowflake/renderer/canvas', ['../graphics', '../graphics/rootelement'],
   Graphics.on('render', function(obj) {
     switch (obj.type) {
     case 'GameObject':
+    	if (obj.texture.image.filename) {
+    		
+    	}
+    	
+    	if (obj.texture.label.text) {
+    		
+    	}
       break;
     case 'Scene':
     	if (obj.parent.activeScene !== obj.name) {

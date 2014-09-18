@@ -13,7 +13,16 @@ udefine('snowflake/addable', ['./graphics'], function(Graphics) {
             child = new Factory(Factory.store[child]);
           }
         } else {
-          child = new Factory(child);
+          if ( typeof child === 'function') {
+            child = new Factory(child);
+          } else {
+          	// TODO: This should be also able to deep assign properties
+						child = new Factory(function() {
+							Object.keys(child).forEach(function(key) {
+								this[key] = child[key];
+							}, this);
+						});
+          }
         }
       }
       groupInstance.push(child);
@@ -107,12 +116,24 @@ udefine('snowflake/base', ['eventmap', 'mixedice', 'gameboard/input', './group',
       this.trigger('execute');
       
       // TODO: Impose an order in the queue, such as:
-      // (Game) -> Scene -> GameObject -> Behavior
+      // (Game) -> Scene -> GameObject -> Behavior -> Model
       this.queue.forEach(function(q) {
       	q && q();
       });
       this.queue = [];
     }
+  };
+  
+  Base.prototype.log = function() {
+  	if (console && console.log) {
+  		var argArray = [].slice.call(arguments);
+  		
+  		argArray.unshift(':');
+  		argArray.unshift(this.name);
+  		argArray.unshift(this.type);
+  		
+  		return console.log.apply(console, argArray);
+  	}
   };
 
   Base.extend = function(target, type, descriptor) {
@@ -194,10 +215,14 @@ udefine('snowflake/game', ['root', 'mixedice', 'gameboard/loop', './addable', '.
   };
   
   Game.prototype.addScene = function() {
-    this.queue.push(addable(Scene, this.children).apply(this, arguments));
+    this.queue.push(addable(Scene, this.children, function(child) {
+    	child.width = this.width;
+    	child.height = this.height;
+    }).apply(this, arguments));
   };
   
   Game.prototype.showScene = function(name) {
+  	// TODO: Add transitions
     this.activeScene = name;
     this.trigger('show', this.activeScene, this.children[this.activeScene]);
   };
@@ -205,89 +230,181 @@ udefine('snowflake/game', ['root', 'mixedice', 'gameboard/loop', './addable', '.
   Game.prototype.run = function(name) {
   	Loop.run();
   	
+  	if (!name) {
+  		// If there's only one scene, specifying a name is not necessary
+  		if (this.children.length === 1) {
+  			name = this.children[0].name;
+  		}
+  	}
+  	
   	if (name) {
-  		this.showScene(name);
+  		this.showScene(name);  		
   	}
   };
   
   return Game;
 });
 
-udefine('snowflake/gameobject', ['mixedice', './addable', './base', './behavior', './graphics', './group', './renderable', './serialize', './texture', './updateable'], function(mixedice, addable, Base, Behavior, Graphics, Group, renderable, serialize, Texture, updateable) {
-	'use strict';
-	
+udefine('snowflake/gameobject', ['mixedice', './addable', './base', './behavior', './graphics', './group', './model', './renderable', './serialize', './texture', './updateable'], function(mixedice, addable, Base, Behavior, Graphics, Group, Model, renderable, serialize, Texture, updateable) {
+  'use strict';
+
   var GameObject = function(descriptor) {
     Base.extend([this, GameObject.prototype], 'GameObject', descriptor);
-    
+
     var self = this;
-    
+
     this.visible = true;
-    
+
     this.x = 0;
     this.y = 0;
     
-    this.texture = new Texture();
-    this.texture.parent = this;
-    this.texture.on('loaded', function() {
-    	self.width = self.texture.data.width;
-    	self.height = self.texture.data.height;
-    	
-    	// TODO: Evaluate if the Graphics trigger should only be in the texture
-    	Graphics.trigger('texture-loaded', self, self.texture);
+    Object.defineProperty(this, 'left', {
+    	get: function() {
+    		return this.x;
+    	},
+    	set: function(value) {
+    		this.x = value;
+    	},
+    	enumerable: true
     });
     
+    Object.defineProperty(this, 'top', {
+    	get: function() {
+    		return this.y;
+    	},
+    	set: function(value) {
+    		this.y = value;
+    	},
+    	enumerable: true
+    });
+    
+    Object.defineProperty(this, 'right', {
+    	get: function() {
+    		return this.parent.width - this.width - this.x;
+    	},
+    	set: function(value) {
+    		this.x = this.parent.width - this.width - value;
+    	},
+    	enumerable: true
+    });
+    
+    Object.defineProperty(this, 'bottom', {
+    	get: function() {
+    		return this.parent.height - this.height - this.y;
+    	},
+    	set: function(value) {
+    		this.y = this.parent.height - this.height - value;
+    	},
+    	enumerable: true
+    });
+
+    this.fitToTexture = true;
+
+    this.texture = new Texture();
+    this.texture.parent = this;
+    this.texture.on('image-loaded', function() {
+      if (self.fitToTexture) {
+        self.width = self.texture.image.width;
+        self.height = self.texture.image.height;
+        
+        self.origin.x = (self.width / 2);
+        self.origin.y = (self.height / 2);
+      }
+
+      // TODO: Evaluate if the Graphics trigger should only be in the texture
+      Graphics.trigger('texture-image-loaded', self, self.texture);
+    });
+    
+    this.texture.on('label-loaded', function() {
+    	if (self.fitToTexture) {
+    		self.width = self.texture.label.width;
+    		self.height = self.texture.label.height;
+    		
+    		self.origin.x = (self.width / 2);
+        self.origin.y = (self.height / 2);
+    	}
+    });
+
     this.width = 0;
     this.height = 0;
-    
+
     this.angle = 0;
-    
+
     this.alpha = 1;
-    
+
     this.scale = {
-    	x: 1,
-    	y: 1
+      x: 1,
+      y: 1
     };
     
+    this.origin = {
+    	x: (self.width / 2),
+    	y: (self.width / 2)
+    };
+    
+    this.border = {
+    	width: 0,
+    	color: 'rgb(0, 0, 0)',
+    	radius: 0
+    };
+
     // Behaviors
     this.behaviors = new Group();
-    
+
     // Data models
     this.models = new Group();
-    
+
     renderable.call(this);
     updateable.call(this);
-    
+
     this.on('update', function() {
       self.behaviors.forEach(function(behavior) {
         behavior.trigger('update');
       });
     });
   };
-  
+
   GameObject.store = {};
-  
+
   GameObject.define = function(name, factory) {
     GameObject.store[name] = factory;
   };
-  
+
   GameObject.prototype.addGameObject = function() {
     this.queue.push(addable(GameObject, this.children).apply(this, arguments));
   };
-  
+
   GameObject.prototype.addBehavior = function() {
     this.queue.push(addable(Behavior, this.behaviors, function(child) {
-    	child.gameObject = this;
+      child.gameObject = this;
     }).apply(this, arguments));
   };
-  
+
+  GameObject.prototype.addModel = function() {
+    this.queue.push(addable(Model, this.models).apply(this, arguments));
+  };
+
   GameObject.prototype.toJSON = function() {
-  	return serialize(this);
+    return serialize(this);
   };
-  
+
   GameObject.prototype.fromJSON = function() {
-  	
+
   };
   
+  GameObject.prototype.animate = function(property, end, time, callback) {
+  	if (typeof this[property] === 'number') {
+  		var distance = end - this[property];
+  		var timeInS = (time / 1000);
+  		
+  		var animateName = 'animate-' + Date.now();
+  		this.on(animateName, function(dt) {
+  			
+  			this.off(animateName);
+  		});
+  	}
+  };
+
   return GameObject;
 });
 
@@ -452,6 +569,30 @@ udefine('snowflake/group', ['./serialize'], function(serialize) {
   return Group;
 });
 
+udefine('snowflake/model', ['mixedice', 'eventmap'], function(mixedice, EventMap) {
+	'use strict';
+	
+	var Model = function() {
+		mixedice([this, Model.prototype], new EventMap());
+		
+		this.data = {};
+	};
+	
+	Model.prototype.get = function(name) {
+		if (Object.hasOwnProperty.call(this.data, name)) {
+			return this.data[name];
+		}
+	};
+	
+	Model.prototype.set = function(name, value) {
+		this.data[name] = value;
+		this.trigger('change', name, value);
+	};
+	
+	return Model;
+	
+});
+
 udefine('snowflake/renderable', ['./graphics'], function(Graphics) {
 	'use strict';
 	
@@ -495,6 +636,13 @@ udefine('snowflake/renderer/canvas', ['../graphics', '../graphics/rootelement'],
   Graphics.on('render', function(obj) {
     switch (obj.type) {
     case 'GameObject':
+    	if (obj.texture.image.filename) {
+    		
+    	}
+    	
+    	if (obj.texture.label.text) {
+    		
+    	}
       break;
     case 'Scene':
     	if (obj.parent.activeScene !== obj.name) {
@@ -575,8 +723,29 @@ udefine('snowflake/renderer/dom', ['root', '../graphics', '../graphics/rooteleme
       element.style.width = pixelize(obj.width);
       element.style.height = pixelize(obj.height);
       
-      root.addEventListener('click', function() {
-      	
+      // TODO: Normalize events
+      root.addEventListener('click', function(evt) {
+      	obj.trigger('click', evt);
+      }, true);
+      
+      root.addEventListener('mousedown', function(evt) {
+      	obj.trigger('mousedown', evt);
+      }, true);
+      
+      root.addEventListener('mouseup', function(evt) {
+      	obj.trigger('mouseup', evt);
+      }, true);
+      
+      root.addEventListener('mouseenter', function(evt) {
+      	obj.trigger('mouseenter', evt);
+      }, true);
+      
+      root.addEventListener('mouseleave', function(evt) {
+      	obj.trigger('mouseleave', evt);
+      }, true);
+      
+      root.addEventListener('mouseover', function(evt) {
+      	obj.trigger('mouseover', evt);
       }, true);
       break;
     default:
@@ -586,11 +755,11 @@ udefine('snowflake/renderer/dom', ['root', '../graphics', '../graphics/rooteleme
     parentElem.appendChild(element);
   });
 
-  Graphics.on('texture-loaded', function(obj, texture) {
+  Graphics.on('texture-image-loaded', function(obj, texture) {
     var element = document.getElementById(obj.id.toLowerCase());
 
     if (element != null) {
-      element.style.backgroundImage = 'url(' + texture.filename + ')';
+      element.style.backgroundImage = 'url(' + texture.image.filename + ')';
       element.style.width = pixelize(obj.width);
       element.style.height = pixelize(obj.height);
     }
@@ -643,17 +812,44 @@ udefine('snowflake/renderer/dom', ['root', '../graphics', '../graphics/rooteleme
         }
 
         // Set background color
-        if (!obj.texture.filename) {
-          element.style.backgroundColor = obj.texture.color;
-        } else {
-          if (obj.texture.offset.x !== 0) {
-            element.style.backgroundPositionX = obj.texture.offset.x * (-1) + 'px';
+        element.style.backgroundColor = obj.texture.color;
+        
+        // Set border
+        if (obj.border.width > 0) {
+        	element.style.borderWidth = pixelize(obj.border.width);
+        	element.style.borderStyle = 'solid';
+        	element.style.borderColor = obj.border.color;
+        	
+        	if (obj.border.radius > 0) {
+        		element.style.borderRadius = pixelize(obj.border.radius);
+        	}
+        }
+        
+        if (obj.texture.image.filename) {
+          if (obj.texture.image.offset.x !== 0) {
+            element.style.backgroundPositionX = obj.texture.image.offset.x * (-1) + 'px';
           }
 
-          if (obj.texture.offset.y !== 0) {
-            element.style.backgroundPositionY = obj.texture.offset.y * (-1) + 'px';
+          if (obj.texture.image.offset.y !== 0) {
+            element.style.backgroundPositionY = obj.texture.image.offset.y * (-1) + 'px';
           }
         }
+        
+				if (obj.texture.label.text) {
+					element.innerText = obj.texture.label.text;
+					
+					if (obj.texture.label.font.size) {
+						element.style.fontSize = pixelize(obj.texture.label.font.size);
+					}
+					
+					if (obj.texture.label.font.color) {
+						element.style.color = obj.texture.label.font.color;
+					}
+					
+					if (obj.texture.label.font.name) {
+						element.style.fontFamily = obj.texture.label.font.name;
+					}
+				}       
 
         break;
       case 'Scene':
@@ -726,51 +922,89 @@ udefine('snowflake/serialize', function() {
 });
 
 udefine('snowflake/texture', ['mixedice', 'eventmap'], function(mixedice, EventMap) {
-	'use strict';
-	
-	var Texture = function() {
-		mixedice([this, Texture.prototype], new EventMap());
-		
-		var self = this;
-		
-		var filename = '';
-		
-		this.width = 0;
-		this.height = 0;
-		
-		this.data = null;
-		
-		this.parent = null;
-		
-		this.offset = {
-			x: 0,
-			y: 0
-		};
-		
-		Object.defineProperty(this, 'filename', {
-			get: function() {
-				return filename;
-			},
-			set: function(value) {
-				filename = value;
-				
-				// TODO: Most of this should already be handled by the preloader
-				var img = new Image();
-				img.src = filename;
-				
-				img.onload = function() {
-					self.data = img;
-					self.trigger('loaded');
-				};
-			},
-			enumerable: true
-		});
-		
-		this.color = 'rgb(255, 255, 255)';
-		
-	};
-	
-	return Texture;
+  'use strict';
+
+  var Texture = function() {
+    mixedice([this, Texture.prototype], new EventMap());
+
+    var self = this;
+
+    this.width = 0;
+    this.height = 0;
+
+    this.parent = null;
+
+    this.image = {
+    	color: 'rgb(255, 255, 255)',
+      offset: {
+        x: 0,
+        y: 0
+      },
+      data: null,
+      width: 0,
+      height: 0
+    };
+
+    var filename = '';
+
+    Object.defineProperty(this.image, 'filename', {
+      get: function() {
+        return filename;
+      },
+      set: function(value) {
+        filename = value;
+
+        // TODO: Most of this should already be handled by the preloader
+        var img = new Image();
+        img.src = filename;
+
+        img.onload = function() {
+          self.image.data = img;
+          self.image.width = img.width;
+          self.image.height = img.height;
+          
+          self.trigger('image-loaded');
+        };
+      },
+      enumerable: true
+    });
+
+
+    this.label = {
+      font: {
+        size: 10,
+        name: 'Arial',
+        color: 'rgb(0, 0, 0)'
+      },
+      align: {
+      	x: 'center',
+      	y: 'center'
+      },
+      width: 0,
+      height: 0
+    };
+    
+    var text = '';
+    
+    Object.defineProperty(this.label, 'text', {
+    	get: function() {
+    		return text;
+    	},
+    	set: function(value) {
+    		text = value;
+    		
+    		// TODO: This should be handled somewhere else, but I'm not sure where
+    		
+    		
+    		self.trigger('label-loaded');
+    	}
+    });
+
+    this.color = 'transparent';
+
+  };
+
+  return Texture;
 });
 
 udefine('snowflake/updateable', function() {
@@ -787,29 +1021,10 @@ udefine('snowflake/updateable', function() {
 	};
 });
 
-udefine('snowflake/world', ['eventmap'], function(EventMap) {
+udefine('snowflake/world', ['./model'], function(Model) {
 	'use strict';
 	
-	var events = new EventMap();
-	var World = {};
-	var data = {};
+	var world = new Model();
 	
-	World.get = function(name) {
-		if (Object.hasOwnProperty.call(data, name)) {
-			return data[name];
-		}
-	};
-	
-	World.set = function(name, value) {
-		data[name] = value;
-		World.trigger('change', name, value);
-	};
-	
-	World.on = events.on;
-	World.off = events.off;
-	World.before = events.before;
-	World.after = events.after;
-	World.trigger = events.trigger;
-	
-	return World;
+	return world;
 });
