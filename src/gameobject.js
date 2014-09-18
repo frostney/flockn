@@ -55,16 +55,23 @@ udefine(['mixedice', './addable', './base', './behavior', './graphics', './group
 
     this.texture = new Texture();
     this.texture.parent = this;
-    this.texture.on('loaded', function() {
+    this.texture.on('image-loaded', function() {
       if (self.fitToTexture) {
-        self.width = self.texture.data.width;
-        self.height = self.texture.data.height;
+        self.width = self.texture.image.width;
+        self.height = self.texture.image.height;
         
-        // TODO: Update this.origin as well
+        self.origin.x = (self.width / 2);
+        self.origin.y = (self.height / 2);
       }
 
       // TODO: Evaluate if the Graphics trigger should only be in the texture
-      Graphics.trigger('texture-loaded', self, self.texture);
+      Graphics.trigger('texture-image-loaded', self, self.texture);
+    });
+    
+    this.texture.on('label-loaded', function() {
+    	if (self.fitToTexture) {
+    		
+    	}
     });
 
     this.width = 0;
@@ -80,8 +87,8 @@ udefine(['mixedice', './addable', './base', './behavior', './graphics', './group
     };
     
     this.origin = {
-    	x: (width / 2),
-    	y: (width / 2)
+    	x: (self.width / 2),
+    	y: (self.width / 2)
     };
     
     this.border = {
