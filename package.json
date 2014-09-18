@@ -1,7 +1,7 @@
 {
   "name": "snowflake",
   "version": "0.0.0",
-  "description": "0.1.0",
+  "description": "Micro game engine",
   "main": "dist/snowflake.js",
   "directories": {
     "example": "examples",
