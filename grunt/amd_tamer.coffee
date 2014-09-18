@@ -2,14 +2,14 @@ path = require 'path'
 
 module.exports =
   options:
-    namespace: 'snowflake'
+    namespace: '<%= package.name %>'
     base: 'src/'  
   all:
     files:
-      'dist/snowflake.all.js': 'src/**/*.js'
+      'dist/<%= package.name %>.all.js': 'src/**/*.js'
   base:
     files:
-      'dist/files/snowflake.js': ['src/**/*.js', '!src/renderer/**/*.js']
+      'dist/files/<%= package.name %>.js': ['src/**/*.js', '!src/renderer/**/*.js']
   graphics:
     files: [{
       expand: true
@@ -17,5 +17,5 @@ module.exports =
       src: '*.js'
       dest: 'dist/files/'
       rename: (dest, src) ->
-        "#{dest}snowflake.renderer.#{src}"
+        "#{dest}<%= package.name %>.renderer.#{src}"
     }]
