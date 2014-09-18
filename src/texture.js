@@ -53,6 +53,10 @@ udefine(['mixedice', 'eventmap'], function(mixedice, EventMap) {
         size: 10,
         name: 'Arial',
         color: 'rgb(0, 0, 0)'
+      },
+      align: {
+      	x: 'center',
+      	y: 'center'
       }
     };
     
