@@ -1,7 +1,7 @@
-Snowflake
-=========
+flockn
+======
 
-Snowflake is a micro-game engine for JavaScript (and also languages that compile to JavaScript such as CoffeeScript or TypeScript).
+flockn is a micro-game engine for JavaScript (and also languages that compile to JavaScript such as CoffeeScript or TypeScript).
 
 How does it work?
 -----------------
