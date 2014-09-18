@@ -66,7 +66,7 @@ udefine(['eventmap', 'mixedice', 'gameboard/input', './group', './world'], funct
       this.trigger('execute');
       
       // TODO: Impose an order in the queue, such as:
-      // (Game) -> Scene -> GameObject -> Behavior
+      // (Game) -> Scene -> GameObject -> Behavior -> Model
       this.queue.forEach(function(q) {
       	q && q();
       });

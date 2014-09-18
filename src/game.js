@@ -42,7 +42,10 @@ udefine(['root', 'mixedice', 'gameboard/loop', './addable', './base', './graphic
   };
   
   Game.prototype.addScene = function() {
-    this.queue.push(addable(Scene, this.children).apply(this, arguments));
+    this.queue.push(addable(Scene, this.children, function(child) {
+    	child.width = this.width;
+    	child.height = this.height;
+    }).apply(this, arguments));
   };
   
   Game.prototype.showScene = function(name) {
