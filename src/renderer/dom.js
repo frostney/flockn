@@ -154,9 +154,9 @@ udefine(['root', '../graphics', '../graphics/rootelement'], function(root, Graph
         }
 
         // Set background color
-        if (!obj.texture.image.filename) {
-          element.style.backgroundColor = obj.texture.color;
-        } else {
+        element.style.backgroundColor = obj.texture.color;
+        
+        if (obj.texture.image.filename) {
           if (obj.texture.image.offset.x !== 0) {
             element.style.backgroundPositionX = obj.texture.image.offset.x * (-1) + 'px';
           }
@@ -165,6 +165,22 @@ udefine(['root', '../graphics', '../graphics/rootelement'], function(root, Graph
             element.style.backgroundPositionY = obj.texture.image.offset.y * (-1) + 'px';
           }
         }
+        
+				if (obj.texture.label.text) {
+					element.innerText = obj.texture.label.text;
+					
+					if (obj.texture.label.font.size) {
+						element.style.fontSize = pixelize(obj.texture.label.font.size);
+					}
+					
+					if (obj.texture.label.font.color) {
+						element.style.color = obj.texture.label.font.color;
+					}
+					
+					if (obj.texture.label.font.name) {
+						element.style.fontFamily = obj.texture.label.font.name;
+					}
+				}       
 
         break;
       case 'Scene':
