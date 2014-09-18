@@ -20,6 +20,8 @@ udefine(['mixedice', 'eventmap'], function(mixedice, EventMap) {
 			y: 0
 		};
 		
+		// TODO: Filename is not clear enough, maybe
+		// image.filename
 		Object.defineProperty(this, 'filename', {
 			get: function() {
 				return filename;
@@ -35,6 +37,25 @@ udefine(['mixedice', 'eventmap'], function(mixedice, EventMap) {
 					self.data = img;
 					self.trigger('loaded');
 				};
+			},
+			enumerable: true
+		});
+		
+		var label = {
+			text: '',
+			font: {
+				size: 10,
+				name: 'Arial',
+				color: 'rgb(0, 0, 0)'
+			}
+		};
+		
+		Object.defineProperty(this, 'label', {
+			get: function() {
+				return {};
+			},
+			set: function(value) {
+				
 			},
 			enumerable: true
 		});
