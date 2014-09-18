@@ -70,7 +70,11 @@ udefine(['mixedice', './addable', './base', './behavior', './graphics', './group
     
     this.texture.on('label-loaded', function() {
     	if (self.fitToTexture) {
+    		self.width = self.texture.label.width;
+    		self.height = self.texture.label.height;
     		
+    		self.origin.x = (self.width / 2);
+        self.origin.y = (self.height / 2);
     	}
     });
 
