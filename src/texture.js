@@ -41,7 +41,7 @@ udefine(['mixedice', 'eventmap'], function(mixedice, EventMap) {
           self.image.width = img.width;
           self.image.height = img.height;
           
-          self.trigger('loaded-image');
+          self.trigger('image-loaded');
         };
       },
       enumerable: true
@@ -65,7 +65,7 @@ udefine(['mixedice', 'eventmap'], function(mixedice, EventMap) {
     	set: function(value) {
     		text = value;
     		
-    		self.trigger('loaded-label');
+    		self.trigger('label-loaded');
     	}
     });
 
