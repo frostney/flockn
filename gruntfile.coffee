@@ -5,3 +5,5 @@ module.exports = (grunt) ->
   require('load-grunt-config')(grunt)
 
   grunt.registerTask 'default', ['clean', 'amd_tamer', 'uglify']
+  
+  grunt.registerTask 'test', ['jshint']
