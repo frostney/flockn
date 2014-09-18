@@ -17,5 +17,5 @@ module.exports =
       src: '*.js'
       dest: 'dist/files/'
       rename: (dest, src) ->
-        "#{dest}/snowflake.renderer.#{src}"
+        "#{dest}snowflake.renderer.#{src}"
     }]
