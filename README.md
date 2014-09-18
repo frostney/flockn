@@ -7,7 +7,7 @@ How does it work?
 -----------------
 
 ```javascript
-require(['flocken/game'], function(Game) {
+require(['flockn/game'], function(Game) {
   new Game(function() {
   
     this.addScene(function() {
