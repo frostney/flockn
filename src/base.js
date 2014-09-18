@@ -73,6 +73,18 @@ udefine(['eventmap', 'mixedice', 'gameboard/input', './group', './world'], funct
       this.queue = [];
     }
   };
+  
+  Base.prototype.log = function() {
+  	if (console && console.log) {
+  		var argArray = [].slice.call(arguments);
+  		
+  		argArray.unshift(':');
+  		argArray.unshift(this.name);
+  		argArray.unshift(this.type);
+  		
+  		return console.log.apply(console, argArray);
+  	}
+  };
 
   Base.extend = function(target, type, descriptor) {
     var base = new Base(type, descriptor);

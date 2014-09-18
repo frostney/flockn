@@ -49,6 +49,7 @@ udefine(['root', 'mixedice', 'gameboard/loop', './addable', './base', './graphic
   };
   
   Game.prototype.showScene = function(name) {
+  	// TODO: Add transitions
     this.activeScene = name;
     this.trigger('show', this.activeScene, this.children[this.activeScene]);
   };

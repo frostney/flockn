@@ -144,6 +144,19 @@ udefine(['mixedice', './addable', './base', './behavior', './graphics', './group
   GameObject.prototype.fromJSON = function() {
 
   };
+  
+  GameObject.prototype.animate = function(property, end, time, callback) {
+  	if (typeof this[property] === 'number') {
+  		var distance = end - this[property];
+  		var timeInS = (time / 1000);
+  		
+  		var animateName = 'animate-' + Date.now();
+  		this.on(animateName, function(dt) {
+  			
+  			this.off(animateName);
+  		});
+  	}
+  };
 
   return GameObject;
 });
