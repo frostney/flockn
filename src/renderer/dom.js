@@ -101,7 +101,7 @@ udefine(['root', '../graphics', '../graphics/rootelement'], function(root, Graph
     var element = document.getElementById(obj.id.toLowerCase());
 
     if (element != null) {
-      element.style.backgroundImage = 'url(' + texture.filename + ')';
+      element.style.backgroundImage = 'url(' + texture.image.filename + ')';
       element.style.width = pixelize(obj.width);
       element.style.height = pixelize(obj.height);
     }
@@ -154,15 +154,15 @@ udefine(['root', '../graphics', '../graphics/rootelement'], function(root, Graph
         }
 
         // Set background color
-        if (!obj.texture.filename) {
+        if (!obj.texture.image.filename) {
           element.style.backgroundColor = obj.texture.color;
         } else {
-          if (obj.texture.offset.x !== 0) {
-            element.style.backgroundPositionX = obj.texture.offset.x * (-1) + 'px';
+          if (obj.texture.image.offset.x !== 0) {
+            element.style.backgroundPositionX = obj.texture.image.offset.x * (-1) + 'px';
           }
 
           if (obj.texture.offset.y !== 0) {
-            element.style.backgroundPositionY = obj.texture.offset.y * (-1) + 'px';
+            element.style.backgroundPositionY = obj.texture.image.offset.y * (-1) + 'px';
           }
         }
 
