@@ -75,6 +75,9 @@ udefine(['mixedice', './addable', './base', './behavior', './graphics', './group
 
         self.origin.x = (self.width / 2);
         self.origin.y = (self.height / 2);
+
+        // TODO: Evaluate if the Graphics trigger should only be in the texture
+        Graphics.trigger('texture-label-loaded', self, self.texture);
       }
     });
 
