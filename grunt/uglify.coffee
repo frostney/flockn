@@ -1,14 +1,12 @@
 module.exports =
   options:
     report: 'gzip'
-  all:
-    files:
-      'dist/<%= package.name %>.all.min.js': 'dist/<%= package.name %>.all.js'
   compact:
     files: [{
       expand: true
-      cwd: 'dist/files/'
-      src: '**/*.js'
-      dest: 'dist/files/'
+      cwd: 'dist/'
+      src: ['**/*.js']
+      dest: 'dist/'
       ext: '.min.js'
+      extDot: 'last'
     }]
