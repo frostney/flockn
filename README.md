@@ -25,7 +25,20 @@ require(['flockn/game'], function(Game) {
 
 Philosophy
 ----------
+* Easy-to-use
+* Lightweight
+* Events everywhere
 
+Roadmap for next release
+------------------------
+[ ] Canvas renderer
+[ ] Serialization and deserialization
+[ ] API documentation
+[ ] Examples
+
+Roadmap for future versions
+---------------------------
+[ ] PIXI renderer
 
 Building for yourself
 ---------------------
