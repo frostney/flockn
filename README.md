@@ -44,6 +44,9 @@ Roadmap for next release
 - [ ] API documentation
 - [ ] Examples
 - [ ] Unit tests
+- [ ] Default behaviors (e.g. sprite animation, collision)
+- [ ] Audio
+- [ ] Preloader/Assetloader
 
 Roadmap for future versions
 ---------------------------
