@@ -69,6 +69,13 @@ Roadmap for future versions
 ---------------------------
 - [ ] [PIXI](https://github.com/GoodBoyDigital/pixi.js) renderer
 
+Some decisions that need to be made
+-----------------------------------
+- Should game objects have the attributes of behaviors?
+- Should game objects have the attributes of models?
+- Should `Object.observe` be used for attributes?
+- Is there a possibility to simply the access of game objects from behaviors?
+
 Building for yourself
 ---------------------
 flockn uses Grunt. Grunt needs to be installed through `npm install -g grunt-cli`.  
