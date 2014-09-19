@@ -1,6 +1,8 @@
 udefine(['root', 'mixedice', 'gameboard/loop', './addable', './base', './graphics', './scene', './renderable', './updateable'], function(root, mixedice, Loop, addable, Base, Graphics, Scene, renderable, updateable) {
   'use strict';
 
+  // Game is the entry point for all games made with flockn.
+  // Any number of `Scene` instances can be attached to a `Game` instance
   var Game = function(descriptor) {
     // The new operator does not need to be set explicitly.
     // If it isn't we return an instance of `Game`
