@@ -2,15 +2,19 @@ udefine(['mixedice', 'eventmap'], function(mixedice, EventMap) {
   'use strict';
 
   var Texture = function() {
+    // Mix in an `EventMap` instance into the `Texture`
     mixedice([this, Texture.prototype], new EventMap());
 
     var self = this;
 
+    // Set up dimensions
     this.width = 0;
     this.height = 0;
 
+    // Set parent property
     this.parent = null;
 
+    // The default values for `image`
     this.image = {
       color: 'rgb(255, 255, 255)',
       offset: {
@@ -46,6 +50,7 @@ udefine(['mixedice', 'eventmap'], function(mixedice, EventMap) {
       enumerable: true
     });
 
+    // Default value for `label`
     this.label = {
       font: {
         size: 10,
@@ -70,6 +75,7 @@ udefine(['mixedice', 'eventmap'], function(mixedice, EventMap) {
       set: function(value) {
         text = value;
 
+        // Calculate the size of the label and update the dimensions
         // TODO: This should be handled somewhere else, but I'm not sure where
         var tmpElem = document.createElement('div');
         tmpElem.innerText = text;
