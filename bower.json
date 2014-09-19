@@ -16,7 +16,8 @@
     "game",
     "engine",
     "micro",
-    "small"
+    "small",
+    "lightweight"
   ],
   "license": "Public Domain",
   "ignore": [

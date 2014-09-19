@@ -18,7 +18,8 @@
     "game",
     "engine",
     "micro",
-    "small"
+    "small",
+    "lightweight"
   ],
   "author": "Johannes Stein",
   "license": "Public Domain",
