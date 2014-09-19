@@ -71,6 +71,7 @@ Roadmap for next release
 - [ ] Default behaviors (e.g. sprite animation, collision)
 - [ ] Audio
 - [ ] Preloader/Assetloader
+- [ ] Tweening
 
 Roadmap for future versions
 ---------------------------
