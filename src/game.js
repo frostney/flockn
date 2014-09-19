@@ -2,7 +2,7 @@ udefine(['root', 'mixedice', 'gameboard/loop', './addable', './base', './graphic
   'use strict';
 
   var Game = function(descriptor) {
-    if (!this instanceof Game) {
+    if (!this || !this instanceof Game) {
       return new Game(descriptor);
     }
 
