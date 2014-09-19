@@ -50,7 +50,8 @@ udefine(['mixedice', 'eventmap'], function(mixedice, EventMap) {
       font: {
         size: 10,
         name: 'Arial',
-        color: 'rgb(0, 0, 0)'
+        color: 'rgb(0, 0, 0)',
+        decoration: []
       },
       align: {
         x: 'center',
@@ -70,6 +71,37 @@ udefine(['mixedice', 'eventmap'], function(mixedice, EventMap) {
         text = value;
 
         // TODO: This should be handled somewhere else, but I'm not sure where
+        var tmpElem = document.createElement('div');
+        tmpElem.innerText = text;
+        tmpElem.style.position = 'absolute';
+        tmpElem.style.left = '-9999px';
+        tmpElem.style.top = '-9999px';
+        tmpElem.style.fontSize = self.label.font.size + 'px';
+        tmpElem.style.fontFamily = self.label.font.name;
+        tmpElem.style.color = self.label.font.color;
+        
+        self.label.font.decoration.forEach(function(decoration) {
+          switch (decoration) {
+            case 'bold':
+              tmpElem.style.fontWeight = 'bold';
+              break;
+            case 'italic':
+              tmpElem.style.fontStyle = 'italic';
+              break;
+            case 'underline':
+              tmpElem.style.textDecoration = 'underline';
+              break;
+            default:
+              break;
+          }
+        });
+        
+        document.body.appendChild(tmpElem);
+        
+        self.label.width = tmpElem.clientWidth;
+        self.label.height = tmpElem.clientHeight;
+        
+        document.body.removeChild(tmpElem);
 
         self.trigger('label-loaded');
       }
