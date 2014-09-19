@@ -48,12 +48,17 @@ require(['flockn/game'], function(Game) {
 });
 ```
 
+Features
+--------
+* Taggable game objects and behaviors
+
 Philosophy
 ----------
 * Easy-to-use
 * Lightweight
-* Events everywhere
+* Events everywhere (Having an `EventEmitter`-like interface)
 * Functions are the best way to describe an object
+* Split entity-component model into game object (base object), behavior (logic) and model (data)
 
 Roadmap for next release
 ------------------------
