@@ -1,12 +1,12 @@
 {
-  "name": "snowflake",
+  "name": "flockn",
   "version": "0.1.0",
-  "homepage": "https://github.com/freezedev/snowflake",
+  "homepage": "https://github.com/freezedev/flockn",
   "authors": [
     "Johannes Stein <johannesstein@freeze-dev.com>"
   ],
   "description": "Micro game engine for the web",
-  "main": "dist/snowflake.js",
+  "main": "dist/flockn.all.js",
   "moduleType": [
     "amd",
     "globals",
