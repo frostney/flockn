@@ -14,20 +14,34 @@ How does it work?
 -----------------
 
 ```javascript
+// Require the game module itself (here we're using AMD)
 require(['flockn/game'], function(Game) {
+
+  // Create a game instance, no need to store it as a variable
   new Game(function() {
+    // The logic for the game itself
   
+    // Add a scene to the game
     this.addScene(function() {
+      // The logic for this scene
+      
+      // Give the scene a name
     	this.name = 'myscene';
     	
+    	// Create a new game object inside the scene
     	this.addGameObject(function() {
+    	  // The logic for this game object
+    	
+    	  // Set the position for this game object
     		this.x = 100;
     		this.y = 100;
     		
-    		this.texture.label.text = 'Hello world';
+    		// This game object now holds a label with the text "Hello World"
+    		this.texture.label.text = 'Hello World';
     	});
     });
     
+    // Start the game loop
     this.run();
   
   });
