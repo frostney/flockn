@@ -7,6 +7,7 @@ udefine(['eventmap'], function(EventMap) {
   // Special property `renderer` can be modified, but not deleted
   Object.defineProperty(Graphics, 'renderer', {
     value: null,
+    writable: true,
     enumerable: true
   });
 
