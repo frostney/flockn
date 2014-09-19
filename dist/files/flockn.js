@@ -16,12 +16,12 @@ udefine('flockn/addable', ['./graphics'], function(Graphics) {
           if ( typeof child === 'function') {
             child = new Factory(child);
           } else {
-          	// TODO: This should be also able to deep assign properties
-						child = new Factory(function() {
-							Object.keys(child).forEach(function(key) {
-								this[key] = child[key];
-							}, this);
-						});
+            // TODO: This should be also able to deep assign properties
+            child = new Factory(function() {
+              Object.keys(child).forEach(function(key) {
+                this[key] = child[key];
+              }, this);
+            });
           }
         }
       }
@@ -50,24 +50,24 @@ udefine('flockn/addable', ['./graphics'], function(Graphics) {
 
 udefine('flockn/base', ['eventmap', 'mixedice', 'gameboard/input', './group', './world'], function(EventMap, mixedice, Input, Group, World) {
   'use strict';
-  
+
   var objectIndex = 0;
-  
+
   var prependMax = 10000;
-  
+
   var numToIdString = function(num) {
-  	var stringNum = num + '';
-  	
-  	if (num >= prependMax) {
-  		return stringNum;
-  	} else {
-  		var prependLength = (prependMax + '').length - stringNum.length;
-  		for (var i = 0; i < prependLength; i++) {
-  			stringNum = '0' + stringNum;
-  		}
-  		
-  		return stringNum;
-  	}
+    var stringNum = num + '';
+
+    if (num >= prependMax) {
+      return stringNum;
+    } else {
+      var prependLength = (prependMax + '').length - stringNum.length;
+      for (var i = 0; i < prependLength; i++) {
+        stringNum = '0' + stringNum;
+      }
+
+      return stringNum;
+    }
   };
 
   var Base = function(type, descriptor) {
@@ -79,28 +79,28 @@ udefine('flockn/base', ['eventmap', 'mixedice', 'gameboard/input', './group', '.
 
     this.type = type;
     this.name = this.type + '-' + Date.now();
-    
- 		var currentObject = numToIdString(++objectIndex);
-    
+
+    var currentObject = numToIdString(++objectIndex);
+
     Object.defineProperty(this, 'id', {
-    	get: function() {
-    		return this.type + '-' + currentObject;
-    	},
-    	enumerable: true
+      get: function() {
+        return this.type + '-' + currentObject;
+      },
+      enumerable: true
     });
-    
+
     this.descriptor = descriptor;
 
     this.children = new Group();
-    
+
     this.queue = [];
 
     this.parent = null;
-    
+
     this.input = Input;
-    
+
     this.world = World;
-    
+
     this.trigger('constructed');
   };
 
@@ -109,31 +109,31 @@ udefine('flockn/base', ['eventmap', 'mixedice', 'gameboard/input', './group', '.
   };
 
   Base.prototype.apply = function(args) {
-  	// TODO: Reflect if function check should be enforced here
+    // TODO: Reflect if function check should be enforced here
     if (this.descriptor) {
-    	
+
       this.descriptor.apply(this, args);
       this.trigger('execute');
-      
+
       // TODO: Impose an order in the queue, such as:
       // (Game) -> Scene -> GameObject -> Behavior -> Model
       this.queue.forEach(function(q) {
-      	q && q();
+        q && q();
       });
       this.queue = [];
     }
   };
-  
+
   Base.prototype.log = function() {
-  	if (console && console.log) {
-  		var argArray = [].slice.call(arguments);
-  		
-  		argArray.unshift(':');
-  		argArray.unshift(this.name);
-  		argArray.unshift(this.type);
-  		
-  		return console.log.apply(console, argArray);
-  	}
+    if (console && console.log) {
+      var argArray = [].slice.call(arguments);
+
+      argArray.unshift(':');
+      argArray.unshift(this.name);
+      argArray.unshift(this.type);
+
+      return console.log.apply(console, argArray);
+    }
   };
 
   Base.extend = function(target, type, descriptor) {
@@ -144,24 +144,23 @@ udefine('flockn/base', ['eventmap', 'mixedice', 'gameboard/input', './group', '.
 
   return Base;
 
-});
+}); 
 udefine('flockn/behavior', ['mixedice', './addable', './base', './group', './updateable'], function(mixedice, addable, Base, Group, updateable) {
-	'use strict';
+  'use strict';
 
   var Behavior = function(descriptor) {
     Base.extend([this, Behavior.prototype], 'Behavior', descriptor);
-    
+
     this.gameObject = null;
-    
+
     updateable.call(this);
   };
 
   Behavior.prototype.addBehavior = function() {
     this.queue.push(addable(Behavior, this.children, function(child) {
-    	child.gameObject = this.gameObject;
+      child.gameObject = this.gameObject;
     }).apply(this, arguments));
   };
-
 
   Behavior.store = {};
 
@@ -170,78 +169,79 @@ udefine('flockn/behavior', ['mixedice', './addable', './base', './group', './upd
   };
 
   return Behavior;
-}); 
+});
+
 udefine('flockn/game', ['root', 'mixedice', 'gameboard/loop', './addable', './base', './graphics', './scene', './renderable', './updateable'], function(root, mixedice, Loop, addable, Base, Graphics, Scene, renderable, updateable) {
-	'use strict';
-	
+  'use strict';
+
   var Game = function(descriptor) {
-  	if (!this instanceof Game) {
-  		return new Game(descriptor);
-  	}
-  	
-  	var self = this;
-  	
-  	Base.extend([this, Game.prototype], 'Game', function() {
-  		descriptor.call(this);
-  		
-  		Graphics.trigger('initialize', this);
-  	});
-  	
-  	this.container = null;
-  	this.width = root.innerWidth;
-  	this.height = root.innerHeight;
-  	this.color = 'rgb(255, 255, 255)';
-  	
-  	this.call();
-  	
-  	renderable.call(this);
-  	updateable.call(this);
-  	
-  	Loop.on('update', function(dt) {
-  		self.trigger('update', dt / 1000);
-  	});
-  	
-  	Loop.on('render', function() {
-  		self.trigger('render');
-  	});
-  	
-  	root.addEventListener('resize', function() {
-  		self.trigger('resize');
-  	}, false);
+    if (!this || !this instanceof Game) {
+      return new Game(descriptor);
+    }
+
+    var self = this;
+
+    Base.extend([this, Game.prototype], 'Game', function() {
+      descriptor.call(this);
+
+      Graphics.trigger('initialize', this);
+    });
+
+    this.container = null;
+    this.width = root.innerWidth;
+    this.height = root.innerHeight;
+    this.color = 'rgb(255, 255, 255)';
+
+    this.call();
+
+    renderable.call(this);
+    updateable.call(this);
+
+    Loop.on('update', function(dt) {
+      self.trigger('update', dt / 1000);
+    });
+
+    Loop.on('render', function() {
+      self.trigger('render');
+    });
+
+    root.addEventListener('resize', function() {
+      self.trigger('resize');
+    }, false);
 
     root.addEventListener('orientationchange', function() {
-    	self.trigger('orientationchange');
+      self.trigger('orientationchange');
     }, false);
   };
-  
+
   Game.prototype.addScene = function() {
     this.queue.push(addable(Scene, this.children, function(child) {
-    	child.width = this.width;
-    	child.height = this.height;
+      child.width = this.width;
+      child.height = this.height;
     }).apply(this, arguments));
   };
-  
+
   Game.prototype.showScene = function(name) {
-  	// TODO: Add transitions
+    // TODO: Add transitions
     this.activeScene = name;
     this.trigger('show', this.activeScene, this.children[this.activeScene]);
   };
-  
+
   Game.prototype.run = function(name) {
-  	Loop.run();
-  	
-  	if (!name) {
-  		// If there's only one scene, specifying a name is not necessary
-  		if (this.children.length === 1) {
-  			name = this.children[0].name;
-  		}
-  	}
-  	
-  	if (name) {
-  		this.showScene(name);  		
-  	}
+    Loop.run();
+
+    if (!name) {
+      // If there's only one scene, specifying a name is not necessary
+      if (this.children.length === 1) {
+        name = this.children[0].name;
+      }
+    }
+
+    if (name) {
+      this.showScene(name);
+    }
   };
-  
+
   return Game;
 });
 
@@ -257,45 +257,45 @@ udefine('flockn/gameobject', ['mixedice', './addable', './base', './behavior', '
 
     this.x = 0;
     this.y = 0;
-    
+
     Object.defineProperty(this, 'left', {
-    	get: function() {
-    		return this.x;
-    	},
-    	set: function(value) {
-    		this.x = value;
-    	},
-    	enumerable: true
+      get: function() {
+        return this.x;
+      },
+      set: function(value) {
+        this.x = value;
+      },
+      enumerable: true
     });
-    
+
     Object.defineProperty(this, 'top', {
-    	get: function() {
-    		return this.y;
-    	},
-    	set: function(value) {
-    		this.y = value;
-    	},
-    	enumerable: true
+      get: function() {
+        return this.y;
+      },
+      set: function(value) {
+        this.y = value;
+      },
+      enumerable: true
     });
-    
+
     Object.defineProperty(this, 'right', {
-    	get: function() {
-    		return this.parent.width - this.width - this.x;
-    	},
-    	set: function(value) {
-    		this.x = this.parent.width - this.width - value;
-    	},
-    	enumerable: true
+      get: function() {
+        return this.parent.width - this.width - this.x;
+      },
+      set: function(value) {
+        this.x = this.parent.width - this.width - value;
+      },
+      enumerable: true
     });
-    
+
     Object.defineProperty(this, 'bottom', {
-    	get: function() {
-    		return this.parent.height - this.height - this.y;
-    	},
-    	set: function(value) {
-    		this.y = this.parent.height - this.height - value;
-    	},
-    	enumerable: true
+      get: function() {
+        return this.parent.height - this.height - this.y;
+      },
+      set: function(value) {
+        this.y = this.parent.height - this.height - value;
+      },
+      enumerable: true
     });
 
     this.fitToTexture = true;
@@ -306,7 +306,7 @@ udefine('flockn/gameobject', ['mixedice', './addable', './base', './behavior', '
       if (self.fitToTexture) {
         self.width = self.texture.image.width;
         self.height = self.texture.image.height;
-        
+
         self.origin.x = (self.width / 2);
         self.origin.y = (self.height / 2);
       }
@@ -314,15 +314,15 @@ udefine('flockn/gameobject', ['mixedice', './addable', './base', './behavior', '
       // TODO: Evaluate if the Graphics trigger should only be in the texture
       Graphics.trigger('texture-image-loaded', self, self.texture);
     });
-    
+
     this.texture.on('label-loaded', function() {
-    	if (self.fitToTexture) {
-    		self.width = self.texture.label.width;
-    		self.height = self.texture.label.height;
-    		
-    		self.origin.x = (self.width / 2);
+      if (self.fitToTexture) {
+        self.width = self.texture.label.width;
+        self.height = self.texture.label.height;
+
+        self.origin.x = (self.width / 2);
         self.origin.y = (self.height / 2);
-    	}
+      }
     });
 
     this.width = 0;
@@ -336,16 +336,16 @@ udefine('flockn/gameobject', ['mixedice', './addable', './base', './behavior', '
       x: 1,
       y: 1
     };
-    
+
     this.origin = {
-    	x: (self.width / 2),
-    	y: (self.width / 2)
+      x: (self.width / 2),
+      y: (self.width / 2)
     };
-    
+
     this.border = {
-    	width: 0,
-    	color: 'rgb(0, 0, 0)',
-    	radius: 0
+      width: 0,
+      color: 'rgb(0, 0, 0)',
+      radius: 0
     };
 
     // Behaviors
@@ -391,45 +391,45 @@ udefine('flockn/gameobject', ['mixedice', './addable', './base', './behavior', '
   GameObject.prototype.fromJSON = function() {
 
   };
-  
+
   GameObject.prototype.animate = function(property, end, time, callback) {
-  	if (typeof this[property] === 'number') {
-  		var distance = end - this[property];
-  		var timeInS = (time / 1000);
-  		
-  		var animateName = 'animate-' + Date.now();
-  		this.on(animateName, function(dt) {
-  			
-  			this.off(animateName);
-  		});
-  	}
+    if ( typeof this[property] === 'number') {
+      var distance = end - this[property];
+      var timeInS = (time / 1000);
+
+      var animateName = 'animate-' + Date.now();
+      this.on(animateName, function(dt) {
+
+        this.off(animateName);
+      });
+    }
   };
 
   return GameObject;
 });
 
 udefine('flockn/graphics', ['eventmap'], function(EventMap) {
-	'use strict';
-	
-	var Graphics = new EventMap();
-	
-	return Graphics;
+  'use strict';
+
+  var Graphics = new EventMap();
+
+  return Graphics;
 });
 
 udefine('flockn/graphics/rootelement', function() {
-	'use strict';
-	
-	return function(elementName, extraFn) {
-		var containerName = (function() {
-	  	if (this.container == null) {
-	  		this.container = this.id;
-	  		return this.container;
-	  	} else {
-		  	if (this.container.indexOf('#') === 0) {
-		      return this.container.slice(1);
-		    }
-	  	}
-  	}).call(this);
+  'use strict';
+
+  return function(elementName, extraFn) {
+    var containerName = (function() {
+      if (this.container == null) {
+        this.container = this.id;
+        return this.container;
+      } else {
+        if (this.container.indexOf('#') === 0) {
+          return this.container.slice(1);
+        }
+      }
+    }).call(this);
 
     this.width = this.width || window.innerWidth;
     this.height = this.height || window.innerHeight;
@@ -443,32 +443,32 @@ udefine('flockn/graphics/rootelement', function() {
 
       rootElement = element;
     }
-   	
-   	rootElement.className = [this.type.toLowerCase(), this.name.toLowerCase()].join(' ');
 
-		rootElement.style.position = 'absolute';
+    rootElement.className = [this.type.toLowerCase(), this.name.toLowerCase()].join(' ');
+
+    rootElement.style.position = 'absolute';
     rootElement.style.width = this.width + 'px';
     rootElement.style.height = this.height + 'px';
-    
+
     extraFn.call(this, rootElement);
-    
+
     if (this.width < window.innerWidth) {
-    	rootElement.style.left = '50%';
-    	rootElement.style.marginLeft = (this.width * (-0.5)) + 'px';
+      rootElement.style.left = '50%';
+      rootElement.style.marginLeft = (this.width * (-0.5)) + 'px';
     }
-    
+
     if (this.height < window.innerHeight) {
-    	rootElement.style.top = '50%';
-    	rootElement.style.marginTop = (this.width * (-0.5)) + 'px';
+      rootElement.style.top = '50%';
+      rootElement.style.marginTop = (this.width * (-0.5)) + 'px';
     }
-    
+
     return rootElement;
-	};
+  };
 });
 
 udefine('flockn/group', ['./serialize'], function(serialize) {
-	'use strict';
-	
+  'use strict';
+
   var unidentified = 'untitled';
   var unidentifiedCounter = 0;
 
@@ -479,164 +479,164 @@ udefine('flockn/group', ['./serialize'], function(serialize) {
     this.names = {};
   };
 
-  Group.prototype.push = function(obj, tags) {    
+  Group.prototype.push = function(obj, tags) {
     var name = obj.name || (unidentified + unidentifiedCounter++);
     if (tags == null) {
-      tags = obj.tags || [];      
+      tags = obj.tags || [];
     }
 
     if (Object.hasOwnProperty.call(this.names, name)) {
       return;
     }
-    
+
     this[this.length] = obj;
-    
+
     Object.keys(this.tags).forEach(function(tag) {
       this.tags[tag] = this.tags[tag] || [];
       this.tags[tag].push(this.length);
     }, this);
-    
+
     this.names[name] = this.length;
 
     return ++this.length;
   };
-  
+
   // TODO: Behavior currently stays in the list
-  Group.prototype.pop = function() {    
+  Group.prototype.pop = function() {
     return this[this.length];
   };
 
   Group.prototype.splice = function(index, how) {
-    
+
   };
-  
+
   Group.prototype.slice = function(begin, end) {
     if (end == null) {
       end = this.length;
     }
-    
+
     var slicedGroup = new Group();
-    
+
     for (var i = begin; i < end; i++) {
       slicedGroup.push(this[i]);
     }
-    
+
     return slicedGroup;
   };
-  
+
   Group.prototype.forEach = function(callback) {
     for (var i = 0; i < this.length; i++) {
       callback(this[i]);
     }
   };
-  
+
   // TODO: Evaluate if Group#map and Group#filter should rather return a Group instance than an array
   Group.prototype.map = function(callback) {
-  	var mappedArray = [];
-    
+    var mappedArray = [];
+
     for (var i = 0; i < this.length; i++) {
       mappedArray.push(callback(this[i]));
     }
-    
+
     return mappedArray;
   };
-  
+
   Group.prototype.filter = function(callback) {
     var filteredArray = [];
-    
+
     for (var i = 0; i < this.length; i++) {
       if (callback(this[i])) {
         filteredArray.push(this[i]);
       }
     }
-    
+
     return filteredArray;
   };
-  
+
   Group.prototype.byName = function(name) {
     return this[this.names[name]];
   };
-  
+
   Group.prototype.byTag = function(tag) {
     return this.tags[tag].map(function(index) {
       return this[index];
     }, this);
   };
-  
+
   Group.prototype.toJSON = function() {
-  	return serialize(this);
+    return serialize(this);
   };
 
   return Group;
 });
 
 udefine('flockn/model', ['mixedice', 'eventmap'], function(mixedice, EventMap) {
-	'use strict';
-	
-	var Model = function() {
-		mixedice([this, Model.prototype], new EventMap());
-		
-		this.data = {};
-	};
-	
-	Model.prototype.get = function(name) {
-		if (Object.hasOwnProperty.call(this.data, name)) {
-			return this.data[name];
-		}
-	};
-	
-	Model.prototype.set = function(name, value) {
-		this.data[name] = value;
-		this.trigger('change', name, value);
-	};
-	
-	return Model;
-	
+  'use strict';
+
+  var Model = function() {
+    mixedice([this, Model.prototype], new EventMap());
+
+    this.data = {};
+  };
+
+  Model.prototype.get = function(name) {
+    if (Object.hasOwnProperty.call(this.data, name)) {
+      return this.data[name];
+    }
+  };
+
+  Model.prototype.set = function(name, value) {
+    this.data[name] = value;
+    this.trigger('change', name, value);
+  };
+
+  return Model;
+
 });
 
 udefine('flockn/renderable', ['./graphics'], function(Graphics) {
-	'use strict';
-	
-	return function() {
-		var self = this;
-		
-		this.on('render', function() {
-    	Graphics.trigger('render', self);
-    	
+  'use strict';
+
+  return function() {
+    var self = this;
+
+    this.on('render', function() {
+      Graphics.trigger('render', self);
+
       self.children.forEach(function(child) {
         child.trigger('render');
       });
     });
-	};
+  };
 });
 
 udefine('flockn/scene', ['mixedice', './addable', './base', './group', './gameobject', './renderable', './updateable'], function(mixedice, addable, Base, Group, GameObject, renderable, updateable) {
   'use strict';
-  
+
   var Scene = function(descriptor) {
     Base.extend([this, Scene.prototype], 'Scene', descriptor);
-    
+
     renderable.call(this);
     updateable.call(this);
   };
-  
+
   Scene.prototype.addGameObject = function() {
     this.queue.push(addable(GameObject, this.children).apply(this, arguments));
   };
-  
+
   Scene.store = {};
-  
+
   Scene.define = function(name, factory) {
     Scene.store[name] = factory;
   };
-  
+
   return Scene;
-  
+
 });
 
 udefine('flockn/serialize', function() {
-	'use strict';
-	
+  'use strict';
+
   return function(obj) {
     return JSON.stringify(obj, function(key, value) {
       // Avoiding cyclic dependencies
@@ -668,7 +668,7 @@ udefine('flockn/texture', ['mixedice', 'eventmap'], function(mixedice, EventMap)
     this.parent = null;
 
     this.image = {
-    	color: 'rgb(255, 255, 255)',
+      color: 'rgb(255, 255, 255)',
       offset: {
         x: 0,
         y: 0
@@ -695,13 +695,12 @@ udefine('flockn/texture', ['mixedice', 'eventmap'], function(mixedice, EventMap)
           self.image.data = img;
           self.image.width = img.width;
           self.image.height = img.height;
-          
+
           self.trigger('image-loaded');
         };
       },
       enumerable: true
     });
-
 
     this.label = {
       font: {
@@ -710,27 +709,26 @@ udefine('flockn/texture', ['mixedice', 'eventmap'], function(mixedice, EventMap)
         color: 'rgb(0, 0, 0)'
       },
       align: {
-      	x: 'center',
-      	y: 'center'
+        x: 'center',
+        y: 'center'
       },
       width: 0,
       height: 0
     };
-    
+
     var text = '';
-    
+
     Object.defineProperty(this.label, 'text', {
-    	get: function() {
-    		return text;
-    	},
-    	set: function(value) {
-    		text = value;
-    		
-    		// TODO: This should be handled somewhere else, but I'm not sure where
-    		
-    		
-    		self.trigger('label-loaded');
-    	}
+      get: function() {
+        return text;
+      },
+      set: function(value) {
+        text = value;
+
+        // TODO: This should be handled somewhere else, but I'm not sure where
+
+        self.trigger('label-loaded');
+      }
     });
 
     this.color = 'transparent';
@@ -741,23 +739,23 @@ udefine('flockn/texture', ['mixedice', 'eventmap'], function(mixedice, EventMap)
 });
 
 udefine('flockn/updateable', function() {
-	'use strict';
-	
-	return function() {
-		var self = this;
-		
-		this.on('update', function(dt) {
+  'use strict';
+
+  return function() {
+    var self = this;
+
+    this.on('update', function(dt) {
       self.children.forEach(function(child) {
         child.trigger('update', dt);
       });
     });
-	};
+  };
 });
 
 udefine('flockn/world', ['./model'], function(Model) {
-	'use strict';
-	
-	var world = new Model();
-	
-	return world;
+  'use strict';
+
+  var world = new Model();
+
+  return world;
 });

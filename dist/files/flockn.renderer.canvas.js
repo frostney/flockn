@@ -25,18 +25,18 @@ udefine('flockn/renderer/canvas', ['../graphics', '../graphics/rootelement'], fu
   Graphics.on('render', function(obj) {
     switch (obj.type) {
     case 'GameObject':
-    	if (obj.texture.image.filename) {
-    		
-    	}
-    	
-    	if (obj.texture.label.text) {
-    		
-    	}
+      if (obj.texture.image.filename) {
+
+      }
+
+      if (obj.texture.label.text) {
+
+      }
       break;
     case 'Scene':
-    	if (obj.parent.activeScene !== obj.name) {
-    		return;
-    	}
+      if (obj.parent.activeScene !== obj.name) {
+        return;
+      }
       break;
     default:
       break;
