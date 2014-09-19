@@ -106,6 +106,15 @@ udefine('flockn/renderer/dom', ['root', '../graphics', '../graphics/rootelement'
       element.style.height = pixelize(obj.height);
     }
   });
+  
+  Graphics.on('texture-label-loaded', function(obj, texture) {
+    var element = document.getElementById(obj.id.toLowerCase());
+
+    if (element != null) {
+      element.style.width = pixelize(obj.width);
+      element.style.height = pixelize(obj.height);
+    }
+  });
 
   Graphics.on('render', function(obj) {
     // Update element attributes
@@ -179,6 +188,8 @@ udefine('flockn/renderer/dom', ['root', '../graphics', '../graphics/rootelement'
 
         if (obj.texture.label.text) {
           element.innerText = obj.texture.label.text;
+          
+          element.style.whiteSpace = 'nowrap';
 
           if (obj.texture.label.font.size) {
             element.style.fontSize = pixelize(obj.texture.label.font.size);
@@ -191,6 +202,22 @@ udefine('flockn/renderer/dom', ['root', '../graphics', '../graphics/rootelement'
           if (obj.texture.label.font.name) {
             element.style.fontFamily = obj.texture.label.font.name;
           }
+
+          obj.texture.label.font.decoration.forEach(function(decoration) {
+            switch (decoration) {
+            case 'bold':
+              element.style.fontWeight = 'bold';
+              break;
+            case 'italic':
+              element.style.fontStyle = 'italic';
+              break;
+            case 'underline':
+              element.style.textDecoration = 'underline';
+              break;
+            default:
+              break;
+            }
+          });
         }
 
         break;

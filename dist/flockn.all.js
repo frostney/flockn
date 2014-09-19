@@ -322,6 +322,9 @@ udefine('flockn/gameobject', ['mixedice', './addable', './base', './behavior', '
 
         self.origin.x = (self.width / 2);
         self.origin.y = (self.height / 2);
+
+        // TODO: Evaluate if the Graphics trigger should only be in the texture
+        Graphics.trigger('texture-label-loaded', self, self.texture);
       }
     });
 
@@ -765,6 +768,15 @@ udefine('flockn/renderer/dom', ['root', '../graphics', '../graphics/rootelement'
       element.style.height = pixelize(obj.height);
     }
   });
+  
+  Graphics.on('texture-label-loaded', function(obj, texture) {
+    var element = document.getElementById(obj.id.toLowerCase());
+
+    if (element != null) {
+      element.style.width = pixelize(obj.width);
+      element.style.height = pixelize(obj.height);
+    }
+  });
 
   Graphics.on('render', function(obj) {
     // Update element attributes
@@ -838,6 +850,8 @@ udefine('flockn/renderer/dom', ['root', '../graphics', '../graphics/rootelement'
 
         if (obj.texture.label.text) {
           element.innerText = obj.texture.label.text;
+          
+          element.style.whiteSpace = 'nowrap';
 
           if (obj.texture.label.font.size) {
             element.style.fontSize = pixelize(obj.texture.label.font.size);
@@ -850,6 +864,22 @@ udefine('flockn/renderer/dom', ['root', '../graphics', '../graphics/rootelement'
           if (obj.texture.label.font.name) {
             element.style.fontFamily = obj.texture.label.font.name;
           }
+
+          obj.texture.label.font.decoration.forEach(function(decoration) {
+            switch (decoration) {
+            case 'bold':
+              element.style.fontWeight = 'bold';
+              break;
+            case 'italic':
+              element.style.fontStyle = 'italic';
+              break;
+            case 'underline':
+              element.style.textDecoration = 'underline';
+              break;
+            default:
+              break;
+            }
+          });
         }
 
         break;
@@ -974,7 +1004,8 @@ udefine('flockn/texture', ['mixedice', 'eventmap'], function(mixedice, EventMap)
       font: {
         size: 10,
         name: 'Arial',
-        color: 'rgb(0, 0, 0)'
+        color: 'rgb(0, 0, 0)',
+        decoration: []
       },
       align: {
         x: 'center',
@@ -994,6 +1025,37 @@ udefine('flockn/texture', ['mixedice', 'eventmap'], function(mixedice, EventMap)
         text = value;
 
         // TODO: This should be handled somewhere else, but I'm not sure where
+        var tmpElem = document.createElement('div');
+        tmpElem.innerText = text;
+        tmpElem.style.position = 'absolute';
+        tmpElem.style.left = '-9999px';
+        tmpElem.style.top = '-9999px';
+        tmpElem.style.fontSize = self.label.font.size + 'px';
+        tmpElem.style.fontFamily = self.label.font.name;
+        tmpElem.style.color = self.label.font.color;
+        
+        self.label.font.decoration.forEach(function(decoration) {
+          switch (decoration) {
+            case 'bold':
+              tmpElem.style.fontWeight = 'bold';
+              break;
+            case 'italic':
+              tmpElem.style.fontStyle = 'italic';
+              break;
+            case 'underline':
+              tmpElem.style.textDecoration = 'underline';
+              break;
+            default:
+              break;
+          }
+        });
+        
+        document.body.appendChild(tmpElem);
+        
+        self.label.width = tmpElem.clientWidth;
+        self.label.height = tmpElem.clientHeight;
+        
+        document.body.removeChild(tmpElem);
 
         self.trigger('label-loaded');
       }
