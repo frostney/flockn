@@ -66,7 +66,7 @@ Roadmap for next release
 ------------------------
 - [ ] Canvas renderer
 - [ ] Serialization and deserialization
-- [ ] API documentation
+- [X] Documentation
 - [ ] Examples
 - [ ] Unit tests
 - [ ] Default behaviors (e.g. sprite animation, collision)
