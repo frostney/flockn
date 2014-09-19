@@ -35,14 +35,14 @@ Philosophy
 
 Roadmap for next release
 ------------------------
-[ ] Canvas renderer
-[ ] Serialization and deserialization
-[ ] API documentation
-[ ] Examples
+- [ ] Canvas renderer
+- [ ] Serialization and deserialization
+- [ ] API documentation
+- [ ] Examples
 
 Roadmap for future versions
 ---------------------------
-[ ] PIXI renderer
+- [ ] PIXI renderer
 
 Building for yourself
 ---------------------
