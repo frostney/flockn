@@ -1,7 +1,11 @@
 flockn
 ======
 
-flockn is a micro-game engine for JavaScript (and also languages that compile to JavaScript such as CoffeeScript or TypeScript).
+flockn is a lightweight game engine for JavaScript (and also languages that compile to JavaScript such as CoffeeScript or TypeScript).
+
+Alternatives:
+* If you are just interested in DOM/jQuery and wish more control, you should try [https://github.com/freezedev/lyria](Lyria).
+* For a full-blown and less opiniated game engine, you could try [https://github.com/photonstorm/phaser](Phaser).
 
 How does it work?
 -----------------
@@ -39,10 +43,11 @@ Roadmap for next release
 - [ ] Serialization and deserialization
 - [ ] API documentation
 - [ ] Examples
+- [ ] Unit tests
 
 Roadmap for future versions
 ---------------------------
-- [ ] PIXI renderer
+- [ ] [https://github.com/GoodBoyDigital/pixi.js](PIXI) renderer
 
 Building for yourself
 ---------------------
