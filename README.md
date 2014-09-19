@@ -73,8 +73,8 @@ Some decisions that need to be made
 -----------------------------------
 - Should game objects have the attributes of behaviors?
 - Should game objects have the attributes of models?
-- Should `Object.observe` be used for attributes?
-- Is there a possibility to simply the access of game objects from behaviors?
+- Should `Object.observe` be used for attributes? (Reducing the `Model#get` and `Model#set` overhead)
+- Is there a possibility to simplify the access of game objects from behaviors?
 
 Building for yourself
 ---------------------
