@@ -53,6 +53,7 @@ Philosophy
 * Easy-to-use
 * Lightweight
 * Events everywhere
+* Functions are the best way to describe an object
 
 Roadmap for next release
 ------------------------
