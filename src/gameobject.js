@@ -53,8 +53,11 @@ udefine(['mixedice', './addable', './base', './behavior', './graphics', './group
 
     this.fitToTexture = true;
 
+    // Create a new texture and bind it to the `texture` property
     this.texture = new Texture();
     this.texture.parent = this;
+    
+    // Once the image is loaded, update width and height if `fitToTexture` is set
     this.texture.on('image-loaded', function() {
       if (self.fitToTexture) {
         self.width = self.texture.image.width;
@@ -68,6 +71,7 @@ udefine(['mixedice', './addable', './base', './behavior', './graphics', './group
       Graphics.trigger('texture-image-loaded', self, self.texture);
     });
 
+    // Once the label is loaded, update width and height if `fitToTexture` is set
     this.texture.on('label-loaded', function() {
       if (self.fitToTexture) {
         self.width = self.texture.label.width;
@@ -110,9 +114,11 @@ udefine(['mixedice', './addable', './base', './behavior', './graphics', './group
     // Data models
     this.models = new Group();
 
+    // Mix in renderable and updateable
     renderable.call(this);
     updateable.call(this);
 
+    // Update all behaviors as well
     this.on('update', function() {
       self.behaviors.forEach(function(behavior) {
         behavior.trigger('update');
@@ -122,25 +128,30 @@ udefine(['mixedice', './addable', './base', './behavior', './graphics', './group
 
   GameObject.store = {};
 
+  // Game objects can be defined and are stored on the object itself
   GameObject.define = function(name, factory) {
     GameObject.store[name] = factory;
   };
 
   GameObject.prototype.addGameObject = function() {
+    // Add a game object to this game object
     this.queue.push(addable(GameObject, this.children).apply(this, arguments));
   };
 
   GameObject.prototype.addBehavior = function() {
+    // Add a `Behavior` instance to the the game object and update the `gameObject` property
     this.queue.push(addable(Behavior, this.behaviors, function(child) {
       child.gameObject = this;
     }).apply(this, arguments));
   };
 
   GameObject.prototype.addModel = function() {
+    // Add a `Model` instance to the game object
     this.queue.push(addable(Model, this.models).apply(this, arguments));
   };
 
   GameObject.prototype.toJSON = function() {
+    // Serialize this object
     return serialize(this);
   };
 
@@ -149,6 +160,7 @@ udefine(['mixedice', './addable', './base', './behavior', './graphics', './group
   };
 
   GameObject.prototype.animate = function(property, end, time, callback) {
+    // TODO: Tweening does not work yet
     if ( typeof this[property] === 'number') {
       var distance = end - this[property];
       var timeInS = (time / 1000);
