@@ -17,6 +17,8 @@ udefine('flockn/renderer/dom', ['root', '../graphics', '../graphics/rootelement'
     rootElement = createRootElement.call(Game, 'div', function(rootElement) {
       rootElement.style.backgroundColor = this.color;
       rootElement.style.overflow = 'hidden';
+      rootElement.style.cursor = 'default';
+      rootElement.style.userSelect = rootElement.style.mozUserSelect = rootElement.style.webkitUserSelect = 'none';
     });
   });
 
