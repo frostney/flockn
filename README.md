@@ -72,6 +72,7 @@ Roadmap for next release
 - [ ] Audio
 - [ ] Preloader/Assetloader
 - [ ] Tweening
+- [ ] Github page
 
 Roadmap for future versions
 ---------------------------
