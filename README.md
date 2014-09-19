@@ -54,6 +54,9 @@ Roadmap for future versions
 
 Building for yourself
 ---------------------
+flockn uses Grunt. Grunt needs to be installed through `npm install -g grunt-cli`.  
+After that, navigate to the flockn root folder and type `npm install` to install all necessary dependencies.  
+
 Type `grunt` to build everything.
 
 License
