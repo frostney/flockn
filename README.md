@@ -42,6 +42,7 @@ require(['flockn/game'], function(Game) {
     });
     
     // Start the game loop
+    // Since only have one scene, we don't need to specify a scene name. In any other case it would be: `this.run('myscene');`
     this.run();
   
   });
