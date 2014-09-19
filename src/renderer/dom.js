@@ -64,30 +64,30 @@ udefine(['root', '../graphics', '../graphics/rootelement'], function(root, Graph
       element.style.top = pixelize(obj.y);
       element.style.width = pixelize(obj.width);
       element.style.height = pixelize(obj.height);
-      
+
       // TODO: Normalize events
       root.addEventListener('click', function(evt) {
-      	obj.trigger('click', evt);
+        obj.trigger('click', evt);
       }, true);
-      
+
       root.addEventListener('mousedown', function(evt) {
-      	obj.trigger('mousedown', evt);
+        obj.trigger('mousedown', evt);
       }, true);
-      
+
       root.addEventListener('mouseup', function(evt) {
-      	obj.trigger('mouseup', evt);
+        obj.trigger('mouseup', evt);
       }, true);
-      
+
       root.addEventListener('mouseenter', function(evt) {
-      	obj.trigger('mouseenter', evt);
+        obj.trigger('mouseenter', evt);
       }, true);
-      
+
       root.addEventListener('mouseleave', function(evt) {
-      	obj.trigger('mouseleave', evt);
+        obj.trigger('mouseleave', evt);
       }, true);
-      
+
       root.addEventListener('mouseover', function(evt) {
-      	obj.trigger('mouseover', evt);
+        obj.trigger('mouseover', evt);
       }, true);
       break;
     default:
@@ -155,18 +155,18 @@ udefine(['root', '../graphics', '../graphics/rootelement'], function(root, Graph
 
         // Set background color
         element.style.backgroundColor = obj.texture.color;
-        
+
         // Set border
         if (obj.border.width > 0) {
-        	element.style.borderWidth = pixelize(obj.border.width);
-        	element.style.borderStyle = 'solid';
-        	element.style.borderColor = obj.border.color;
-        	
-        	if (obj.border.radius > 0) {
-        		element.style.borderRadius = pixelize(obj.border.radius);
-        	}
+          element.style.borderWidth = pixelize(obj.border.width);
+          element.style.borderStyle = 'solid';
+          element.style.borderColor = obj.border.color;
+
+          if (obj.border.radius > 0) {
+            element.style.borderRadius = pixelize(obj.border.radius);
+          }
         }
-        
+
         if (obj.texture.image.filename) {
           if (obj.texture.image.offset.x !== 0) {
             element.style.backgroundPositionX = obj.texture.image.offset.x * (-1) + 'px';
@@ -176,22 +176,22 @@ udefine(['root', '../graphics', '../graphics/rootelement'], function(root, Graph
             element.style.backgroundPositionY = obj.texture.image.offset.y * (-1) + 'px';
           }
         }
-        
-				if (obj.texture.label.text) {
-					element.innerText = obj.texture.label.text;
-					
-					if (obj.texture.label.font.size) {
-						element.style.fontSize = pixelize(obj.texture.label.font.size);
-					}
-					
-					if (obj.texture.label.font.color) {
-						element.style.color = obj.texture.label.font.color;
-					}
-					
-					if (obj.texture.label.font.name) {
-						element.style.fontFamily = obj.texture.label.font.name;
-					}
-				}       
+
+        if (obj.texture.label.text) {
+          element.innerText = obj.texture.label.text;
+
+          if (obj.texture.label.font.size) {
+            element.style.fontSize = pixelize(obj.texture.label.font.size);
+          }
+
+          if (obj.texture.label.font.color) {
+            element.style.color = obj.texture.label.font.color;
+          }
+
+          if (obj.texture.label.font.name) {
+            element.style.fontFamily = obj.texture.label.font.name;
+          }
+        }
 
         break;
       case 'Scene':

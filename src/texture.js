@@ -12,7 +12,7 @@ udefine(['mixedice', 'eventmap'], function(mixedice, EventMap) {
     this.parent = null;
 
     this.image = {
-    	color: 'rgb(255, 255, 255)',
+      color: 'rgb(255, 255, 255)',
       offset: {
         x: 0,
         y: 0
@@ -39,13 +39,12 @@ udefine(['mixedice', 'eventmap'], function(mixedice, EventMap) {
           self.image.data = img;
           self.image.width = img.width;
           self.image.height = img.height;
-          
+
           self.trigger('image-loaded');
         };
       },
       enumerable: true
     });
-
 
     this.label = {
       font: {
@@ -54,27 +53,26 @@ udefine(['mixedice', 'eventmap'], function(mixedice, EventMap) {
         color: 'rgb(0, 0, 0)'
       },
       align: {
-      	x: 'center',
-      	y: 'center'
+        x: 'center',
+        y: 'center'
       },
       width: 0,
       height: 0
     };
-    
+
     var text = '';
-    
+
     Object.defineProperty(this.label, 'text', {
-    	get: function() {
-    		return text;
-    	},
-    	set: function(value) {
-    		text = value;
-    		
-    		// TODO: This should be handled somewhere else, but I'm not sure where
-    		
-    		
-    		self.trigger('label-loaded');
-    	}
+      get: function() {
+        return text;
+      },
+      set: function(value) {
+        text = value;
+
+        // TODO: This should be handled somewhere else, but I'm not sure where
+
+        self.trigger('label-loaded');
+      }
     });
 
     this.color = 'transparent';

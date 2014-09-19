@@ -10,45 +10,45 @@ udefine(['mixedice', './addable', './base', './behavior', './graphics', './group
 
     this.x = 0;
     this.y = 0;
-    
+
     Object.defineProperty(this, 'left', {
-    	get: function() {
-    		return this.x;
-    	},
-    	set: function(value) {
-    		this.x = value;
-    	},
-    	enumerable: true
+      get: function() {
+        return this.x;
+      },
+      set: function(value) {
+        this.x = value;
+      },
+      enumerable: true
     });
-    
+
     Object.defineProperty(this, 'top', {
-    	get: function() {
-    		return this.y;
-    	},
-    	set: function(value) {
-    		this.y = value;
-    	},
-    	enumerable: true
+      get: function() {
+        return this.y;
+      },
+      set: function(value) {
+        this.y = value;
+      },
+      enumerable: true
     });
-    
+
     Object.defineProperty(this, 'right', {
-    	get: function() {
-    		return this.parent.width - this.width - this.x;
-    	},
-    	set: function(value) {
-    		this.x = this.parent.width - this.width - value;
-    	},
-    	enumerable: true
+      get: function() {
+        return this.parent.width - this.width - this.x;
+      },
+      set: function(value) {
+        this.x = this.parent.width - this.width - value;
+      },
+      enumerable: true
     });
-    
+
     Object.defineProperty(this, 'bottom', {
-    	get: function() {
-    		return this.parent.height - this.height - this.y;
-    	},
-    	set: function(value) {
-    		this.y = this.parent.height - this.height - value;
-    	},
-    	enumerable: true
+      get: function() {
+        return this.parent.height - this.height - this.y;
+      },
+      set: function(value) {
+        this.y = this.parent.height - this.height - value;
+      },
+      enumerable: true
     });
 
     this.fitToTexture = true;
@@ -59,7 +59,7 @@ udefine(['mixedice', './addable', './base', './behavior', './graphics', './group
       if (self.fitToTexture) {
         self.width = self.texture.image.width;
         self.height = self.texture.image.height;
-        
+
         self.origin.x = (self.width / 2);
         self.origin.y = (self.height / 2);
       }
@@ -67,15 +67,15 @@ udefine(['mixedice', './addable', './base', './behavior', './graphics', './group
       // TODO: Evaluate if the Graphics trigger should only be in the texture
       Graphics.trigger('texture-image-loaded', self, self.texture);
     });
-    
+
     this.texture.on('label-loaded', function() {
-    	if (self.fitToTexture) {
-    		self.width = self.texture.label.width;
-    		self.height = self.texture.label.height;
-    		
-    		self.origin.x = (self.width / 2);
+      if (self.fitToTexture) {
+        self.width = self.texture.label.width;
+        self.height = self.texture.label.height;
+
+        self.origin.x = (self.width / 2);
         self.origin.y = (self.height / 2);
-    	}
+      }
     });
 
     this.width = 0;
@@ -89,16 +89,16 @@ udefine(['mixedice', './addable', './base', './behavior', './graphics', './group
       x: 1,
       y: 1
     };
-    
+
     this.origin = {
-    	x: (self.width / 2),
-    	y: (self.width / 2)
+      x: (self.width / 2),
+      y: (self.width / 2)
     };
-    
+
     this.border = {
-    	width: 0,
-    	color: 'rgb(0, 0, 0)',
-    	radius: 0
+      width: 0,
+      color: 'rgb(0, 0, 0)',
+      radius: 0
     };
 
     // Behaviors
@@ -144,18 +144,18 @@ udefine(['mixedice', './addable', './base', './behavior', './graphics', './group
   GameObject.prototype.fromJSON = function() {
 
   };
-  
+
   GameObject.prototype.animate = function(property, end, time, callback) {
-  	if (typeof this[property] === 'number') {
-  		var distance = end - this[property];
-  		var timeInS = (time / 1000);
-  		
-  		var animateName = 'animate-' + Date.now();
-  		this.on(animateName, function(dt) {
-  			
-  			this.off(animateName);
-  		});
-  	}
+    if ( typeof this[property] === 'number') {
+      var distance = end - this[property];
+      var timeInS = (time / 1000);
+
+      var animateName = 'animate-' + Date.now();
+      this.on(animateName, function(dt) {
+
+        this.off(animateName);
+      });
+    }
   };
 
   return GameObject;

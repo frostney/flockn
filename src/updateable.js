@@ -1,13 +1,13 @@
 udefine(function() {
-	'use strict';
-	
-	return function() {
-		var self = this;
-		
-		this.on('update', function(dt) {
+  'use strict';
+
+  return function() {
+    var self = this;
+
+    this.on('update', function(dt) {
       self.children.forEach(function(child) {
         child.trigger('update', dt);
       });
     });
-	};
+  };
 });

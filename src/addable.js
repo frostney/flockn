@@ -16,12 +16,12 @@ udefine(['./graphics'], function(Graphics) {
           if ( typeof child === 'function') {
             child = new Factory(child);
           } else {
-          	// TODO: This should be also able to deep assign properties
-						child = new Factory(function() {
-							Object.keys(child).forEach(function(key) {
-								this[key] = child[key];
-							}, this);
-						});
+            // TODO: This should be also able to deep assign properties
+            child = new Factory(function() {
+              Object.keys(child).forEach(function(key) {
+                this[key] = child[key];
+              }, this);
+            });
           }
         }
       }

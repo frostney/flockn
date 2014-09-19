@@ -1,20 +1,19 @@
 udefine(['mixedice', './addable', './base', './group', './updateable'], function(mixedice, addable, Base, Group, updateable) {
-	'use strict';
+  'use strict';
 
   var Behavior = function(descriptor) {
     Base.extend([this, Behavior.prototype], 'Behavior', descriptor);
-    
+
     this.gameObject = null;
-    
+
     updateable.call(this);
   };
 
   Behavior.prototype.addBehavior = function() {
     this.queue.push(addable(Behavior, this.children, function(child) {
-    	child.gameObject = this.gameObject;
+      child.gameObject = this.gameObject;
     }).apply(this, arguments));
   };
-
 
   Behavior.store = {};
 
@@ -23,4 +22,4 @@ udefine(['mixedice', './addable', './base', './group', './updateable'], function
   };
 
   return Behavior;
-}); 
+});
