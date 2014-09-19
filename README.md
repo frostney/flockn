@@ -16,8 +16,12 @@ require(['flockn/game'], function(Game) {
     	this.addGameObject(function() {
     		this.x = 100;
     		this.y = 100;
+    		
+    		this.texture.label.text = 'Hello world';
     	});
     });
+    
+    this.run();
   
   });
 });
