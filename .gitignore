@@ -51,4 +51,4 @@ bower_components
 
 # Generated files #
 ###################
-pages/doc
+dist/pages
