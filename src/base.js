@@ -63,6 +63,8 @@ udefine(['eventmap', 'mixedice', 'gameboard/input', './group', './world'], funct
     // Emit an event
     this.trigger('constructed');
   };
+  
+  Base.queueOrder = ['Game', 'Scene', 'GameObject', 'Behavior', 'Model'];
 
   Base.prototype.call = Base.prototype.reset = function() {
     // Call `Base#apply` with the arguments object
