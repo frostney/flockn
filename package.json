@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/freezedev/snowflake.git"
+    "url": "https://github.com/freezedev/flockn.git"
   },
   "keywords": [
     "game",
@@ -24,9 +24,9 @@
   "author": "Johannes Stein",
   "license": "Public Domain",
   "bugs": {
-    "url": "https://github.com/freezedev/snowflake/issues"
+    "url": "https://github.com/freezedev/flockn/issues"
   },
-  "homepage": "https://github.com/freezedev/snowflake",
+  "homepage": "https://github.com/freezedev/flockn",
   "devDependencies": {
     "grunt": "^0.4.5",
     "grunt-amd-tamer": "^0.1.8",
