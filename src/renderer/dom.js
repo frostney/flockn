@@ -190,7 +190,7 @@ udefine(['root', '../graphics', '../graphics/rootelement'], function(root, Graph
           }
         }
 
-        if (obj.texture.image.filename) {
+        if (obj.texture.image.drawable) {
           if (obj.texture.image.offset.x !== 0) {
             element.style.backgroundPositionX = obj.texture.image.offset.x * (-1) + 'px';
           }
@@ -200,7 +200,7 @@ udefine(['root', '../graphics', '../graphics/rootelement'], function(root, Graph
           }
         }
 
-        if (obj.texture.label.text) {
+        if (obj.texture.label.drawable) {
           element.innerText = obj.texture.label.text;
           
           element.style.whiteSpace = 'nowrap';
