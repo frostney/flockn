@@ -740,8 +740,8 @@ udefine('flockn/renderer/canvas', ['../graphics', '../graphics/rootelement'], fu
   Graphics.on('render', function(obj) {
     switch (obj.type) {
     case 'GameObject':
-      if (obj.color !== 'transparent') {
-        context.fillStyle = obj.color;
+      if (obj.texture.color !== 'transparent') {
+        context.fillStyle = obj.texture.color;
         context.fillRect(obj.x, obj.y, obj.width, obj.height);
       }
 
@@ -750,7 +750,10 @@ udefine('flockn/renderer/canvas', ['../graphics', '../graphics/rootelement'], fu
       }
 
       if (obj.texture.label.drawable) {
-
+        var fontName = obj.texture.label.font.size + 'px ' + obj.texture.label.font.name;
+        
+        context.fillStyle = obj.texture.label.font.color;
+        context.fillText(obj.texture.label.text, obj.x, obj.y);
       }
       break;
     case 'Scene':
