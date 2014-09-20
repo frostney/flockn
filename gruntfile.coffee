@@ -9,3 +9,5 @@ module.exports = (grunt) ->
   grunt.registerTask 'test', ['jshint']
   
   grunt.registerTask 'doc', ['groc']
+  
+  grunt.registerTask 'pages', ['metalsmith', 'doc']
