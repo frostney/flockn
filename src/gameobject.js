@@ -10,6 +10,7 @@ udefine(['mixedice', './addable', './base', './behavior', './graphics', './group
 
     this.x = 0;
     this.y = 0;
+    this.z = 0;
 
     Object.defineProperty(this, 'left', {
       get: function() {
