@@ -778,6 +778,7 @@ udefine('flockn/texture', ['mixedice', 'eventmap'], function(mixedice, EventMap)
     // The default values for `image`
     this.image = {
       color: 'rgb(255, 255, 255)',
+      drawable: false,
       offset: {
         x: 0,
         y: 0
@@ -804,6 +805,7 @@ udefine('flockn/texture', ['mixedice', 'eventmap'], function(mixedice, EventMap)
           self.image.data = img;
           self.image.width = img.width;
           self.image.height = img.height;
+          self.image.drawable = true;
 
           self.trigger('image-loaded');
         };
@@ -813,6 +815,7 @@ udefine('flockn/texture', ['mixedice', 'eventmap'], function(mixedice, EventMap)
 
     // Default value for `label`
     this.label = {
+      drawable: false,
       font: {
         size: 10,
         name: 'Arial',
@@ -867,6 +870,7 @@ udefine('flockn/texture', ['mixedice', 'eventmap'], function(mixedice, EventMap)
         
         self.label.width = tmpElem.clientWidth;
         self.label.height = tmpElem.clientHeight;
+        self.label.drawable = true;
         
         document.body.removeChild(tmpElem);
 

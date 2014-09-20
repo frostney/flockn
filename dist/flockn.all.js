@@ -717,7 +717,9 @@ udefine('flockn/renderer/canvas', ['../graphics', '../graphics/rootelement'], fu
   var context = null;
 
   Graphics.on('initialize', function(Game) {
-    rootElement = createRootElement.call(this, 'canvas', function(rootElement) {
+    rootElement = createRootElement.call(Game, 'canvas', function(rootElement) {
+      rootElement.width = Game.width;
+      rootElement.height = Game.height;
       context = rootElement.getContext('2d');
     });
   });
@@ -726,6 +728,9 @@ udefine('flockn/renderer/canvas', ['../graphics', '../graphics/rootelement'], fu
     switch (obj.type) {
     case 'Game':
       context.clearRect(0, 0, obj.width, obj.height);
+      
+      context.fillStyle = obj.color;
+      context.fillRect(0, 0, obj.width, obj.height);
       break;
     default:
       break;
@@ -735,11 +740,16 @@ udefine('flockn/renderer/canvas', ['../graphics', '../graphics/rootelement'], fu
   Graphics.on('render', function(obj) {
     switch (obj.type) {
     case 'GameObject':
-      if (obj.texture.image.filename) {
-
+      if (obj.color !== 'transparent') {
+        context.fillStyle = obj.color;
+        context.fillRect(obj.x, obj.y, obj.width, obj.height);
       }
 
-      if (obj.texture.label.text) {
+      if (obj.texture.image.drawable) {
+        context.drawImage(obj.texture.image.data, obj.x, obj.y);
+      }
+
+      if (obj.texture.label.drawable) {
 
       }
       break;
@@ -874,12 +884,24 @@ udefine('flockn/renderer/dom', ['root', '../graphics', '../graphics/rootelement'
       element.style.height = pixelize(obj.height);
     }
   });
+  
+  var dirtyObjects = {};
+
+  Graphics.after('render', function(obj) {
+    var objId = obj.id.toLowerCase();
+    
+    dirtyObjects[objId] = obj;
+  });
 
   Graphics.on('render', function(obj) {
+    var objId = obj.id.toLowerCase();
+    
     // Update element attributes
-    var element = document.getElementById(obj.id.toLowerCase());
+    var element = document.getElementById(objId);
 
     if (element != null) {
+      var prevObj = dirtyObjects[objId] || {};
+      
       switch (obj.type) {
       case 'GameObject':
         var elemVisible = element.style.display === 'block';
@@ -935,7 +957,7 @@ udefine('flockn/renderer/dom', ['root', '../graphics', '../graphics/rootelement'
           }
         }
 
-        if (obj.texture.image.filename) {
+        if (obj.texture.image.drawable) {
           if (obj.texture.image.offset.x !== 0) {
             element.style.backgroundPositionX = obj.texture.image.offset.x * (-1) + 'px';
           }
@@ -945,7 +967,7 @@ udefine('flockn/renderer/dom', ['root', '../graphics', '../graphics/rootelement'
           }
         }
 
-        if (obj.texture.label.text) {
+        if (obj.texture.label.drawable) {
           element.innerText = obj.texture.label.text;
           
           element.style.whiteSpace = 'nowrap';
@@ -1075,6 +1097,7 @@ udefine('flockn/texture', ['mixedice', 'eventmap'], function(mixedice, EventMap)
     // The default values for `image`
     this.image = {
       color: 'rgb(255, 255, 255)',
+      drawable: false,
       offset: {
         x: 0,
         y: 0
@@ -1101,6 +1124,7 @@ udefine('flockn/texture', ['mixedice', 'eventmap'], function(mixedice, EventMap)
           self.image.data = img;
           self.image.width = img.width;
           self.image.height = img.height;
+          self.image.drawable = true;
 
           self.trigger('image-loaded');
         };
@@ -1110,6 +1134,7 @@ udefine('flockn/texture', ['mixedice', 'eventmap'], function(mixedice, EventMap)
 
     // Default value for `label`
     this.label = {
+      drawable: false,
       font: {
         size: 10,
         name: 'Arial',
@@ -1164,6 +1189,7 @@ udefine('flockn/texture', ['mixedice', 'eventmap'], function(mixedice, EventMap)
         
         self.label.width = tmpElem.clientWidth;
         self.label.height = tmpElem.clientHeight;
+        self.label.drawable = true;
         
         document.body.removeChild(tmpElem);
 
