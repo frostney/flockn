@@ -7,7 +7,9 @@ udefine(['../graphics', '../graphics/rootelement'], function(Graphics, createRoo
   var context = null;
 
   Graphics.on('initialize', function(Game) {
-    rootElement = createRootElement.call(this, 'canvas', function(rootElement) {
+    rootElement = createRootElement.call(Game, 'canvas', function(rootElement) {
+      rootElement.width = Game.width;
+      rootElement.height = Game.height;
       context = rootElement.getContext('2d');
     });
   });
@@ -16,6 +18,9 @@ udefine(['../graphics', '../graphics/rootelement'], function(Graphics, createRoo
     switch (obj.type) {
     case 'Game':
       context.clearRect(0, 0, obj.width, obj.height);
+      
+      context.fillStyle = obj.color;
+      context.fillRect(0, 0, obj.width, obj.height);
       break;
     default:
       break;
@@ -25,9 +30,17 @@ udefine(['../graphics', '../graphics/rootelement'], function(Graphics, createRoo
   Graphics.on('render', function(obj) {
     switch (obj.type) {
     case 'GameObject':
-      if (obj.texture.image.filename) {
-
+      if (obj.color !== 'transparent') {
+        context.fillStyle = obj.color;
+        context.fillRect(obj.x, obj.y, obj.width, obj.height);
       }
+
+      /*if (obj.texture.image.filename) {
+        context.drawImage(obj.texture.image.data, obj.x, obj.y);
+        console.log(obj.texture.image.data);
+        console.log(obj.x);
+        console.log(obj.y);
+      }*/
 
       if (obj.texture.label.text) {
 
