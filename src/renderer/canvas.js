@@ -35,14 +35,11 @@ udefine(['../graphics', '../graphics/rootelement'], function(Graphics, createRoo
         context.fillRect(obj.x, obj.y, obj.width, obj.height);
       }
 
-      /*if (obj.texture.image.filename) {
+      if (obj.texture.image.drawable) {
         context.drawImage(obj.texture.image.data, obj.x, obj.y);
-        console.log(obj.texture.image.data);
-        console.log(obj.x);
-        console.log(obj.y);
-      }*/
+      }
 
-      if (obj.texture.label.text) {
+      if (obj.texture.label.drawable) {
 
       }
       break;
