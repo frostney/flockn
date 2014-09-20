@@ -3,4 +3,4 @@ module.exports =
     'src/**/*.js', 'README.md'
   ]
   options:
-    'out': 'pages/doc/'
+    'out': 'dist/pages/doc/'
