@@ -117,12 +117,24 @@ udefine(['root', '../graphics', '../graphics/rootelement'], function(root, Graph
       element.style.height = pixelize(obj.height);
     }
   });
+  
+  var dirtyObjects = {};
+
+  Graphics.after('render', function(obj) {
+    var objId = obj.id.toLowerCase();
+    
+    dirtyObjects[objId] = obj;
+  });
 
   Graphics.on('render', function(obj) {
+    var objId = obj.id.toLowerCase();
+    
     // Update element attributes
-    var element = document.getElementById(obj.id.toLowerCase());
+    var element = document.getElementById(objId);
 
     if (element != null) {
+      var prevObj = dirtyObjects[objId] || {};
+      
       switch (obj.type) {
       case 'GameObject':
         var elemVisible = element.style.display === 'block';
