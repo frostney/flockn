@@ -1,4 +1,4 @@
-udefine(['eventmap', 'mixedice', 'gameboard/input', './group', './world'], function(EventMap, mixedice, Input, Group, World) {
+udefine(['eventmap', 'mixedice', 'gameboard/input', './audio', './group', './world'], function(EventMap, mixedice, Input, Audio, Group, World) {
   'use strict';
 
   var objectIndex = 0;
@@ -57,7 +57,10 @@ udefine(['eventmap', 'mixedice', 'gameboard/input', './group', './world'], funct
     // `Input` should be available in instances derived from `Base`
     this.input = Input;
 
-    // As should `World`
+    // As should `Audio`...
+    this.audio = Audio;
+
+    // ...and `World`
     this.world = World;
 
     // Emit an event
