@@ -65,6 +65,11 @@ Philosophy
     * Behaviors (logic) 
     * Models (data)
 
+Status of renderers
+-------------------
+* DOM renderer: ~80%
+* Canvas renderer: ~15%
+
 Roadmap for next release
 ------------------------
 - [ ] Canvas renderer
