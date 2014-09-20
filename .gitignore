@@ -52,3 +52,4 @@ bower_components
 # Generated files #
 ###################
 dist/pages
+test/browser
