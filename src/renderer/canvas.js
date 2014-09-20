@@ -30,8 +30,8 @@ udefine(['../graphics', '../graphics/rootelement'], function(Graphics, createRoo
   Graphics.on('render', function(obj) {
     switch (obj.type) {
     case 'GameObject':
-      if (obj.color !== 'transparent') {
-        context.fillStyle = obj.color;
+      if (obj.texture.color !== 'transparent') {
+        context.fillStyle = obj.texture.color;
         context.fillRect(obj.x, obj.y, obj.width, obj.height);
       }
 
