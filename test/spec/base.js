@@ -1,7 +1,7 @@
 define('spec/base', ['flockn/base'], function(Base) {
   'use strict';
   
-  describe('lyria/base', function() {
+  describe('flockn/base', function() {
     
     it('is a function', function() {
       expect(Base).to.be.a('function');
