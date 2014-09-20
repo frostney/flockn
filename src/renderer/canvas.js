@@ -40,7 +40,10 @@ udefine(['../graphics', '../graphics/rootelement'], function(Graphics, createRoo
       }
 
       if (obj.texture.label.drawable) {
-
+        var fontName = obj.texture.label.font.size + 'px ' + obj.texture.label.font.name;
+        
+        context.fillStyle = obj.texture.label.font.color;
+        context.fillText(obj.texture.label.text, obj.x, obj.y);
       }
       break;
     case 'Scene':
