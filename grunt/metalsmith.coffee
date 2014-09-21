@@ -10,6 +10,6 @@ module.exports =
           nib: true
         'metalsmith-templates':
           engine: 'jade'
-          directory: 'templates'
+          directory: 'pages/templates'
     src: 'pages/src'
     dest: 'dist/pages'
