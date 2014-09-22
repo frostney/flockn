@@ -33,6 +33,8 @@
     "gameboard": "~0.1.0"
   },
   "devDependencies": {
-    "almond": "~0.3.0"
+    "almond": "~0.3.0",
+    "normalize-css": "~3.0.1",
+    "font-awesome": "~4.2.0"
   }
 }
