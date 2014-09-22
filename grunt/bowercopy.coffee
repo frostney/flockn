@@ -7,3 +7,6 @@ module.exports =
       'dist/pages/scripts/udefine.js': 'udefine/dist/udefine.js'
       'dist/pages/scripts/mixedice.js': 'mixedice/dist/mixedice.js'
       'dist/pages/scripts/animframe.js': 'animframe/dist/animframe.js'
+      'dist/pages/style/normalize.css': 'normalize-css/normalize.css'
+      'dist/pages/style/font-awesome.css': 'font-awesome/css/font-awesome.css'
+      'dist/pages/fonts': 'font-awesome/fonts'
