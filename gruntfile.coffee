@@ -10,4 +10,4 @@ module.exports = (grunt) ->
   
   grunt.registerTask 'doc', ['groc']
   
-  grunt.registerTask 'pages', ['metalsmith', 'doc']
+  grunt.registerTask 'pages', ['metalsmith', 'doc', 'bowercopy']
