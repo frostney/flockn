@@ -5,7 +5,12 @@ module.exports =
         title: 'flockn'
         description: 'Lightweight game engine'
       plugins:
-        'metalsmith-markdown': {}
+        'metalsmith-markdown':
+          gfm: true
+          breaks: true
+          smartypants: true
+          tables: true
+        'metalsmith-navigation': {}
         'metalsmith-stylus':
           nib: true
         'metalsmith-templates':
