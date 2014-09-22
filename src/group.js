@@ -98,6 +98,17 @@ udefine(['./serialize'], function(serialize) {
   Group.prototype.toJSON = function() {
     return serialize(this);
   };
+  
+  Group.prototype.removeByName = function(name) {
+    
+  };
+  
+  Group.prototype.removeByTag = function(tags) {
+    if (!Array.isArray(tags)) {
+      tags = [tags];
+    }
+    
+  };
 
   return Group;
 });
