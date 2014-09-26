@@ -32,7 +32,7 @@ udefine(['../graphics', '../graphics/rootelement'], function(Graphics, createRoo
     case 'GameObject':
       context.save();
       
-      context.translate(obj.x, obj.y);
+      context.translate(obj.x + obj.origin.x, obj.y + obj.origin.y);
       
       if (obj.angle !== 0) {
         context.rotate(obj.angle * (Math.PI / 180));
