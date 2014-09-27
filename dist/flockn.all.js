@@ -48,7 +48,17 @@ udefine('flockn/addable', ['./graphics'], function(Graphics) {
   };
 });
 
-udefine('flockn/base', ['eventmap', 'mixedice', 'gameboard/input', './group', './world'], function(EventMap, mixedice, Input, Group, World) {
+udefine('flockn/audio', function() {
+  var Audio = {};
+  
+  Audio.play = function() {
+    
+  };
+  
+  return Audio;
+});
+
+udefine('flockn/base', ['eventmap', 'mixedice', 'gameboard/input', './audio', './group', './world'], function(EventMap, mixedice, Input, Audio, Group, World) {
   'use strict';
 
   var objectIndex = 0;
@@ -107,12 +117,17 @@ udefine('flockn/base', ['eventmap', 'mixedice', 'gameboard/input', './group', '.
     // `Input` should be available in instances derived from `Base`
     this.input = Input;
 
-    // As should `World`
+    // As should `Audio`...
+    this.audio = Audio;
+
+    // ...and `World`
     this.world = World;
 
     // Emit an event
     this.trigger('constructed');
   };
+  
+  Base.queueOrder = ['Game', 'Scene', 'GameObject', 'Behavior', 'Model'];
 
   Base.prototype.call = Base.prototype.reset = function() {
     // Call `Base#apply` with the arguments object
@@ -314,6 +329,7 @@ udefine('flockn/gameobject', ['mixedice', './addable', './base', './behavior', '
 
     this.x = 0;
     this.y = 0;
+    this.z = 0;
 
     Object.defineProperty(this, 'left', {
       get: function() {
@@ -657,6 +673,33 @@ udefine('flockn/group', ['./serialize'], function(serialize) {
   Group.prototype.toJSON = function() {
     return serialize(this);
   };
+  
+  Group.prototype.remove = function(index) {
+    var name = this[index].name;
+    var tags = this[index].tags;
+    
+    delete this.names[name];
+    
+    
+    delete this[index];
+    
+    /*for (var i = index, i < this.length; i++) {
+      this[]
+    }*/
+    
+    this.length--;
+  };
+  
+  Group.prototype.removeByName = function(name) {
+    
+  };
+  
+  Group.prototype.removeByTag = function(tags) {
+    if (!Array.isArray(tags)) {
+      tags = [tags];
+    }
+    
+  };
 
   return Group;
 });
@@ -740,21 +783,31 @@ udefine('flockn/renderer/canvas', ['../graphics', '../graphics/rootelement'], fu
   Graphics.on('render', function(obj) {
     switch (obj.type) {
     case 'GameObject':
+      context.save();
+      
+      context.translate(obj.x + obj.origin.x, obj.y + obj.origin.y);
+      
+      if (obj.angle !== 0) {
+        context.rotate(obj.angle * (Math.PI / 180));
+      }
+    
       if (obj.texture.color !== 'transparent') {
         context.fillStyle = obj.texture.color;
-        context.fillRect(obj.x, obj.y, obj.width, obj.height);
+        context.fillRect(-obj.origin.x, -obj.origin.y, obj.width, obj.height);
       }
 
       if (obj.texture.image.drawable) {
-        context.drawImage(obj.texture.image.data, obj.x, obj.y);
+        context.drawImage(obj.texture.image.data, -obj.origin.x, -obj.origin.y);
       }
 
       if (obj.texture.label.drawable) {
         var fontName = obj.texture.label.font.size + 'px ' + obj.texture.label.font.name;
         
         context.fillStyle = obj.texture.label.font.color;
-        context.fillText(obj.texture.label.text, obj.x, obj.y);
+        context.fillText(obj.texture.label.text, -obj.origin.x, -obj.origin.y);
       }
+      
+      context.restore();
       break;
     case 'Scene':
       if (obj.parent.activeScene !== obj.name) {
@@ -948,6 +1001,9 @@ udefine('flockn/renderer/dom', ['root', '../graphics', '../graphics/rootelement'
 
         // Set background color
         element.style.backgroundColor = obj.texture.color;
+        
+        // Set origin
+        element.style.transformOrigin = element.style.mozTransformOrigin = element.webkitTransformOrigin = obj.origin.x + 'px ' + obj.origin.y + 'px';
 
         // Set border
         if (obj.border.width > 0) {

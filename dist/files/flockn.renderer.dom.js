@@ -178,6 +178,9 @@ udefine('flockn/renderer/dom', ['root', '../graphics', '../graphics/rootelement'
 
         // Set background color
         element.style.backgroundColor = obj.texture.color;
+        
+        // Set origin
+        element.style.transformOrigin = element.style.mozTransformOrigin = element.webkitTransformOrigin = obj.origin.x + 'px ' + obj.origin.y + 'px';
 
         // Set border
         if (obj.border.width > 0) {

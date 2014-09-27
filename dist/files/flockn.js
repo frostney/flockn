@@ -48,7 +48,17 @@ udefine('flockn/addable', ['./graphics'], function(Graphics) {
   };
 });
 
-udefine('flockn/base', ['eventmap', 'mixedice', 'gameboard/input', './group', './world'], function(EventMap, mixedice, Input, Group, World) {
+udefine('flockn/audio', function() {
+  var Audio = {};
+  
+  Audio.play = function() {
+    
+  };
+  
+  return Audio;
+});
+
+udefine('flockn/base', ['eventmap', 'mixedice', 'gameboard/input', './audio', './group', './world'], function(EventMap, mixedice, Input, Audio, Group, World) {
   'use strict';
 
   var objectIndex = 0;
@@ -107,12 +117,17 @@ udefine('flockn/base', ['eventmap', 'mixedice', 'gameboard/input', './group', '.
     // `Input` should be available in instances derived from `Base`
     this.input = Input;
 
-    // As should `World`
+    // As should `Audio`...
+    this.audio = Audio;
+
+    // ...and `World`
     this.world = World;
 
     // Emit an event
     this.trigger('constructed');
   };
+  
+  Base.queueOrder = ['Game', 'Scene', 'GameObject', 'Behavior', 'Model'];
 
   Base.prototype.call = Base.prototype.reset = function() {
     // Call `Base#apply` with the arguments object
@@ -314,6 +329,7 @@ udefine('flockn/gameobject', ['mixedice', './addable', './base', './behavior', '
 
     this.x = 0;
     this.y = 0;
+    this.z = 0;
 
     Object.defineProperty(this, 'left', {
       get: function() {
@@ -656,6 +672,33 @@ udefine('flockn/group', ['./serialize'], function(serialize) {
 
   Group.prototype.toJSON = function() {
     return serialize(this);
+  };
+  
+  Group.prototype.remove = function(index) {
+    var name = this[index].name;
+    var tags = this[index].tags;
+    
+    delete this.names[name];
+    
+    
+    delete this[index];
+    
+    /*for (var i = index, i < this.length; i++) {
+      this[]
+    }*/
+    
+    this.length--;
+  };
+  
+  Group.prototype.removeByName = function(name) {
+    
+  };
+  
+  Group.prototype.removeByTag = function(tags) {
+    if (!Array.isArray(tags)) {
+      tags = [tags];
+    }
+    
   };
 
   return Group;

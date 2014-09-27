@@ -30,21 +30,31 @@ udefine('flockn/renderer/canvas', ['../graphics', '../graphics/rootelement'], fu
   Graphics.on('render', function(obj) {
     switch (obj.type) {
     case 'GameObject':
+      context.save();
+      
+      context.translate(obj.x + obj.origin.x, obj.y + obj.origin.y);
+      
+      if (obj.angle !== 0) {
+        context.rotate(obj.angle * (Math.PI / 180));
+      }
+    
       if (obj.texture.color !== 'transparent') {
         context.fillStyle = obj.texture.color;
-        context.fillRect(obj.x, obj.y, obj.width, obj.height);
+        context.fillRect(-obj.origin.x, -obj.origin.y, obj.width, obj.height);
       }
 
       if (obj.texture.image.drawable) {
-        context.drawImage(obj.texture.image.data, obj.x, obj.y);
+        context.drawImage(obj.texture.image.data, -obj.origin.x, -obj.origin.y);
       }
 
       if (obj.texture.label.drawable) {
         var fontName = obj.texture.label.font.size + 'px ' + obj.texture.label.font.name;
         
         context.fillStyle = obj.texture.label.font.color;
-        context.fillText(obj.texture.label.text, obj.x, obj.y);
+        context.fillText(obj.texture.label.text, -obj.origin.x, -obj.origin.y);
       }
+      
+      context.restore();
       break;
     case 'Scene':
       if (obj.parent.activeScene !== obj.name) {
