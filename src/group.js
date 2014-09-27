@@ -99,6 +99,22 @@ udefine(['./serialize'], function(serialize) {
     return serialize(this);
   };
   
+  Group.prototype.remove = function(index) {
+    var name = this[index].name;
+    var tags = this[index].tags;
+    
+    delete this.names[name];
+    
+    
+    delete this[index];
+    
+    /*for (var i = index, i < this.length; i++) {
+      this[]
+    }*/
+    
+    this.length--;
+  };
+  
   Group.prototype.removeByName = function(name) {
     
   };
