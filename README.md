@@ -57,6 +57,7 @@ Features
 Philosophy
 ----------
 * Easy-to-use
+* CoffeeScript-friendly
 * Lightweight
 * Events everywhere (Having an `EventEmitter`-like interface)
 * Functions are the best way to describe an object
@@ -68,7 +69,7 @@ Philosophy
 Status of renderers
 -------------------
 * DOM renderer: ~80%
-* Canvas renderer: ~15%
+* Canvas renderer: ~60%
 
 Roadmap for next release
 ------------------------
