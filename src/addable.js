@@ -9,7 +9,7 @@ udefine(['./graphics'], function(Graphics) {
 
       if (!( child instanceof Factory)) {
         if ( typeof child === 'string') {
-          if (Object.hasOwnProperty.call(store, child)) {
+          if (Object.hasOwnProperty.call(Factory.store, child)) {
             child = new Factory(Factory.store[child]);
           }
         } else {
