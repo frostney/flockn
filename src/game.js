@@ -77,6 +77,9 @@ udefine(['root', 'mixedice', 'gameboard/loop', './addable', './base', './graphic
     // Set the `activeScene` property
     this.activeScene = name;
     
+    // Call resize event
+    this.activeScene.trigger('resize', root.innerWidth, root.innerHeight);
+    
     // Trigger the `show` event
     this.trigger('show', this.activeScene, this.children[this.activeScene]);
   };
