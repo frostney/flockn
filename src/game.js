@@ -53,7 +53,13 @@ udefine(['root', 'mixedice', 'gameboard/loop', './addable', './base', './graphic
 
     // Add a `resize` event to each `Game` instance
     root.addEventListener('resize', function() {
-      self.trigger('resize');
+      var newWidth = root.innerWidth;
+      var newHeight = root.innerHeight;
+      
+      self.trigger('resize', newWidth, newHeight);
+      
+      // Trigger resize event for the current scene
+      self.activeScene.trigger('resize', newWidth, newHeight);
     }, false);
 
     // Add an `orientationchange` event to each `Game` instance
