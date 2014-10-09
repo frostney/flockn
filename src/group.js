@@ -9,6 +9,7 @@ udefine(['./serialize'], function(serialize) {
 
     this.tags = {};
     this.names = {};
+    this.types = {};
   };
 
   Group.prototype.push = function(obj, tags) {
@@ -29,6 +30,11 @@ udefine(['./serialize'], function(serialize) {
     }, this);
 
     this.names[name] = this.length;
+    
+    if (obj.type != null) {
+    	this.type[obj.type] = this.type[obj.type] || [];
+    	this.type[obj.type].push(this.length);
+    }
 
     return ++this.length;
   };
@@ -85,6 +91,12 @@ udefine(['./serialize'], function(serialize) {
     return filteredArray;
   };
 
+  Group.prototype.byType = function(type) {
+    return this.types[type].map(function(index) {
+      return this[index];
+    }, this);
+  };
+
   Group.prototype.byName = function(name) {
     return this[this.names[name]];
   };
@@ -93,6 +105,10 @@ udefine(['./serialize'], function(serialize) {
     return this.tags[tag].map(function(index) {
       return this[index];
     }, this);
+  };
+  
+  Group.prototype.select = function(selector) {
+  	
   };
 
   Group.prototype.toJSON = function() {
