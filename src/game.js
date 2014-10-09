@@ -89,6 +89,10 @@ udefine(['root', 'mixedice', 'gameboard/loop', './addable', './base', './graphic
     // Trigger the `show` event
     this.trigger('show', this.activeScene, this.children[this.activeScene]);
   };
+  
+  Game.prototype.preload = function(assets) {
+    
+  };
 
   Game.prototype.run = function(name) {
     // Start the game loop
