@@ -52,7 +52,7 @@ require(['flockn/game'], function(Game) {
 Features
 --------
 * Taggable game objects and behaviors
-* Small (less than 20kB minified)
+* Small (less than 30kB minified)
 
 Philosophy
 ----------
