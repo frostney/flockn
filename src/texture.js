@@ -1,4 +1,4 @@
-udefine(['mixedice', 'eventmap'], function(mixedice, EventMap) {
+udefine(['mixedice', 'eventmap', 'flockn/types/color'], function(mixedice, EventMap, Color) {
   'use strict';
 
   var Texture = function() {
@@ -16,7 +16,7 @@ udefine(['mixedice', 'eventmap'], function(mixedice, EventMap) {
 
     // The default values for `image`
     this.image = {
-      color: 'rgb(255, 255, 255)',
+      color: Color.white,
       drawable: false,
       offset: {
         x: 0,
@@ -58,7 +58,7 @@ udefine(['mixedice', 'eventmap'], function(mixedice, EventMap) {
       font: {
         size: 10,
         name: 'Arial',
-        color: 'rgb(0, 0, 0)',
+        color: Color.black,
         decoration: []
       },
       align: {
@@ -117,7 +117,7 @@ udefine(['mixedice', 'eventmap'], function(mixedice, EventMap) {
       }
     });
 
-    this.color = 'transparent';
+    this.color = Color.transparent;
 
   };
 
