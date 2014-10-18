@@ -31,7 +31,7 @@ udefine(['root', '../graphics', '../graphics/rootelement'], function(root, Graph
         var parentId = obj.parent.id.toLowerCase();
 
         var parentElem = document.getElementById(parentId);
-        parentElem.removeChild(document.getElementId(elementId));
+        parentElem.removeChild(document.getElementById(elementId));
       })();
     }
 
