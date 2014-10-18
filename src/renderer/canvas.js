@@ -19,7 +19,7 @@ udefine(['../graphics', '../graphics/rootelement'], function(Graphics, createRoo
     case 'Game':
       context.clearRect(0, 0, obj.width, obj.height);
       
-      context.fillStyle = obj.color;
+      context.fillStyle = obj.color.toString();
       context.fillRect(0, 0, obj.width, obj.height);
       break;
     default:
@@ -38,8 +38,8 @@ udefine(['../graphics', '../graphics/rootelement'], function(Graphics, createRoo
         context.rotate(obj.angle * (Math.PI / 180));
       }
     
-      if (obj.texture.color !== 'transparent') {
-        context.fillStyle = obj.texture.color;
+      if (obj.texture.color.toString() !== 'transparent') {
+        context.fillStyle = obj.texture.color.toString();
         context.fillRect(-obj.origin.x, -obj.origin.y, obj.width, obj.height);
       }
 
@@ -50,7 +50,7 @@ udefine(['../graphics', '../graphics/rootelement'], function(Graphics, createRoo
       if (obj.texture.label.drawable) {
         var fontName = obj.texture.label.font.size + 'px ' + obj.texture.label.font.name;
         
-        context.fillStyle = obj.texture.label.font.color;
+        context.fillStyle = obj.texture.label.font.color.toString();
         context.fillText(obj.texture.label.text, -obj.origin.x, -obj.origin.y);
       }
       
