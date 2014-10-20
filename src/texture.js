@@ -16,7 +16,7 @@ udefine(['mixedice', 'eventmap', 'flockn/types/color'], function(mixedice, Event
 
     // The default values for `image`
     this.image = {
-      color: Color.white,
+      color: Color.transparent,
       drawable: false,
       offset: {
         x: 0,
@@ -117,7 +117,7 @@ udefine(['mixedice', 'eventmap', 'flockn/types/color'], function(mixedice, Event
       }
     });
 
-    this.color = Color.transparent;
+    this.color = Color.white;
 
   };
 
