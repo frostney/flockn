@@ -41,7 +41,7 @@ define(['clamp', 'flockn/constants/color'], function(clamp, colorConstants) {
   };
   
   Color.prototype.toString = function() {
-    if (a < 1) {
+    if (this.a < 1) {
       return 'rgba(' + this.r + ',' + this.g + ',' + this.b + ',' + this.a + ')';
     } else {
       return 'rgb(' + this.r + ',' + this.g + ',' + this.b + ')';
