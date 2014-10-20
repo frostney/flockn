@@ -24,7 +24,6 @@ define({
     g: 128,
     b: 128
   },
-  grey: this.gray,
   green: {
     r: 0,
     g: 128,
