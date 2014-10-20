@@ -32,8 +32,8 @@ udefine(['./serialize'], function(serialize) {
     this.names[name] = this.length;
     
     if (obj.type != null) {
-    	this.type[obj.type] = this.type[obj.type] || [];
-    	this.type[obj.type].push(this.length);
+    	this.types[obj.type] = this.types[obj.type] || [];
+    	this.types[obj.type].push(this.length);
     }
 
     return ++this.length;
