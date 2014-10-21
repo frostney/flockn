@@ -15,7 +15,7 @@ udefine('flockn/renderer/dom', ['root', '../graphics', '../graphics/rootelement'
 
   Graphics.on('initialize', function(Game) {
     rootElement = createRootElement.call(Game, 'div', function(rootElement) {
-      rootElement.style.backgroundColor = this.color;
+      rootElement.style.backgroundColor = this.color.toString();
       rootElement.style.overflow = 'hidden';
       rootElement.style.cursor = 'default';
       rootElement.style.userSelect = rootElement.style.mozUserSelect = rootElement.style.webkitUserSelect = 'none';
@@ -31,7 +31,7 @@ udefine('flockn/renderer/dom', ['root', '../graphics', '../graphics/rootelement'
         var parentId = obj.parent.id.toLowerCase();
 
         var parentElem = document.getElementById(parentId);
-        parentElem.removeChild(document.getElementId(elementId));
+        parentElem.removeChild(document.getElementById(elementId));
       })();
     }
 
@@ -177,7 +177,7 @@ udefine('flockn/renderer/dom', ['root', '../graphics', '../graphics/rootelement'
         }
 
         // Set background color
-        element.style.backgroundColor = obj.texture.color;
+        element.style.backgroundColor = obj.texture.color.toString();
         
         // Set origin
         element.style.transformOrigin = element.style.mozTransformOrigin = element.webkitTransformOrigin = obj.origin.x + 'px ' + obj.origin.y + 'px';
@@ -186,7 +186,7 @@ udefine('flockn/renderer/dom', ['root', '../graphics', '../graphics/rootelement'
         if (obj.border.width > 0) {
           element.style.borderWidth = pixelize(obj.border.width);
           element.style.borderStyle = 'solid';
-          element.style.borderColor = obj.border.color;
+          element.style.borderColor = obj.border.color.toString();
 
           if (obj.border.radius > 0) {
             element.style.borderRadius = pixelize(obj.border.radius);
@@ -213,7 +213,7 @@ udefine('flockn/renderer/dom', ['root', '../graphics', '../graphics/rootelement'
           }
 
           if (obj.texture.label.font.color) {
-            element.style.color = obj.texture.label.font.color;
+            element.style.color = obj.texture.label.font.color.toString();
           }
 
           if (obj.texture.label.font.name) {

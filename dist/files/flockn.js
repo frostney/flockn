@@ -48,6 +48,10 @@ udefine('flockn/addable', ['./graphics'], function(Graphics) {
   };
 });
 
+define('flockn/assets', function() {
+  
+});
+
 udefine('flockn/audio', function() {
   var Audio = {};
   
@@ -158,6 +162,14 @@ udefine('flockn/base', ['eventmap', 'mixedice', 'gameboard/input', './audio', '.
       this.queue = [];
     }
   };
+  
+  Base.prototype.closest = function() {
+    
+  };
+  
+  Base.prototype.find = function() {
+    
+  };
 
   Base.prototype.log = function() {
     if (console && console.log) {
@@ -203,6 +215,10 @@ udefine('flockn/behavior', ['mixedice', './addable', './base', './group', './upd
       child.gameObject = this.gameObject;
     }).apply(this, arguments));
   };
+  
+  Behavior.prototype.removeBehavior = function() {
+    
+  };
 
   // Behaviors can be defined and are stored on the object itself
   Behavior.store = {};
@@ -214,7 +230,95 @@ udefine('flockn/behavior', ['mixedice', './addable', './base', './group', './upd
   return Behavior;
 });
 
-udefine('flockn/game', ['root', 'mixedice', 'gameboard/loop', './addable', './base', './graphics', './scene', './renderable', './updateable'], function(root, mixedice, Loop, addable, Base, Graphics, Scene, renderable, updateable) {
+define('flockn/constants/color', {
+  aqua: {
+    r: 0,
+    g: 255,
+    b: 255
+  },
+  black: {
+    r: 0,
+    g: 0,
+    b: 0
+  },
+  blue: {
+    r: 0,
+    g: 0,
+    b: 255
+  },
+  fuchsia: {
+    r: 255,
+    g: 0,
+    b: 255
+  },
+  gray: {
+    r: 128,
+    g: 128,
+    b: 128
+  },
+  green: {
+    r: 0,
+    g: 128,
+    b: 0
+  },
+  lime: {
+    r: 0,
+    g: 255,
+    b: 0
+  },
+  maroon: {
+    r: 128,
+    g: 0,
+    b: 0
+  },
+  navy: {
+    r: 0,
+    g: 0,
+    b: 128
+  },
+  olive: {
+    r: 128,
+    g: 128,
+    b: 0
+  },
+  purple: {
+    r: 128,
+    g: 0,
+    b: 128
+  },
+  red: {
+    r: 255,
+    g: 0,
+    b: 0
+  },
+  silver: {
+    r: 192,
+    g: 192,
+    b: 192
+  },
+  teal: {
+    r: 0,
+    g: 128,
+    b: 128
+  },
+  white: {
+    r: 255,
+    g: 255,
+    b: 255
+  },
+  yellow: {
+    r: 255,
+    g: 255,
+    b: 0
+  },
+  transparent: {
+    r: 0,
+    g: 0,
+    b: 0,
+    a: 0
+  }
+}); 
+udefine('flockn/game', ['root', 'mixedice', 'gameboard/loop', './addable', './base', './graphics', './scene', './renderable', './types/color', './updateable', './viewport'], function(root, mixedice, Loop, addable, Base, Graphics, Scene, renderable, Color, updateable, Viewport) {
   'use strict';
 
   // Game is the entry point for all games made with flockn.
@@ -242,7 +346,10 @@ udefine('flockn/game', ['root', 'mixedice', 'gameboard/loop', './addable', './ba
     // By default, the width and height of a `Game` instance will be as large as the inside of the browser window.
     this.width = root.innerWidth;
     this.height = root.innerHeight;
-    this.color = 'rgb(255, 255, 255)';
+    this.color = new Color(255, 255, 255);
+    
+    // Set the viewport object
+    this.viewport = Viewport;
     
     // `this.activeScene` is set to `null` by default, but will change once a scene will be shown
     this.activeScene = null;
@@ -269,7 +376,13 @@ udefine('flockn/game', ['root', 'mixedice', 'gameboard/loop', './addable', './ba
 
     // Add a `resize` event to each `Game` instance
     root.addEventListener('resize', function() {
-      self.trigger('resize');
+      var newWidth = root.innerWidth;
+      var newHeight = root.innerHeight;
+      
+      self.trigger('resize', newWidth, newHeight);
+      
+      // Trigger resize event for the current scene
+      self.activeScene.trigger('resize', newWidth, newHeight);
     }, false);
 
     // Add an `orientationchange` event to each `Game` instance
@@ -293,8 +406,15 @@ udefine('flockn/game', ['root', 'mixedice', 'gameboard/loop', './addable', './ba
     // Set the `activeScene` property
     this.activeScene = name;
     
+    // Call resize event
+    this.activeScene.trigger('resize', root.innerWidth, root.innerHeight);
+    
     // Trigger the `show` event
     this.trigger('show', this.activeScene, this.children[this.activeScene]);
+  };
+  
+  Game.prototype.preload = function(assets) {
+    
   };
 
   Game.prototype.run = function(name) {
@@ -469,6 +589,14 @@ udefine('flockn/gameobject', ['mixedice', './addable', './base', './behavior', '
     // Add a `Model` instance to the game object
     this.queue.push(addable(Model, this.models).apply(this, arguments));
   };
+  
+  GameObject.prototype.removeGameObject = function() {
+    
+  };
+  
+  GameObject.prototype.removeBehavior = function() {
+    
+  };
 
   GameObject.prototype.toJSON = function() {
     // Serialize this object
@@ -584,6 +712,7 @@ udefine('flockn/group', ['./serialize'], function(serialize) {
 
     this.tags = {};
     this.names = {};
+    this.types = {};
   };
 
   Group.prototype.push = function(obj, tags) {
@@ -604,6 +733,11 @@ udefine('flockn/group', ['./serialize'], function(serialize) {
     }, this);
 
     this.names[name] = this.length;
+    
+    if (obj.type != null) {
+    	this.types[obj.type] = this.types[obj.type] || [];
+    	this.types[obj.type].push(this.length);
+    }
 
     return ++this.length;
   };
@@ -660,6 +794,12 @@ udefine('flockn/group', ['./serialize'], function(serialize) {
     return filteredArray;
   };
 
+  Group.prototype.byType = function(type) {
+    return this.types[type].map(function(index) {
+      return this[index];
+    }, this);
+  };
+
   Group.prototype.byName = function(name) {
     return this[this.names[name]];
   };
@@ -668,6 +808,10 @@ udefine('flockn/group', ['./serialize'], function(serialize) {
     return this.tags[tag].map(function(index) {
       return this[index];
     }, this);
+  };
+  
+  Group.prototype.select = function(selector) {
+  	
   };
 
   Group.prototype.toJSON = function() {
@@ -802,7 +946,7 @@ udefine('flockn/serialize', function() {
   };
 });
 
-udefine('flockn/texture', ['mixedice', 'eventmap'], function(mixedice, EventMap) {
+udefine('flockn/texture', ['mixedice', 'eventmap', 'flockn/types/color'], function(mixedice, EventMap, Color) {
   'use strict';
 
   var Texture = function() {
@@ -820,7 +964,7 @@ udefine('flockn/texture', ['mixedice', 'eventmap'], function(mixedice, EventMap)
 
     // The default values for `image`
     this.image = {
-      color: 'rgb(255, 255, 255)',
+      color: Color.transparent,
       drawable: false,
       offset: {
         x: 0,
@@ -862,7 +1006,7 @@ udefine('flockn/texture', ['mixedice', 'eventmap'], function(mixedice, EventMap)
       font: {
         size: 10,
         name: 'Arial',
-        color: 'rgb(0, 0, 0)',
+        color: Color.black,
         decoration: []
       },
       align: {
@@ -921,11 +1065,138 @@ udefine('flockn/texture', ['mixedice', 'eventmap'], function(mixedice, EventMap)
       }
     });
 
-    this.color = 'transparent';
+    this.color = Color.white;
 
   };
 
   return Texture;
+});
+
+define('flockn/types/color', ['clamp', 'flockn/constants/color'], function(clamp, colorConstants) {
+  var Color = function(r, g, b, a) {
+    this.r = r || 0;
+    this.g = g || 0;
+    this.b = b || 0;
+    this.a = a || 1;
+  };
+  
+  Color.prototype.lighten = function(factor) {
+    factor = clamp(factor, 0, 1);
+    
+    this.r = clamp(this.r + (factor * 255) | 0, 0, 255);
+    this.g = clamp(this.g + (factor * 255) | 0, 0, 255);
+    this.b = clamp(this.b + (factor * 255) | 0, 0, 255);
+  };
+  
+  Color.prototype.darken = function(factor) {
+    factor = clamp(factor, 0, 1);
+    
+    this.r = clamp(this.r - (factor * 255) | 0, 0, 255);
+    this.g = clamp(this.g - (factor * 255) | 0, 0, 255);
+    this.b = clamp(this.b - (factor * 255) | 0, 0, 255);
+  };
+  
+  Color.prototype.fadeIn = function(factor) {
+    factor = clamp(factor, 0, 1);
+    
+    this.a = this.a + this.a * factor;
+    if (this.a > 1) {
+      this.a = 1;
+    }
+  };
+  
+  Color.prototype.fadeOut = function(factor) {
+    factor = clamp(factor, 0, 1);
+    
+    this.a = this.a - this.a * factor;
+    if (this.a < 0) {
+      this.a = 0;
+    }
+  };
+  
+  Color.prototype.toString = function() {
+    if (this.a < 1) {
+      return 'rgba(' + this.r + ',' + this.g + ',' + this.b + ',' + this.a + ')';
+    } else {
+      return 'rgb(' + this.r + ',' + this.g + ',' + this.b + ')';
+    }
+  };
+  
+  for (var colorName in colorConstants) {
+    var colorValue = colorConstants[colorName];
+    Color[colorName] = new Color(colorValue.r, colorValue.g, colorValue.b, colorValue.a);
+  }
+  
+  return Color;
+});
+define('flockn/types/vector2', function() {
+  
+  var sqrMagnitude = function(v) {
+    return Vector2.dot(v, v);
+  };
+  
+  var Vector2 = function(x, y) {
+    this.x = this.x || 0;
+    this.y = this.y || 0;
+    
+    Object.defineProperty(this, 'magnitude', {
+      get: function() {
+        return Math.sqrt(sqrMagnitude(this));
+      }
+    });
+    
+    Object.defineProperty(this, 'sqrMagnitude', {
+      get: function() {
+        return sqrMagnitude(this);
+      }
+    });
+    
+    Object.defineProperty(this, 'angle', {
+      get: function() {
+        return Math.atan2(this.y, this.x);
+      }
+    });
+  };
+  
+  Vector2.dot = function(vec1, vec2) {
+    return vec1.x * vec2.x + vec1.y * vec2.y;
+  };
+  
+  Vector2.prototype.clone = function() {
+    return new Vector2(this.x, this.y);
+  };
+  
+  Vector2.prototype.add = function(vector) {
+    this.x += vector.x;
+    this.y += vector.y;
+  };
+  
+  Vector2.prototype.subtract = function(vector) {
+    this.x -= vector.x;
+    this.y -= vector.y;
+  };
+  
+  Vector2.prototype.multiply = function(vector) {
+    this.x *= vector.x;
+    this.y *= vector.y;
+  };
+  
+  Vector2.prototype.divide = function(vector) {
+    this.x /= vector.x;
+    this.y /= vector.y;
+  };
+  
+  Vector2.prototype.normalize = function() {
+    this.x = this.x / this.magnitude;
+    this.y = this.y / this.magnitude;
+  };
+  
+  Vector2.fromAngle = function(angle, magnitude) {
+    return new Vector2(magnitude * Math.cos(angle), magnitude * Math.sin(angle));
+  };
+  
+  return Vector2;
+  
 });
 
 udefine('flockn/updateable', function() {
@@ -943,6 +1214,19 @@ udefine('flockn/updateable', function() {
   };
 });
 
+define('flockn/viewport', ['mixedice', 'eventmap'], function(mixedice, EventMap) {
+  var Viewport = {};
+
+  Viewport.scale = {};
+  Viewport.scale.mode = 'scaleToFit';
+  Viewport.scale.x = 1.0;
+  Viewport.scale.y = 1.0;
+
+  Viewport.width = 800;
+  Viewport.height = 600;
+
+  return Viewport;
+}); 
 udefine('flockn/world', ['./model'], function(Model) {
   'use strict';
 
