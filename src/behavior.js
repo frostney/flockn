@@ -19,6 +19,10 @@ udefine(['mixedice', './addable', './base', './group', './updateable'], function
       child.gameObject = this.gameObject;
     }).apply(this, arguments));
   };
+  
+  Behavior.prototype.removeBehavior = function() {
+    
+  };
 
   // Behaviors can be defined and are stored on the object itself
   Behavior.store = {};
