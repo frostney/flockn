@@ -98,6 +98,14 @@ udefine(['eventmap', 'mixedice', 'gameboard/input', './audio', './group', './wor
       this.queue = [];
     }
   };
+  
+  Base.prototype.closest = function() {
+    
+  };
+  
+  Base.prototype.find = function() {
+    
+  };
 
   Base.prototype.log = function() {
     if (console && console.log) {
