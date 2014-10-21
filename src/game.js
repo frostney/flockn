@@ -1,4 +1,4 @@
-udefine(['root', 'mixedice', 'gameboard/loop', './addable', './base', './graphics', './scene', './renderable', './updateable'], function(root, mixedice, Loop, addable, Base, Graphics, Scene, renderable, updateable) {
+udefine(['root', 'mixedice', 'gameboard/loop', './addable', './base', './graphics', './scene', './renderable', './types/color', './updateable', './viewport'], function(root, mixedice, Loop, addable, Base, Graphics, Scene, renderable, Color, updateable, Viewport) {
   'use strict';
 
   // Game is the entry point for all games made with flockn.
@@ -26,7 +26,10 @@ udefine(['root', 'mixedice', 'gameboard/loop', './addable', './base', './graphic
     // By default, the width and height of a `Game` instance will be as large as the inside of the browser window.
     this.width = root.innerWidth;
     this.height = root.innerHeight;
-    this.color = 'rgb(255, 255, 255)';
+    this.color = new Color(255, 255, 255);
+    
+    // Set the viewport object
+    this.viewport = Viewport;
     
     // `this.activeScene` is set to `null` by default, but will change once a scene will be shown
     this.activeScene = null;
