@@ -150,6 +150,14 @@ udefine(['mixedice', './addable', './base', './behavior', './graphics', './group
     // Add a `Model` instance to the game object
     this.queue.push(addable(Model, this.models).apply(this, arguments));
   };
+  
+  GameObject.prototype.removeGameObject = function() {
+    
+  };
+  
+  GameObject.prototype.removeBehavior = function() {
+    
+  };
 
   GameObject.prototype.toJSON = function() {
     // Serialize this object
