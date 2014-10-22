@@ -68,9 +68,8 @@ udefine(['./serialize'], function(serialize) {
     }
   };
 
-  // TODO: Evaluate if Group#map and Group#filter should rather return a Group instance than an array
   Group.prototype.map = function(callback) {
-    var mappedArray = [];
+    var mappedArray = new Group();
 
     for (var i = 0; i < this.length; i++) {
       mappedArray.push(callback(this[i]));
@@ -80,7 +79,7 @@ udefine(['./serialize'], function(serialize) {
   };
 
   Group.prototype.filter = function(callback) {
-    var filteredArray = [];
+    var filteredArray = new Group();
 
     for (var i = 0; i < this.length; i++) {
       if (callback(this[i])) {
