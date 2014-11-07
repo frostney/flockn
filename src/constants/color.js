@@ -1,4 +1,4 @@
-define({
+var colors = {
   aqua: {
     r: 0,
     g: 255,
@@ -85,4 +85,6 @@ define({
     b: 0,
     a: 0
   }
-}); 
+};
+
+export default colors;
