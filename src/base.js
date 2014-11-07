@@ -97,6 +97,15 @@ class Base {
     }
   }
 
+  call() {
+    // Call `Base#apply` with the arguments object
+    this.apply(arguments);
+  }
+
+  reset() {
+    return this.call.apply(this, arguments);
+  }
+
   closest() {
 
   }
@@ -124,13 +133,11 @@ class Base {
 
     mixedice(target, base);
   }
+
+  static get queueOrder() {
+    // TODO: Move this to a closure?
+    return ['Game', 'Scene', 'GameObject', 'Behavior', 'Model'];
+  }
 }
-
-Base.queueOrder = ['Game', 'Scene', 'GameObject', 'Behavior', 'Model'];
-
-Base.prototype.call = Base.prototype.reset = function() {
-  // Call `Base#apply` with the arguments object
-  this.apply(arguments);
-};
 
 export default Base;
