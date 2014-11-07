@@ -29,6 +29,7 @@
   "homepage": "https://github.com/freezedev/flockn",
   "devDependencies": {
     "grunt": "^0.4.5",
+    "grunt-6to5": "^1.0.1",
     "grunt-amd-tamer": "^0.1.8",
     "grunt-bowercopy": "^1.1.0",
     "grunt-contrib-clean": "^0.6.0",
