@@ -1,5 +1,19 @@
-udefine('flockn/renderer/dom', ['root', '../graphics', '../graphics/rootelement'], function(root, Graphics, createRootElement) {
-  'use strict';
+(function(factory) {
+  if (typeof define === "function" && define.amd) {
+    define('flockn/renderer/dom', ["exports", "flockn/graphics", "flockn/graphics/rootelement"], factory);
+  } else if (typeof exports !== "undefined") {
+    factory(
+      exports,
+      require("flockn/graphics"),
+      require("flockn/graphics/rootelement")
+    );
+  }
+})(function(exports, _flocknGraphics, _flocknGraphicsRootelement) {
+  "use strict";
+  var Graphics = _flocknGraphics.default;
+  var createRootElement = _flocknGraphicsRootelement.default;
+
+  var root = window;
 
   var pixelize = function(num) {
     return num + 'px';
@@ -108,7 +122,7 @@ udefine('flockn/renderer/dom', ['root', '../graphics', '../graphics/rootelement'
       element.style.height = pixelize(obj.height);
     }
   });
-  
+
   Graphics.on('texture-label-loaded', function(obj, texture) {
     var element = document.getElementById(obj.id.toLowerCase());
 
@@ -117,24 +131,24 @@ udefine('flockn/renderer/dom', ['root', '../graphics', '../graphics/rootelement'
       element.style.height = pixelize(obj.height);
     }
   });
-  
+
   var dirtyObjects = {};
 
   Graphics.after('render', function(obj) {
     var objId = obj.id.toLowerCase();
-    
+
     dirtyObjects[objId] = obj;
   });
 
   Graphics.on('render', function(obj) {
     var objId = obj.id.toLowerCase();
-    
+
     // Update element attributes
     var element = document.getElementById(objId);
 
     if (element != null) {
       var prevObj = dirtyObjects[objId] || {};
-      
+
       switch (obj.type) {
       case 'GameObject':
         var elemVisible = element.style.display === 'block';
@@ -178,7 +192,7 @@ udefine('flockn/renderer/dom', ['root', '../graphics', '../graphics/rootelement'
 
         // Set background color
         element.style.backgroundColor = obj.texture.color.toString();
-        
+
         // Set origin
         element.style.transformOrigin = element.style.mozTransformOrigin = element.webkitTransformOrigin = obj.origin.x + 'px ' + obj.origin.y + 'px';
 
@@ -205,7 +219,7 @@ udefine('flockn/renderer/dom', ['root', '../graphics', '../graphics/rootelement'
 
         if (obj.texture.label.drawable) {
           element.innerText = obj.texture.label.text;
-          
+
           element.style.whiteSpace = 'nowrap';
 
           if (obj.texture.label.font.size) {
@@ -258,7 +272,4 @@ udefine('flockn/renderer/dom', ['root', '../graphics', '../graphics/rootelement'
     }
 
   });
-
-  return Graphics;
-
 });
