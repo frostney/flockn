@@ -1,8 +1,6 @@
-udefine(['./model'], function(Model) {
-  'use strict';
+import Model from 'flockn/model';
 
-  // `World` is an instance of a model
-  var world = new Model();
+// `World` is an instance of a model
+var world = new Model();
 
-  return world;
-});
+export default world;
