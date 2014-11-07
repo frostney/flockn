@@ -203,6 +203,13 @@
 
           mixedice(target, base);
         }
+      },
+
+      queueOrder: {
+        get: function() {
+          // TODO: Move this to a closure?
+          return ['Game', 'Scene', 'GameObject', 'Behavior', 'Model'];
+        }
       }
     }, {
       apply: {
@@ -231,6 +238,23 @@
             // Reset the queue
             this.queue = [];
           }
+        }
+      },
+
+      call: {
+        writable: true,
+
+        value: function() {
+          // Call `Base#apply` with the arguments object
+          this.apply(arguments);
+        }
+      },
+
+      reset: {
+        writable: true,
+
+        value: function() {
+          return this.call.apply(this, arguments);
         }
       },
 
@@ -270,13 +294,6 @@
 
     return Base;
   }();
-
-  Base.queueOrder = ['Game', 'Scene', 'GameObject', 'Behavior', 'Model'];
-
-  Base.prototype.call = Base.prototype.reset = function() {
-    // Call `Base#apply` with the arguments object
-    this.apply(arguments);
-  };
 
   exports.default = Base;
 });
@@ -514,6 +531,8 @@
   var updateable = _flocknUpdateable.default;
   var Viewport = _flocknViewport.default;
 
+  var root = window;
+
   var Game = function() {
     var Game = function Game(descriptor) {
       var _this = this;
@@ -652,13 +671,13 @@
 (function(factory) {
   if (typeof define === "function" && define.amd) {
     define('flockn/gameobject', 
-      ["exports", "flokn/addable", "flockn/base", "flockn/behavior", "flockn/graphics", "flockn/group", "flockn/model", "flockn/renderable", "flockn/serialize", "flockn/texture", "flockn/updateable"],
+      ["exports", "flockn/addable", "flockn/base", "flockn/behavior", "flockn/graphics", "flockn/group", "flockn/model", "flockn/renderable", "flockn/serialize", "flockn/texture", "flockn/updateable"],
       factory
     );
   } else if (typeof exports !== "undefined") {
     factory(
       exports,
-      require("flokn/addable"),
+      require("flockn/addable"),
       require("flockn/base"),
       require("flockn/behavior"),
       require("flockn/graphics"),
@@ -672,7 +691,7 @@
   }
 })(function(
   exports,
-  _floknAddable,
+  _flocknAddable,
   _flocknBase,
   _flocknBehavior,
   _flocknGraphics,
@@ -692,7 +711,7 @@
       Object.defineProperties(child.prototype, instanceProps);
   };
 
-  var addable = _floknAddable.default;
+  var addable = _flocknAddable.default;
   var Base = _flocknBase.default;
   var Behavior = _flocknBehavior.default;
   var Graphics = _flocknGraphics.default;
@@ -1028,11 +1047,11 @@
 
 (function(factory) {
   if (typeof define === "function" && define.amd) {
-    define('flockn/group', ["exports", "serialize"], factory);
+    define('flockn/group', ["exports", "flockn/serialize"], factory);
   } else if (typeof exports !== "undefined") {
-    factory(exports, require("serialize"));
+    factory(exports, require("flockn/serialize"));
   }
-})(function(exports, _serialize) {
+})(function(exports, _flocknSerialize) {
   "use strict";
 
   var _classProps = function(child, staticProps, instanceProps) {
@@ -1043,7 +1062,7 @@
       Object.defineProperties(child.prototype, instanceProps);
   };
 
-  var serialize = _serialize.default;
+  var serialize = _flocknSerialize.default;
 
   var unidentified = 'untitled';
   var unidentifiedCounter = 0;
@@ -1315,6 +1334,8 @@
 
     return Model;
   }();
+
+  exports.default = Model;
 });
 
 (function(factory) {
