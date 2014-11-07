@@ -1,3 +1,3 @@
-define(function() {
-  
-});
+var Assets = {};
+
+export default Assets;
