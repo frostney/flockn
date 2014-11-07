@@ -1,7 +1,9 @@
-udefine(['mixedice', 'eventmap', 'flockn/types/color'], function(mixedice, EventMap, Color) {
-  'use strict';
+import {Color} from 'flockn/types';
+import * as mixedice from 'mixedice';
+import * as EventMap from 'eventmap';
 
-  var Texture = function() {
+class Texture {
+  constructor() {
     // Mix in an `EventMap` instance into the `Texture`
     mixedice([this, Texture.prototype], new EventMap());
 
@@ -30,17 +32,17 @@ udefine(['mixedice', 'eventmap', 'flockn/types/color'], function(mixedice, Event
     var filename = '';
 
     Object.defineProperty(this.image, 'filename', {
-      get: function() {
+      get: function () {
         return filename;
       },
-      set: function(value) {
+      set: function (value) {
         filename = value;
 
         // TODO: Most of this should already be handled by the preloader
         var img = new Image();
         img.src = filename;
 
-        img.onload = function() {
+        img.onload = function () {
           self.image.data = img;
           self.image.width = img.width;
           self.image.height = img.height;
@@ -72,10 +74,10 @@ udefine(['mixedice', 'eventmap', 'flockn/types/color'], function(mixedice, Event
     var text = '';
 
     Object.defineProperty(this.label, 'text', {
-      get: function() {
+      get: function () {
         return text;
       },
-      set: function(value) {
+      set: function (value) {
         text = value;
 
         // Calculate the size of the label and update the dimensions
@@ -88,8 +90,8 @@ udefine(['mixedice', 'eventmap', 'flockn/types/color'], function(mixedice, Event
         tmpElem.style.fontSize = self.label.font.size + 'px';
         tmpElem.style.fontFamily = self.label.font.name;
         tmpElem.style.color = self.label.font.color;
-        
-        self.label.font.decoration.forEach(function(decoration) {
+
+        self.label.font.decoration.forEach(function (decoration) {
           switch (decoration) {
             case 'bold':
               tmpElem.style.fontWeight = 'bold';
@@ -104,13 +106,13 @@ udefine(['mixedice', 'eventmap', 'flockn/types/color'], function(mixedice, Event
               break;
           }
         });
-        
+
         document.body.appendChild(tmpElem);
-        
+
         self.label.width = tmpElem.clientWidth;
         self.label.height = tmpElem.clientHeight;
         self.label.drawable = true;
-        
+
         document.body.removeChild(tmpElem);
 
         self.trigger('label-loaded');
@@ -118,8 +120,7 @@ udefine(['mixedice', 'eventmap', 'flockn/types/color'], function(mixedice, Event
     });
 
     this.color = Color.white;
+  }
+};
 
-  };
-
-  return Texture;
-});
+export default Texture;
