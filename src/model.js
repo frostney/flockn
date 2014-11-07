@@ -24,3 +24,5 @@ class Model {
     this.trigger('change', name, value);
   }
 }
+
+export default Model;
