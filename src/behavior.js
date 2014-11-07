@@ -1,9 +1,13 @@
-udefine(['mixedice', './addable', './base', './group', './updateable'], function(mixedice, addable, Base, Group, updateable) {
-  'use strict';
+import addable from 'flockn/addable';
+import Base from 'flockn/base';
+import Group from 'flockn/group';
+import updateable from 'flockn/updateable';
 
-  // Behaviors only provide logic. There is no rendering involved.
-  // Behaviors can attach any number of behaviors to itself
-  var Behavior = function(descriptor) {
+
+// Behaviors only provide logic. There is no rendering involved.
+// Behaviors can attach any number of behaviors to itself
+class Behavior {
+  constructor(descriptor) {
     Base.extend([this, Behavior.prototype], 'Behavior', descriptor);
 
     // Reference to the game object itself
@@ -11,25 +15,25 @@ udefine(['mixedice', './addable', './base', './group', './updateable'], function
 
     // Mix in `updateable`
     updateable.call(this);
-  };
+  }
 
-  Behavior.prototype.addBehavior = function() {
+  addBehavior() {
     // When a behavior is added, the reference to the game object is set
     this.queue.push(addable(Behavior, this.children, function(child) {
       child.gameObject = this.gameObject;
     }).apply(this, arguments));
-  };
-  
-  Behavior.prototype.removeBehavior = function() {
-    
-  };
+  }
 
-  // Behaviors can be defined and are stored on the object itself
-  Behavior.store = {};
+  removeBehavior() {
 
-  Behavior.define = function(name, factory) {
+  }
+
+  static define(name, factory) {
     Behavior.store[name] = factory;
-  };
+  }
+}
 
-  return Behavior;
-});
+// Behaviors can be defined and are stored on the object itself
+Behavior.store = {};
+
+export default Behavior;
