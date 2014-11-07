@@ -1,4 +1,4 @@
-import addable from 'flokn/addable';
+import addable from 'flockn/addable';
 import Base from 'flockn/base';
 import Behavior from 'flockn/behavior';
 import Graphics from 'flockn/graphics';
