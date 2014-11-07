@@ -54,3 +54,4 @@ bower_components
 ###################
 dist/pages
 test/browser
+tmp
