@@ -1,28 +1,33 @@
-udefine(['eventmap', 'mixedice', 'gameboard/input', './audio', './group', './world'], function(EventMap, mixedice, Input, Audio, Group, World) {
-  'use strict';
+import * as mixedice from 'mixedice';
+import * as EventMap from 'eventmap';
 
-  var objectIndex = 0;
+import * as Input from 'gameboard/input';
 
-  var prependMax = 10000;
+import Audio from 'flockn/audio';
+import Group from 'flockn/group';
+import World from 'flockn/world';
 
-  var numToIdString = function(num) {
-    var stringNum = num + '';
+var objectIndex = 0;
 
-    if (num >= prependMax) {
-      return stringNum;
-    } else {
-      var prependLength = (prependMax + '').length - stringNum.length;
-      for (var i = 0; i < prependLength; i++) {
-        stringNum = '0' + stringNum;
-      }
+var prependMax = 10000;
 
-      return stringNum;
+var numToIdString = function(num) {
+  var stringNum = num + '';
+
+  if (num >= prependMax) {
+    return stringNum;
+  } else {
+    var prependLength = (prependMax + '').length - stringNum.length;
+    for (var i = 0; i < prependLength; i++) {
+      stringNum = '0' + stringNum;
     }
-  };
 
-  var Base = function(type, descriptor) {
-    var self = this;
+    return stringNum;
+  }
+};
 
+class Base {
+  constructor(type, descriptor) {
     // Mix in an `EventMap` instance into `Base`
     mixedice([this, Base.prototype], new EventMap());
 
@@ -65,16 +70,9 @@ udefine(['eventmap', 'mixedice', 'gameboard/input', './audio', './group', './wor
 
     // Emit an event
     this.trigger('constructed');
-  };
-  
-  Base.queueOrder = ['Game', 'Scene', 'GameObject', 'Behavior', 'Model'];
+  }
 
-  Base.prototype.call = Base.prototype.reset = function() {
-    // Call `Base#apply` with the arguments object
-    this.apply(arguments);
-  };
-
-  Base.prototype.apply = function(args) {
+  apply(args) {
     // TODO: Reflect if function check should be enforced here
     if (this.descriptor) {
       // If args is not an array or array-like, provide an empty one
@@ -82,32 +80,32 @@ udefine(['eventmap', 'mixedice', 'gameboard/input', './audio', './group', './wor
 
       // Call the `descriptor` property with `args`
       this.descriptor.apply(this, args);
-      
+
       // Trigger an event
       this.trigger('execute');
 
       // TODO: Impose an order in the queue, such as:
       // (Game) -> Scene -> GameObject -> Behavior -> Model
-      
+
       // TODO: Implement z-order
       this.queue.forEach(function(q) {
         q && q();
       });
-      
+
       // Reset the queue
       this.queue = [];
     }
-  };
-  
-  Base.prototype.closest = function() {
-    
-  };
-  
-  Base.prototype.find = function() {
-    
-  };
+  }
 
-  Base.prototype.log = function() {
+  closest() {
+
+  }
+
+  find() {
+
+  }
+
+  log() {
     if (console && console.log) {
       var argArray = [].slice.call(arguments);
 
@@ -118,15 +116,21 @@ udefine(['eventmap', 'mixedice', 'gameboard/input', './audio', './group', './wor
 
       return console.log.apply(console, argArray);
     }
-  };
+  }
 
   // Shorthand function to derive from the Base object
-  Base.extend = function(target, type, descriptor) {
+  static extend(target, type, descriptor) {
     var base = new Base(type, descriptor);
 
     mixedice(target, base);
-  };
+  }
+}
 
-  return Base;
+Base.queueOrder = ['Game', 'Scene', 'GameObject', 'Behavior', 'Model'];
 
-}); 
+Base.prototype.call = Base.prototype.reset = function() {
+  // Call `Base#apply` with the arguments object
+  this.apply(arguments);
+};
+
+export default Base;
