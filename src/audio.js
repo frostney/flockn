@@ -1,9 +1,7 @@
-udefine(function() {
-  var Audio = {};
-  
-  Audio.play = function() {
-    
-  };
-  
-  return Audio;
-});
+var Audio = {};
+
+Audio.play = function() {
+
+};
+
+export default Audio;
