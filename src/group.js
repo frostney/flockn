@@ -1,4 +1,4 @@
-import serialize from 'serialize';
+import serialize from 'flockn/serialize';
 
 var unidentified = 'untitled';
 var unidentifiedCounter = 0;
