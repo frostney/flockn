@@ -25,6 +25,7 @@
 		
 		<script>
 			require(['flockn/renderer/canvas', 'flockn/game'], function(Graphics, Game) {
+				Game = Game['default'];
 
 				new Game(function() {
 					
