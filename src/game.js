@@ -9,6 +9,7 @@ import Color from 'flockn/types/color';
 import updateable from 'flockn/updateable';
 import Viewport from 'flockn/viewport';
 
+var root = window;
 
 // Game is the entry point for all games made with flockn.
 // Any number of `Scene` instances can be attached to a `Game` instance
