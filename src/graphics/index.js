@@ -1,15 +1,13 @@
-udefine(['eventmap'], function(EventMap) {
-  'use strict';
+import * as EventMap from 'eventmap';
 
-  // `Graphics` is an instance of an `EventMap`
-  var Graphics = new EventMap();
+// `Graphics` is an instance of an `EventMap`
+let Graphics = new EventMap();
 
-  // Special property `renderer` can be modified, but not deleted
-  Object.defineProperty(Graphics, 'renderer', {
-    value: null,
-    writable: true,
-    enumerable: true
-  });
-
-  return Graphics;
+// Special property `renderer` can be modified, but not deleted
+Object.defineProperty(Graphics, 'renderer', {
+  value: null,
+  writable: true,
+  enumerable: true
 });
+
+export default Graphics;
