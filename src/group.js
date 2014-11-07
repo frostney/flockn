@@ -1,18 +1,18 @@
-udefine(['./serialize'], function(serialize) {
-  'use strict';
+import serialize from 'serialize';
 
-  var unidentified = 'untitled';
-  var unidentifiedCounter = 0;
+var unidentified = 'untitled';
+var unidentifiedCounter = 0;
 
-  var Group = function() {
+class Group {
+  constructor() {
     this.length = 0;
 
     this.tags = {};
     this.names = {};
     this.types = {};
-  };
+  }
 
-  Group.prototype.push = function(obj, tags) {
+  push(obj, tags) {
     var name = obj.name || (unidentified + unidentifiedCounter++);
     if (tags == null) {
       tags = obj.tags || [];
@@ -30,25 +30,25 @@ udefine(['./serialize'], function(serialize) {
     }, this);
 
     this.names[name] = this.length;
-    
+
     if (obj.type != null) {
-    	this.types[obj.type] = this.types[obj.type] || [];
-    	this.types[obj.type].push(this.length);
+      this.types[obj.type] = this.types[obj.type] || [];
+      this.types[obj.type].push(this.length);
     }
 
     return ++this.length;
-  };
+  }
 
   // TODO: Behavior currently stays in the list
-  Group.prototype.pop = function() {
+  pop() {
     return this[this.length];
-  };
+  }
 
-  Group.prototype.splice = function(index, how) {
+  splice(index, how) {
 
-  };
+  }
 
-  Group.prototype.slice = function(begin, end) {
+  slice(begin, end) {
     if (end == null) {
       end = this.length;
     }
@@ -60,15 +60,15 @@ udefine(['./serialize'], function(serialize) {
     }
 
     return slicedGroup;
-  };
+  }
 
-  Group.prototype.forEach = function(callback) {
+  forEach(callback) {
     for (var i = 0; i < this.length; i++) {
       callback(this[i]);
     }
-  };
+  }
 
-  Group.prototype.map = function(callback) {
+  map(callback) {
     var mappedArray = new Group();
 
     for (var i = 0; i < this.length; i++) {
@@ -76,9 +76,9 @@ udefine(['./serialize'], function(serialize) {
     }
 
     return mappedArray;
-  };
+  }
 
-  Group.prototype.filter = function(callback) {
+  filter(callback) {
     var filteredArray = new Group();
 
     for (var i = 0; i < this.length; i++) {
@@ -88,58 +88,61 @@ udefine(['./serialize'], function(serialize) {
     }
 
     return filteredArray;
-  };
+  }
 
-  Group.prototype.byType = function(type) {
+  byType(type) {
     return this.types[type].map(function(index) {
       return this[index];
     }, this);
-  };
+  }
 
-  Group.prototype.byName = function(name) {
+  byName(name) {
     return this[this.names[name]];
-  };
+  }
 
-  Group.prototype.byTag = function(tag) {
+  byTag(tag) {
     return this.tags[tag].map(function(index) {
       return this[index];
     }, this);
-  };
-  
-  Group.prototype.select = function(selector) {
-  	
-  };
+  }
 
-  Group.prototype.toJSON = function() {
+  select(selector) {
+
+  }
+
+  toJSON() {
     return serialize(this);
-  };
-  
-  Group.prototype.remove = function(index) {
+  }
+
+  toString() {
+    return JSON.stringify(this.toJSON());
+  }
+
+  remove(index) {
     var name = this[index].name;
     var tags = this[index].tags;
-    
+
     delete this.names[name];
-    
-    
+
+
     delete this[index];
-    
+
     /*for (var i = index, i < this.length; i++) {
-      this[]
-    }*/
-    
+     this[]
+     }*/
+
     this.length--;
-  };
-  
-  Group.prototype.removeByName = function(name) {
-    
-  };
-  
-  Group.prototype.removeByTag = function(tags) {
+  }
+
+  removeByName(name) {
+
+  }
+
+  removeByTag(tag) {
     if (!Array.isArray(tags)) {
       tags = [tags];
     }
-    
-  };
+  }
+}
 
-  return Group;
-});
+export default Group;
