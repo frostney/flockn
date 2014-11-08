@@ -1,13 +1,12 @@
 import * as Loop from 'gameboard/loop';
 
-import addable from 'flockn/addable';
 import Base from 'flockn/base';
 import Graphics from 'flockn/graphics';
 import Scene from 'flockn/scene';
-import renderable from 'flockn/renderable';
 import Color from 'flockn/types/color';
-import updateable from 'flockn/updateable';
 import Viewport from 'flockn/viewport';
+
+import {addable, renderable, updateable} from 'flockn/mixins';
 
 var root = window;
 
