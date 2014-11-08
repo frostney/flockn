@@ -32,8 +32,8 @@ new Game(function() {
         // The logic for this game object
 
         // Set the position for this game object
-          this.x = 100;
-          this.y = 100;
+          this.position.x = 100;
+          this.position.y = 100;
 
           // This game object now holds a label with the text "Hello World"
           this.texture.label.text = 'Hello World';
@@ -58,6 +58,7 @@ Philosophy
 * Friendly to JavaScript transpilers: CoffeeScript, TypeScript and more
 * Lightweight
 * Events everywhere (Having an `EventEmitter`-like interface)
+* Pluggable
 * Functions are the best way to describe an object
 * Split entity-component model into 
     * Game objects (base object)
