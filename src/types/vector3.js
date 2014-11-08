@@ -62,6 +62,26 @@ class Vector3 {
   equals(v) {
     return (this.x === v.x && this.y === v.y && this.z === v.z);
   }
+
+  static forward() {
+    return new Vector3(0, 0, 1);
+  }
+
+  static right() {
+    return new Vector3(1, 0, 0);
+  }
+
+  static one() {
+    return new Vector3(1, 1, 1);
+  }
+
+  static up() {
+    return new Vector3(0, 1, 0);
+  }
+
+  static zero() {
+    return new Vector3(0, 0, 0);
+  }
 }
 
 export default Vector3;
