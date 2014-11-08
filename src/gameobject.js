@@ -10,9 +10,9 @@ import Texture from 'flockn/texture';
 import updateable from 'flockn/updateable';
 
 
-class GameObject {
+class GameObject extends Base {
   constructor(descriptor) {
-    Base.extend([this, GameObject.prototype], 'GameObject', descriptor);
+    super('GameObject', descriptor);
 
     this.visible = true;
 
