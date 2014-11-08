@@ -1,4 +1,3 @@
-import * as mixedice from 'mixedice';
 import * as EventMap from 'eventmap';
 
 import * as Input from 'gameboard/input';
@@ -26,12 +25,9 @@ var numToIdString = function(num) {
   }
 };
 
-class Base {
-  constructor(type, descriptor) {
-    // Mix in an `EventMap` instance into `Base`
-    mixedice([this, Base.prototype], new EventMap());
-
-    type = type || 'Base';
+class Base extends EventMap {
+  constructor(type = 'Base', descriptor) {
+    super();
 
     this.type = type;
     this.name = this.type + '-' + Date.now();
@@ -102,6 +98,7 @@ class Base {
     this.apply(arguments);
   }
 
+  // Alias for `Base#call`
   reset() {
     return this.call.apply(this, arguments);
   }
@@ -125,13 +122,6 @@ class Base {
 
       return console.log.apply(console, argArray);
     }
-  }
-
-  // Shorthand function to derive from the Base object
-  static extend(target, type, descriptor) {
-    var base = new Base(type, descriptor);
-
-    mixedice(target, base);
   }
 
   static get queueOrder() {
