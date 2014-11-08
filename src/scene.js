@@ -1,8 +1,7 @@
-import addable from 'flockn/addable';
 import Base from 'flockn/base';
 import GameObject from 'flockn/gameobject';
-import renderable from 'flockn/renderable';
-import updateable from 'flockn/updateable';
+
+import {addable, renderable, updateable} from 'flockn/mixins';
 
 // A `Scene` instance is a layer for `GameObject` instances.
 // Any number of game objects can be added to a scene. Only one scene should be visible at the same time, depending
