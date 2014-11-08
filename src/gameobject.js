@@ -1,13 +1,12 @@
-import addable from 'flockn/addable';
 import Base from 'flockn/base';
 import Behavior from 'flockn/behavior';
 import Graphics from 'flockn/graphics';
 import Group from 'flockn/group';
 import Model from 'flockn/model';
-import renderable from 'flockn/renderable';
 import serialize from 'flockn/serialize';
 import Texture from 'flockn/texture';
-import updateable from 'flockn/updateable';
+
+import {addable, renderable, updateable} from 'flockn/mixins';
 
 
 class GameObject extends Base {
