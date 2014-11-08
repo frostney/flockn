@@ -90,13 +90,12 @@
 (function(factory) {
   if (typeof define === "function" && define.amd) {
     define('flockn/base', 
-      ["exports", "mixedice", "eventmap", "gameboard/input", "flockn/audio", "flockn/group", "flockn/world"],
+      ["exports", "eventmap", "gameboard/input", "flockn/audio", "flockn/group", "flockn/world"],
       factory
     );
   } else if (typeof exports !== "undefined") {
     factory(
       exports,
-      require("mixedice"),
       require("eventmap"),
       require("gameboard/input"),
       require("flockn/audio"),
@@ -106,7 +105,6 @@
   }
 })(function(
   exports,
-  _mixedice,
   _eventmap,
   _gameboardInput,
   _flocknAudio,
@@ -122,7 +120,19 @@
       Object.defineProperties(child.prototype, instanceProps);
   };
 
-  var mixedice = _mixedice;
+  var _extends = function(child, parent) {
+    child.prototype = Object.create(parent.prototype, {
+      constructor: {
+        value: child,
+        enumerable: false,
+        writable: true,
+        configurable: true
+      }
+    });
+
+    child.__proto__ = parent;
+  };
+
   var EventMap = _eventmap;
   var Input = _gameboardInput;
   var Audio = _flocknAudio.default;
@@ -148,12 +158,12 @@
     }
   };
 
-  var Base = function() {
+  var Base = function(EventMap) {
     var Base = function Base(type, descriptor) {
-      // Mix in an `EventMap` instance into `Base`
-      mixedice([this, Base.prototype], new EventMap());
+      if (type === undefined)
+        type = 'Base';
 
-      type = type || 'Base';
+      EventMap.call(this);
 
       this.type = type;
       this.name = this.type + '-' + Date.now();
@@ -194,17 +204,9 @@
       this.trigger('constructed');
     };
 
+    _extends(Base, EventMap);
+
     _classProps(Base, {
-      extend: {
-        writable: true,
-
-        value: function(target, type, descriptor) {
-          var base = new Base(type, descriptor);
-
-          mixedice(target, base);
-        }
-      },
-
       queueOrder: {
         get: function() {
           // TODO: Move this to a closure?
@@ -293,7 +295,7 @@
     });
 
     return Base;
-  }();
+  }(EventMap);
 
   exports.default = Base;
 });
@@ -325,14 +327,27 @@
         Object.defineProperties(child.prototype, instanceProps);
     };
 
+    var _extends = function(child, parent) {
+      child.prototype = Object.create(parent.prototype, {
+        constructor: {
+          value: child,
+          enumerable: false,
+          writable: true,
+          configurable: true
+        }
+      });
+
+      child.__proto__ = parent;
+    };
+
     var addable = _flocknAddable.default;
     var Base = _flocknBase.default;
     var Group = _flocknGroup.default;
     var updateable = _flocknUpdateable.default;
 
-    var Behavior = function() {
+    var Behavior = function(Base) {
       var Behavior = function Behavior(descriptor) {
-        Base.extend([this, Behavior.prototype], 'Behavior', descriptor);
+        Base.call(this, 'Behavior', descriptor);
 
         // Reference to the game object itself
         this.gameObject = null;
@@ -340,6 +355,8 @@
         // Mix in `updateable`
         updateable.call(this);
       };
+
+      _extends(Behavior, Base);
 
       _classProps(Behavior, {
         define: {
@@ -371,7 +388,7 @@
       });
 
       return Behavior;
-    }();
+    }(Base);
 
     // Behaviors can be defined and are stored on the object itself
     Behavior.store = {};
@@ -521,7 +538,20 @@
       Object.defineProperties(child.prototype, instanceProps);
   };
 
-  var Loop = _gameboardLoop.default;
+  var _extends = function(child, parent) {
+    child.prototype = Object.create(parent.prototype, {
+      constructor: {
+        value: child,
+        enumerable: false,
+        writable: true,
+        configurable: true
+      }
+    });
+
+    child.__proto__ = parent;
+  };
+
+  var Loop = _gameboardLoop;
   var addable = _flocknAddable.default;
   var Base = _flocknBase.default;
   var Graphics = _flocknGraphics.default;
@@ -533,7 +563,7 @@
 
   var root = window;
 
-  var Game = function() {
+  var Game = function(Base) {
     var Game = function Game(descriptor) {
       var _this = this;
       // The new operator does not need to be set explicitly.
@@ -543,11 +573,11 @@
       }
 
       // Extend the `Base` class
-      Base.extend([this, Game.prototype], 'Game', function () {
-        descriptor.call(this);
+      Base.call(this, 'Game', descriptor);
 
-        Graphics.trigger('initialize', this);
-      });
+      descriptor.call(this);
+
+      Graphics.trigger('initialize', this);
 
       // `this.container` is a string, which is the id of the element.
       // If it's not given, it should create a new element. This should be handled by the renderer.
@@ -600,6 +630,8 @@
         _this.trigger('orientationchange');
       }, false);
     };
+
+    _extends(Game, Base);
 
     _classProps(Game, null, {
       addScene: {
@@ -663,7 +695,7 @@
     });
 
     return Game;
-  }();
+  }(Base);
 
   exports.default = Game;
 });
@@ -711,6 +743,19 @@
       Object.defineProperties(child.prototype, instanceProps);
   };
 
+  var _extends = function(child, parent) {
+    child.prototype = Object.create(parent.prototype, {
+      constructor: {
+        value: child,
+        enumerable: false,
+        writable: true,
+        configurable: true
+      }
+    });
+
+    child.__proto__ = parent;
+  };
+
   var addable = _flocknAddable.default;
   var Base = _flocknBase.default;
   var Behavior = _flocknBehavior.default;
@@ -722,10 +767,10 @@
   var Texture = _flocknTexture.default;
   var updateable = _flocknUpdateable.default;
 
-  var GameObject = function() {
+  var GameObject = function(Base) {
     var GameObject = function GameObject(descriptor) {
       var _this = this;
-      Base.extend([this, GameObject.prototype], 'GameObject', descriptor);
+      Base.call(this, 'GameObject', descriptor);
 
       this.visible = true;
 
@@ -807,6 +852,8 @@
         });
       });
     };
+
+    _extends(GameObject, Base);
 
     _classProps(GameObject, {
       define: {
@@ -947,7 +994,7 @@
     });
 
     return GameObject;
-  }();
+  }(Base);
 
   GameObject.store = {};
 
@@ -1296,17 +1343,31 @@
       Object.defineProperties(child.prototype, instanceProps);
   };
 
+  var _extends = function(child, parent) {
+    child.prototype = Object.create(parent.prototype, {
+      constructor: {
+        value: child,
+        enumerable: false,
+        writable: true,
+        configurable: true
+      }
+    });
+
+    child.__proto__ = parent;
+  };
+
   var mixedice = _mixedice;
   var EventMap = _eventmap;
 
-  var Model = function() {
+  var Model = function(EventMap) {
     var Model = function Model() {
-      // Mix in `EventMap` into all `Model` instances
-      mixedice([this, Model.prototype], new EventMap());
+      EventMap.call(this);
 
       // Store attribute data
       this.data = {};
     };
+
+    _extends(Model, EventMap);
 
     _classProps(Model, null, {
       get: {
@@ -1333,7 +1394,7 @@
     });
 
     return Model;
-  }();
+  }(EventMap);
 
   exports.default = Model;
 });
@@ -1355,7 +1416,7 @@
       Graphics.trigger('render', _this);
 
       // Render all children elements
-      self.children.forEach(function(child) {
+      _this.children.forEach(function(child) {
         child.trigger('render');
       });
     });
@@ -1745,34 +1806,66 @@
   _flocknRenderable,
   _flocknUpdateable) {
   "use strict";
+
+  var _classProps = function(child, staticProps, instanceProps) {
+    if (staticProps)
+      Object.defineProperties(child, staticProps);
+
+    if (instanceProps)
+      Object.defineProperties(child.prototype, instanceProps);
+  };
+
+  var _extends = function(child, parent) {
+    child.prototype = Object.create(parent.prototype, {
+      constructor: {
+        value: child,
+        enumerable: false,
+        writable: true,
+        configurable: true
+      }
+    });
+
+    child.__proto__ = parent;
+  };
+
   var addable = _flocknAddable.default;
   var Base = _flocknBase.default;
   var GameObject = _flocknGameobject.default;
   var renderable = _flocknRenderable.default;
   var updateable = _flocknUpdateable.default;
 
-  // A `Scene` instance is a layer for `GameObject` instances.
-  // Any number of game objects can be added to a scene. Only one scene should be visible at the same time, depending
-  // on what was set in the `activeScene` property of a `Game` instance.
-  var Scene = function(descriptor) {
-    Base.extend([this, Scene.prototype], 'Scene', descriptor);
+  var Scene = function(Base) {
+    var Scene = function Scene(descriptor) {
+      Base.call(this, 'Scene', descriptor);
 
-    // Mix in `renderable` and `updateable`
-    renderable.call(this);
-    updateable.call(this);
-  };
+      // Mix in `renderable` and `updateable`
+      renderable.call(this);
+      updateable.call(this);
+    };
 
-  Scene.prototype.addGameObject = function() {
-    // Allow game objects to be added to scenes
-    this.queue.push(addable(GameObject, this.children).apply(this, arguments));
-  };
+    _extends(Scene, Base);
 
-  Scene.store = {};
+    _classProps(Scene, {
+      define: {
+        writable: true,
 
-  // Scenes can be defined and are stored on the object itself
-  Scene.define = function(name, factory) {
-    Scene.store[name] = factory;
-  };
+        value: function(name, factory) {
+          Scene.store[name] = factory;
+        }
+      }
+    }, {
+      addGameObject: {
+        writable: true,
+
+        value: function() {
+          // Allow game objects to be added to scenes
+          this.queue.push(addable(GameObject, this.children).apply(this, arguments));
+        }
+      }
+    });
+
+    return Scene;
+  }(Base);
 
   exports.default = Scene;
 });
@@ -1813,14 +1906,27 @@
   }
 })(function(exports, _flocknTypes, _mixedice, _eventmap) {
   "use strict";
+
+  var _extends = function(child, parent) {
+    child.prototype = Object.create(parent.prototype, {
+      constructor: {
+        value: child,
+        enumerable: false,
+        writable: true,
+        configurable: true
+      }
+    });
+
+    child.__proto__ = parent;
+  };
+
   var Color = _flocknTypes.Color;
   var mixedice = _mixedice;
   var EventMap = _eventmap;
 
-  var Texture = function() {
+  var Texture = function(EventMap) {
     var Texture = function Texture() {
-      // Mix in an `EventMap` instance into the `Texture`
-      mixedice([this, Texture.prototype], new EventMap());
+      EventMap.call(this);
 
       var self = this;
 
@@ -1937,8 +2043,9 @@
       this.color = Color.white;
     };
 
+    _extends(Texture, EventMap);
     return Texture;
-  }();
+  }(EventMap);
 
   exports.default = Texture;
 });
@@ -2075,6 +2182,8 @@
   _Types.Vector2 = Vector2;
 
   exports.default = _Types;
+  exports.Color = Color;
+  exports.Vector2 = Vector2;
 });
 
 (function(factory) {
