@@ -1,5 +1,4 @@
 import {Color} from 'flockn/types';
-import * as mixedice from 'mixedice';
 import * as EventMap from 'eventmap';
 
 class Texture extends EventMap {
