@@ -2,10 +2,9 @@ import {Color} from 'flockn/types';
 import * as mixedice from 'mixedice';
 import * as EventMap from 'eventmap';
 
-class Texture {
+class Texture extends EventMap {
   constructor() {
-    // Mix in an `EventMap` instance into the `Texture`
-    mixedice([this, Texture.prototype], new EventMap());
+    super();
 
     var self = this;
 
