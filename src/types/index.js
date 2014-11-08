@@ -7,3 +7,4 @@ Types.Color = Color;
 Types.Vector2 = Vector2;
 
 export default Types;
+export {Color, Vector2};
