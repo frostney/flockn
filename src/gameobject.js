@@ -76,6 +76,12 @@ class GameObject extends Base {
     // Data models
     this.models = new Group();
 
+    // Add default model
+    var defaultModel = new Model();
+    defaultModel.name = 'default';
+
+    this.addModel(defaultModel);
+
     // Mix in renderable and updateable
     renderable.call(this);
     updateable.call(this);
@@ -145,6 +151,14 @@ class GameObject extends Base {
 
   removeModel() {
 
+  }
+
+  data(name) {
+    if (!name) {
+      return this.models.byName('default');
+    } else {
+      return this.models.byName(name);
+    }
   }
 
   toJSON() {
