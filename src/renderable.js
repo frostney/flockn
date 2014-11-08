@@ -6,7 +6,7 @@ var renderable = function renderable() {
     Graphics.trigger('render', this);
 
     // Render all children elements
-    self.children.forEach(function(child) {
+    this.children.forEach(function(child) {
       child.trigger('render');
     });
   });
