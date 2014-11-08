@@ -1,4 +1,3 @@
-import * as mixedice from 'mixedice';
 import * as EventMap from 'eventmap';
 
 class Model extends EventMap {
@@ -21,6 +20,10 @@ class Model extends EventMap {
     this.data[name] = value;
     // Trigger the `change` event with `name` and `value` as its parameters
     this.trigger('change', name, value);
+  }
+
+  has(name) {
+    return Object.hasOwnProperty.call(this.data, name);
   }
 }
 
