@@ -24,19 +24,19 @@ new Game(function() {
 
       this.input.key.on('down', (keyCode) => {
         if (keyCode === this.up || keyCode === this.w) {
-          self.position.y -= 10;
+          this.position.y -= 10;
         }
 
         if (keyCode === this.down || keyCode === this.s) {
-          self.position.y += 10;
+          this.position.y += 10;
         }
 
         if (keyCode === this.left || keyCode === this.a) {
-          self.position.x -= 10;
+          this.position.x -= 10;
         }
 
         if (keyCode === this.right || keyCode === this.d) {
-          self.position.x += 10;
+          this.position.x += 10;
         }
       });
 
