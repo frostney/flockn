@@ -6,9 +6,9 @@ import updateable from 'flockn/updateable';
 
 // Behaviors only provide logic. There is no rendering involved.
 // Behaviors can attach any number of behaviors to itself
-class Behavior {
+class Behavior extends Base {
   constructor(descriptor) {
-    Base.extend([this, Behavior.prototype], 'Behavior', descriptor);
+    super('Behavior', descriptor);
 
     // Reference to the game object itself
     this.gameObject = null;
