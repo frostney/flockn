@@ -1,10 +1,9 @@
 import * as mixedice from 'mixedice';
 import * as EventMap from 'eventmap';
 
-class Model {
+class Model extends EventMap {
   constructor() {
-    // Mix in `EventMap` into all `Model` instances
-    mixedice([this, Model.prototype], new EventMap());
+    super();
 
     // Store attribute data
     this.data = {};
