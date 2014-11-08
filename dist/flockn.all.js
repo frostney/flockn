@@ -1,64 +1,5 @@
 (function(factory) {
   if (typeof define === "function" && define.amd) {
-    define('flockn/addable', ["exports", "flockn/graphics"], factory);
-  } else if (typeof exports !== "undefined") {
-    factory(exports, require("flockn/graphics"));
-  }
-})(function(exports, _flocknGraphics) {
-  "use strict";
-  var _slice = Array.prototype.slice;
-  var Graphics = _flocknGraphics.default;
-
-  var addable = function addable(Factory, groupInstance, extraFn) {
-
-    var adder = function adder(child) {
-      var args = _slice.call(arguments, 1);
-
-      if (!( child instanceof Factory)) {
-        if ( typeof child === 'string') {
-          if (Object.hasOwnProperty.call(Factory.store, child)) {
-            child = new Factory(Factory.store[child]);
-          }
-        } else {
-          if ( typeof child === 'function') {
-            child = new Factory(child);
-          } else {
-            // TODO: This should be also able to deep assign properties
-            child = new Factory(function() {
-              Object.keys(child).forEach(function(key) {
-                this[key] = child[key];
-              }, this);
-            });
-          }
-        }
-      }
-      groupInstance.push(child);
-      child.parent = this;
-
-      if (extraFn) {
-        extraFn.call(this, child);
-      }
-
-      Graphics.trigger('add', child);
-
-      child.apply(args);
-      child.trigger('add', child, args);
-    };
-
-    return function() {
-      var args = [].slice.call(arguments);
-      args.unshift(this);
-
-      return adder.bind.apply(adder, args);
-    };
-
-  };
-
-  exports.default = addable;
-});
-
-(function(factory) {
-  if (typeof define === "function" && define.amd) {
     define('flockn/assets', ["exports"], factory);
   } else if (typeof exports !== "undefined") {
     factory(exports);
@@ -302,100 +243,94 @@
 
 (function(factory) {
   if (typeof define === "function" && define.amd) {
-    define('flockn/behavior', 
-      ["exports", "flockn/addable", "flockn/base", "flockn/group", "flockn/updateable"],
-      factory
-    );
+    define('flockn/behavior', ["exports", "flockn/base", "flockn/group", "flockn/mixins"], factory);
   } else if (typeof exports !== "undefined") {
     factory(
       exports,
-      require("flockn/addable"),
       require("flockn/base"),
       require("flockn/group"),
-      require("flockn/updateable")
+      require("flockn/mixins")
     );
   }
-})(
-  function(exports, _flocknAddable, _flocknBase, _flocknGroup, _flocknUpdateable) {
-    "use strict";
+})(function(exports, _flocknBase, _flocknGroup, _flocknMixins) {
+  "use strict";
 
-    var _classProps = function(child, staticProps, instanceProps) {
-      if (staticProps)
-        Object.defineProperties(child, staticProps);
+  var _classProps = function(child, staticProps, instanceProps) {
+    if (staticProps)
+      Object.defineProperties(child, staticProps);
 
-      if (instanceProps)
-        Object.defineProperties(child.prototype, instanceProps);
+    if (instanceProps)
+      Object.defineProperties(child.prototype, instanceProps);
+  };
+
+  var _extends = function(child, parent) {
+    child.prototype = Object.create(parent.prototype, {
+      constructor: {
+        value: child,
+        enumerable: false,
+        writable: true,
+        configurable: true
+      }
+    });
+
+    child.__proto__ = parent;
+  };
+
+  var Base = _flocknBase.default;
+  var Group = _flocknGroup.default;
+  var addable = _flocknMixins.addable;
+  var updateable = _flocknMixins.updateable;
+
+  var Behavior = function(Base) {
+    var Behavior = function Behavior(descriptor) {
+      Base.call(this, 'Behavior', descriptor);
+
+      // Reference to the game object itself
+      this.gameObject = null;
+
+      // Mix in `updateable`
+      updateable.call(this);
     };
 
-    var _extends = function(child, parent) {
-      child.prototype = Object.create(parent.prototype, {
-        constructor: {
-          value: child,
-          enumerable: false,
-          writable: true,
-          configurable: true
+    _extends(Behavior, Base);
+
+    _classProps(Behavior, {
+      define: {
+        writable: true,
+
+        value: function(name, factory) {
+          Behavior.store[name] = factory;
         }
-      });
+      }
+    }, {
+      addBehavior: {
+        writable: true,
 
-      child.__proto__ = parent;
-    };
-
-    var addable = _flocknAddable.default;
-    var Base = _flocknBase.default;
-    var Group = _flocknGroup.default;
-    var updateable = _flocknUpdateable.default;
-
-    var Behavior = function(Base) {
-      var Behavior = function Behavior(descriptor) {
-        Base.call(this, 'Behavior', descriptor);
-
-        // Reference to the game object itself
-        this.gameObject = null;
-
-        // Mix in `updateable`
-        updateable.call(this);
-      };
-
-      _extends(Behavior, Base);
-
-      _classProps(Behavior, {
-        define: {
-          writable: true,
-
-          value: function(name, factory) {
-            Behavior.store[name] = factory;
-          }
+        value: function() {
+          // When a behavior is added, the reference to the game object is set
+          this.queue.push(addable(Behavior, this.children, function(child) {
+            child.gameObject = this.gameObject;
+          }).apply(this, arguments));
         }
-      }, {
-        addBehavior: {
-          writable: true,
+      },
 
-          value: function() {
-            // When a behavior is added, the reference to the game object is set
-            this.queue.push(addable(Behavior, this.children, function(child) {
-              child.gameObject = this.gameObject;
-            }).apply(this, arguments));
-          }
-        },
+      removeBehavior: {
+        writable: true,
 
-        removeBehavior: {
-          writable: true,
+        value: function() {
 
-          value: function() {
-
-          }
         }
-      });
+      }
+    });
 
-      return Behavior;
-    }(Base);
+    return Behavior;
+  }(Base);
 
-    // Behaviors can be defined and are stored on the object itself
-    Behavior.store = {};
+  // Behaviors can be defined and are stored on the object itself
+  Behavior.store = {};
 
-    exports.default = Behavior;
-  }
-);
+  exports.default = Behavior;
+});
 
 (function(factory) {
   if (typeof define === "function" && define.amd) {
@@ -500,34 +435,30 @@
 (function(factory) {
   if (typeof define === "function" && define.amd) {
     define('flockn/game', 
-      ["exports", "gameboard/loop", "flockn/addable", "flockn/base", "flockn/graphics", "flockn/scene", "flockn/renderable", "flockn/types/color", "flockn/updateable", "flockn/viewport"],
+      ["exports", "gameboard/loop", "flockn/base", "flockn/graphics", "flockn/scene", "flockn/types/color", "flockn/viewport", "flockn/mixins"],
       factory
     );
   } else if (typeof exports !== "undefined") {
     factory(
       exports,
       require("gameboard/loop"),
-      require("flockn/addable"),
       require("flockn/base"),
       require("flockn/graphics"),
       require("flockn/scene"),
-      require("flockn/renderable"),
       require("flockn/types/color"),
-      require("flockn/updateable"),
-      require("flockn/viewport")
+      require("flockn/viewport"),
+      require("flockn/mixins")
     );
   }
 })(function(
   exports,
   _gameboardLoop,
-  _flocknAddable,
   _flocknBase,
   _flocknGraphics,
   _flocknScene,
-  _flocknRenderable,
   _flocknTypesColor,
-  _flocknUpdateable,
-  _flocknViewport) {
+  _flocknViewport,
+  _flocknMixins) {
   "use strict";
 
   var _classProps = function(child, staticProps, instanceProps) {
@@ -552,14 +483,14 @@
   };
 
   var Loop = _gameboardLoop;
-  var addable = _flocknAddable.default;
   var Base = _flocknBase.default;
   var Graphics = _flocknGraphics.default;
   var Scene = _flocknScene.default;
-  var renderable = _flocknRenderable.default;
   var Color = _flocknTypesColor.default;
-  var updateable = _flocknUpdateable.default;
   var Viewport = _flocknViewport.default;
+  var addable = _flocknMixins.addable;
+  var renderable = _flocknMixins.renderable;
+  var updateable = _flocknMixins.updateable;
 
   var root = window;
 
@@ -703,36 +634,34 @@
 (function(factory) {
   if (typeof define === "function" && define.amd) {
     define('flockn/gameobject', 
-      ["exports", "flockn/addable", "flockn/base", "flockn/behavior", "flockn/graphics", "flockn/group", "flockn/model", "flockn/renderable", "flockn/serialize", "flockn/texture", "flockn/updateable"],
+      ["exports", "flockn/base", "flockn/behavior", "flockn/graphics", "flockn/group", "flockn/model", "flockn/serialize", "flockn/texture", "flockn/types", "flockn/mixins"],
       factory
     );
   } else if (typeof exports !== "undefined") {
     factory(
       exports,
-      require("flockn/addable"),
       require("flockn/base"),
       require("flockn/behavior"),
       require("flockn/graphics"),
       require("flockn/group"),
       require("flockn/model"),
-      require("flockn/renderable"),
       require("flockn/serialize"),
       require("flockn/texture"),
-      require("flockn/updateable")
+      require("flockn/types"),
+      require("flockn/mixins")
     );
   }
 })(function(
   exports,
-  _flocknAddable,
   _flocknBase,
   _flocknBehavior,
   _flocknGraphics,
   _flocknGroup,
   _flocknModel,
-  _flocknRenderable,
   _flocknSerialize,
   _flocknTexture,
-  _flocknUpdateable) {
+  _flocknTypes,
+  _flocknMixins) {
   "use strict";
 
   var _classProps = function(child, staticProps, instanceProps) {
@@ -756,16 +685,18 @@
     child.__proto__ = parent;
   };
 
-  var addable = _flocknAddable.default;
   var Base = _flocknBase.default;
   var Behavior = _flocknBehavior.default;
   var Graphics = _flocknGraphics.default;
   var Group = _flocknGroup.default;
   var Model = _flocknModel.default;
-  var renderable = _flocknRenderable.default;
   var serialize = _flocknSerialize.default;
   var Texture = _flocknTexture.default;
-  var updateable = _flocknUpdateable.default;
+  var Vector2 = _flocknTypes.Vector2;
+  var Vector3 = _flocknTypes.Vector3;
+  var addable = _flocknMixins.addable;
+  var renderable = _flocknMixins.renderable;
+  var updateable = _flocknMixins.updateable;
 
   var GameObject = function(Base) {
     var GameObject = function GameObject(descriptor) {
@@ -774,9 +705,7 @@
 
       this.visible = true;
 
-      this.x = 0;
-      this.y = 0;
-      this.z = 0;
+      this.position = new Vector3();
 
       this.fitToTexture = true;
 
@@ -819,15 +748,9 @@
 
       this.alpha = 1;
 
-      this.scale = {
-        x: 1,
-        y: 1
-      };
+      this.scale = new Vector2(1, 1);
 
-      this.origin = {
-        x: (this.width / 2),
-        y: (this.width / 2)
-      };
+      this.origin = new Vector2(this.width / 2, this.width / 2);
 
       this.border = {
         width: 0,
@@ -848,7 +771,7 @@
       // Update all behaviors as well
       this.on('update', function() {
         _this.behaviors.forEach(function(behavior) {
-          behavior.trigger('update');
+          return behavior.trigger('update');
         });
       });
     };
@@ -870,45 +793,53 @@
         value: function() {
 
         }
+      },
+
+      fromString: {
+        writable: true,
+
+        value: function() {
+
+        }
       }
     }, {
       left: {
         get: function() {
-          return this.x;
+          return this.position.x;
         },
 
         set: function(value) {
-          this.x = value;
+          this.position.x = value;
         }
       },
 
       top: {
         get: function() {
-          return this.y;
+          return this.position.y;
         },
 
         set: function(value) {
-          this.y = value;
+          this.position.y = value;
         }
       },
 
       right: {
         get: function() {
-          return this.parent.width - this.width - this.x;
+          return this.parent.width - this.width - this.position.x;
         },
 
         set: function(value) {
-          this.x = this.parent.width - this.width - value;
+          this.position.x = this.parent.width - this.width - value;
         }
       },
 
       bottom: {
         get: function() {
-          return this.parent.height - this.height - this.y;
+          return this.parent.height - this.height - this.position.y;
         },
 
         set: function(value) {
-          this.y = this.parent.height - this.height - value;
+          this.position.y = this.parent.height - this.height - value;
         }
       },
 
@@ -1328,6 +1259,141 @@
 
 (function(factory) {
   if (typeof define === "function" && define.amd) {
+    define('flockn/mixins/addable', ["exports", "flockn/graphics"], factory);
+  } else if (typeof exports !== "undefined") {
+    factory(exports, require("flockn/graphics"));
+  }
+})(function(exports, _flocknGraphics) {
+  "use strict";
+  var _slice = Array.prototype.slice;
+  var Graphics = _flocknGraphics.default;
+
+  var addable = function addable(Factory, groupInstance, extraFn) {
+
+    var adder = function adder(child) {
+      var args = _slice.call(arguments, 1);
+
+      if (!( child instanceof Factory)) {
+        if ( typeof child === 'string') {
+          if (Object.hasOwnProperty.call(Factory.store, child)) {
+            child = new Factory(Factory.store[child]);
+          }
+        } else {
+          if ( typeof child === 'function') {
+            child = new Factory(child);
+          } else {
+            // TODO: This should be also able to deep assign properties
+            child = new Factory(function() {
+              Object.keys(child).forEach(function(key) {
+                this[key] = child[key];
+              }, this);
+            });
+          }
+        }
+      }
+      groupInstance.push(child);
+      child.parent = this;
+
+      if (extraFn) {
+        extraFn.call(this, child);
+      }
+
+      Graphics.trigger('add', child);
+
+      child.apply(args);
+      child.trigger('add', child, args);
+    };
+
+    return function() {
+      var args = [].slice.call(arguments);
+      args.unshift(this);
+
+      return adder.bind.apply(adder, args);
+    };
+
+  };
+
+  exports.default = addable;
+});
+
+(function(factory) {
+  if (typeof define === "function" && define.amd) {
+    define('flockn/mixins', 
+      ["exports", "flockn/mixins/addable", "flockn/mixins/renderable", "flockn/mixins/updateable"],
+      factory
+    );
+  } else if (typeof exports !== "undefined") {
+    factory(
+      exports,
+      require("flockn/mixins/addable"),
+      require("flockn/mixins/renderable"),
+      require("flockn/mixins/updateable")
+    );
+  }
+})(function(
+  exports,
+  _flocknMixinsAddable,
+  _flocknMixinsRenderable,
+  _flocknMixinsUpdateable) {
+  "use strict";
+  var addable = _flocknMixinsAddable.default;
+  var renderable = _flocknMixinsRenderable.default;
+  var updateable = _flocknMixinsUpdateable.default;
+  exports.addable = addable;
+  exports.renderable = renderable;
+  exports.updateable = updateable;
+});
+
+(function(factory) {
+  if (typeof define === "function" && define.amd) {
+    define('flockn/mixins/renderable', ["exports", "flockn/graphics"], factory);
+  } else if (typeof exports !== "undefined") {
+    factory(exports, require("flockn/graphics"));
+  }
+})(function(exports, _flocknGraphics) {
+  "use strict";
+  var Graphics = _flocknGraphics.default;
+
+  var renderable = function renderable() {
+    var _this = this;
+    this.on('render', function() {
+      // Emit `render` event on the `Graphics` object
+      Graphics.trigger('render', _this);
+
+      // Render all children elements
+      _this.children.forEach(function(child) {
+        child.trigger('render');
+      });
+    });
+  };
+
+  exports.default = renderable;
+});
+
+(function(factory) {
+  if (typeof define === "function" && define.amd) {
+    define('flockn/mixins/updateable', ["exports"], factory);
+  } else if (typeof exports !== "undefined") {
+    factory(exports);
+  }
+})(function(exports) {
+  "use strict";
+  var updatable = function() {
+    var self = this;
+
+    // Update all children
+    this.on('update', function(dt) {
+      self.children.forEach(function(child) {
+        child.trigger('update', dt);
+      });
+    });
+  };
+
+  exports.default = updatable;
+});
+
+(function(factory) {
+  if (typeof define === "function" && define.amd) {
     define('flockn/model', ["exports", "mixedice", "eventmap"], factory);
   } else if (typeof exports !== "undefined") {
     factory(exports, require("mixedice"), require("eventmap"));
@@ -1401,32 +1467,6 @@
 
 (function(factory) {
   if (typeof define === "function" && define.amd) {
-    define('flockn/renderable', ["exports", "flockn/graphics"], factory);
-  } else if (typeof exports !== "undefined") {
-    factory(exports, require("flockn/graphics"));
-  }
-})(function(exports, _flocknGraphics) {
-  "use strict";
-  var Graphics = _flocknGraphics.default;
-
-  var renderable = function renderable() {
-    var _this = this;
-    this.on('render', function() {
-      // Emit `render` event on the `Graphics` object
-      Graphics.trigger('render', _this);
-
-      // Render all children elements
-      _this.children.forEach(function(child) {
-        child.trigger('render');
-      });
-    });
-  };
-
-  exports.default = renderable;
-});
-
-(function(factory) {
-  if (typeof define === "function" && define.amd) {
     define('flockn/renderer/canvas', ["exports", "flockn/graphics", "flockn/graphics/rootelement"], factory);
   } else if (typeof exports !== "undefined") {
     factory(
@@ -1471,7 +1511,7 @@
     case 'GameObject':
       context.save();
 
-      context.translate(obj.x + obj.origin.x, obj.y + obj.origin.y);
+      context.translate(obj.position.x + obj.origin.x, obj.position.y + obj.origin.y);
 
       if (obj.angle !== 0) {
         context.rotate(obj.angle * (Math.PI / 180));
@@ -1584,8 +1624,8 @@
       element.style.height = pixelize(obj.parent.height);
       break;
     case 'GameObject':
-      element.style.left = pixelize(obj.x);
-      element.style.top = pixelize(obj.y);
+      element.style.left = pixelize(obj.position.x);
+      element.style.top = pixelize(obj.position.y);
       element.style.width = pixelize(obj.width);
       element.style.height = pixelize(obj.height);
 
@@ -1674,12 +1714,12 @@
         var elemWidth = unpixelize(element.style.width);
         var elemHeight = unpixelize(element.style.height);
 
-        if (elemX !== obj.x) {
-          element.style.left = pixelize(obj.x);
+        if (elemX !== obj.position.x) {
+          element.style.left = pixelize(obj.position.x);
         }
 
-        if (elemY !== obj.y) {
-          element.style.top = pixelize(obj.y);
+        if (elemY !== obj.position.y) {
+          element.style.top = pixelize(obj.position.y);
         }
 
         if (elemWidth !== obj.width) {
@@ -1784,27 +1824,16 @@
 
 (function(factory) {
   if (typeof define === "function" && define.amd) {
-    define('flockn/scene', 
-      ["exports", "flockn/addable", "flockn/base", "flockn/gameobject", "flockn/renderable", "flockn/updateable"],
-      factory
-    );
+    define('flockn/scene', ["exports", "flockn/base", "flockn/gameobject", "flockn/mixins"], factory);
   } else if (typeof exports !== "undefined") {
     factory(
       exports,
-      require("flockn/addable"),
       require("flockn/base"),
       require("flockn/gameobject"),
-      require("flockn/renderable"),
-      require("flockn/updateable")
+      require("flockn/mixins")
     );
   }
-})(function(
-  exports,
-  _flocknAddable,
-  _flocknBase,
-  _flocknGameobject,
-  _flocknRenderable,
-  _flocknUpdateable) {
+})(function(exports, _flocknBase, _flocknGameobject, _flocknMixins) {
   "use strict";
 
   var _classProps = function(child, staticProps, instanceProps) {
@@ -1828,11 +1857,11 @@
     child.__proto__ = parent;
   };
 
-  var addable = _flocknAddable.default;
   var Base = _flocknBase.default;
   var GameObject = _flocknGameobject.default;
-  var renderable = _flocknRenderable.default;
-  var updateable = _flocknUpdateable.default;
+  var addable = _flocknMixins.addable;
+  var renderable = _flocknMixins.renderable;
+  var updateable = _flocknMixins.updateable;
 
   var Scene = function(Base) {
     var Scene = function Scene(descriptor) {
@@ -2167,24 +2196,37 @@
 
 (function(factory) {
   if (typeof define === "function" && define.amd) {
-    define('flockn/types', ["exports", "flockn/types/color", "flockn/types/vector2"], factory);
+    define('flockn/types', 
+      ["exports", "flockn/types/color", "flockn/types/vector2", "flockn/types/vector3"],
+      factory
+    );
   } else if (typeof exports !== "undefined") {
-    factory(exports, require("flockn/types/color"), require("flockn/types/vector2"));
+    factory(
+      exports,
+      require("flockn/types/color"),
+      require("flockn/types/vector2"),
+      require("flockn/types/vector3")
+    );
   }
-})(function(exports, _flocknTypesColor, _flocknTypesVector2) {
-  "use strict";
-  var Color = _flocknTypesColor.default;
-  var Vector2 = _flocknTypesVector2.default;
+})(
+  function(exports, _flocknTypesColor, _flocknTypesVector2, _flocknTypesVector3) {
+    "use strict";
+    var Color = _flocknTypesColor.default;
+    var Vector2 = _flocknTypesVector2.default;
+    var Vector3 = _flocknTypesVector3.default;
 
-  var _Types = {};
+    var _Types = {};
 
-  _Types.Color = Color;
-  _Types.Vector2 = Vector2;
+    _Types.Color = Color;
+    _Types.Vector2 = Vector2;
+    _Types.Vector3 = Vector3;
 
-  exports.default = _Types;
-  exports.Color = Color;
-  exports.Vector2 = Vector2;
-});
+    exports.default = _Types;
+    exports.Color = Color;
+    exports.Vector2 = Vector2;
+    exports.Vector3 = Vector3;
+  }
+);
 
 (function(factory) {
   if (typeof define === "function" && define.amd) {
@@ -2305,6 +2347,14 @@
           this.x = this.x / this.magnitude;
           this.y = this.y / this.magnitude;
         }
+      },
+
+      equals: {
+        writable: true,
+
+        value: function(v) {
+          return (this.x === v.x && this.y === v.y);
+        }
       }
     });
 
@@ -2316,24 +2366,141 @@
 
 (function(factory) {
   if (typeof define === "function" && define.amd) {
-    define('flockn/updateable', ["exports"], factory);
+    define('flockn/types/vector3', ["exports"], factory);
   } else if (typeof exports !== "undefined") {
     factory(exports);
   }
 })(function(exports) {
   "use strict";
-  var updatable = function() {
-    var self = this;
 
-    // Update all children
-    this.on('update', function(dt) {
-      self.children.forEach(function(child) {
-        child.trigger('update', dt);
-      });
-    });
+  var _classProps = function(child, staticProps, instanceProps) {
+    if (staticProps)
+      Object.defineProperties(child, staticProps);
+
+    if (instanceProps)
+      Object.defineProperties(child.prototype, instanceProps);
   };
 
-  exports.default = updatable;
+  var _sqrMagnitude = function(v) {
+    return Vector3.dot(v, v);
+  };
+
+  var Vector3 = function() {
+    var Vector3 = function Vector3(x, y, z) {
+      if (z === undefined)
+        z = 0;
+
+      if (y === undefined)
+        y = 0;
+
+      if (x === undefined)
+        x = 0;
+
+      this.x = x;
+      this.y = y;
+      this.z = z;
+    };
+
+    _classProps(Vector3, {
+      dot: {
+        writable: true,
+
+        value: function(vec1, vec2) {
+          return vec1.x * vec2.x + vec1.y * vec2.y + vec1.z * vec2.z;
+        }
+      },
+
+      cross: {
+        writable: true,
+
+        value: function(vec1, vec2) {
+          return new Vector3(vec1.y * vec2.z - vec2.y * vec1.z, vec1.z * vec2.x - vec2.z * vec1.x, vec1.x * vec2.y - vec2.x * vec1.y);
+        }
+      }
+    }, {
+      magnitude: {
+        get: function() {
+          return Math.sqrt(_sqrMagnitude(this));
+        }
+      },
+
+      sqrMagnitude: {
+        get: function() {
+          return _sqrMagnitude(this);
+        }
+      },
+
+      clone: {
+        writable: true,
+
+        value: function() {
+          return new Vector2(this.x, this.y, this.z);
+        }
+      },
+
+      add: {
+        writable: true,
+
+        value: function(vector) {
+          this.x += vector.x;
+          this.y += vector.y;
+          this.z += vector.z;
+        }
+      },
+
+      subtract: {
+        writable: true,
+
+        value: function(vector) {
+          this.x -= vector.x;
+          this.y -= vector.y;
+          this.z -= vector.z;
+        }
+      },
+
+      multiply: {
+        writable: true,
+
+        value: function(vector) {
+          this.x *= vector.x;
+          this.y *= vector.y;
+          this.z *= vector.z;
+        }
+      },
+
+      divide: {
+        writable: true,
+
+        value: function(vector) {
+          this.x /= vector.x;
+          this.y /= vector.y;
+          this.z /= vector.z;
+        }
+      },
+
+      normalize: {
+        writable: true,
+
+        value: function() {
+          this.x = this.x / this.magnitude;
+          this.y = this.y / this.magnitude;
+          this.z = this.z / this.magnitude;
+        }
+      },
+
+      equals: {
+        writable: true,
+
+        value: function(v) {
+          return (this.x === v.x && this.y === v.y && this.z === v.z);
+        }
+      }
+    });
+
+    return Vector3;
+  }();
+
+  exports.default = Vector3;
 });
 
 (function(factory) {

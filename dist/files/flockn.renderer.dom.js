@@ -76,8 +76,8 @@
       element.style.height = pixelize(obj.parent.height);
       break;
     case 'GameObject':
-      element.style.left = pixelize(obj.x);
-      element.style.top = pixelize(obj.y);
+      element.style.left = pixelize(obj.position.x);
+      element.style.top = pixelize(obj.position.y);
       element.style.width = pixelize(obj.width);
       element.style.height = pixelize(obj.height);
 
@@ -166,12 +166,12 @@
         var elemWidth = unpixelize(element.style.width);
         var elemHeight = unpixelize(element.style.height);
 
-        if (elemX !== obj.x) {
-          element.style.left = pixelize(obj.x);
+        if (elemX !== obj.position.x) {
+          element.style.left = pixelize(obj.position.x);
         }
 
-        if (elemY !== obj.y) {
-          element.style.top = pixelize(obj.y);
+        if (elemY !== obj.position.y) {
+          element.style.top = pixelize(obj.position.y);
         }
 
         if (elemWidth !== obj.width) {
