@@ -6,6 +6,8 @@ import Model from 'flockn/model';
 import serialize from 'flockn/serialize';
 import Texture from 'flockn/texture';
 
+import {Vector2, Vector3} from 'flockn/types';
+
 import {addable, renderable, updateable} from 'flockn/mixins';
 
 
@@ -15,9 +17,7 @@ class GameObject extends Base {
 
     this.visible = true;
 
-    this.x = 0;
-    this.y = 0;
-    this.z = 0;
+    this.position = new Vector3();
 
     this.fitToTexture = true;
 
@@ -60,15 +60,9 @@ class GameObject extends Base {
 
     this.alpha = 1;
 
-    this.scale = {
-      x: 1,
-      y: 1
-    };
+    this.scale = new Vector2(1, 1);
 
-    this.origin = {
-      x: (this.width / 2),
-      y: (this.width / 2)
-    };
+    this.origin = new Vector2(this.width / 2, this.width / 2);
 
     this.border = {
       width: 0,
@@ -88,42 +82,40 @@ class GameObject extends Base {
 
     // Update all behaviors as well
     this.on('update', () => {
-      this.behaviors.forEach(function(behavior) {
-        behavior.trigger('update');
-      });
+      this.behaviors.forEach(behavior => behavior.trigger('update'));
     });
   }
 
   get left() {
-    return this.x;
+    return this.position.x;
   }
 
   set left(value) {
-    this.x = value;
+    this.position.x = value;
   }
 
   get top() {
-    return this.y;
+    return this.position.y;
   }
 
   set top(value) {
-    this.y = value;
+    this.position.y = value;
   }
 
   get right() {
-    return this.parent.width - this.width - this.x;
+    return this.parent.width - this.width - this.position.x;
   }
 
   set right(value) {
-    this.x = this.parent.width - this.width - value;
+    this.position.x = this.parent.width - this.width - value;
   }
 
   get bottom() {
-    return this.parent.height - this.height - this.y;
+    return this.parent.height - this.height - this.position.y;
   }
 
   set bottom(value) {
-    this.y = this.parent.height - this.height - value;
+    this.position.y = this.parent.height - this.height - value;
   }
 
   addGameObject() {
@@ -181,6 +173,10 @@ class GameObject extends Base {
 
   static fromJSON() {
 
+  }
+
+  static fromString() {
+    
   }
 }
 
