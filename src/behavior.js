@@ -1,7 +1,7 @@
-import addable from 'flockn/addable';
 import Base from 'flockn/base';
 import Group from 'flockn/group';
-import updateable from 'flockn/updateable';
+
+import {addable, updateable} from 'flockn/mixins';
 
 
 // Behaviors only provide logic. There is no rendering involved.
