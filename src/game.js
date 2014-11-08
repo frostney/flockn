@@ -1,4 +1,4 @@
-import Loop from 'gameboard/loop';
+import * as Loop from 'gameboard/loop';
 
 import addable from 'flockn/addable';
 import Base from 'flockn/base';
@@ -13,7 +13,7 @@ var root = window;
 
 // Game is the entry point for all games made with flockn.
 // Any number of `Scene` instances can be attached to a `Game` instance
-class Game {
+class Game extends Base {
   constructor(descriptor) {
     // The new operator does not need to be set explicitly.
     // If it isn't we return an instance of `Game`
@@ -22,11 +22,11 @@ class Game {
     }
 
     // Extend the `Base` class
-    Base.extend([this, Game.prototype], 'Game', function () {
-      descriptor.call(this);
+    super('Game', descriptor);
 
-      Graphics.trigger('initialize', this);
-    });
+    descriptor.call(this);
+
+    Graphics.trigger('initialize', this);
 
     // `this.container` is a string, which is the id of the element.
     // If it's not given, it should create a new element. This should be handled by the renderer.
