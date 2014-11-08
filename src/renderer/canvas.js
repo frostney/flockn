@@ -32,7 +32,7 @@ Graphics.on('render', function(obj) {
   case 'GameObject':
     context.save();
 
-    context.translate(obj.x + obj.origin.x, obj.y + obj.origin.y);
+    context.translate(obj.position.x + obj.origin.x, obj.position.y + obj.origin.y);
 
     if (obj.angle !== 0) {
       context.rotate(obj.angle * (Math.PI / 180));
