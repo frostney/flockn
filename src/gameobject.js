@@ -176,7 +176,7 @@ class GameObject extends Base {
   }
 
   static fromString() {
-    
+
   }
 }
 
