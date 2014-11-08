@@ -56,6 +56,10 @@ class Vector2 {
     this.x = this.x / this.magnitude;
     this.y = this.y / this.magnitude;
   }
+
+  equals(v) {
+    return (this.x === v.x && this.y === v.y);
+  }
 }
 
 export default Vector2;
