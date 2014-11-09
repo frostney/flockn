@@ -1,5 +1,5 @@
 import {Color} from 'flockn/types';
-import * as EventMap from 'eventmap';
+import EventMap from 'eventmap';
 
 class Texture extends EventMap {
   constructor() {
@@ -119,6 +119,6 @@ class Texture extends EventMap {
 
     this.color = Color.white;
   }
-};
+}
 
 export default Texture;
