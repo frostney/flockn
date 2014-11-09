@@ -1,4 +1,4 @@
-import * as EventMap from 'eventmap';
+import EventMap from 'eventmap';
 
 class Model extends EventMap {
   constructor() {
