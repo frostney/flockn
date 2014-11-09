@@ -1,5 +1,5 @@
-import * as clamp from 'clamp'
-import colorConstants from 'flockn/constants/color'
+import * as clamp from 'clamp';
+import colorConstants from 'flockn/constants/color';
 
 class Color {
   constructor(r = 0, g = 0, b = 0, a = 1) {
