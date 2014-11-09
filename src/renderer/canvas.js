@@ -1,5 +1,5 @@
-import Graphics from 'flockn/graphics'
-import createRootElement from 'flockn/graphics/rootelement'
+import Graphics from 'flockn/graphics';
+import createRootElement from 'flockn/graphics/rootelement';
 
 Graphics.renderer = 'Canvas';
 
