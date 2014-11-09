@@ -1,6 +1,6 @@
-import * as EventMap from 'eventmap';
+import EventMap from 'eventmap';
 
-import * as Input from 'gameboard/input';
+import {Input} from 'gameboard';
 
 import Audio from 'flockn/audio';
 import Group from 'flockn/group';
@@ -26,7 +26,7 @@ var numToIdString = function(num) {
 };
 
 class Base extends EventMap {
-  constructor(type = 'Base', descriptor) {
+  constructor(type = 'Base', descriptor = function() {}) {
     super();
 
     this.type = type;
