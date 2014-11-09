@@ -28,8 +28,8 @@
     "tests"
   ],
   "dependencies": {
-    "eventmap": "~1.3.13",
-    "gameboard": "0.2.0-alpha1"
+    "eventmap": "~1.4.0",
+    "gameboard": "0.2.0-alpha2"
   },
   "devDependencies": {
     "almond": "~0.3.0",
