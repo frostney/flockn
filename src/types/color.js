@@ -54,6 +54,17 @@ class Color {
       return `rgb(${this.r},${this.g},${this.b})`;
     }
   }
+
+  // Getting a random color for debugging is quite useful sometimes
+  static random() {
+    var col = [0, 0, 0];
+
+    col = col.map(function() {
+      return ~~(Math.random() * 255);
+    });
+
+    return new Color(col[0], col[1], col[2]);
+  }
 }
 
 for (var colorName in colorConstants) {
