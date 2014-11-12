@@ -31,7 +31,11 @@ var addable = function addable(Factory, groupInstance, extraFn) {
 
     Graphics.trigger('add', child);
 
-    child.apply(args);
+    // Only call apply if it's available. Models for example don't have one
+    if (child.apply) {
+      child.apply(args);
+    }
+
     child.trigger('add', child, args);
   };
 
