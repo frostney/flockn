@@ -95,7 +95,7 @@ class Game extends Base {
     this.activeScene = name;
 
     // Call resize event
-    this.children[this.activeScene].trigger('resize', root.innerWidth, root.innerHeight);
+    this.children.byName(this.activeScene).trigger('resize', root.innerWidth, root.innerHeight);
 
     // Trigger the `show` event
     this.trigger('show', this.activeScene, this.children[this.activeScene]);
@@ -110,8 +110,8 @@ class Game extends Base {
     Loop.run();
 
     if (!name) {
-      // If there's only one scene, specifying a name is not necessary
-      if (this.children.length === 1) {
+      // If there's only no name, take the first scene
+      if (this.children.length >= 1) {
         name = this.children[0].name;
       }
     }
