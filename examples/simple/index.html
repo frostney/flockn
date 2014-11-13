@@ -6,9 +6,9 @@
 		<link rel="stylesheet" href="style.css">
 
 		<script src="../../bower_components/almond/almond.js"></script>
+		<script src="../../bower_components/udefine/dist/udefine.js"></script>
 		<script src="../../bower_components/eventmap/dist/eventmap.js"></script>
 		<script src="../../bower_components/animframe/dist/animframe.js"></script>
-		<script src="../bower_components/bezier-easing/bezier-easing.js"></script>
 		<script src="../../bower_components/gameboard/dist/gameboard.js"></script>
 		<script src="../../dist/flockn.all.js"></script>
 	</head>
@@ -18,7 +18,69 @@
 			require(['flockn/renderer/canvas', 'flockn/game'], function(Graphics, Game) {
 				Game = Game['default'];
 
+				// Create a new game instance
+				new Game(function() {
 
+					// Set the width & height of the game
+					this.width = 300;
+					this.height = 300;
+
+					// Add a new scene
+					this.addScene(function() {
+
+						// Add a new object onto the scene
+						this.addGameObject(function() {
+							var _this = this;
+							// Set its name
+							this.name = 'myGameObject';
+
+							// Load an image for the texture
+							this.texture.image.filename = 'hero_front.png';
+
+							this.input.key.on('down', function(keyCode) {
+								if (keyCode === _this.up || keyCode === _this.w) {
+									_this.position.y -= 10;
+								}
+
+								if (keyCode === _this.down || keyCode === _this.s) {
+									_this.position.y += 10;
+								}
+
+								if (keyCode === _this.left || keyCode === _this.a) {
+									_this.position.x -= 10;
+								}
+
+								if (keyCode === _this.right || keyCode === _this.d) {
+									_this.position.x += 10;
+								}
+							});
+
+							this.on('update', function(dt) {
+								return _this.angle += (dt * 10);
+							});
+						});
+
+						this.addGameObject(function() {
+							this.texture.color.set(255, 0, 0);
+
+							this.position.x = 100;
+							this.position.y = 100;
+
+							this.width = 80;
+							this.height = 80;
+						});
+
+						this.addGameObject(function() {
+							this.texture.label.text = 'Hello World';
+
+							this.top = 8;
+							this.right = 8;
+						});
+					});
+
+					this.run();
+
+				});
 			});
 		</script>
 	</body>

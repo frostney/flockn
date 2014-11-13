@@ -1,80 +1,78 @@
-(function(factory) {
+(function (factory) {
   if (typeof define === "function" && define.amd) {
     define('flockn/renderer/canvas', ["exports", "flockn/graphics", "flockn/graphics/rootelement"], factory);
   } else if (typeof exports !== "undefined") {
-    factory(
-      exports,
-      require("flockn/graphics"),
-      require("flockn/graphics/rootelement")
-    );
+    factory(exports, require("flockn/graphics"), require("flockn/graphics/rootelement"));
   }
-})(function(exports, _flocknGraphics, _flocknGraphicsRootelement) {
+})(function (exports, _flocknGraphics, _flocknGraphicsRootelement) {
   "use strict";
+
   var Graphics = _flocknGraphics.default;
   var createRootElement = _flocknGraphicsRootelement.default;
 
-  Graphics.renderer = 'Canvas';
+
+  Graphics.renderer = "Canvas";
 
   var rootElement = null;
   var context = null;
 
-  Graphics.on('initialize', function(Game) {
-    rootElement = createRootElement.call(Game, 'canvas', function(rootElement) {
+  Graphics.on("initialize", function (Game) {
+    rootElement = createRootElement.call(Game, "canvas", function (rootElement) {
       rootElement.width = Game.width;
       rootElement.height = Game.height;
-      context = rootElement.getContext('2d');
+      context = rootElement.getContext("2d");
     });
   });
 
-  Graphics.before('render', function(obj) {
+  Graphics.before("render", function (obj) {
     switch (obj.type) {
-    case 'Game':
-      context.clearRect(0, 0, obj.width, obj.height);
+      case "Game":
+        context.clearRect(0, 0, obj.width, obj.height);
 
-      context.fillStyle = obj.color.toString();
-      context.fillRect(0, 0, obj.width, obj.height);
-      break;
-    default:
-      break;
+        context.fillStyle = obj.color.toString();
+        context.fillRect(0, 0, obj.width, obj.height);
+        break;
+      default:
+        break;
     }
   });
 
-  Graphics.on('render', function(obj) {
+  Graphics.on("render", function (obj) {
     switch (obj.type) {
-    case 'GameObject':
-      context.save();
+      case "GameObject":
+        context.save();
 
-      context.translate(obj.position.x + obj.origin.x, obj.position.y + obj.origin.y);
+        context.translate(obj.position.x + obj.origin.x, obj.position.y + obj.origin.y);
 
-      if (obj.angle !== 0) {
-        context.rotate(obj.angle * (Math.PI / 180));
-      }
+        if (obj.angle !== 0) {
+          context.rotate(obj.angle * (Math.PI / 180));
+        }
 
-      if (obj.texture.color.toString() !== 'transparent') {
-        context.fillStyle = obj.texture.color.toString();
-        context.fillRect(-obj.origin.x, -obj.origin.y, obj.width, obj.height);
-      }
+        if (obj.texture.color.toString() !== "transparent") {
+          context.fillStyle = obj.texture.color.toString();
+          context.fillRect(-obj.origin.x, -obj.origin.y, obj.width, obj.height);
+        }
 
-      if (obj.texture.image.drawable) {
-        context.drawImage(obj.texture.image.data, -obj.origin.x, -obj.origin.y);
-      }
+        if (obj.texture.image.drawable) {
+          context.drawImage(obj.texture.image.data, -obj.origin.x, -obj.origin.y);
+        }
 
-      if (obj.texture.label.drawable) {
-        var fontName = obj.texture.label.font.size + 'px ' + obj.texture.label.font.name;
+        if (obj.texture.label.drawable) {
+          var fontName = obj.texture.label.font.size + "px " + obj.texture.label.font.name;
 
-        context.fillStyle = obj.texture.label.font.color.toString();
-        context.fillText(obj.texture.label.text, -obj.origin.x, -obj.origin.y);
-      }
+          context.fillStyle = obj.texture.label.font.color.toString();
+          context.fillText(obj.texture.label.text, -obj.origin.x, -obj.origin.y);
+        }
 
-      context.restore();
-      break;
-    case 'Scene':
-      if (obj.parent.activeScene !== obj.name) {
-        return;
-      }
-      break;
-    default:
-      break;
+        context.restore();
+        break;
+      case "Scene":
+        if (obj.parent.activeScene !== obj.name) {
+          return;
+        }
+        break;
+      default:
+        break;
     }
   });
 });

@@ -1,67 +1,46 @@
-(function(factory) {
+(function (factory) {
   if (typeof define === "function" && define.amd) {
     define('flockn/assets', ["exports"], factory);
   } else if (typeof exports !== "undefined") {
     factory(exports);
   }
-})(function(exports) {
+})(function (exports) {
   "use strict";
+
   var Assets = {};
 
   exports.default = Assets;
 });
-
-(function(factory) {
+(function (factory) {
   if (typeof define === "function" && define.amd) {
     define('flockn/audio', ["exports"], factory);
   } else if (typeof exports !== "undefined") {
     factory(exports);
   }
-})(function(exports) {
+})(function (exports) {
   "use strict";
+
   var Audio = {};
 
-  Audio.play = function() {
-
-  };
+  Audio.play = function () {};
 
   exports.default = Audio;
 });
-
-(function(factory) {
+(function (factory) {
   if (typeof define === "function" && define.amd) {
-    define('flockn/base', 
-      ["exports", "eventmap", "gameboard/input", "flockn/audio", "flockn/group", "flockn/world"],
-      factory
-    );
+    define('flockn/base', ["exports", "eventmap", "gameboard", "flockn/audio", "flockn/group", "flockn/world"], factory);
   } else if (typeof exports !== "undefined") {
-    factory(
-      exports,
-      require("eventmap"),
-      require("gameboard/input"),
-      require("flockn/audio"),
-      require("flockn/group"),
-      require("flockn/world")
-    );
+    factory(exports, require("eventmap"), require("gameboard"), require("flockn/audio"), require("flockn/group"), require("flockn/world"));
   }
-})(function(
-  exports,
-  _eventmap,
-  _gameboardInput,
-  _flocknAudio,
-  _flocknGroup,
-  _flocknWorld) {
+})(function (exports, _eventmap, _gameboard, _flocknAudio, _flocknGroup, _flocknWorld) {
   "use strict";
 
-  var _classProps = function(child, staticProps, instanceProps) {
-    if (staticProps)
-      Object.defineProperties(child, staticProps);
-
-    if (instanceProps)
-      Object.defineProperties(child.prototype, instanceProps);
+  var _classProps = function (child, staticProps, instanceProps) {
+    if (staticProps) Object.defineProperties(child, staticProps);
+    if (instanceProps) Object.defineProperties(child.prototype, instanceProps);
   };
 
-  var _extends = function(child, parent) {
+  var _extends = function (child, parent) {
     child.prototype = Object.create(parent.prototype, {
       constructor: {
         value: child,
@@ -70,52 +49,51 @@
         configurable: true
       }
     });
-
     child.__proto__ = parent;
   };
 
-  var EventMap = _eventmap;
-  var Input = _gameboardInput;
+  var EventMap = _eventmap.default;
+  var Input = _gameboard.Input;
   var Audio = _flocknAudio.default;
   var Group = _flocknGroup.default;
   var World = _flocknWorld.default;
+
 
   var objectIndex = 0;
 
   var prependMax = 10000;
 
-  var numToIdString = function(num) {
-    var stringNum = num + '';
+  var numToIdString = function (num) {
+    var stringNum = num + "";
 
     if (num >= prependMax) {
       return stringNum;
     } else {
-      var prependLength = (prependMax + '').length - stringNum.length;
+      var prependLength = (prependMax + "").length - stringNum.length;
       for (var i = 0; i < prependLength; i++) {
-        stringNum = '0' + stringNum;
+        stringNum = "0" + stringNum;
       }
 
       return stringNum;
     }
   };
 
-  var Base = function(EventMap) {
+  var Base = (function (EventMap) {
     var Base = function Base(type, descriptor) {
-      if (type === undefined)
-        type = 'Base';
-
+      if (descriptor === undefined) descriptor = function () {};
+      if (type === undefined) type = "Base";
       EventMap.call(this);
 
       this.type = type;
-      this.name = this.type + '-' + Date.now();
+      this.name = this.type + "-" + Date.now();
 
       // Count up `objectIndex` and stringify it
       var currentObject = numToIdString(++objectIndex);
 
       // The `id` property is read-only and returns the type and the stringified object index
-      Object.defineProperty(this, 'id', {
-        get: function() {
-          return this.type + '-' + currentObject;
+      Object.defineProperty(this, "id", {
+        get: function () {
+          return this.type + "-" + currentObject;
         },
         enumerable: true
       });
@@ -142,23 +120,22 @@
       this.world = World;
 
       // Emit an event
-      this.trigger('constructed');
+      this.trigger("constructed");
     };
 
     _extends(Base, EventMap);
 
     _classProps(Base, {
       queueOrder: {
-        get: function() {
+        get: function () {
           // TODO: Move this to a closure?
-          return ['Game', 'Scene', 'GameObject', 'Behavior', 'Model'];
+          return ["Game", "Scene", "GameObject", "Behavior", "Model"];
         }
       }
     }, {
       apply: {
         writable: true,
-
-        value: function(args) {
+        value: function (args) {
           // TODO: Reflect if function check should be enforced here
           if (this.descriptor) {
             // If args is not an array or array-like, provide an empty one
@@ -168,13 +145,13 @@
             this.descriptor.apply(this, args);
 
             // Trigger an event
-            this.trigger('execute');
+            this.trigger("execute");
 
             // TODO: Impose an order in the queue, such as:
             // (Game) -> Scene -> GameObject -> Behavior -> Model
 
             // TODO: Implement z-order
-            this.queue.forEach(function(q) {
+            this.queue.forEach(function (q) {
               q && q();
             });
 
@@ -183,49 +160,35 @@
           }
         }
       },
-
       call: {
         writable: true,
-
-        value: function() {
+        value: function () {
           // Call `Base#apply` with the arguments object
           this.apply(arguments);
         }
       },
-
       reset: {
         writable: true,
-
-        value: function() {
+        value: function () {
           return this.call.apply(this, arguments);
         }
       },
-
       closest: {
         writable: true,
-
-        value: function() {
-
-        }
+        value: function () {}
       },
-
       find: {
         writable: true,
-
-        value: function() {
-
-        }
+        value: function () {}
       },
-
       log: {
         writable: true,
-
-        value: function() {
+        value: function () {
           if (console && console.log) {
             var argArray = [].slice.call(arguments);
 
             // Log with `console.log`: Prepend the type and name
-            argArray.unshift(':');
+            argArray.unshift(":");
             argArray.unshift(this.name);
             argArray.unshift(this.type);
 
@@ -236,34 +199,25 @@
     });
 
     return Base;
-  }(EventMap);
+  })(EventMap);
 
   exports.default = Base;
 });
-
-(function(factory) {
+(function (factory) {
   if (typeof define === "function" && define.amd) {
     define('flockn/behavior', ["exports", "flockn/base", "flockn/group", "flockn/mixins"], factory);
   } else if (typeof exports !== "undefined") {
-    factory(
-      exports,
-      require("flockn/base"),
-      require("flockn/group"),
-      require("flockn/mixins")
-    );
+    factory(exports, require("flockn/base"), require("flockn/group"), require("flockn/mixins"));
   }
-})(function(exports, _flocknBase, _flocknGroup, _flocknMixins) {
+})(function (exports, _flocknBase, _flocknGroup, _flocknMixins) {
   "use strict";
 
-  var _classProps = function(child, staticProps, instanceProps) {
-    if (staticProps)
-      Object.defineProperties(child, staticProps);
-
-    if (instanceProps)
-      Object.defineProperties(child.prototype, instanceProps);
+  var _classProps = function (child, staticProps, instanceProps) {
+    if (staticProps) Object.defineProperties(child, staticProps);
+    if (instanceProps) Object.defineProperties(child.prototype, instanceProps);
   };
 
-  var _extends = function(child, parent) {
+  var _extends = function (child, parent) {
     child.prototype = Object.create(parent.prototype, {
       constructor: {
         value: child,
@@ -272,7 +226,6 @@
         configurable: true
       }
     });
-
     child.__proto__ = parent;
   };
 
@@ -280,10 +233,9 @@
   var Group = _flocknGroup.default;
   var addable = _flocknMixins.addable;
   var updateable = _flocknMixins.updateable;
-
-  var Behavior = function(Base) {
+  var Behavior = (function (Base) {
     var Behavior = function Behavior(descriptor) {
-      Base.call(this, 'Behavior', descriptor);
+      Base.call(this, "Behavior", descriptor);
 
       // Reference to the game object itself
       this.gameObject = null;
@@ -297,49 +249,43 @@
     _classProps(Behavior, {
       define: {
         writable: true,
-
-        value: function(name, factory) {
+        value: function (name, factory) {
           Behavior.store[name] = factory;
         }
       }
     }, {
       addBehavior: {
         writable: true,
-
-        value: function() {
+        value: function () {
           // When a behavior is added, the reference to the game object is set
-          this.queue.push(addable(Behavior, this.children, function(child) {
+          this.queue.push(addable(Behavior, this.children, function (child) {
             child.gameObject = this.gameObject;
           }).apply(this, arguments));
         }
       },
-
       removeBehavior: {
         writable: true,
-
-        value: function() {
-
-        }
+        value: function () {}
       }
     });
 
     return Behavior;
-  }(Base);
+  })(Base);
 
   // Behaviors can be defined and are stored on the object itself
   Behavior.store = {};
 
   exports.default = Behavior;
 });
-
-(function(factory) {
+(function (factory) {
   if (typeof define === "function" && define.amd) {
     define('flockn/constants/color', ["exports"], factory);
   } else if (typeof exports !== "undefined") {
     factory(exports);
   }
-})(function(exports) {
+})(function (exports) {
   "use strict";
+
   var colors = {
     aqua: {
       r: 0,
@@ -431,45 +377,21 @@
 
   exports.default = colors;
 });
-
-(function(factory) {
+(function (factory) {
   if (typeof define === "function" && define.amd) {
-    define('flockn/game', 
-      ["exports", "gameboard/loop", "flockn/base", "flockn/graphics", "flockn/scene", "flockn/types/color", "flockn/viewport", "flockn/mixins"],
-      factory
-    );
+    define('flockn/game', ["exports", "gameboard/loop", "flockn/base", "flockn/graphics", "flockn/scene", "flockn/types/color", "flockn/viewport", "flockn/mixins"], factory);
   } else if (typeof exports !== "undefined") {
-    factory(
-      exports,
-      require("gameboard/loop"),
-      require("flockn/base"),
-      require("flockn/graphics"),
-      require("flockn/scene"),
-      require("flockn/types/color"),
-      require("flockn/viewport"),
-      require("flockn/mixins")
-    );
+    factory(exports, require("gameboard/loop"), require("flockn/base"), require("flockn/graphics"), require("flockn/scene"), require("flockn/types/color"), require("flockn/viewport"), require("flockn/mixins"));
   }
-})(function(
-  exports,
-  _gameboardLoop,
-  _flocknBase,
-  _flocknGraphics,
-  _flocknScene,
-  _flocknTypesColor,
-  _flocknViewport,
-  _flocknMixins) {
+})(function (exports, _gameboardLoop, _flocknBase, _flocknGraphics, _flocknScene, _flocknTypesColor, _flocknViewport, _flocknMixins) {
   "use strict";
 
-  var _classProps = function(child, staticProps, instanceProps) {
-    if (staticProps)
-      Object.defineProperties(child, staticProps);
-
-    if (instanceProps)
-      Object.defineProperties(child.prototype, instanceProps);
+  var _classProps = function (child, staticProps, instanceProps) {
+    if (staticProps) Object.defineProperties(child, staticProps);
+    if (instanceProps) Object.defineProperties(child.prototype, instanceProps);
   };
 
-  var _extends = function(child, parent) {
+  var _extends = function (child, parent) {
     child.prototype = Object.create(parent.prototype, {
       constructor: {
         value: child,
@@ -478,7 +400,6 @@
         configurable: true
       }
     });
-
     child.__proto__ = parent;
   };
 
@@ -492,9 +413,10 @@
   var renderable = _flocknMixins.renderable;
   var updateable = _flocknMixins.updateable;
 
+
   var root = window;
 
-  var Game = function(Base) {
+  var Game = (function (Base) {
     var Game = function Game(descriptor) {
       var _this = this;
       // The new operator does not need to be set explicitly.
@@ -504,11 +426,11 @@
       }
 
       // Extend the `Base` class
-      Base.call(this, 'Game', descriptor);
+      Base.call(this, "Game", descriptor);
 
       descriptor.call(this);
 
-      Graphics.trigger('initialize', this);
+      Graphics.trigger("initialize", this);
 
       // `this.container` is a string, which is the id of the element.
       // If it's not given, it should create a new element. This should be handled by the renderer.
@@ -534,31 +456,31 @@
       updateable.call(this);
 
       // Bind the game loop to the `update` event
-      Loop.on('update', function(dt) {
+      Loop.on("update", function (dt) {
         // Deltatime should not be a millisecond value, but a second one.
         // It should be a value between 0 - 1
-        _this.trigger('update', dt / 1000);
+        _this.trigger("update", dt / 1000);
       });
 
       // Bind the game loop to the `render` event
-      Loop.on('render', function() {
-        _this.trigger('render');
+      Loop.on("render", function () {
+        _this.trigger("render");
       });
 
       // Add a `resize` event to each `Game` instance
-      root.addEventListener('resize', function() {
+      root.addEventListener("resize", function () {
         var newWidth = root.innerWidth;
         var newHeight = root.innerHeight;
 
-        _this.trigger('resize', newWidth, newHeight);
+        _this.trigger("resize", newWidth, newHeight);
 
         // Trigger resize event for the current scene
-        _this.activeScene.trigger('resize', newWidth, newHeight);
+        _this.activeScene.trigger("resize", newWidth, newHeight);
       }, false);
 
       // Add an `orientationchange` event to each `Game` instance
-      root.addEventListener('orientationchange', function() {
-        _this.trigger('orientationchange');
+      root.addEventListener("orientationchange", function () {
+        _this.trigger("orientationchange");
       }, false);
     };
 
@@ -567,8 +489,7 @@
     _classProps(Game, null, {
       addScene: {
         writable: true,
-
-        value: function() {
+        value: function () {
           // When adding a scene, the dimension of scenes should be
           // exactly as large as the `Game` instance itself
           this.queue.push(addable(Scene, this.children, function (child) {
@@ -577,36 +498,28 @@
           }).apply(this, arguments));
         }
       },
-
       showScene: {
         writable: true,
-
-        value: function(name) {
+        value: function (name) {
           // TODO: Add transitions
 
           // Set the `activeScene` property
           this.activeScene = name;
 
           // Call resize event
-          this.children[this.activeScene].trigger('resize', root.innerWidth, root.innerHeight);
+          this.children[this.activeScene].trigger("resize", root.innerWidth, root.innerHeight);
 
           // Trigger the `show` event
-          this.trigger('show', this.activeScene, this.children[this.activeScene]);
+          this.trigger("show", this.activeScene, this.children[this.activeScene]);
         }
       },
-
       preload: {
         writable: true,
-
-        value: function(assets) {
-
-        }
+        value: function (assets) {}
       },
-
       run: {
         writable: true,
-
-        value: function(name) {
+        value: function (name) {
           // Start the game loop
           Loop.run();
 
@@ -626,53 +539,25 @@
     });
 
     return Game;
-  }(Base);
+  })(Base);
 
   exports.default = Game;
 });
-
-(function(factory) {
+(function (factory) {
   if (typeof define === "function" && define.amd) {
-    define('flockn/gameobject', 
-      ["exports", "flockn/base", "flockn/behavior", "flockn/graphics", "flockn/group", "flockn/model", "flockn/serialize", "flockn/texture", "flockn/types", "flockn/mixins"],
-      factory
-    );
+    define('flockn/gameobject', ["exports", "flockn/base", "flockn/behavior", "flockn/graphics", "flockn/group", "flockn/model", "flockn/serialize", "flockn/texture", "flockn/types", "flockn/mixins"], factory);
   } else if (typeof exports !== "undefined") {
-    factory(
-      exports,
-      require("flockn/base"),
-      require("flockn/behavior"),
-      require("flockn/graphics"),
-      require("flockn/group"),
-      require("flockn/model"),
-      require("flockn/serialize"),
-      require("flockn/texture"),
-      require("flockn/types"),
-      require("flockn/mixins")
-    );
+    factory(exports, require("flockn/base"), require("flockn/behavior"), require("flockn/graphics"), require("flockn/group"), require("flockn/model"), require("flockn/serialize"), require("flockn/texture"), require("flockn/types"), require("flockn/mixins"));
   }
-})(function(
-  exports,
-  _flocknBase,
-  _flocknBehavior,
-  _flocknGraphics,
-  _flocknGroup,
-  _flocknModel,
-  _flocknSerialize,
-  _flocknTexture,
-  _flocknTypes,
-  _flocknMixins) {
+})(function (exports, _flocknBase, _flocknBehavior, _flocknGraphics, _flocknGroup, _flocknModel, _flocknSerialize, _flocknTexture, _flocknTypes, _flocknMixins) {
   "use strict";
 
-  var _classProps = function(child, staticProps, instanceProps) {
-    if (staticProps)
-      Object.defineProperties(child, staticProps);
-
-    if (instanceProps)
-      Object.defineProperties(child.prototype, instanceProps);
+  var _classProps = function (child, staticProps, instanceProps) {
+    if (staticProps) Object.defineProperties(child, staticProps);
+    if (instanceProps) Object.defineProperties(child.prototype, instanceProps);
   };
 
-  var _extends = function(child, parent) {
+  var _extends = function (child, parent) {
     child.prototype = Object.create(parent.prototype, {
       constructor: {
         value: child,
@@ -681,7 +566,6 @@
         configurable: true
       }
     });
-
     child.__proto__ = parent;
   };
 
@@ -697,11 +581,10 @@
   var addable = _flocknMixins.addable;
   var renderable = _flocknMixins.renderable;
   var updateable = _flocknMixins.updateable;
-
-  var GameObject = function(Base) {
+  var GameObject = (function (Base) {
     var GameObject = function GameObject(descriptor) {
       var _this = this;
-      Base.call(this, 'GameObject', descriptor);
+      Base.call(this, "GameObject", descriptor);
 
       this.visible = true;
 
@@ -714,7 +597,7 @@
       this.texture.parent = this;
 
       // Once the image is loaded, update width and height if `fitToTexture` is set
-      this.texture.on('image-loaded', function() {
+      this.texture.on("image-loaded", function () {
         if (_this.fitToTexture) {
           _this.width = _this.texture.image.width;
           _this.height = _this.texture.image.height;
@@ -724,11 +607,11 @@
         }
 
         // TODO: Evaluate if the Graphics trigger should only be in the texture
-        Graphics.trigger('texture-image-loaded', _this, _this.texture);
+        Graphics.trigger("texture-image-loaded", _this, _this.texture);
       });
 
       // Once the label is loaded, update width and height if `fitToTexture` is set
-      this.texture.on('label-loaded', function() {
+      this.texture.on("label-loaded", function () {
         if (_this.fitToTexture) {
           _this.width = _this.texture.label.width;
           _this.height = _this.texture.label.height;
@@ -737,7 +620,7 @@
           _this.origin.y = (_this.height / 2);
 
           // TODO: Evaluate if the Graphics trigger should only be in the texture
-          Graphics.trigger('texture-label-loaded', _this, _this.texture);
+          Graphics.trigger("texture-label-loaded", _this, _this.texture);
         }
       });
 
@@ -754,7 +637,7 @@
 
       this.border = {
         width: 0,
-        color: 'rgb(0, 0, 0)',
+        color: "rgb(0, 0, 0)",
         radius: 0
       };
 
@@ -764,14 +647,20 @@
       // Data models
       this.models = new Group();
 
+      // Add default model
+      var defaultModel = new Model();
+      defaultModel.name = "default";
+
+      this.addModel(defaultModel);
+
       // Mix in renderable and updateable
       renderable.call(this);
       updateable.call(this);
 
       // Update all behaviors as well
-      this.on('update', function() {
-        _this.behaviors.forEach(function(behavior) {
-          return behavior.trigger('update');
+      this.on("update", function () {
+        _this.behaviors.forEach(function (behavior) {
+          return behavior.trigger("update");
         });
       });
     };
@@ -781,142 +670,113 @@
     _classProps(GameObject, {
       define: {
         writable: true,
-
-        value: function(name, factory) {
+        value: function (name, factory) {
           GameObject.store[name] = factory;
         }
       },
-
       fromJSON: {
         writable: true,
-
-        value: function() {
-
-        }
+        value: function () {}
       },
-
       fromString: {
         writable: true,
-
-        value: function() {
-
-        }
+        value: function () {}
       }
     }, {
       left: {
-        get: function() {
+        get: function () {
           return this.position.x;
         },
-
-        set: function(value) {
+        set: function (value) {
           this.position.x = value;
         }
       },
-
       top: {
-        get: function() {
+        get: function () {
           return this.position.y;
         },
-
-        set: function(value) {
+        set: function (value) {
           this.position.y = value;
         }
       },
-
       right: {
-        get: function() {
+        get: function () {
           return this.parent.width - this.width - this.position.x;
         },
-
-        set: function(value) {
+        set: function (value) {
           this.position.x = this.parent.width - this.width - value;
         }
       },
-
       bottom: {
-        get: function() {
+        get: function () {
           return this.parent.height - this.height - this.position.y;
         },
-
-        set: function(value) {
+        set: function (value) {
           this.position.y = this.parent.height - this.height - value;
         }
       },
-
       addGameObject: {
         writable: true,
-
-        value: function() {
+        value: function () {
           // Add a game object to this game object
           this.queue.push(addable(GameObject, this.children).apply(this, arguments));
         }
       },
-
       addBehavior: {
         writable: true,
-
-        value: function() {
+        value: function () {
           // Add a `Behavior` instance to the the game object and update the `gameObject` property
-          this.queue.push(addable(Behavior, this.behaviors, function(child) {
+          this.queue.push(addable(Behavior, this.behaviors, function (child) {
             child.gameObject = this;
           }).apply(this, arguments));
         }
       },
-
       addModel: {
         writable: true,
-
-        value: function() {
+        value: function () {
           // Add a `Model` instance to the game object
           this.queue.push(addable(Model, this.models).apply(this, arguments));
         }
       },
-
       removeGameObject: {
         writable: true,
-
-        value: function() {
-
-        }
+        value: function () {}
       },
-
       removeBehavior: {
         writable: true,
-
-        value: function() {
-
-        }
+        value: function () {}
       },
-
       removeModel: {
         writable: true,
-
-        value: function() {
-
+        value: function () {}
+      },
+      data: {
+        writable: true,
+        value: function (name) {
+          if (!name) {
+            return this.models.byName("default");
+          } else {
+            return this.models.byName(name);
+          }
         }
       },
-
       toJSON: {
         writable: true,
-
-        value: function() {
+        value: function () {
           // Serialize this object
           return serialize(this);
         }
       },
-
       animate: {
         writable: true,
-
-        value: function(property, end, time, callback) {
+        value: function (property, end, time, callback) {
           // TODO: Tweening does not work yet
-          if ( typeof this[property] === 'number') {
+          if (typeof this[property] === "number") {
             var distance = end - this[property];
             var timeInS = (time / 1000);
 
-            var animateName = 'animate-' + Date.now();
-            this.on(animateName, function(dt) {
-
+            var animateName = "animate-" + Date.now();
+            this.on(animateName, function (dt) {
               this.off(animateName);
             });
           }
@@ -925,53 +785,54 @@
     });
 
     return GameObject;
-  }(Base);
+  })(Base);
 
   GameObject.store = {};
 
   exports.default = GameObject;
 });
-
-(function(factory) {
+(function (factory) {
   if (typeof define === "function" && define.amd) {
     define('flockn/graphics', ["exports", "eventmap"], factory);
   } else if (typeof exports !== "undefined") {
     factory(exports, require("eventmap"));
   }
-})(function(exports, _eventmap) {
+})(function (exports, _eventmap) {
   "use strict";
+
   var EventMap = _eventmap;
 
+
   // `Graphics` is an instance of an `EventMap`
-  var _Graphics = new EventMap();
+  var Graphics = new EventMap();
 
   // Special property `renderer` can be modified, but not deleted
-  Object.defineProperty(_Graphics, 'renderer', {
+  Object.defineProperty(Graphics, "renderer", {
     value: null,
     writable: true,
     enumerable: true
   });
 
-  exports.default = _Graphics;
+  exports.default = Graphics;
 });
-
-(function(factory) {
+(function (factory) {
   if (typeof define === "function" && define.amd) {
     define('flockn/graphics/rootelement', ["exports"], factory);
   } else if (typeof exports !== "undefined") {
     factory(exports);
   }
-})(function(exports) {
+})(function (exports) {
   "use strict";
+
   var createRootElement = function createRootElement(elementName, extraFn) {
     // Sets the container name: If none is given, set the id of the object.
     // If a `#` is prepended to the string, cut it off
-    var containerName = (function() {
+    var containerName = (function () {
       if (this.container == null) {
         this.container = this.id;
         return this.container;
       } else {
-        if (this.container.indexOf('#') === 0) {
+        if (this.container.indexOf("#") === 0) {
           return this.container.slice(1);
         }
       }
@@ -993,12 +854,12 @@
       rootElement = element;
     }
 
-    rootElement.className = [this.type.toLowerCase(), this.name.toLowerCase()].join(' ');
+    rootElement.className = [this.type.toLowerCase(), this.name.toLowerCase()].join(" ");
 
     // Set the dimensions of the `rootElement`
-    rootElement.style.position = 'absolute';
-    rootElement.style.width = this.width + 'px';
-    rootElement.style.height = this.height + 'px';
+    rootElement.style.position = "absolute";
+    rootElement.style.width = this.width + "px";
+    rootElement.style.height = this.height + "px";
 
     // Allow some extra functionality to happen here.
     // It should be called on the same context and the
@@ -1007,13 +868,13 @@
 
     // Center the element if it's smaller than the inside of the browser's window
     if (this.width < window.innerWidth) {
-      rootElement.style.left = '50%';
-      rootElement.style.marginLeft = (this.width * (-0.5)) + 'px';
+      rootElement.style.left = "50%";
+      rootElement.style.marginLeft = (this.width * (-0.5)) + "px";
     }
 
     if (this.height < window.innerHeight) {
-      rootElement.style.top = '50%';
-      rootElement.style.marginTop = (this.width * (-0.5)) + 'px';
+      rootElement.style.top = "50%";
+      rootElement.style.marginTop = (this.width * (-0.5)) + "px";
     }
 
     // Return the element, in case someone wants to meddle with it
@@ -1022,30 +883,27 @@
 
   exports.default = createRootElement;
 });
-
-(function(factory) {
+(function (factory) {
   if (typeof define === "function" && define.amd) {
     define('flockn/group', ["exports", "flockn/serialize"], factory);
   } else if (typeof exports !== "undefined") {
     factory(exports, require("flockn/serialize"));
   }
-})(function(exports, _flocknSerialize) {
+})(function (exports, _flocknSerialize) {
   "use strict";
 
-  var _classProps = function(child, staticProps, instanceProps) {
-    if (staticProps)
-      Object.defineProperties(child, staticProps);
-
-    if (instanceProps)
-      Object.defineProperties(child.prototype, instanceProps);
+  var _classProps = function (child, staticProps, instanceProps) {
+    if (staticProps) Object.defineProperties(child, staticProps);
+    if (instanceProps) Object.defineProperties(child.prototype, instanceProps);
   };
 
   var serialize = _flocknSerialize.default;
 
-  var unidentified = 'untitled';
+
+  var unidentified = "untitled";
   var unidentifiedCounter = 0;
 
-  var Group = function() {
+  var Group = (function () {
     var Group = function Group() {
       this.length = 0;
 
@@ -1057,8 +915,7 @@
     _classProps(Group, null, {
       push: {
         writable: true,
-
-        value: function(obj, tags) {
+        value: function (obj, tags) {
           var name = obj.name || (unidentified + unidentifiedCounter++);
           if (tags == null) {
             tags = obj.tags || [];
@@ -1070,7 +927,7 @@
 
           this[this.length] = obj;
 
-          Object.keys(this.tags).forEach(function(tag) {
+          Object.keys(this.tags).forEach(function (tag) {
             this.tags[tag] = this.tags[tag] || [];
             this.tags[tag].push(this.length);
           }, this);
@@ -1085,27 +942,19 @@
           return ++this.length;
         }
       },
-
       pop: {
         writable: true,
-
-        value: function() {
+        value: function () {
           return this[this.length];
         }
       },
-
       splice: {
         writable: true,
-
-        value: function(index, how) {
-
-        }
+        value: function (index, how) {}
       },
-
       slice: {
         writable: true,
-
-        value: function(begin, end) {
+        value: function (begin, end) {
           if (end == null) {
             end = this.length;
           }
@@ -1119,21 +968,17 @@
           return slicedGroup;
         }
       },
-
       forEach: {
         writable: true,
-
-        value: function(callback) {
+        value: function (callback) {
           for (var i = 0; i < this.length; i++) {
             callback(this[i]);
           }
         }
       },
-
       map: {
         writable: true,
-
-        value: function(callback) {
+        value: function (callback) {
           var mappedArray = new Group();
 
           for (var i = 0; i < this.length; i++) {
@@ -1143,11 +988,9 @@
           return mappedArray;
         }
       },
-
       filter: {
         writable: true,
-
-        value: function(callback) {
+        value: function (callback) {
           var filteredArray = new Group();
 
           for (var i = 0; i < this.length; i++) {
@@ -1159,63 +1002,47 @@
           return filteredArray;
         }
       },
-
       byType: {
         writable: true,
-
-        value: function(type) {
-          return this.types[type].map(function(index) {
+        value: function (type) {
+          return this.types[type].map(function (index) {
             return this[index];
           }, this);
         }
       },
-
       byName: {
         writable: true,
-
-        value: function(name) {
+        value: function (name) {
           return this[this.names[name]];
         }
       },
-
       byTag: {
         writable: true,
-
-        value: function(tag) {
-          return this.tags[tag].map(function(index) {
+        value: function (tag) {
+          return this.tags[tag].map(function (index) {
             return this[index];
           }, this);
         }
       },
-
       select: {
         writable: true,
-
-        value: function(selector) {
-
-        }
+        value: function (selector) {}
       },
-
       toJSON: {
         writable: true,
-
-        value: function() {
+        value: function () {
           return serialize(this);
         }
       },
-
       toString: {
         writable: true,
-
-        value: function() {
+        value: function () {
           return JSON.stringify(this.toJSON());
         }
       },
-
       remove: {
         writable: true,
-
-        value: function(index) {
+        value: function (index) {
           var name = this[index].name;
           var tags = this[index].tags;
 
@@ -1231,19 +1058,13 @@
           this.length--;
         }
       },
-
       removeByName: {
         writable: true,
-
-        value: function(name) {
-
-        }
+        value: function (name) {}
       },
-
       removeByTag: {
         writable: true,
-
-        value: function(tag) {
+        value: function (tag) {
           if (!Array.isArray(tags)) {
             tags = [tags];
           }
@@ -1252,39 +1073,39 @@
     });
 
     return Group;
-  }();
+  })();
 
   exports.default = Group;
 });
-
-(function(factory) {
+(function (factory) {
   if (typeof define === "function" && define.amd) {
     define('flockn/mixins/addable', ["exports", "flockn/graphics"], factory);
   } else if (typeof exports !== "undefined") {
     factory(exports, require("flockn/graphics"));
   }
-})(function(exports, _flocknGraphics) {
+})(function (exports, _flocknGraphics) {
   "use strict";
+
   var _slice = Array.prototype.slice;
   var Graphics = _flocknGraphics.default;
 
-  var addable = function addable(Factory, groupInstance, extraFn) {
 
+  var addable = function addable(Factory, groupInstance, extraFn) {
     var adder = function adder(child) {
       var args = _slice.call(arguments, 1);
 
-      if (!( child instanceof Factory)) {
-        if ( typeof child === 'string') {
+      if (!(child instanceof Factory)) {
+        if (typeof child === "string") {
           if (Object.hasOwnProperty.call(Factory.store, child)) {
             child = new Factory(Factory.store[child]);
           }
         } else {
-          if ( typeof child === 'function') {
+          if (typeof child === "function") {
             child = new Factory(child);
           } else {
             // TODO: This should be also able to deep assign properties
-            child = new Factory(function() {
-              Object.keys(child).forEach(function(key) {
+            child = new Factory(function () {
+              Object.keys(child).forEach(function (key) {
                 this[key] = child[key];
               }, this);
             });
@@ -1298,44 +1119,35 @@
         extraFn.call(this, child);
       }
 
-      Graphics.trigger('add', child);
+      Graphics.trigger("add", child);
 
-      child.apply(args);
-      child.trigger('add', child, args);
+      // Only call apply if it's available. Models for example don't have one
+      if (child.apply) {
+        child.apply(args);
+      }
+
+      child.trigger("add", child, args);
     };
 
-    return function() {
+    return function () {
       var args = [].slice.call(arguments);
       args.unshift(this);
 
       return adder.bind.apply(adder, args);
     };
-
   };
 
   exports.default = addable;
 });
-
-(function(factory) {
+(function (factory) {
   if (typeof define === "function" && define.amd) {
-    define('flockn/mixins', 
-      ["exports", "flockn/mixins/addable", "flockn/mixins/renderable", "flockn/mixins/updateable"],
-      factory
-    );
+    define('flockn/mixins', ["exports", "flockn/mixins/addable", "flockn/mixins/renderable", "flockn/mixins/updateable"], factory);
   } else if (typeof exports !== "undefined") {
-    factory(
-      exports,
-      require("flockn/mixins/addable"),
-      require("flockn/mixins/renderable"),
-      require("flockn/mixins/updateable")
-    );
+    factory(exports, require("flockn/mixins/addable"), require("flockn/mixins/renderable"), require("flockn/mixins/updateable"));
   }
-})(function(
-  exports,
-  _flocknMixinsAddable,
-  _flocknMixinsRenderable,
-  _flocknMixinsUpdateable) {
+})(function (exports, _flocknMixinsAddable, _flocknMixinsRenderable, _flocknMixinsUpdateable) {
   "use strict";
+
   var addable = _flocknMixinsAddable.default;
   var renderable = _flocknMixinsRenderable.default;
   var updateable = _flocknMixinsUpdateable.default;
@@ -1343,73 +1155,70 @@
   exports.renderable = renderable;
   exports.updateable = updateable;
 });
-
-(function(factory) {
+(function (factory) {
   if (typeof define === "function" && define.amd) {
     define('flockn/mixins/renderable', ["exports", "flockn/graphics"], factory);
   } else if (typeof exports !== "undefined") {
     factory(exports, require("flockn/graphics"));
   }
-})(function(exports, _flocknGraphics) {
+})(function (exports, _flocknGraphics) {
   "use strict";
+
   var Graphics = _flocknGraphics.default;
+
 
   var renderable = function renderable() {
     var _this = this;
-    this.on('render', function() {
+    this.on("render", function () {
       // Emit `render` event on the `Graphics` object
-      Graphics.trigger('render', _this);
+      Graphics.trigger("render", _this);
 
       // Render all children elements
-      _this.children.forEach(function(child) {
-        child.trigger('render');
+      _this.children.forEach(function (child) {
+        child.trigger("render");
       });
     });
   };
 
   exports.default = renderable;
 });
-
-(function(factory) {
+(function (factory) {
   if (typeof define === "function" && define.amd) {
     define('flockn/mixins/updateable', ["exports"], factory);
   } else if (typeof exports !== "undefined") {
     factory(exports);
   }
-})(function(exports) {
+})(function (exports) {
   "use strict";
-  var updatable = function() {
+
+  var updatable = function () {
     var self = this;
 
     // Update all children
-    this.on('update', function(dt) {
-      self.children.forEach(function(child) {
-        child.trigger('update', dt);
+    this.on("update", function (dt) {
+      self.children.forEach(function (child) {
+        child.trigger("update", dt);
       });
     });
   };
 
   exports.default = updatable;
 });
-
-(function(factory) {
+(function (factory) {
   if (typeof define === "function" && define.amd) {
-    define('flockn/model', ["exports", "mixedice", "eventmap"], factory);
+    define('flockn/model', ["exports", "eventmap"], factory);
   } else if (typeof exports !== "undefined") {
-    factory(exports, require("mixedice"), require("eventmap"));
+    factory(exports, require("eventmap"));
   }
-})(function(exports, _mixedice, _eventmap) {
+})(function (exports, _eventmap) {
   "use strict";
 
-  var _classProps = function(child, staticProps, instanceProps) {
-    if (staticProps)
-      Object.defineProperties(child, staticProps);
-
-    if (instanceProps)
-      Object.defineProperties(child.prototype, instanceProps);
+  var _classProps = function (child, staticProps, instanceProps) {
+    if (staticProps) Object.defineProperties(child, staticProps);
+    if (instanceProps) Object.defineProperties(child.prototype, instanceProps);
   };
 
-  var _extends = function(child, parent) {
+  var _extends = function (child, parent) {
     child.prototype = Object.create(parent.prototype, {
       constructor: {
         value: child,
@@ -1418,14 +1227,11 @@
         configurable: true
       }
     });
-
     child.__proto__ = parent;
   };
 
-  var mixedice = _mixedice;
-  var EventMap = _eventmap;
-
-  var Model = function(EventMap) {
+  var EventMap = _eventmap.default;
+  var Model = (function (EventMap) {
     var Model = function Model() {
       EventMap.call(this);
 
@@ -1438,56 +1244,50 @@
     _classProps(Model, null, {
       get: {
         writable: true,
-
-        value: function() {
+        value: function () {
           // Get an attribute if it exists
           if (Object.hasOwnProperty.call(this.data, name)) {
             return this.data[name];
           }
         }
       },
-
       set: {
         writable: true,
-
-        value: function(name, value) {
+        value: function (name, value) {
           // Set or add an attribute
           this.data[name] = value;
           // Trigger the `change` event with `name` and `value` as its parameters
-          this.trigger('change', name, value);
+          this.trigger("change", name, value);
+        }
+      },
+      has: {
+        writable: true,
+        value: function (name) {
+          return Object.hasOwnProperty.call(this.data, name);
         }
       }
     });
 
     return Model;
-  }(EventMap);
+  })(EventMap);
 
   exports.default = Model;
 });
-
-(function(factory) {
+(function (factory) {
   if (typeof define === "function" && define.amd) {
     define('flockn/scene', ["exports", "flockn/base", "flockn/gameobject", "flockn/mixins"], factory);
   } else if (typeof exports !== "undefined") {
-    factory(
-      exports,
-      require("flockn/base"),
-      require("flockn/gameobject"),
-      require("flockn/mixins")
-    );
+    factory(exports, require("flockn/base"), require("flockn/gameobject"), require("flockn/mixins"));
   }
-})(function(exports, _flocknBase, _flocknGameobject, _flocknMixins) {
+})(function (exports, _flocknBase, _flocknGameobject, _flocknMixins) {
   "use strict";
 
-  var _classProps = function(child, staticProps, instanceProps) {
-    if (staticProps)
-      Object.defineProperties(child, staticProps);
-
-    if (instanceProps)
-      Object.defineProperties(child.prototype, instanceProps);
+  var _classProps = function (child, staticProps, instanceProps) {
+    if (staticProps) Object.defineProperties(child, staticProps);
+    if (instanceProps) Object.defineProperties(child.prototype, instanceProps);
   };
 
-  var _extends = function(child, parent) {
+  var _extends = function (child, parent) {
     child.prototype = Object.create(parent.prototype, {
       constructor: {
         value: child,
@@ -1496,7 +1296,6 @@
         configurable: true
       }
     });
-
     child.__proto__ = parent;
   };
 
@@ -1505,10 +1304,9 @@
   var addable = _flocknMixins.addable;
   var renderable = _flocknMixins.renderable;
   var updateable = _flocknMixins.updateable;
-
-  var Scene = function(Base) {
+  var Scene = (function (Base) {
     var Scene = function Scene(descriptor) {
-      Base.call(this, 'Scene', descriptor);
+      Base.call(this, "Scene", descriptor);
 
       // Mix in `renderable` and `updateable`
       renderable.call(this);
@@ -1520,16 +1318,14 @@
     _classProps(Scene, {
       define: {
         writable: true,
-
-        value: function(name, factory) {
+        value: function (name, factory) {
           Scene.store[name] = factory;
         }
       }
     }, {
       addGameObject: {
         writable: true,
-
-        value: function() {
+        value: function () {
           // Allow game objects to be added to scenes
           this.queue.push(addable(GameObject, this.children).apply(this, arguments));
         }
@@ -1537,29 +1333,29 @@
     });
 
     return Scene;
-  }(Base);
+  })(Base);
 
   exports.default = Scene;
 });
-
-// Serialize function to `JSON.stringify` with a custom replacer
-(function(factory) {
+(function (factory) {
   if (typeof define === "function" && define.amd) {
     define('flockn/serialize', ["exports"], factory);
   } else if (typeof exports !== "undefined") {
     factory(exports);
   }
-})(function(exports) {
+})(function (exports) {
   "use strict";
+
+  // Serialize function to `JSON.stringify` with a custom replacer
   var serialize = function serialize(obj) {
-    return JSON.stringify(obj, function(key, value) {
+    return JSON.stringify(obj, function (key, value) {
       // Avoiding cyclic dependencies
-      if (key === 'parent') {
+      if (key === "parent") {
         return;
       }
 
       // Stringify the descriptor
-      if (key === 'descriptor') {
+      if (key === "descriptor") {
         value = value.toString();
       }
 
@@ -1569,17 +1365,16 @@
 
   exports.default = serialize;
 });
-
-(function(factory) {
+(function (factory) {
   if (typeof define === "function" && define.amd) {
-    define('flockn/texture', ["exports", "flockn/types", "mixedice", "eventmap"], factory);
+    define('flockn/texture', ["exports", "flockn/types", "eventmap"], factory);
   } else if (typeof exports !== "undefined") {
-    factory(exports, require("flockn/types"), require("mixedice"), require("eventmap"));
+    factory(exports, require("flockn/types"), require("eventmap"));
   }
-})(function(exports, _flocknTypes, _mixedice, _eventmap) {
+})(function (exports, _flocknTypes, _eventmap) {
   "use strict";
 
-  var _extends = function(child, parent) {
+  var _extends = function (child, parent) {
     child.prototype = Object.create(parent.prototype, {
       constructor: {
         value: child,
@@ -1588,15 +1383,12 @@
         configurable: true
       }
     });
-
     child.__proto__ = parent;
   };
 
   var Color = _flocknTypes.Color;
-  var mixedice = _mixedice;
-  var EventMap = _eventmap;
-
-  var Texture = function(EventMap) {
+  var EventMap = _eventmap.default;
+  var Texture = (function (EventMap) {
     var Texture = function Texture() {
       EventMap.call(this);
 
@@ -1622,9 +1414,9 @@
         height: 0
       };
 
-      var filename = '';
+      var filename = "";
 
-      Object.defineProperty(this.image, 'filename', {
+      Object.defineProperty(this.image, "filename", {
         get: function () {
           return filename;
         },
@@ -1641,7 +1433,7 @@
             self.image.height = img.height;
             self.image.drawable = true;
 
-            self.trigger('image-loaded');
+            self.trigger("image-loaded");
           };
         },
         enumerable: true
@@ -1652,21 +1444,21 @@
         drawable: false,
         font: {
           size: 10,
-          name: 'Arial',
+          name: "Arial",
           color: Color.black,
           decoration: []
         },
         align: {
-          x: 'center',
-          y: 'center'
+          x: "center",
+          y: "center"
         },
         width: 0,
         height: 0
       };
 
-      var text = '';
+      var text = "";
 
-      Object.defineProperty(this.label, 'text', {
+      Object.defineProperty(this.label, "text", {
         get: function () {
           return text;
         },
@@ -1675,25 +1467,25 @@
 
           // Calculate the size of the label and update the dimensions
           // TODO: This should be handled somewhere else, but I'm not sure where
-          var tmpElem = document.createElement('div');
+          var tmpElem = document.createElement("div");
           tmpElem.innerText = text;
-          tmpElem.style.position = 'absolute';
-          tmpElem.style.left = '-9999px';
-          tmpElem.style.top = '-9999px';
-          tmpElem.style.fontSize = self.label.font.size + 'px';
+          tmpElem.style.position = "absolute";
+          tmpElem.style.left = "-9999px";
+          tmpElem.style.top = "-9999px";
+          tmpElem.style.fontSize = self.label.font.size + "px";
           tmpElem.style.fontFamily = self.label.font.name;
           tmpElem.style.color = self.label.font.color;
 
           self.label.font.decoration.forEach(function (decoration) {
             switch (decoration) {
-              case 'bold':
-                tmpElem.style.fontWeight = 'bold';
+              case "bold":
+                tmpElem.style.fontWeight = "bold";
                 break;
-              case 'italic':
-                tmpElem.style.fontStyle = 'italic';
+              case "italic":
+                tmpElem.style.fontStyle = "italic";
                 break;
-              case 'underline':
-                tmpElem.style.textDecoration = 'underline';
+              case "underline":
+                tmpElem.style.textDecoration = "underline";
                 break;
               default:
                 break;
@@ -1708,7 +1500,7 @@
 
           document.body.removeChild(tmpElem);
 
-          self.trigger('label-loaded');
+          self.trigger("label-loaded");
         }
       });
 
@@ -1716,57 +1508,67 @@
     };
 
     _extends(Texture, EventMap);
+
     return Texture;
-  }(EventMap);
+  })(EventMap);
 
   exports.default = Texture;
 });
-
-(function(factory) {
+(function (factory) {
   if (typeof define === "function" && define.amd) {
     define('flockn/types/color', ["exports", "clamp", "flockn/constants/color"], factory);
   } else if (typeof exports !== "undefined") {
     factory(exports, require("clamp"), require("flockn/constants/color"));
   }
-})(function(exports, _clamp, _flocknConstantsColor) {
+})(function (exports, _clamp, _flocknConstantsColor) {
   "use strict";
 
-  var _classProps = function(child, staticProps, instanceProps) {
-    if (staticProps)
-      Object.defineProperties(child, staticProps);
-
-    if (instanceProps)
-      Object.defineProperties(child.prototype, instanceProps);
+  var _classProps = function (child, staticProps, instanceProps) {
+    if (staticProps) Object.defineProperties(child, staticProps);
+    if (instanceProps) Object.defineProperties(child.prototype, instanceProps);
   };
 
   var clamp = _clamp;
   var colorConstants = _flocknConstantsColor.default;
-
-  var Color = function() {
+  var Color = (function () {
     var Color = function Color(r, g, b, a) {
-      if (a === undefined)
-        a = 1;
-
-      if (b === undefined)
-        b = 0;
-
-      if (g === undefined)
-        g = 0;
-
-      if (r === undefined)
-        r = 0;
-
-      this.r = r;
-      this.g = g;
-      this.b = b;
-      this.a = a;
+      if (a === undefined) a = 1;
+      if (b === undefined) b = 0;
+      if (g === undefined) g = 0;
+      if (r === undefined) r = 0;
+      this.set(r, g, b, a);
     };
 
-    _classProps(Color, null, {
+    _classProps(Color, {
+      random: {
+        writable: true,
+        value: function () {
+          var col = [0, 0, 0];
+
+          col = col.map(function () {
+            return ~ ~(Math.random() * 255);
+          });
+
+          return new Color(col[0], col[1], col[2]);
+        }
+      }
+    }, {
+      set: {
+        writable: true,
+        value: function (r, g, b, a) {
+          if (a === undefined) a = 1;
+          if (b === undefined) b = 0;
+          if (g === undefined) g = 0;
+          if (r === undefined) r = 0;
+          this.r = r;
+          this.g = g;
+          this.b = b;
+          this.a = a;
+        }
+      },
       lighten: {
         writable: true,
-
-        value: function(factor) {
+        value: function (factor) {
           factor = clamp(factor, 0, 1);
 
           this.r = clamp(this.r + (factor * 255) | 0, 0, 255);
@@ -1774,11 +1576,9 @@
           this.b = clamp(this.b + (factor * 255) | 0, 0, 255);
         }
       },
-
       darken: {
         writable: true,
-
-        value: function(factor) {
+        value: function (factor) {
           factor = clamp(factor, 0, 1);
 
           this.r = clamp(this.r - (factor * 255) | 0, 0, 255);
@@ -1786,11 +1586,9 @@
           this.b = clamp(this.b - (factor * 255) | 0, 0, 255);
         }
       },
-
       fadeIn: {
         writable: true,
-
-        value: function(factor) {
+        value: function (factor) {
           factor = clamp(factor, 0, 1);
 
           this.a = this.a + this.a * factor;
@@ -1799,11 +1597,9 @@
           }
         }
       },
-
       fadeOut: {
         writable: true,
-
-        value: function(factor) {
+        value: function (factor) {
           factor = clamp(factor, 0, 1);
 
           this.a = this.a - this.a * factor;
@@ -1812,11 +1608,9 @@
           }
         }
       },
-
       toString: {
         writable: true,
-
-        value: function() {
+        value: function () {
           if (this.a < 1) {
             return "rgba(" + this.r + "," + this.g + "," + this.b + "," + this.a + ")";
           } else {
@@ -1827,7 +1621,7 @@
     });
 
     return Color;
-  }();
+  })();
 
   for (var colorName in colorConstants) {
     var colorValue = colorConstants[colorName];
@@ -1836,328 +1630,311 @@
 
   exports.default = Color;
 });
-
-(function(factory) {
+(function (factory) {
   if (typeof define === "function" && define.amd) {
-    define('flockn/types', 
-      ["exports", "flockn/types/color", "flockn/types/vector2", "flockn/types/vector3"],
-      factory
-    );
+    define('flockn/types', ["exports", "flockn/types/color", "flockn/types/vector2", "flockn/types/vector3"], factory);
   } else if (typeof exports !== "undefined") {
-    factory(
-      exports,
-      require("flockn/types/color"),
-      require("flockn/types/vector2"),
-      require("flockn/types/vector3")
-    );
+    factory(exports, require("flockn/types/color"), require("flockn/types/vector2"), require("flockn/types/vector3"));
   }
-})(
-  function(exports, _flocknTypesColor, _flocknTypesVector2, _flocknTypesVector3) {
-    "use strict";
-    var Color = _flocknTypesColor.default;
-    var Vector2 = _flocknTypesVector2.default;
-    var Vector3 = _flocknTypesVector3.default;
+})(function (exports, _flocknTypesColor, _flocknTypesVector2, _flocknTypesVector3) {
+  "use strict";
 
-    var _Types = {};
+  var Color = _flocknTypesColor.default;
+  var Vector2 = _flocknTypesVector2.default;
+  var Vector3 = _flocknTypesVector3.default;
 
-    _Types.Color = Color;
-    _Types.Vector2 = Vector2;
-    _Types.Vector3 = Vector3;
 
-    exports.default = _Types;
-    exports.Color = Color;
-    exports.Vector2 = Vector2;
-    exports.Vector3 = Vector3;
-  }
-);
+  var Types = {};
 
-(function(factory) {
+  Types.Color = Color;
+  Types.Vector2 = Vector2;
+  Types.Vector3 = Vector3;
+
+  exports.default = Types;
+  exports.Color = Color;
+  exports.Vector2 = Vector2;
+  exports.Vector3 = Vector3;
+});
+(function (factory) {
   if (typeof define === "function" && define.amd) {
     define('flockn/types/vector2', ["exports"], factory);
   } else if (typeof exports !== "undefined") {
     factory(exports);
   }
-})(function(exports) {
+})(function (exports) {
   "use strict";
 
-  var _classProps = function(child, staticProps, instanceProps) {
-    if (staticProps)
-      Object.defineProperties(child, staticProps);
-
-    if (instanceProps)
-      Object.defineProperties(child.prototype, instanceProps);
+  var _classProps = function (child, staticProps, instanceProps) {
+    if (staticProps) Object.defineProperties(child, staticProps);
+    if (instanceProps) Object.defineProperties(child.prototype, instanceProps);
   };
 
-  var _sqrMagnitude = function(v) {
+  var sqrMagnitude = function (v) {
     return Vector2.dot(v, v);
   };
 
-  var Vector2 = function() {
+  var Vector2 = (function () {
     var Vector2 = function Vector2(x, y) {
-      if (y === undefined)
-        y = 0;
-
-      if (x === undefined)
-        x = 0;
-
-      this.x = x;
-      this.y = y;
+      if (y === undefined) y = 0;
+      if (x === undefined) x = 0;
+      this.set(x, y);
     };
 
     _classProps(Vector2, {
       dot: {
         writable: true,
-
-        value: function(vec1, vec2) {
+        value: function (vec1, vec2) {
           return vec1.x * vec2.x + vec1.y * vec2.y;
         }
       },
-
       fromAngle: {
         writable: true,
-
-        value: function(angle, magnitude) {
+        value: function (angle, magnitude) {
           return new Vector2(magnitude * Math.cos(angle), magnitude * Math.sin(angle));
         }
       }
     }, {
+      set: {
+        writable: true,
+        value: function (x, y) {
+          if (y === undefined) y = 0;
+          if (x === undefined) x = 0;
+          this.x = x;
+          this.y = y;
+        }
+      },
       magnitude: {
-        get: function() {
-          return Math.sqrt(_sqrMagnitude(this));
+        get: function () {
+          return Math.sqrt(sqrMagnitude(this));
         }
       },
-
       sqrMagnitude: {
-        get: function() {
-          return _sqrMagnitude(this);
+        get: function () {
+          return sqrMagnitude(this);
         }
       },
-
       angle: {
-        get: function() {
+        get: function () {
           return Math.atan2(this.x, this.y);
         }
       },
-
       clone: {
         writable: true,
-
-        value: function() {
+        value: function () {
           return new Vector2(this.x, this.y);
         }
       },
-
       add: {
         writable: true,
-
-        value: function(vector) {
+        value: function (vector) {
           this.x += vector.x;
           this.y += vector.y;
         }
       },
-
       subtract: {
         writable: true,
-
-        value: function(vector) {
+        value: function (vector) {
           this.x -= vector.x;
           this.y -= vector.y;
         }
       },
-
       multiply: {
         writable: true,
-
-        value: function(vector) {
+        value: function (vector) {
           this.x *= vector.x;
           this.y *= vector.y;
         }
       },
-
       divide: {
         writable: true,
-
-        value: function(vector) {
+        value: function (vector) {
           this.x /= vector.x;
           this.y /= vector.y;
         }
       },
-
       normalize: {
         writable: true,
-
-        value: function() {
+        value: function () {
           this.x = this.x / this.magnitude;
           this.y = this.y / this.magnitude;
         }
       },
-
       equals: {
         writable: true,
-
-        value: function(v) {
+        value: function (v) {
           return (this.x === v.x && this.y === v.y);
         }
       }
     });
 
     return Vector2;
-  }();
+  })();
 
   exports.default = Vector2;
 });
-
-(function(factory) {
+(function (factory) {
   if (typeof define === "function" && define.amd) {
     define('flockn/types/vector3', ["exports"], factory);
   } else if (typeof exports !== "undefined") {
     factory(exports);
   }
-})(function(exports) {
+})(function (exports) {
   "use strict";
 
-  var _classProps = function(child, staticProps, instanceProps) {
-    if (staticProps)
-      Object.defineProperties(child, staticProps);
-
-    if (instanceProps)
-      Object.defineProperties(child.prototype, instanceProps);
+  var _classProps = function (child, staticProps, instanceProps) {
+    if (staticProps) Object.defineProperties(child, staticProps);
+    if (instanceProps) Object.defineProperties(child.prototype, instanceProps);
   };
 
-  var _sqrMagnitude = function(v) {
+  var sqrMagnitude = function (v) {
     return Vector3.dot(v, v);
   };
 
-  var Vector3 = function() {
+  var Vector3 = (function () {
     var Vector3 = function Vector3(x, y, z) {
-      if (z === undefined)
-        z = 0;
-
-      if (y === undefined)
-        y = 0;
-
-      if (x === undefined)
-        x = 0;
-
-      this.x = x;
-      this.y = y;
-      this.z = z;
+      if (z === undefined) z = 0;
+      if (y === undefined) y = 0;
+      if (x === undefined) x = 0;
+      this.set(x, y, z);
     };
 
     _classProps(Vector3, {
       dot: {
         writable: true,
-
-        value: function(vec1, vec2) {
+        value: function (vec1, vec2) {
           return vec1.x * vec2.x + vec1.y * vec2.y + vec1.z * vec2.z;
         }
       },
-
       cross: {
         writable: true,
-
-        value: function(vec1, vec2) {
+        value: function (vec1, vec2) {
           return new Vector3(vec1.y * vec2.z - vec2.y * vec1.z, vec1.z * vec2.x - vec2.z * vec1.x, vec1.x * vec2.y - vec2.x * vec1.y);
+        }
+      },
+      forward: {
+        writable: true,
+        value: function () {
+          return new Vector3(0, 0, 1);
+        }
+      },
+      right: {
+        writable: true,
+        value: function () {
+          return new Vector3(1, 0, 0);
+        }
+      },
+      one: {
+        writable: true,
+        value: function () {
+          return new Vector3(1, 1, 1);
+        }
+      },
+      up: {
+        writable: true,
+        value: function () {
+          return new Vector3(0, 1, 0);
+        }
+      },
+      zero: {
+        writable: true,
+        value: function () {
+          return new Vector3(0, 0, 0);
         }
       }
     }, {
+      set: {
+        writable: true,
+        value: function (x, y, z) {
+          if (z === undefined) z = 0;
+          if (y === undefined) y = 0;
+          if (x === undefined) x = 0;
+          this.x = x;
+          this.y = y;
+          this.z = z;
+        }
+      },
       magnitude: {
-        get: function() {
-          return Math.sqrt(_sqrMagnitude(this));
+        get: function () {
+          return Math.sqrt(sqrMagnitude(this));
         }
       },
-
       sqrMagnitude: {
-        get: function() {
-          return _sqrMagnitude(this);
+        get: function () {
+          return sqrMagnitude(this);
         }
       },
-
       clone: {
         writable: true,
-
-        value: function() {
+        value: function () {
           return new Vector2(this.x, this.y, this.z);
         }
       },
-
       add: {
         writable: true,
-
-        value: function(vector) {
+        value: function (vector) {
           this.x += vector.x;
           this.y += vector.y;
           this.z += vector.z;
         }
       },
-
       subtract: {
         writable: true,
-
-        value: function(vector) {
+        value: function (vector) {
           this.x -= vector.x;
           this.y -= vector.y;
           this.z -= vector.z;
         }
       },
-
       multiply: {
         writable: true,
-
-        value: function(vector) {
+        value: function (vector) {
           this.x *= vector.x;
           this.y *= vector.y;
           this.z *= vector.z;
         }
       },
-
       divide: {
         writable: true,
-
-        value: function(vector) {
+        value: function (vector) {
           this.x /= vector.x;
           this.y /= vector.y;
           this.z /= vector.z;
         }
       },
-
       normalize: {
         writable: true,
-
-        value: function() {
+        value: function () {
           this.x = this.x / this.magnitude;
           this.y = this.y / this.magnitude;
           this.z = this.z / this.magnitude;
         }
       },
-
       equals: {
         writable: true,
-
-        value: function(v) {
+        value: function (v) {
           return (this.x === v.x && this.y === v.y && this.z === v.z);
         }
       }
     });
 
     return Vector3;
-  }();
+  })();
 
   exports.default = Vector3;
 });
-
-(function(factory) {
+(function (factory) {
   if (typeof define === "function" && define.amd) {
     define('flockn/viewport', ["exports"], factory);
   } else if (typeof exports !== "undefined") {
     factory(exports);
   }
-})(function(exports) {
+})(function (exports) {
   "use strict";
+
   var Viewport = {};
 
   Viewport.scale = {};
-  Viewport.scale.mode = 'scaleToFit';
+  Viewport.scale.mode = "scaleToFit";
   Viewport.scale.x = 1;
   Viewport.scale.y = 1;
 
@@ -2166,16 +1943,17 @@
 
   exports.default = Viewport;
 });
-
-(function(factory) {
+(function (factory) {
   if (typeof define === "function" && define.amd) {
     define('flockn/world', ["exports", "flockn/model"], factory);
   } else if (typeof exports !== "undefined") {
     factory(exports, require("flockn/model"));
   }
-})(function(exports, _flocknModel) {
+})(function (exports, _flocknModel) {
   "use strict";
+
   var Model = _flocknModel.default;
+
 
   // `World` is an instance of a model
   var world = new Model();
