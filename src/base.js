@@ -123,11 +123,8 @@ class Base extends EventMap {
       return console.log.apply(console, argArray);
     }
   }
-
-  static get queueOrder() {
-    // TODO: Move this to a closure?
-    return ['Game', 'Scene', 'GameObject', 'Behavior', 'Model'];
-  }
 }
+
+Base.queueOrder = ['Game', 'Scene', 'GameObject', 'Behavior', 'Model'];
 
 export default Base;
