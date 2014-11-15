@@ -55,6 +55,10 @@ class Color {
     }
   }
 
+  toHex() {
+    return `#${this.r.toString(16)}${this.g.toString(16)}${this.b.toString(16)}`;
+  }
+
   // Getting a random color for debugging is quite useful sometimes
   static random() {
     var col = [0, 0, 0];
