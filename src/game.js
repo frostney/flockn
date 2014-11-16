@@ -70,7 +70,11 @@ class Game extends Base {
       this.trigger('resize', newWidth, newHeight);
 
       // Trigger resize event for the current scene
-      this.activeScene.trigger('resize', newWidth, newHeight);
+      var currentScene = this.children.byName(this.activeScene);
+
+      if (currentScene) {
+        currentScene.trigger('resize', root.innerWidth, root.innerHeight);
+      }
     }, false);
 
     // Add an `orientationchange` event to each `Game` instance
@@ -95,7 +99,11 @@ class Game extends Base {
     this.activeScene = name;
 
     // Call resize event
-    this.children.byName(this.activeScene).trigger('resize', root.innerWidth, root.innerHeight);
+    var currentScene = this.children.byName(this.activeScene);
+
+    if (currentScene) {
+      currentScene.trigger('resize', root.innerWidth, root.innerHeight);
+    }
 
     // Trigger the `show` event
     this.trigger('show', this.activeScene, this.children[this.activeScene]);
