@@ -125,14 +125,7 @@
 
     _extends(Base, EventMap);
 
-    _classProps(Base, {
-      queueOrder: {
-        get: function () {
-          // TODO: Move this to a closure?
-          return ["Game", "Scene", "GameObject", "Behavior", "Model"];
-        }
-      }
-    }, {
+    _classProps(Base, null, {
       apply: {
         writable: true,
         value: function (args) {
@@ -200,6 +193,8 @@
 
     return Base;
   })(EventMap);
+
+  Base.queueOrder = ["Game", "Scene", "GameObject", "Behavior", "Model"];
 
   exports.default = Base;
 });
@@ -475,7 +470,11 @@
         _this.trigger("resize", newWidth, newHeight);
 
         // Trigger resize event for the current scene
-        _this.activeScene.trigger("resize", newWidth, newHeight);
+        var currentScene = _this.children.byName(_this.activeScene);
+
+        if (currentScene) {
+          currentScene.trigger("resize", root.innerWidth, root.innerHeight);
+        }
       }, false);
 
       // Add an `orientationchange` event to each `Game` instance
@@ -507,7 +506,11 @@
           this.activeScene = name;
 
           // Call resize event
-          this.children[this.activeScene].trigger("resize", root.innerWidth, root.innerHeight);
+          var currentScene = this.children.byName(this.activeScene);
+
+          if (currentScene) {
+            currentScene.trigger("resize", root.innerWidth, root.innerHeight);
+          }
 
           // Trigger the `show` event
           this.trigger("show", this.activeScene, this.children[this.activeScene]);
@@ -524,8 +527,8 @@
           Loop.run();
 
           if (!name) {
-            // If there's only one scene, specifying a name is not necessary
-            if (this.children.length === 1) {
+            // If there's only no name, take the first scene
+            if (this.children.length >= 1) {
               name = this.children[0].name;
             }
           }
@@ -1616,6 +1619,12 @@
           } else {
             return "rgb(" + this.r + "," + this.g + "," + this.b + ")";
           }
+        }
+      },
+      toHex: {
+        writable: true,
+        value: function () {
+          return "#" + this.r.toString(16) + "" + this.g.toString(16) + "" + this.b.toString(16);
         }
       }
     });
