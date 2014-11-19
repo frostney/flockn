@@ -86,6 +86,7 @@ Roadmap for next release
 Roadmap for future versions
 ---------------------------
 - [ ] [PIXI](https://github.com/GoodBoyDigital/pixi.js) renderer
+- [ ] WebGL renderer
 
 Some decisions that need to be made
 -----------------------------------
