@@ -38,19 +38,19 @@
 							this.texture.image.filename = 'hero_front.png';
 
 							this.input.key.on('down', function(keyCode) {
-								if (keyCode === _this.up || keyCode === _this.w) {
+								if (keyCode === this.up || keyCode === this.w) {
 									_this.position.y -= 10;
 								}
 
-								if (keyCode === _this.down || keyCode === _this.s) {
+								if (keyCode === this.down || keyCode === this.s) {
 									_this.position.y += 10;
 								}
 
-								if (keyCode === _this.left || keyCode === _this.a) {
+								if (keyCode === this.left || keyCode === this.a) {
 									_this.position.x -= 10;
 								}
 
-								if (keyCode === _this.right || keyCode === _this.d) {
+								if (keyCode === this.right || keyCode === this.d) {
 									_this.position.x += 10;
 								}
 							});
