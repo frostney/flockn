@@ -6,7 +6,7 @@ import Model from 'flockn/model';
 import serialize from 'flockn/serialize';
 import Texture from 'flockn/texture';
 
-import {Vector2, Vector3} from 'flockn/types';
+import {Vector2, Vector3, Color} from 'flockn/types';
 
 import {addable, renderable, updateable} from 'flockn/mixins';
 
@@ -66,7 +66,7 @@ class GameObject extends Base {
 
     this.border = {
       width: 0,
-      color: 'rgb(0, 0, 0)',
+      color: new Color(),
       radius: 0
     };
 
