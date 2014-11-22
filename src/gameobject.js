@@ -70,12 +70,6 @@ class GameObject extends Base {
       radius: 0
     };
 
-    // Behaviors
-    this.behaviors = new Group();
-
-    // Data models
-    this.models = new Group();
-
     // Add default model
     var defaultModel = new Model();
     defaultModel.name = 'default';
@@ -85,11 +79,6 @@ class GameObject extends Base {
     // Mix in renderable and updateable
     renderable.call(this);
     updateable.call(this);
-
-    // Update all behaviors as well
-    this.on('update', () => {
-      this.behaviors.forEach(behavior => behavior.trigger('update'));
-    });
   }
 
   get left() {
@@ -131,14 +120,14 @@ class GameObject extends Base {
 
   addBehavior() {
     // Add a `Behavior` instance to the the game object and update the `gameObject` property
-    this.queue.push(addable(Behavior, this.behaviors, function(child) {
+    this.queue.push(addable(Behavior, this.children, function(child) {
       child.gameObject = this;
     }).apply(this, arguments));
   }
 
   addModel() {
     // Add a `Model` instance to the game object
-    this.queue.push(addable(Model, this.models).apply(this, arguments));
+    this.queue.push(addable(Model, this.children).apply(this, arguments));
   }
 
   removeGameObject() {
