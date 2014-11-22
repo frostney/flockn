@@ -423,10 +423,6 @@
       // Extend the `Base` class
       Base.call(this, "Game", descriptor);
 
-      descriptor.call(this);
-
-      Graphics.trigger("initialize", this);
-
       // `this.container` is a string, which is the id of the element.
       // If it's not given, it should create a new element. This should be handled by the renderer.
       this.container = null;
@@ -445,6 +441,8 @@
       // A `Game` instance is the root element so the descriptor needs to be called directly,
       // because it won't be added to anywhere else
       this.call();
+
+      Graphics.trigger("initialize", this);
 
       // Mix in `renderable` and `updateable`
       renderable.call(this);
@@ -534,9 +532,7 @@
           }
 
           // Show the scene if a parameter has been specified
-          if (name) {
-            this.showScene(name);
-          }
+          this.showScene(name);
         }
       }
     });
