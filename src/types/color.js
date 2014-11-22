@@ -79,7 +79,9 @@ for (var colorName in colorConstants) {
   var colorValue = colorConstants[colorName];
   Object.defineProperty(Color, colorName, {
     get: function() {
-      return new Color(colorValue.r, colorValue.g, colorValue.b, colorValue.a);
+      var col = new Color(colorValue.r, colorValue.g, colorValue.b, colorValue.a);
+      col.name = colorName;
+      return col;
     }
   });
 }
