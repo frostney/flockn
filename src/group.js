@@ -1,4 +1,4 @@
-import serialize from 'flockn/serialize';
+import {Log} from 'gameboard';
 
 var unidentified = 'untitled';
 var unidentifiedCounter = 0;
@@ -7,73 +7,69 @@ class Group {
   constructor() {
     this.length = 0;
 
+    this.ids = {};
     this.tags = {};
     this.names = {};
     this.types = {};
   }
 
-  push(obj, tags) {
-    var name = obj.name || (unidentified + unidentifiedCounter++);
-    if (tags == null) {
-      tags = obj.tags || [];
-    }
+  push(obj) {
+    var {name, tags, id} = obj;
 
-    if (Object.hasOwnProperty.call(this.names, name)) {
+    name = name || (unidentified + unidentifiedCounter++);
+    id = id || (unidentified + unidentifiedCounter++);
+    tags = tags || [];
+
+    if (this.ids[id] != null || this.names[name] != null) {
+      Log.w('An object with the same name or id already exists');
       return;
     }
 
-    this[this.length] = obj;
+    var currentLength = Object.keys(this.ids);
+    this.ids[id] = obj;
 
-    Object.keys(this.tags).forEach(function(tag) {
+    Object.keys(this.tags).forEach(tag => {
       this.tags[tag] = this.tags[tag] || [];
-      this.tags[tag].push(this.length);
-    }, this);
+      this.tags[tag].push(currentLength);
+    });
 
     this.names[name] = this.length;
 
     if (obj.type != null) {
       this.types[obj.type] = this.types[obj.type] || [];
-      this.types[obj.type].push(this.length);
+      this.types[obj.type].push(currentLength);
     }
 
-    return ++this.length;
+    return this.length = this.all().length;
   }
 
-  // TODO: Behavior currently stays in the list
   pop() {
-    return this[this.length];
+    var ids = Object.keys(this.ids);
+
+    for (var i = ids.length, j = 0; j > i; i--) {
+      var obj = this.ids[ids[i]];
+
+      if (obj != null) {
+        this.ids[ids[i]] = null;
+        return obj;
+      }
+    }
   }
 
-  splice(index, how) {
-
-  }
-
-  slice(begin, end) {
-    if (end == null) {
-      end = this.length;
-    }
-
-    var slicedGroup = new Group();
-
-    for (var i = begin; i < end; i++) {
-      slicedGroup.push(this[i]);
-    }
-
-    return slicedGroup;
+  all() {
+    return Object.keys(this.ids)
+      .filter(id => id != null)
+      .map(id => this.ids[id]);
   }
 
   forEach(callback) {
-    for (var i = 0; i < this.length; i++) {
-      callback(this[i]);
-    }
+    this.all().forEach(obj => callback(obj));
   }
 
   map(callback) {
     var mappedArray = new Group();
 
-    for (var i = 0; i < this.length; i++) {
-      mappedArray.push(callback(this[i]));
-    }
+    this.forEach(obj => mappedArray.push(callback(obj)));
 
     return mappedArray;
   }
@@ -81,19 +77,17 @@ class Group {
   filter(callback) {
     var filteredArray = new Group();
 
-    for (var i = 0; i < this.length; i++) {
-      if (callback(this[i])) {
-        filteredArray.push(this[i]);
+    this.forEach(obj => {
+      if (callback(obj)) {
+        filteredArray.push(obj);
       }
-    }
+    });
 
     return filteredArray;
   }
 
   byType(type) {
-    return this.types[type].map(function(index) {
-      return this[index];
-    }, this);
+    return this.types[type].map(index => this[index]);
   }
 
   byName(name) {
@@ -101,9 +95,7 @@ class Group {
   }
 
   byTag(tag) {
-    return this.tags[tag].map(function(index) {
-      return this[index];
-    }, this);
+    return this.tags[tag].map(index => this[index]);
   }
 
   select(selector) {
@@ -111,37 +103,68 @@ class Group {
   }
 
   toJSON() {
-    return serialize(this);
+    return this.all();
   }
 
   toString() {
-    return JSON.stringify(this.toJSON());
+    return JSON.stringify(this.all());
+  }
+
+  static fromJSON(arr) {
+    var group = new Group();
+
+    arr.forEach(obj => group.push(obj));
+
+    return group;
+  }
+
+  static fromString(str) {
+    return Group.fromJSON(JSON.parse(str));
   }
 
   remove(index) {
-    var name = this[index].name;
-    var tags = this[index].tags;
+    var id = Object.keys(ids)[index];
 
-    delete this.names[name];
+    var obj = this.ids[id];
 
+    if (obj == null) {
+      Log.w(`Object at ${index} does not exist`);
+    }
 
-    delete this[index];
+    var {name, tags} = obj;
 
-    /*for (var i = index, i < this.length; i++) {
-     this[]
-     }*/
+    this.ids[id] = null;
+    this.names[name] = null;
 
-    this.length--;
+    this.tags.forEach(tag => {
+      var position = tag.indexOf(index);
+
+      if (position >= 0) {
+        if (tag.length === 1) {
+          this.tags[tag] = [];
+        } else {
+          this.tags[tag].splice(position, 1);
+        }
+      }
+    });
+
+    this.length = all().length;
   }
 
   removeByName(name) {
-
+    var index = this.names[name];
+    this.remove(index);
   }
 
-  removeByTag(tag) {
+  removeByTag(tags) {
     if (!Array.isArray(tags)) {
       tags = [tags];
     }
+
+    tags.forEach(tag => {
+      this.tags[tag].forEach(index => this.remove(index));
+      this.tags = [];
+    });
   }
 }
 
