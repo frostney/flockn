@@ -49,7 +49,11 @@ class Color {
 
   toString() {
     if (this.a < 1) {
-      return `rgba(${this.r},${this.g},${this.b},${this.a})`;
+      if (this.a === 0) {
+        return 'transparent';
+      } else {
+        return `rgba(${this.r},${this.g},${this.b},${this.a})`;
+      }
     } else {
       return `rgb(${this.r},${this.g},${this.b})`;
     }
@@ -73,7 +77,11 @@ class Color {
 
 for (var colorName in colorConstants) {
   var colorValue = colorConstants[colorName];
-  Color[colorName] = new Color(colorValue.r, colorValue.g, colorValue.b, colorValue.a);
+  Object.defineProperty(Color, colorName, {
+    get: function() {
+      return new Color(colorValue.r, colorValue.g, colorValue.b, colorValue.a);
+    }
+  });
 }
 
 export default Color;
