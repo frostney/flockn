@@ -112,18 +112,20 @@ class Game extends Base {
   }
 
   run(name) {
-    // Start the game loop
-    Loop.run();
+    this.on('executed', () => {
+      // Start the game loop
+      Loop.run();
 
-    if (!name) {
-      // If there's only no name, take the first scene
-      if (this.children.length >= 1) {
-        name = this.children[0].name;
+      if (!name) {
+        // If there's only no name, take the first scene
+        if (this.children.length >= 1) {
+          name = this.children.first().name;
+        }
       }
-    }
 
-    // Show the scene if a parameter has been specified
-    this.showScene(name);
+      // Show the scene if a parameter has been specified
+      this.showScene(name);
+    });
   }
 }
 
