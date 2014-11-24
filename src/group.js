@@ -122,6 +122,16 @@ class Group {
     return this.tags[tag].map(index => this[index]);
   }
 
+  first() {
+    return this.values()[0];
+  }
+
+  last() {
+    var values = this.values();
+
+    return values[values.length - 1];
+  }
+
   select(selector) {
 
   }
