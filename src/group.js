@@ -50,7 +50,7 @@ class Group {
       var obj = this.ids[ids[i]];
 
       if (obj != null) {
-        this.ids[ids[i]] = null;
+        this.remove(i);
         return obj;
       }
     }
@@ -115,7 +115,9 @@ class Group {
   }
 
   byName(name) {
-    return this[this.names[name]];
+    var index = this.names[name];
+
+    return this.ids[Object.keys(this.ids)[index]];
   }
 
   byTag(tag) {
