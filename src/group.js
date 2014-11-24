@@ -62,12 +62,19 @@ class Group {
       .map(id => this.ids[id]);
   }
 
-  all() {
+  all(filter) {
     var objects = [];
 
     var recurse = function(group) {
       group.forEach(obj => {
-        objects.push(obj);
+        if (filter) {
+          if (filter(obj)) {
+            objects.push(obj);
+          }
+        } else {
+          objects.push(obj);
+        }
+
         if (obj.children && obj.children instanceof Group) {
           recurse(obj.children);
         }
