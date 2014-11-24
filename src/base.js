@@ -90,6 +90,9 @@ class Base extends EventMap {
 
       // Reset the queue
       this.queue = [];
+
+      // Find a way to directly before and after events
+      this.trigger('executed');
     }
   }
 
