@@ -40,7 +40,7 @@ class Group {
       this.types[obj.type].push(currentLength);
     }
 
-    return this.length = this.all().length;
+    return this.length = this.values().length;
   }
 
   pop() {
@@ -56,10 +56,27 @@ class Group {
     }
   }
 
-  all() {
+  values() {
     return Object.keys(this.ids)
       .filter(id => id != null)
       .map(id => this.ids[id]);
+  }
+
+  all() {
+    var objects = [];
+
+    var recurse = function(group) {
+      group.forEach(obj => {
+        objects.push(obj);
+        if (obj.children && obj.children instanceof Group) {
+          recurse(obj.children);
+        }
+      });
+    };
+
+    recurse(this);
+
+    return objects;
   }
 
   forEach(callback) {
@@ -103,11 +120,11 @@ class Group {
   }
 
   toJSON() {
-    return this.all();
+    return this.values();
   }
 
   toString() {
-    return JSON.stringify(this.all());
+    return JSON.stringify(this.values());
   }
 
   static fromJSON(arr) {
