@@ -6,7 +6,7 @@ import Model from 'flockn/model';
 import serialize from 'flockn/serialize';
 import Texture from 'flockn/texture';
 
-import {Vector2, Vector3, Color} from 'flockn/types';
+import {Vector2, Vector3, Color, Rect} from 'flockn/types';
 
 import {addable, renderable, updateable} from 'flockn/mixins';
 
@@ -111,6 +111,10 @@ class GameObject extends Base {
 
   set bottom(value) {
     this.position.y = this.parent.height - this.height - value;
+  }
+
+  bounds() {
+    return new Rect(this.position.x, this.position.y, this.width, this.height);
   }
 
   addGameObject() {
