@@ -87,7 +87,7 @@ class Group {
   }
 
   forEach(callback) {
-    this.all().forEach(obj => callback(obj));
+    this.values().forEach(obj => callback(obj));
   }
 
   map(callback) {
