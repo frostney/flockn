@@ -150,6 +150,9 @@
 
             // Reset the queue
             this.queue = [];
+
+            // Find a way to directly before and after events
+            this.trigger("executed");
           }
         }
       },
@@ -521,18 +524,21 @@
       run: {
         writable: true,
         value: function (name) {
-          // Start the game loop
-          Loop.run();
+          var _this2 = this;
+          this.on("executed", function () {
+            // Start the game loop
+            Loop.run();
 
-          if (!name) {
-            // If there's only no name, take the first scene
-            if (this.children.length >= 1) {
-              name = this.children[0].name;
+            if (!name) {
+              // If there's only no name, take the first scene
+              if (_this2.children.length >= 1) {
+                name = _this2.children.first().name;
+              }
             }
-          }
 
-          // Show the scene if a parameter has been specified
-          this.showScene(name);
+            // Show the scene if a parameter has been specified
+            _this2.showScene(name);
+          });
         }
       }
     });
@@ -577,6 +583,8 @@
   var Texture = _flocknTexture.default;
   var Vector2 = _flocknTypes.Vector2;
   var Vector3 = _flocknTypes.Vector3;
+  var Color = _flocknTypes.Color;
+  var Rect = _flocknTypes.Rect;
   var addable = _flocknMixins.addable;
   var renderable = _flocknMixins.renderable;
   var updateable = _flocknMixins.updateable;
@@ -636,15 +644,9 @@
 
       this.border = {
         width: 0,
-        color: "rgb(0, 0, 0)",
+        color: new Color(),
         radius: 0
       };
-
-      // Behaviors
-      this.behaviors = new Group();
-
-      // Data models
-      this.models = new Group();
 
       // Add default model
       var defaultModel = new Model();
@@ -655,13 +657,6 @@
       // Mix in renderable and updateable
       renderable.call(this);
       updateable.call(this);
-
-      // Update all behaviors as well
-      this.on("update", function () {
-        _this.behaviors.forEach(function (behavior) {
-          return behavior.trigger("update");
-        });
-      });
     };
 
     _extends(GameObject, Base);
@@ -714,6 +709,12 @@
           this.position.y = this.parent.height - this.height - value;
         }
       },
+      bounds: {
+        writable: true,
+        value: function () {
+          return new Rect(this.position.x, this.position.y, this.width, this.height);
+        }
+      },
       addGameObject: {
         writable: true,
         value: function () {
@@ -725,7 +726,7 @@
         writable: true,
         value: function () {
           // Add a `Behavior` instance to the the game object and update the `gameObject` property
-          this.queue.push(addable(Behavior, this.behaviors, function (child) {
+          this.queue.push(addable(Behavior, this.children, function (child) {
             child.gameObject = this;
           }).apply(this, arguments));
         }
@@ -734,7 +735,7 @@
         writable: true,
         value: function () {
           // Add a `Model` instance to the game object
-          this.queue.push(addable(Model, this.models).apply(this, arguments));
+          this.queue.push(addable(Model, this.children).apply(this, arguments));
         }
       },
       removeGameObject: {
@@ -884,11 +885,11 @@
 });
 (function (factory) {
   if (typeof define === "function" && define.amd) {
-    define('flockn/group', ["exports", "flockn/serialize"], factory);
+    define('flockn/group', ["exports", "gameboard"], factory);
   } else if (typeof exports !== "undefined") {
-    factory(exports, require("flockn/serialize"));
+    factory(exports, require("gameboard"));
   }
-})(function (exports, _flocknSerialize) {
+})(function (exports, _gameboard) {
   "use strict";
 
   var _classProps = function (child, staticProps, instanceProps) {
@@ -896,7 +897,7 @@
     if (instanceProps) Object.defineProperties(child.prototype, instanceProps);
   };
 
-  var serialize = _flocknSerialize.default;
+  var Log = _gameboard.Log;
 
 
   var unidentified = "untitled";
@@ -906,73 +907,126 @@
     var Group = function Group() {
       this.length = 0;
 
+      this.ids = {};
       this.tags = {};
       this.names = {};
       this.types = {};
     };
 
-    _classProps(Group, null, {
+    _classProps(Group, {
+      fromJSON: {
+        writable: true,
+        value: function (arr) {
+          var group = new Group();
+
+          arr.forEach(function (obj) {
+            return group.push(obj);
+          });
+
+          return group;
+        }
+      },
+      fromString: {
+        writable: true,
+        value: function (str) {
+          return Group.fromJSON(JSON.parse(str));
+        }
+      }
+    }, {
       push: {
         writable: true,
-        value: function (obj, tags) {
-          var name = obj.name || (unidentified + unidentifiedCounter++);
-          if (tags == null) {
-            tags = obj.tags || [];
-          }
+        value: function (obj) {
+          var _this = this;
+          var name = obj.name;
+          var tags = obj.tags;
+          var id = obj.id;
 
-          if (Object.hasOwnProperty.call(this.names, name)) {
+
+          name = name || (unidentified + unidentifiedCounter++);
+          id = id || (unidentified + unidentifiedCounter++);
+          tags = tags || [];
+
+          if (this.ids[id] != null || this.names[name] != null) {
+            Log.w("An object with the same name or id already exists");
             return;
           }
 
-          this[this.length] = obj;
+          var currentLength = Object.keys(this.ids);
+          this.ids[id] = obj;
 
           Object.keys(this.tags).forEach(function (tag) {
-            this.tags[tag] = this.tags[tag] || [];
-            this.tags[tag].push(this.length);
-          }, this);
+            _this.tags[tag] = _this.tags[tag] || [];
+            _this.tags[tag].push(currentLength);
+          });
 
           this.names[name] = this.length;
 
           if (obj.type != null) {
             this.types[obj.type] = this.types[obj.type] || [];
-            this.types[obj.type].push(this.length);
+            this.types[obj.type].push(currentLength);
           }
 
-          return ++this.length;
+          return this.length = this.values().length;
         }
       },
       pop: {
         writable: true,
         value: function () {
-          return this[this.length];
+          var ids = Object.keys(this.ids);
+
+          for (var i = ids.length, j = 0; j > i; i--) {
+            var obj = this.ids[ids[i]];
+
+            if (obj != null) {
+              this.remove(i);
+              return obj;
+            }
+          }
         }
       },
-      splice: {
+      values: {
         writable: true,
-        value: function (index, how) {}
+        value: function () {
+          var _this2 = this;
+          return Object.keys(this.ids).filter(function (id) {
+            return id != null;
+          }).map(function (id) {
+            return _this2.ids[id];
+          });
+        }
       },
-      slice: {
+      all: {
         writable: true,
-        value: function (begin, end) {
-          if (end == null) {
-            end = this.length;
-          }
+        value: function (filter) {
+          var objects = [];
 
-          var slicedGroup = new Group();
+          var recurse = function (group) {
+            group.forEach(function (obj) {
+              if (filter) {
+                if (filter(obj)) {
+                  objects.push(obj);
+                }
+              } else {
+                objects.push(obj);
+              }
 
-          for (var i = begin; i < end; i++) {
-            slicedGroup.push(this[i]);
-          }
+              if (obj.children && obj.children instanceof Group) {
+                recurse(obj.children);
+              }
+            });
+          };
 
-          return slicedGroup;
+          recurse(this);
+
+          return objects;
         }
       },
       forEach: {
         writable: true,
         value: function (callback) {
-          for (var i = 0; i < this.length; i++) {
-            callback(this[i]);
-          }
+          this.values().forEach(function (obj) {
+            return callback(obj);
+          });
         }
       },
       map: {
@@ -980,9 +1034,9 @@
         value: function (callback) {
           var mappedArray = new Group();
 
-          for (var i = 0; i < this.length; i++) {
-            mappedArray.push(callback(this[i]));
-          }
+          this.forEach(function (obj) {
+            return mappedArray.push(callback(obj));
+          });
 
           return mappedArray;
         }
@@ -992,11 +1046,11 @@
         value: function (callback) {
           var filteredArray = new Group();
 
-          for (var i = 0; i < this.length; i++) {
-            if (callback(this[i])) {
-              filteredArray.push(this[i]);
+          this.forEach(function (obj) {
+            if (callback(obj)) {
+              filteredArray.push(obj);
             }
-          }
+          });
 
           return filteredArray;
         }
@@ -1004,23 +1058,41 @@
       byType: {
         writable: true,
         value: function (type) {
+          var _this3 = this;
           return this.types[type].map(function (index) {
-            return this[index];
-          }, this);
+            return _this3[index];
+          });
         }
       },
       byName: {
         writable: true,
         value: function (name) {
-          return this[this.names[name]];
+          var index = this.names[name];
+
+          return this.ids[Object.keys(this.ids)[index]];
         }
       },
       byTag: {
         writable: true,
         value: function (tag) {
+          var _this4 = this;
           return this.tags[tag].map(function (index) {
-            return this[index];
-          }, this);
+            return _this4[index];
+          });
+        }
+      },
+      first: {
+        writable: true,
+        value: function () {
+          return this.values()[0];
+        }
+      },
+      last: {
+        writable: true,
+        value: function () {
+          var values = this.values();
+
+          return values[values.length - 1];
         }
       },
       select: {
@@ -1030,43 +1102,70 @@
       toJSON: {
         writable: true,
         value: function () {
-          return serialize(this);
+          return this.values();
         }
       },
       toString: {
         writable: true,
         value: function () {
-          return JSON.stringify(this.toJSON());
+          return JSON.stringify(this.values());
         }
       },
       remove: {
         writable: true,
         value: function (index) {
-          var name = this[index].name;
-          var tags = this[index].tags;
+          var _this5 = this;
+          var id = Object.keys(ids)[index];
 
-          delete this.names[name];
+          var obj = this.ids[id];
+
+          if (obj == null) {
+            Log.w("Object at " + index + " does not exist");
+          }
+
+          var name = obj.name;
+          var tags = obj.tags;
 
 
-          delete this[index];
+          this.ids[id] = null;
+          this.names[name] = null;
 
-          /*for (var i = index, i < this.length; i++) {
-           this[]
-           }*/
+          this.tags.forEach(function (tag) {
+            var position = tag.indexOf(index);
 
-          this.length--;
+            if (position >= 0) {
+              if (tag.length === 1) {
+                _this5.tags[tag] = [];
+              } else {
+                _this5.tags[tag].splice(position, 1);
+              }
+            }
+          });
+
+          this.length = all().length;
         }
       },
       removeByName: {
         writable: true,
-        value: function (name) {}
+        value: function (name) {
+          var index = this.names[name];
+          this.remove(index);
+        }
       },
       removeByTag: {
         writable: true,
-        value: function (tag) {
+        value: function (tags) {
+          var _this6 = this;
           if (!Array.isArray(tags)) {
             tags = [tags];
           }
+
+          tags.forEach(function (tag) {
+            _this6.tags[tag].forEach(function (index) {
+              return _this6.remove(index);
+            });
+            _this6.tags = [];
+          });
         }
       }
     });
@@ -1196,7 +1295,9 @@
     // Update all children
     this.on("update", function (dt) {
       self.children.forEach(function (child) {
-        child.trigger("update", dt);
+        if (child.update) {
+          child.trigger("update", dt);
+        }
       });
     });
   };
@@ -1347,13 +1448,14 @@
 });
 (function (factory) {
   if (typeof define === "function" && define.amd) {
-    define('flockn/renderer/canvas', ["exports", "flockn/graphics", "flockn/graphics/rootelement"], factory);
+    define('flockn/renderer/canvas', ["exports", "flockn/types", "flockn/graphics", "flockn/graphics/rootelement"], factory);
   } else if (typeof exports !== "undefined") {
-    factory(exports, require("flockn/graphics"), require("flockn/graphics/rootelement"));
+    factory(exports, require("flockn/types"), require("flockn/graphics"), require("flockn/graphics/rootelement"));
   }
-})(function (exports, _flocknGraphics, _flocknGraphicsRootelement) {
+})(function (exports, _flocknTypes, _flocknGraphics, _flocknGraphicsRootelement) {
   "use strict";
 
+  var Vector2 = _flocknTypes.Vector2;
   var Graphics = _flocknGraphics.default;
   var createRootElement = _flocknGraphicsRootelement.default;
 
@@ -1368,6 +1470,22 @@
       rootElement.width = Game.width;
       rootElement.height = Game.height;
       context = rootElement.getContext("2d");
+    });
+
+
+
+    rootElement.addEventListener("click", function (e) {
+      var mouse = new Vector2(e.pageX - rootElement.offsetLeft, e.pageY - rootElement.offsetTop);
+
+      var currentScene = Game.children.byName(Game.activeScene);
+
+      if (currentScene) {
+        currentScene.children.all(function (obj) {
+          return obj.visible && obj.bounds().contains(mouse);
+        }).forEach(function (obj) {
+          return obj.trigger("click");
+        });
+      }
     });
   });
 
@@ -2033,7 +2151,11 @@
         writable: true,
         value: function () {
           if (this.a < 1) {
-            return "rgba(" + this.r + "," + this.g + "," + this.b + "," + this.a + ")";
+            if (this.a === 0) {
+              return "transparent";
+            } else {
+              return "rgba(" + this.r + "," + this.g + "," + this.b + "," + this.a + ")";
+            }
           } else {
             return "rgb(" + this.r + "," + this.g + "," + this.b + ")";
           }
@@ -2050,25 +2172,33 @@
     return Color;
   })();
 
+  // TODO: Reflect if it wouldn't be better to use functions rather than custom properties
   for (var colorName in colorConstants) {
     var colorValue = colorConstants[colorName];
-    Color[colorName] = new Color(colorValue.r, colorValue.g, colorValue.b, colorValue.a);
+    Object.defineProperty(Color, colorName, {
+      get: function () {
+        var col = new Color(colorValue.r, colorValue.g, colorValue.b, colorValue.a);
+        col.name = colorName;
+        return col;
+      }
+    });
   }
 
   exports.default = Color;
 });
 (function (factory) {
   if (typeof define === "function" && define.amd) {
-    define('flockn/types', ["exports", "flockn/types/color", "flockn/types/vector2", "flockn/types/vector3"], factory);
+    define('flockn/types', ["exports", "flockn/types/color", "flockn/types/vector2", "flockn/types/vector3", "flockn/types/rect"], factory);
   } else if (typeof exports !== "undefined") {
-    factory(exports, require("flockn/types/color"), require("flockn/types/vector2"), require("flockn/types/vector3"));
+    factory(exports, require("flockn/types/color"), require("flockn/types/vector2"), require("flockn/types/vector3"), require("flockn/types/rect"));
   }
-})(function (exports, _flocknTypesColor, _flocknTypesVector2, _flocknTypesVector3) {
+})(function (exports, _flocknTypesColor, _flocknTypesVector2, _flocknTypesVector3, _flocknTypesRect) {
   "use strict";
 
   var Color = _flocknTypesColor.default;
   var Vector2 = _flocknTypesVector2.default;
   var Vector3 = _flocknTypesVector3.default;
+  var Rect = _flocknTypesRect.default;
 
 
   var Types = {};
@@ -2076,11 +2206,60 @@
   Types.Color = Color;
   Types.Vector2 = Vector2;
   Types.Vector3 = Vector3;
+  Types.Rect = Rect;
 
   exports.default = Types;
   exports.Color = Color;
   exports.Vector2 = Vector2;
   exports.Vector3 = Vector3;
+  exports.Rect = Rect;
+});
+(function (factory) {
+  if (typeof define === "function" && define.amd) {
+    define('flockn/types/rect', ["exports", "flockn/types/vector2"], factory);
+  } else if (typeof exports !== "undefined") {
+    factory(exports, require("flockn/types/vector2"));
+  }
+})(function (exports, _flocknTypesVector2) {
+  "use strict";
+
+  var _classProps = function (child, staticProps, instanceProps) {
+    if (staticProps) Object.defineProperties(child, staticProps);
+    if (instanceProps) Object.defineProperties(child.prototype, instanceProps);
+  };
+
+  var Vector2 = _flocknTypesVector2.default;
+  var Rect = (function () {
+    var Rect = function Rect(x, y, w, h) {
+      if (h === undefined) h = 0;
+      if (w === undefined) w = 0;
+      if (y === undefined) y = 0;
+      if (x === undefined) x = 0;
+      this.x = x;
+      this.y = y;
+      this.w = w;
+      this.h = h;
+    };
+
+    _classProps(Rect, null, {
+      center: {
+        writable: true,
+        value: function () {
+          return new Vector2(w / 2, h / 2);
+        }
+      },
+      contains: {
+        writable: true,
+        value: function (vector) {
+          return (vector.x >= this.x) && (vector.y >= this.y) && (vector.x < this.x + this.w) && (vector.y < this.y + this.h);
+        }
+      }
+    });
+
+    return Rect;
+  })();
+
+  exports.default = Rect;
 });
 (function (factory) {
   if (typeof define === "function" && define.amd) {
