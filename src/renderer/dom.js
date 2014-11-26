@@ -1,5 +1,6 @@
 import Graphics from 'flockn/graphics';
 import createRootElement from 'flockn/graphics/rootelement';
+import * as mouse from 'flockn/input/mouse';
 
 var root = window;
 
@@ -69,19 +70,14 @@ Graphics.on('add', function(obj) {
     element.style.width = pixelize(obj.width);
     element.style.height = pixelize(obj.height);
 
-    // TODO: Normalize events
-    root.addEventListener('click', function(evt) {
-      obj.trigger('click', evt);
-    }, true);
+    mouse.events.forEach(function(eventName) {
+      root.addEventListener(eventName, function(evt) {
+        obj.trigger(mouse.relativePosition(evt, rootElement, obj));
+      });
+    });
 
-    root.addEventListener('mousedown', function(evt) {
-      obj.trigger('mousedown', evt);
-    }, true);
 
-    root.addEventListener('mouseup', function(evt) {
-      obj.trigger('mouseup', evt);
-    }, true);
-
+    // Mouseenter and Mouseleave are kinda special right now
     root.addEventListener('mouseenter', function(evt) {
       obj.trigger('mouseenter', evt);
     }, true);
@@ -90,9 +86,6 @@ Graphics.on('add', function(obj) {
       obj.trigger('mouseleave', evt);
     }, true);
 
-    root.addEventListener('mouseover', function(evt) {
-      obj.trigger('mouseover', evt);
-    }, true);
     break;
   default:
     break;

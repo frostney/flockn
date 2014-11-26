@@ -1,6 +1,7 @@
 import {Vector2} from 'flockn/types';
 import Graphics from 'flockn/graphics';
 import createRootElement from 'flockn/graphics/rootelement';
+import * as mouse from 'flockn/input/mouse';
 
 Graphics.renderer = 'Canvas';
 
@@ -14,18 +15,16 @@ Graphics.on('initialize', function(Game) {
     context = rootElement.getContext('2d');
   });
 
+  mouse.events.forEach(function(eventName) {
+    rootElement.addEventListener(eventName, function(e) {
+      var currentScene = Game.children.byName(Game.activeScene);
 
-
-  rootElement.addEventListener('click', function(e) {
-    var mouse = new Vector2(e.pageX - rootElement.offsetLeft, e.pageY - rootElement.offsetTop);
-
-    var currentScene = Game.children.byName(Game.activeScene);
-
-    if (currentScene) {
-      currentScene.children
-        .all(obj => obj.visible && obj.bounds().contains(mouse))
-        .forEach(obj => obj.trigger('click'));
-    }
+      if (currentScene) {
+        currentScene.children
+          .all(obj => obj.visible && obj.bounds().contains(mouse))
+          .forEach(obj => obj.trigger(eventName, mouse.relativePosition(e, rootElement, obj)));
+      }
+    });
   });
 });
 
