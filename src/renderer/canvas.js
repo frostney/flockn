@@ -17,11 +17,9 @@ Graphics.on('initialize', function(Game) {
 
   mouse.events.forEach(function(eventName) {
     rootElement.addEventListener(eventName, function(e) {
-      var currentScene = Game.children.byName(Game.activeScene);
-
-      if (currentScene) {
-        currentScene.children
-          .all(obj => obj.visible && obj.bounds().contains(mouse))
+      if (Game.activeScene) {
+        Game.activeScene.children
+          .all(obj => obj.visible && obj.bounds().contains(mouse.relativePosition(e, rootElement, obj)))
           .forEach(obj => obj.trigger(eventName, mouse.relativePosition(e, rootElement, obj)));
       }
     });
