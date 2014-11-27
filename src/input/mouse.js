@@ -2,7 +2,7 @@
 
 import Vector2 from 'flockn/types/vector2';
 
-var events = ['click', 'mousedown', 'mouseup', 'mouseover']
+var events = ['click', 'mousedown', 'mouseup', 'mouseover'];
 
 var absolutePosition = function(event, rootElement) {
   return new Vector2(event.pageX - rootElement.offsetLeft, event.pageY - rootElement.offsetTop);
