@@ -1,14 +1,7 @@
+import checkForFlag from 'flockn/utils/checkforflag';
 import Graphics from 'flockn/graphics';
 
-var isVisible = function isVisible() {
-  var hasVisibleFlag = Object.hasOwnProperty.call(this, 'visible');
-
-  if (hasVisibleFlag) {
-    return this.visible;
-  } else {
-    return true;
-  }
-};
+var isVisible = checkForFlag('visible');
 
 var renderable = function renderable() {
   this.on('render', () => {
