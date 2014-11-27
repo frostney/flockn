@@ -21,7 +21,7 @@ class Group {
     tags = tags || [];
 
     if (this.ids[id] != null || this.names[name] != null) {
-      Log.w('An object with the same name or id already exists');
+      Log.w(`An object with the name ${name} or id ${id} already exists`);
       return;
     }
 
