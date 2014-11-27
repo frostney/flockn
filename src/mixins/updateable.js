@@ -1,4 +1,4 @@
-import checkForFlag from 'flockn/utils/ckeckforflag';
+import checkForFlag from 'flockn/utils/checkforflag';
 
 var isStatic = checkForFlag('static');
 
