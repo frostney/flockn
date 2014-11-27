@@ -10,7 +10,7 @@ var absolutePosition = function(event, rootElement) {
 
 var relativePosition = function(event, rootElement, offset) {
   // Normalize offset
-  var offsetVector = (offset.left && offset.top) ? new Vector2(offset.left, offset.top) : offset;
+  var offsetVector = (Object.hasOwnProperty.call(offset, 'x') && Object.hasOwnProperty.call(offset, 'y')) ? offset : new Vector2(offset.left, offset.top);
 
   return absolutePosition(event, rootElement).subtract(offsetVector);
 };
