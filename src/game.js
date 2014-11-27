@@ -35,7 +35,8 @@ class Game extends Base {
     // Set the viewport object
     this.viewport = Viewport;
 
-    // `this.activeScene` is set to `null` by default, but will change once a scene will be shown
+    // `this.activeScene` is set to `null` by default, but will change to the instance of the scene
+    // once a scene will be shown
     this.activeScene = null;
 
     // A `Game` instance is the root element so the descriptor needs to be called directly,
@@ -94,17 +95,14 @@ class Game extends Base {
     // TODO: Add transitions
 
     // Set the `activeScene` property
-    this.activeScene = name;
+    this.activeScene = this.children.byName(name);
 
-    // Call resize event
-    var currentScene = this.children.byName(this.activeScene);
+    if (this.activeScene) {
+      this.activeScene.trigger('resize', root.innerWidth, root.innerHeight);
 
-    if (currentScene) {
-      currentScene.trigger('resize', root.innerWidth, root.innerHeight);
+      // Trigger the `show` event
+      this.trigger('show', name, this.children[this.activeScene]);
     }
-
-    // Trigger the `show` event
-    this.trigger('show', this.activeScene, this.children[this.activeScene]);
   }
 
   preload(assets) {
