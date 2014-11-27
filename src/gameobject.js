@@ -114,6 +114,8 @@ class GameObject extends Base {
   }
 
   bounds() {
+    // TODO: Also take care of scale
+    // TODO: Also take care of rotation
     return new Rect(this.position.x, this.position.y, this.width, this.height);
   }
 
