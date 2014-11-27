@@ -39,26 +39,36 @@ class Vector2 {
   add(vector) {
     this.x += vector.x;
     this.y += vector.y;
+
+    return this;
   }
 
   subtract(vector) {
     this.x -= vector.x;
     this.y -= vector.y;
+
+    return this;
   }
 
   multiply(vector) {
     this.x *= vector.x;
     this.y *= vector.y;
+
+    return this;
   }
 
   divide(vector) {
     this.x /= vector.x;
     this.y /= vector.y;
+
+    return this;
   }
 
   normalize() {
     this.x = this.x / this.magnitude;
     this.y = this.y / this.magnitude;
+
+    return this;
   }
 
   equals(v) {
