@@ -10,6 +10,8 @@ class Scene extends Base {
   constructor(descriptor) {
     super('Scene', descriptor);
 
+    this.visible = true;
+
     // Mix in `renderable` and `updateable`
     renderable.call(this);
     updateable.call(this);
