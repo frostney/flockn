@@ -89,7 +89,7 @@ class Texture extends EventMap {
         tmpElem.style.fontFamily = self.label.font.name;
         tmpElem.style.color = self.label.font.color;
 
-        self.label.font.decoration.forEach(function (decoration) {
+        self.label.font.decoration.forEach(decoration => {
           switch (decoration) {
             case 'bold':
               tmpElem.style.fontWeight = 'bold';
