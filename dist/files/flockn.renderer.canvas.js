@@ -1,15 +1,16 @@
 (function (factory) {
   if (typeof define === "function" && define.amd) {
-    define('flockn/renderer/canvas', ["exports", "flockn/types", "flockn/graphics", "flockn/graphics/rootelement"], factory);
+    define('flockn/renderer/canvas', ["exports", "flockn/types", "flockn/graphics", "flockn/graphics/rootelement", "flockn/input/mouse"], factory);
   } else if (typeof exports !== "undefined") {
-    factory(exports, require("flockn/types"), require("flockn/graphics"), require("flockn/graphics/rootelement"));
+    factory(exports, require("flockn/types"), require("flockn/graphics"), require("flockn/graphics/rootelement"), require("flockn/input/mouse"));
   }
-})(function (exports, _flocknTypes, _flocknGraphics, _flocknGraphicsRootelement) {
+})(function (exports, _flocknTypes, _flocknGraphics, _flocknGraphicsRootelement, _flocknInputMouse) {
   "use strict";
 
   var Vector2 = _flocknTypes.Vector2;
   var Graphics = _flocknGraphics.default;
   var createRootElement = _flocknGraphicsRootelement.default;
+  var mouse = _flocknInputMouse;
 
 
   Graphics.renderer = "Canvas";
@@ -24,20 +25,18 @@
       context = rootElement.getContext("2d");
     });
 
+    mouse.events.forEach(function (eventName) {
+      rootElement.addEventListener(eventName, function (e) {
+        var currentScene = Game.children.byName(Game.activeScene);
 
-
-    rootElement.addEventListener("click", function (e) {
-      var mouse = new Vector2(e.pageX - rootElement.offsetLeft, e.pageY - rootElement.offsetTop);
-
-      var currentScene = Game.children.byName(Game.activeScene);
-
-      if (currentScene) {
-        currentScene.children.all(function (obj) {
-          return obj.visible && obj.bounds().contains(mouse);
-        }).forEach(function (obj) {
-          return obj.trigger("click");
-        });
-      }
+        if (currentScene) {
+          currentScene.children.all(function (obj) {
+            return obj.visible && obj.bounds().contains(mouse);
+          }).forEach(function (obj) {
+            return obj.trigger(eventName, mouse.relativePosition(e, rootElement, obj));
+          });
+        }
+      });
     });
   });
 

@@ -84,16 +84,19 @@
       if (type === undefined) type = "Base";
       EventMap.call(this);
 
-      this.type = type;
-      this.name = this.type + "-" + Date.now();
-
       // Count up `objectIndex` and stringify it
       var currentObject = numToIdString(++objectIndex);
+
+      this.type = type;
+
+      var internalId = "" + this.type + "-" + Date.now() + "-" + currentObject;
+
+      this.name = internalId;
 
       // The `id` property is read-only and returns the type and the stringified object index
       Object.defineProperty(this, "id", {
         get: function () {
-          return this.type + "-" + currentObject;
+          return internalId;
         },
         enumerable: true
       });
@@ -438,7 +441,8 @@
       // Set the viewport object
       this.viewport = Viewport;
 
-      // `this.activeScene` is set to `null` by default, but will change once a scene will be shown
+      // `this.activeScene` is set to `null` by default, but will change to the instance of the scene
+      // once a scene will be shown
       this.activeScene = null;
 
       // A `Game` instance is the root element so the descriptor needs to be called directly,
@@ -502,19 +506,20 @@
         writable: true,
         value: function (name) {
           // TODO: Add transitions
+          this.children.forEach(function (scene) {
+            return scene.visible = false;
+          });
 
           // Set the `activeScene` property
-          this.activeScene = name;
+          this.activeScene = this.children.byName(name);
+          this.activeScene.visible = true;
 
-          // Call resize event
-          var currentScene = this.children.byName(this.activeScene);
+          if (this.activeScene) {
+            this.activeScene.trigger("resize", root.innerWidth, root.innerHeight);
 
-          if (currentScene) {
-            currentScene.trigger("resize", root.innerWidth, root.innerHeight);
+            // Trigger the `show` event
+            this.trigger("show", name, this.children[this.activeScene]);
           }
-
-          // Trigger the `show` event
-          this.trigger("show", this.activeScene, this.children[this.activeScene]);
         }
       },
       preload: {
@@ -712,6 +717,8 @@
       bounds: {
         writable: true,
         value: function () {
+          // TODO: Also take care of scale
+          // TODO: Also take care of rotation
           return new Rect(this.position.x, this.position.y, this.width, this.height);
         }
       },
@@ -947,7 +954,7 @@
           tags = tags || [];
 
           if (this.ids[id] != null || this.names[name] != null) {
-            Log.w("An object with the same name or id already exists");
+            Log.w("An object with the name " + name + " or id " + id + " already exists");
             return;
           }
 
@@ -966,7 +973,8 @@
             this.types[obj.type].push(currentLength);
           }
 
-          return this.length = this.values().length;
+          this.length = this.values().length;
+          return this.length;
         }
       },
       pop: {
@@ -1177,6 +1185,35 @@
 });
 (function (factory) {
   if (typeof define === "function" && define.amd) {
+    define('flockn/input/mouse', ["exports", "flockn/types/vector2"], factory);
+  } else if (typeof exports !== "undefined") {
+    factory(exports, require("flockn/types/vector2"));
+  }
+})(function (exports, _flocknTypesVector2) {
+  "use strict";
+
+  var Vector2 = _flocknTypesVector2.default;
+
+
+  var events = ["click", "mousedown", "mouseup", "mouseover"];
+
+  var absolutePosition = function (event, rootElement) {
+    return new Vector2(event.pageX - rootElement.offsetLeft, event.pageY - rootElement.offsetTop);
+  };
+
+  var relativePosition = function (event, rootElement, offset) {
+    // Normalize offset
+    var offsetVector = (offset.left && offset.top) ? new Vector2(offset.left, offset.top) : offset;
+
+    return absolutePosition(event, rootElement).subtract(offsetVector);
+  };
+
+  exports.events = events;
+  exports.absolutePosition = absolutePosition;
+  exports.relativePosition = relativePosition;
+});
+(function (factory) {
+  if (typeof define === "function" && define.amd) {
     define('flockn/mixins/addable', ["exports", "flockn/graphics"], factory);
   } else if (typeof exports !== "undefined") {
     factory(exports, require("flockn/graphics"));
@@ -1255,25 +1292,33 @@
 });
 (function (factory) {
   if (typeof define === "function" && define.amd) {
-    define('flockn/mixins/renderable', ["exports", "flockn/graphics"], factory);
+    define('flockn/mixins/renderable', ["exports", "flockn/utils/checkforflag", "flockn/graphics"], factory);
   } else if (typeof exports !== "undefined") {
-    factory(exports, require("flockn/graphics"));
+    factory(exports, require("flockn/utils/checkforflag"), require("flockn/graphics"));
   }
-})(function (exports, _flocknGraphics) {
+})(function (exports, _flocknUtilsCheckforflag, _flocknGraphics) {
   "use strict";
 
+  var checkForFlag = _flocknUtilsCheckforflag.default;
   var Graphics = _flocknGraphics.default;
 
+
+  var isVisible = checkForFlag("visible");
 
   var renderable = function renderable() {
     var _this = this;
     this.on("render", function () {
+      // Only render if element is visible
+      if (!isVisible.call(_this)) {
+        return;
+      }
+
       // Emit `render` event on the `Graphics` object
       Graphics.trigger("render", _this);
 
       // Render all children elements
       _this.children.forEach(function (child) {
-        child.trigger("render");
+        return child.trigger("render");
       });
     });
   };
@@ -1282,19 +1327,30 @@
 });
 (function (factory) {
   if (typeof define === "function" && define.amd) {
-    define('flockn/mixins/updateable', ["exports"], factory);
+    define('flockn/mixins/updateable', ["exports", "flockn/utils/checkforflag"], factory);
   } else if (typeof exports !== "undefined") {
-    factory(exports);
+    factory(exports, require("flockn/utils/checkforflag"));
   }
-})(function (exports) {
+})(function (exports, _flocknUtilsCheckforflag) {
   "use strict";
 
-  var updatable = function () {
-    var self = this;
+  var checkForFlag = _flocknUtilsCheckforflag.default;
 
+
+  var isStatic = checkForFlag("static");
+
+  // TODO: This is not completely how I want it be as it only sets the children as static and not the element itself
+  // TODO: Evaluate if it's a good idea if static elements shouldn't be able to interact with similar to PIXI's
+  //  interactive property
+  var updatable = function updateable() {
+    var _this = this;
     // Update all children
     this.on("update", function (dt) {
-      self.children.forEach(function (child) {
+      if (!isStatic.call(_this)) {
+        return;
+      }
+
+      _this.children.forEach(function (child) {
         if (child.update) {
           child.trigger("update", dt);
         }
@@ -1407,6 +1463,8 @@
   var Scene = (function (Base) {
     var Scene = function Scene(descriptor) {
       Base.call(this, "Scene", descriptor);
+
+      this.visible = true;
 
       // Mix in `renderable` and `updateable`
       renderable.call(this);
@@ -2088,6 +2146,31 @@
   })();
 
   exports.default = Vector3;
+});
+(function (factory) {
+  if (typeof define === "function" && define.amd) {
+    define('flockn/utils/checkforflag', ["exports"], factory);
+  } else if (typeof exports !== "undefined") {
+    factory(exports);
+  }
+})(function (exports) {
+  "use strict";
+
+  var checkForFlag = function checkForFlag(property) {
+    return function (obj) {
+      obj = obj || this;
+
+      var hasFlag = Object.hasOwnProperty.call(obj, property);
+
+      if (hasFlag) {
+        return obj[property];
+      } else {
+        return true;
+      }
+    };
+  };
+
+  exports.default = checkForFlag;
 });
 (function (factory) {
   if (typeof define === "function" && define.amd) {

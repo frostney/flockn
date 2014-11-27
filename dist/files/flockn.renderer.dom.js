@@ -1,14 +1,15 @@
 (function (factory) {
   if (typeof define === "function" && define.amd) {
-    define('flockn/renderer/dom', ["exports", "flockn/graphics", "flockn/graphics/rootelement"], factory);
+    define('flockn/renderer/dom', ["exports", "flockn/graphics", "flockn/graphics/rootelement", "flockn/input/mouse"], factory);
   } else if (typeof exports !== "undefined") {
-    factory(exports, require("flockn/graphics"), require("flockn/graphics/rootelement"));
+    factory(exports, require("flockn/graphics"), require("flockn/graphics/rootelement"), require("flockn/input/mouse"));
   }
-})(function (exports, _flocknGraphics, _flocknGraphicsRootelement) {
+})(function (exports, _flocknGraphics, _flocknGraphicsRootelement, _flocknInputMouse) {
   "use strict";
 
   var Graphics = _flocknGraphics.default;
   var createRootElement = _flocknGraphicsRootelement.default;
+  var mouse = _flocknInputMouse;
 
 
   var root = window;
@@ -79,19 +80,14 @@
         element.style.width = pixelize(obj.width);
         element.style.height = pixelize(obj.height);
 
-        // TODO: Normalize events
-        root.addEventListener("click", function (evt) {
-          obj.trigger("click", evt);
-        }, true);
+        mouse.events.forEach(function (eventName) {
+          root.addEventListener(eventName, function (evt) {
+            obj.trigger(mouse.relativePosition(evt, rootElement, obj));
+          });
+        });
 
-        root.addEventListener("mousedown", function (evt) {
-          obj.trigger("mousedown", evt);
-        }, true);
 
-        root.addEventListener("mouseup", function (evt) {
-          obj.trigger("mouseup", evt);
-        }, true);
-
+        // Mouseenter and Mouseleave are kinda special right now
         root.addEventListener("mouseenter", function (evt) {
           obj.trigger("mouseenter", evt);
         }, true);
@@ -100,9 +96,6 @@
           obj.trigger("mouseleave", evt);
         }, true);
 
-        root.addEventListener("mouseover", function (evt) {
-          obj.trigger("mouseover", evt);
-        }, true);
         break;
       default:
         break;
