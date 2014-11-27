@@ -29,16 +29,19 @@ class Base extends EventMap {
   constructor(type = 'Base', descriptor = function() {}) {
     super();
 
-    this.type = type;
-    this.name = this.type + '-' + Date.now();
-
     // Count up `objectIndex` and stringify it
     var currentObject = numToIdString(++objectIndex);
+
+    this.type = type;
+
+    var internalId = `${this.type}-${Date.now()}-${currentObject}`;
+
+    this.name = internalId;
 
     // The `id` property is read-only and returns the type and the stringified object index
     Object.defineProperty(this, 'id', {
       get: function() {
-        return this.type + '-' + currentObject;
+        return internalId;
       },
       enumerable: true
     });
