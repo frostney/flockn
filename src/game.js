@@ -93,9 +93,11 @@ class Game extends Base {
 
   showScene(name) {
     // TODO: Add transitions
+    this.children.forEach(scene => scene.visible = false);
 
     // Set the `activeScene` property
     this.activeScene = this.children.byName(name);
+    this.activeScene.visible = true;
 
     if (this.activeScene) {
       this.activeScene.trigger('resize', root.innerWidth, root.innerHeight);
