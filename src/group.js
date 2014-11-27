@@ -40,7 +40,8 @@ class Group {
       this.types[obj.type].push(currentLength);
     }
 
-    return this.length = this.values().length;
+    this.length = this.values().length;
+    return this.length;
   }
 
   pop() {
