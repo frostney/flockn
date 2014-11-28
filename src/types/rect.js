@@ -8,8 +8,23 @@ class Rect {
     this.h = h;
   }
 
+  toString() {
+    return JSON.stringify({
+      x: this.x,
+      y: this.y,
+      w: this.w,
+      h: this.h
+    });
+  }
+
+  static fromString(str) {
+    var obj = JSON.parse(str);
+
+    return new Rect(obj.x, obj.y, obj.w, obj.h);
+  }
+
   center() {
-    return new Vector2(w / 2, h / 2);
+    return new Vector2(this.w / 2, this.h / 2);
   }
 
   contains(vector) {
