@@ -33,34 +33,54 @@ class Vector3 {
     return new Vector2(this.x, this.y, this.z);
   }
 
+  toString() {
+    return JSON.stringify({x: this.x, y: this.y, z: this.z});
+  }
+
+  static fromString(str) {
+    var obj = JSON.parse(str);
+
+    return new Vector3(obj.x, obj.y, obj.z);
+  }
+
   add(vector) {
     this.x += vector.x;
     this.y += vector.y;
     this.z += vector.z;
+
+    return this;
   }
 
   subtract(vector) {
     this.x -= vector.x;
     this.y -= vector.y;
     this.z -= vector.z;
+
+    return this;
   }
 
   multiply(vector) {
     this.x *= vector.x;
     this.y *= vector.y;
     this.z *= vector.z;
+
+    return this;
   }
 
   divide(vector) {
     this.x /= vector.x;
     this.y /= vector.y;
     this.z /= vector.z;
+
+    return this;
   }
 
   normalize() {
     this.x = this.x / this.magnitude;
     this.y = this.y / this.magnitude;
     this.z = this.z / this.magnitude;
+
+    return this;
   }
 
   equals(v) {
