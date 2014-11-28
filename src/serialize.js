@@ -1,4 +1,4 @@
-import {Color, Vector2, Vector3, Rect} from 'flockn/types';
+import EventMap from 'eventmap';
 
 // Serialize function to `JSON.stringify` with a custom replacer
 var serialize = function serialize(obj) {
@@ -8,19 +8,12 @@ var serialize = function serialize(obj) {
       return;
     }
 
-    if (value instanceof Color) {
-      value = value.toString();
+    if (key === 'events' && obj instanceof EventMap) {
+      value = obj.serialize();
     }
 
-    if (value instanceof Vector2) {
-      value = value.toString();
-    }
-
-    if (value instanceof Vector3) {
-      value = value.toString();
-    }
-
-    if (value instanceof Rect) {
+    // Use custom toString function if available
+    if (typeof value === 'object' && value != null && Object.hasOwnProperty.call(value, 'toString')) {
       value = value.toString();
     }
 
