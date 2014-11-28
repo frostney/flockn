@@ -2,6 +2,7 @@ import {Color} from 'flockn/types';
 import EventMap from 'eventmap';
 import TextureImage from 'flockn/texture/image';
 import TextureLabel from 'flockn/texture/label';
+import serialize from 'flockn/serialize';
 
 class Texture extends EventMap {
   constructor() {
@@ -23,7 +24,7 @@ class Texture extends EventMap {
   }
 
   toString() {
-    return JSON.stringify(this);
+    return serialize(this);
   }
 }
 
