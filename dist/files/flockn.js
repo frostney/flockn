@@ -1203,7 +1203,7 @@
 
   var relativePosition = function (event, rootElement, offset) {
     // Normalize offset
-    var offsetVector = (offset.left && offset.top) ? new Vector2(offset.left, offset.top) : offset;
+    var offsetVector = (Object.hasOwnProperty.call(offset, "x") && Object.hasOwnProperty.call(offset, "y")) ? offset : new Vector2(offset.left, offset.top);
 
     return absolutePosition(event, rootElement).subtract(offsetVector);
   };
@@ -1497,12 +1497,15 @@
 });
 (function (factory) {
   if (typeof define === "function" && define.amd) {
-    define('flockn/serialize', ["exports"], factory);
+    define('flockn/serialize', ["exports", "eventmap"], factory);
   } else if (typeof exports !== "undefined") {
-    factory(exports);
+    factory(exports, require("eventmap"));
   }
-})(function (exports) {
+})(function (exports, _eventmap) {
   "use strict";
+
+  var EventMap = _eventmap.default;
+
 
   // Serialize function to `JSON.stringify` with a custom replacer
   var serialize = function serialize(obj) {
@@ -1510,6 +1513,28 @@
       // Avoiding cyclic dependencies
       if (key === "parent") {
         return;
+      }
+
+      if (key === "events" && obj instanceof EventMap) {
+        value = obj.serialize();
+      }
+
+      // Use custom toString function if available
+      if (typeof value === "object" && value != null && Object.hasOwnProperty.call(value, "toString")) {
+        value = value.toString();
+      }
+
+      // Convert image to Base64
+      if (value instanceof Image) {
+        var canvas = document.createElement("canvas");
+        var context = canvas.getContext("2d");
+        canvas.height = this.height;
+        canvas.width = this.width;
+        context.drawImage(this.data, 0, 0);
+        var dataURL = canvas.toDataURL("image/png");
+        canvas = null;
+
+        value = dataURL;
       }
 
       // Stringify the descriptor
@@ -1525,12 +1550,85 @@
 });
 (function (factory) {
   if (typeof define === "function" && define.amd) {
-    define('flockn/texture', ["exports", "flockn/types", "eventmap"], factory);
+    define('flockn/texture/image', ["exports", "flockn/types", "flockn/serialize"], factory);
   } else if (typeof exports !== "undefined") {
-    factory(exports, require("flockn/types"), require("eventmap"));
+    factory(exports, require("flockn/types"), require("flockn/serialize"));
   }
-})(function (exports, _flocknTypes, _eventmap) {
+})(function (exports, _flocknTypes, _flocknSerialize) {
   "use strict";
+
+  var _classProps = function (child, staticProps, instanceProps) {
+    if (staticProps) Object.defineProperties(child, staticProps);
+    if (instanceProps) Object.defineProperties(child.prototype, instanceProps);
+  };
+
+  var Color = _flocknTypes.Color;
+  var Vector2 = _flocknTypes.Vector2;
+  var serialize = _flocknSerialize.default;
+  var TextureImage = (function () {
+    var TextureImage = function TextureImage(texture) {
+      // The default values for `image`
+      this.color = Color.transparent;
+      this.drawable = false;
+      this.offset = new Vector2(0, 0);
+      this.data = null;
+      this.width = 0;
+      this.height = 0;
+
+      var filename = "";
+
+      Object.defineProperty(this, "filename", {
+        get: function () {
+          return filename;
+        },
+        set: function (value) {
+          var _this = this;
+          filename = value;
+
+          // TODO: Most of this should already be handled by the preloader
+          var img = new Image();
+          img.src = filename;
+
+          img.onload = function () {
+            _this.data = img;
+            _this.width = img.width;
+            _this.height = img.height;
+            _this.drawable = true;
+
+            texture.trigger("image-loaded");
+          };
+        },
+        enumerable: true
+      });
+    };
+
+    _classProps(TextureImage, null, {
+      toString: {
+        writable: true,
+        value: function () {
+          return serialize(this);
+        }
+      }
+    });
+
+    return TextureImage;
+  })();
+
+  exports.default = TextureImage;
+});
+(function (factory) {
+  if (typeof define === "function" && define.amd) {
+    define('flockn/texture', ["exports", "flockn/types", "eventmap", "flockn/texture/image", "flockn/texture/label", "flockn/serialize"], factory);
+  } else if (typeof exports !== "undefined") {
+    factory(exports, require("flockn/types"), require("eventmap"), require("flockn/texture/image"), require("flockn/texture/label"), require("flockn/serialize"));
+  }
+})(function (exports, _flocknTypes, _eventmap, _flocknTextureImage, _flocknTextureLabel, _flocknSerialize) {
+  "use strict";
+
+  var _classProps = function (child, staticProps, instanceProps) {
+    if (staticProps) Object.defineProperties(child, staticProps);
+    if (instanceProps) Object.defineProperties(child.prototype, instanceProps);
+  };
 
   var _extends = function (child, parent) {
     child.prototype = Object.create(parent.prototype, {
@@ -1546,6 +1644,9 @@
 
   var Color = _flocknTypes.Color;
   var EventMap = _eventmap.default;
+  var TextureImage = _flocknTextureImage.default;
+  var TextureLabel = _flocknTextureLabel.default;
+  var serialize = _flocknSerialize.default;
   var Texture = (function (EventMap) {
     var Texture = function Texture() {
       EventMap.call(this);
@@ -1559,64 +1660,65 @@
       // Set parent property
       this.parent = null;
 
-      // The default values for `image`
-      this.image = {
-        color: Color.transparent,
-        drawable: false,
-        offset: {
-          x: 0,
-          y: 0
-        },
-        data: null,
-        width: 0,
-        height: 0
-      };
+      this.image = new TextureImage(this);
+      this.label = new TextureLabel(this);
 
-      var filename = "";
+      this.color = Color.white;
+    };
 
-      Object.defineProperty(this.image, "filename", {
-        get: function () {
-          return filename;
-        },
-        set: function (value) {
-          filename = value;
+    _extends(Texture, EventMap);
 
-          // TODO: Most of this should already be handled by the preloader
-          var img = new Image();
-          img.src = filename;
+    _classProps(Texture, null, {
+      toString: {
+        writable: true,
+        value: function () {
+          return serialize(this);
+        }
+      }
+    });
 
-          img.onload = function () {
-            self.image.data = img;
-            self.image.width = img.width;
-            self.image.height = img.height;
-            self.image.drawable = true;
+    return Texture;
+  })(EventMap);
 
-            self.trigger("image-loaded");
-          };
-        },
-        enumerable: true
-      });
+  exports.default = Texture;
+});
+(function (factory) {
+  if (typeof define === "function" && define.amd) {
+    define('flockn/texture/label', ["exports", "flockn/types", "flockn/serialize"], factory);
+  } else if (typeof exports !== "undefined") {
+    factory(exports, require("flockn/types"), require("flockn/serialize"));
+  }
+})(function (exports, _flocknTypes, _flocknSerialize) {
+  "use strict";
 
+  var _classProps = function (child, staticProps, instanceProps) {
+    if (staticProps) Object.defineProperties(child, staticProps);
+    if (instanceProps) Object.defineProperties(child.prototype, instanceProps);
+  };
+
+  var Color = _flocknTypes.Color;
+  var serialize = _flocknSerialize.default;
+  var TextureLabel = (function () {
+    var TextureLabel = function TextureLabel(texture) {
       // Default value for `label`
-      this.label = {
-        drawable: false,
-        font: {
-          size: 10,
-          name: "Arial",
-          color: Color.black,
-          decoration: []
-        },
-        align: {
-          x: "center",
-          y: "center"
-        },
-        width: 0,
-        height: 0
+      this.drawable = false;
+      this.font = {
+        size: 10,
+        name: "Arial",
+        color: Color.black,
+        decoration: []
       };
+
+      this.align = {
+        x: "center",
+        y: "center"
+      };
+      this.width = 0;
+      this.height = 0;
 
       var text = "";
 
-      Object.defineProperty(this.label, "text", {
+      Object.defineProperty(this, "text", {
         get: function () {
           return text;
         },
@@ -1630,11 +1732,11 @@
           tmpElem.style.position = "absolute";
           tmpElem.style.left = "-9999px";
           tmpElem.style.top = "-9999px";
-          tmpElem.style.fontSize = self.label.font.size + "px";
-          tmpElem.style.fontFamily = self.label.font.name;
-          tmpElem.style.color = self.label.font.color;
+          tmpElem.style.fontSize = this.font.size + "px";
+          tmpElem.style.fontFamily = this.font.name;
+          tmpElem.style.color = this.font.color;
 
-          self.label.font.decoration.forEach(function (decoration) {
+          this.font.decoration.forEach(function (decoration) {
             switch (decoration) {
               case "bold":
                 tmpElem.style.fontWeight = "bold";
@@ -1652,25 +1754,30 @@
 
           document.body.appendChild(tmpElem);
 
-          self.label.width = tmpElem.clientWidth;
-          self.label.height = tmpElem.clientHeight;
-          self.label.drawable = true;
+          this.width = tmpElem.clientWidth;
+          this.height = tmpElem.clientHeight;
+          this.drawable = true;
 
           document.body.removeChild(tmpElem);
 
-          self.trigger("label-loaded");
+          texture.trigger("label-loaded");
         }
       });
-
-      this.color = Color.white;
     };
 
-    _extends(Texture, EventMap);
+    _classProps(TextureLabel, null, {
+      toString: {
+        writable: true,
+        value: function () {
+          return serialize(this);
+        }
+      }
+    });
 
-    return Texture;
-  })(EventMap);
+    return TextureLabel;
+  })();
 
-  exports.default = Texture;
+  exports.default = TextureLabel;
 });
 (function (factory) {
   if (typeof define === "function" && define.amd) {
@@ -1860,11 +1967,31 @@
       this.h = h;
     };
 
-    _classProps(Rect, null, {
+    _classProps(Rect, {
+      fromString: {
+        writable: true,
+        value: function (str) {
+          var obj = JSON.parse(str);
+
+          return new Rect(obj.x, obj.y, obj.w, obj.h);
+        }
+      }
+    }, {
+      toString: {
+        writable: true,
+        value: function () {
+          return JSON.stringify({
+            x: this.x,
+            y: this.y,
+            w: this.w,
+            h: this.h
+          });
+        }
+      },
       center: {
         writable: true,
         value: function () {
-          return new Vector2(w / 2, h / 2);
+          return new Vector2(this.w / 2, this.h / 2);
         }
       },
       contains: {
@@ -1917,6 +2044,14 @@
         value: function (angle, magnitude) {
           return new Vector2(magnitude * Math.cos(angle), magnitude * Math.sin(angle));
         }
+      },
+      fromString: {
+        writable: true,
+        value: function (str) {
+          var obj = JSON.parse(str);
+
+          return new Vector2(obj.x, obj.y);
+        }
       }
     }, {
       set: {
@@ -1943,6 +2078,12 @@
           return Math.atan2(this.x, this.y);
         }
       },
+      toString: {
+        writable: true,
+        value: function () {
+          return JSON.stringify({ x: this.x, y: this.y });
+        }
+      },
       clone: {
         writable: true,
         value: function () {
@@ -1954,6 +2095,8 @@
         value: function (vector) {
           this.x += vector.x;
           this.y += vector.y;
+
+          return this;
         }
       },
       subtract: {
@@ -1961,6 +2104,8 @@
         value: function (vector) {
           this.x -= vector.x;
           this.y -= vector.y;
+
+          return this;
         }
       },
       multiply: {
@@ -1968,6 +2113,8 @@
         value: function (vector) {
           this.x *= vector.x;
           this.y *= vector.y;
+
+          return this;
         }
       },
       divide: {
@@ -1975,6 +2122,8 @@
         value: function (vector) {
           this.x /= vector.x;
           this.y /= vector.y;
+
+          return this;
         }
       },
       normalize: {
@@ -1982,6 +2131,8 @@
         value: function () {
           this.x = this.x / this.magnitude;
           this.y = this.y / this.magnitude;
+
+          return this;
         }
       },
       equals: {
@@ -2034,6 +2185,14 @@
         writable: true,
         value: function (vec1, vec2) {
           return new Vector3(vec1.y * vec2.z - vec2.y * vec1.z, vec1.z * vec2.x - vec2.z * vec1.x, vec1.x * vec2.y - vec2.x * vec1.y);
+        }
+      },
+      fromString: {
+        writable: true,
+        value: function (str) {
+          var obj = JSON.parse(str);
+
+          return new Vector3(obj.x, obj.y, obj.z);
         }
       },
       forward: {
@@ -2094,12 +2253,20 @@
           return new Vector2(this.x, this.y, this.z);
         }
       },
+      toString: {
+        writable: true,
+        value: function () {
+          return JSON.stringify({ x: this.x, y: this.y, z: this.z });
+        }
+      },
       add: {
         writable: true,
         value: function (vector) {
           this.x += vector.x;
           this.y += vector.y;
           this.z += vector.z;
+
+          return this;
         }
       },
       subtract: {
@@ -2108,6 +2275,8 @@
           this.x -= vector.x;
           this.y -= vector.y;
           this.z -= vector.z;
+
+          return this;
         }
       },
       multiply: {
@@ -2116,6 +2285,8 @@
           this.x *= vector.x;
           this.y *= vector.y;
           this.z *= vector.z;
+
+          return this;
         }
       },
       divide: {
@@ -2124,6 +2295,8 @@
           this.x /= vector.x;
           this.y /= vector.y;
           this.z /= vector.z;
+
+          return this;
         }
       },
       normalize: {
@@ -2132,6 +2305,8 @@
           this.x = this.x / this.magnitude;
           this.y = this.y / this.magnitude;
           this.z = this.z / this.magnitude;
+
+          return this;
         }
       },
       equals: {
