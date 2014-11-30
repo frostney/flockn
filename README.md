@@ -4,7 +4,7 @@ flockn
 [![Build Status](https://travis-ci.org/freezedev/flockn.svg?branch=master)](https://travis-ci.org/freezedev/flockn)
 [![devDependency Status](https://david-dm.org/freezedev/flockn/dev-status.svg)](https://david-dm.org/freezedev/flockn#info=devDependencies)
 
-flockn is a lightweight ECMAScript 6 game engine for JavaScript (and also languages that compile to JavaScript such as CoffeeScript or TypeScript).
+flockn is a lightweight ECMAScript 6 game engine.
 
 Alternatives:
 * If you are just interested in the DOM/jQuery side of things and wish more control over what's get added to the DOM, you should try [Lyria](https://github.com/freezedev/lyria).
