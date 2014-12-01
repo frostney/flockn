@@ -78,13 +78,16 @@ class Color {
 // TODO: Reflect if it wouldn't be better to use functions rather than custom properties
 for (var colorName in colorConstants) {
   var colorValue = colorConstants[colorName];
-  Object.defineProperty(Color, colorName, {
-    get: function() {
-      var col = new Color(colorValue.r, colorValue.g, colorValue.b, colorValue.a);
-      col.name = colorName;
-      return col;
-    }
-  });
+
+  (function(colorName, colorValue) {
+    Object.defineProperty(Color, colorName, {
+      get: function() {
+        var col = new Color(colorValue.r, colorValue.g, colorValue.b, colorValue.a);
+        col.name = colorName;
+        return col;
+      }
+    });
+  })(colorName, colorValue);
 }
 
 export default Color;
