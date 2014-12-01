@@ -7,14 +7,14 @@ class TextureLabel {
     this.drawable = false;
     this.font = {
       size: 10,
-        name: 'Arial',
-        color: Color.black,
-        decoration: []
+      name: 'Arial',
+      color: Color.black,
+      decoration: []
     };
 
     this.align = {
       x: 'center',
-        y: 'center'
+      y: 'center'
     };
     this.width = 0;
     this.height = 0;
