@@ -20,7 +20,7 @@ class Texture extends EventMap {
     this.image = new TextureImage(this);
     this.label = new TextureLabel(this);
 
-    this.color = Color.white;
+    this.color = Color.white();
   }
 
   toString() {

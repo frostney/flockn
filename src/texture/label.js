@@ -8,7 +8,7 @@ class TextureLabel {
     this.font = {
       size: 10,
       name: 'Arial',
-      color: Color.black,
+      color: Color.black(),
       decoration: []
     };
 
