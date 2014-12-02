@@ -8,8 +8,6 @@ class Texture extends EventMap {
   constructor() {
     super();
 
-    var self = this;
-
     // Set up dimensions
     this.width = 0;
     this.height = 0;
@@ -20,7 +18,18 @@ class Texture extends EventMap {
     this.image = new TextureImage(this);
     this.label = new TextureLabel(this);
 
-    this.color = Color.white();
+    this.backgroundColor = Color.transparent();
+
+    // TODO: What to do when there is both an image and a label
+    this.on('image-loaded', () => {
+      this.width = this.image.width;
+      this.height = this.image.height;
+    });
+
+    this.on('label-loaded', () => {
+      this.width = this.label.width;
+      this.height = this.label.height;
+    });
   }
 
   toString() {
