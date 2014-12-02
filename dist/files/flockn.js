@@ -1568,7 +1568,7 @@
   var TextureImage = (function () {
     var TextureImage = function TextureImage(texture) {
       // The default values for `image`
-      this.color = Color.transparent;
+      this.color = Color.transparent();
       this.drawable = false;
       this.offset = new Vector2(0, 0);
       this.data = null;
@@ -1649,9 +1649,8 @@
   var serialize = _flocknSerialize.default;
   var Texture = (function (EventMap) {
     var Texture = function Texture() {
+      var _this = this;
       EventMap.call(this);
-
-      var self = this;
 
       // Set up dimensions
       this.width = 0;
@@ -1663,7 +1662,18 @@
       this.image = new TextureImage(this);
       this.label = new TextureLabel(this);
 
-      this.color = Color.white;
+      this.backgroundColor = Color.transparent();
+
+      // TODO: What to do when there is both an image and a label
+      this.on("image-loaded", function () {
+        _this.width = _this.image.width;
+        _this.height = _this.image.height;
+      });
+
+      this.on("label-loaded", function () {
+        _this.width = _this.label.width;
+        _this.height = _this.label.height;
+      });
     };
 
     _extends(Texture, EventMap);
@@ -1705,7 +1715,7 @@
       this.font = {
         size: 10,
         name: "Arial",
-        color: Color.black,
+        color: Color.black(),
         decoration: []
       };
 
@@ -1898,18 +1908,15 @@
     return Color;
   })();
 
-  // TODO: Reflect if it wouldn't be better to use functions rather than custom properties
   for (var colorName in colorConstants) {
     var colorValue = colorConstants[colorName];
 
     (function (colorName, colorValue) {
-      Object.defineProperty(Color, colorName, {
-        get: function () {
-          var col = new Color(colorValue.r, colorValue.g, colorValue.b, colorValue.a);
-          col.name = colorName;
-          return col;
-        }
-      });
+      Color[colorName] = function () {
+        var col = new Color(colorValue.r, colorValue.g, colorValue.b, colorValue.a);
+        col.name = colorName;
+        return col;
+      };
     })(colorName, colorValue);
   }
 
