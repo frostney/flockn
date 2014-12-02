@@ -55,13 +55,17 @@
 								}
 							});
 
+							this.on('click', function() {
+								alert('You clicked that hero guy.');
+							});
+
 							this.on('update', function(dt) {
 								return _this.angle += (dt * 10);
 							});
 						});
 
 						this.addGameObject(function() {
-							this.texture.color.set(255, 0, 0);
+							this.texture.backgroundColor.set(255, 0, 0);
 
 							this.position.x = 100;
 							this.position.y = 100;
