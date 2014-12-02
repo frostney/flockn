@@ -50,8 +50,8 @@ Graphics.on('render', function(obj) {
       context.rotate(obj.angle * (Math.PI / 180));
     }
 
-    if (obj.texture.color.toString() !== 'transparent') {
-      context.fillStyle = obj.texture.color.toString();
+    if (obj.texture.backgroundColor.toString() !== 'transparent') {
+      context.fillStyle = obj.texture.backgroundColor.toString();
       context.fillRect(-obj.origin.x, -obj.origin.y, obj.width, obj.height);
     }
 

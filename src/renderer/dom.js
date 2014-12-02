@@ -172,7 +172,7 @@ Graphics.on('render', function(obj) {
       }
 
       // Set background color
-      element.style.backgroundColor = obj.texture.color.toString();
+      element.style.backgroundColor = obj.texture.backgroundColor.toString();
 
       // Set origin
       element.style.transformOrigin = element.style.mozTransformOrigin = element.webkitTransformOrigin = obj.origin.x + 'px ' + obj.origin.y + 'px';
