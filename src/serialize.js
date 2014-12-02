@@ -13,8 +13,10 @@ var serialize = function serialize(obj) {
   }
 
   var string = JSON.stringify(obj, function(key, value) {
+    console.log(key, value);
+
     // Avoiding cyclic dependencies
-    if (key === 'parent') {
+    if (key === 'parent' || key === 'world' || key === 'input') {
       return;
     }
 

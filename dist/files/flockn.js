@@ -673,10 +673,6 @@
           GameObject.store[name] = factory;
         }
       },
-      fromJSON: {
-        writable: true,
-        value: function () {}
-      },
       fromString: {
         writable: true,
         value: function () {}
@@ -787,6 +783,12 @@
               this.off(animateName);
             });
           }
+        }
+      },
+      toString: {
+        writable: true,
+        value: function () {
+          return serialize(this);
         }
       }
     });
@@ -1509,9 +1511,21 @@
 
   // Serialize function to `JSON.stringify` with a custom replacer
   var serialize = function serialize(obj) {
-    return JSON.stringify(obj, function (key, value) {
+    // Shift parent reference
+    // TODO: This is a bit a hacky I understand, but it works for now. Once the object is passed into
+    //  JSON.stringify, we ran into a call stack error
+    var parentRef = null;
+
+    if (Object.hasOwnProperty.call(obj, "parent")) {
+      parentRef = obj.parent;
+      obj.parent = null;
+    }
+
+    var string = JSON.stringify(obj, function (key, value) {
+      console.log(key, value);
+
       // Avoiding cyclic dependencies
-      if (key === "parent") {
+      if (key === "parent" || key === "world" || key === "input") {
         return;
       }
 
@@ -1544,6 +1558,13 @@
 
       return value;
     });
+
+    // Put the parent reference back in
+    if (Object.hasOwnProperty.call(obj, "parent")) {
+      obj.parent = parentRef;
+    }
+
+    return string;
   };
 
   exports.default = serialize;

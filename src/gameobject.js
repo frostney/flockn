@@ -175,13 +175,13 @@ class GameObject extends Base {
     }
   }
 
+  toString() {
+    return serialize(this);
+  }
+
   // Game objects can be defined and are stored on the object itself
   static define(name, factory) {
     GameObject.store[name] = factory;
-  }
-
-  static fromJSON() {
-
   }
 
   static fromString() {
