@@ -2,7 +2,17 @@ import EventMap from 'eventmap';
 
 // Serialize function to `JSON.stringify` with a custom replacer
 var serialize = function serialize(obj) {
-  return JSON.stringify(obj, function(key, value) {
+  // Shift parent reference
+  // TODO: This is a bit a hacky I understand, but it works for now. Once the object is passed into
+  //  JSON.stringify, we ran into a call stack error
+  var parentRef = null;
+
+  if (Object.hasOwnProperty.call(obj, 'parent')) {
+    parentRef = obj.parent;
+    obj.parent = null;
+  }
+
+  var string = JSON.stringify(obj, function(key, value) {
     // Avoiding cyclic dependencies
     if (key === 'parent') {
       return;
@@ -37,6 +47,13 @@ var serialize = function serialize(obj) {
 
     return value;
   });
+
+  // Put the parent reference back in
+  if (Object.hasOwnProperty.call(obj, 'parent')) {
+    obj.parent = parentRef
+  }
+
+  return string;
 };
 
 export default serialize;
