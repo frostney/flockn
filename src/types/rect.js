@@ -8,13 +8,16 @@ class Rect {
     this.h = h;
   }
 
+  clone() {
+    return new Rect({x: this.x, y: this.y, w: this.w, h: this.h});
+  }
+
+  toJSON() {
+    return {x: this.x, y: this.y, w: this.w, h: this.h};
+  }
+
   toString() {
-    return JSON.stringify({
-      x: this.x,
-      y: this.y,
-      w: this.w,
-      h: this.h
-    });
+    return JSON.stringify(this.toJSON());
   }
 
   static fromString(str) {
