@@ -4,7 +4,7 @@ var serialize = {};
 
 serialize.json = {};
 
-serialize.json.filter = ['id', 'parent'];
+serialize.json.filter = ['id', 'parent', 'audio', 'input', 'world'];
 serialize.json.defaultReplacer = [];
 
 serialize.json.defaultReplacer.push(function(key, value) {
@@ -50,6 +50,12 @@ serialize.json.defaultReplacer.push(function(key, value) {
   }
 
   return value;
+});
+
+serialize.json.defaultReplacer.push(function(key, value) {
+  if (typeof value !== 'function') {
+    return value;
+  }
 });
 
 serialize.toJSON = function(obj, replacer) {
