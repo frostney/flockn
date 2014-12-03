@@ -37,8 +37,12 @@ class TextureImage {
     });
   }
 
+  toJSON() {
+    return serialize.toJSON(this);
+  }
+
   toString() {
-    return serialize(this);
+    return serialize.toString(this);
   }
 }
 
