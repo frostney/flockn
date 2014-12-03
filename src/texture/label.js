@@ -1,5 +1,5 @@
 import {Color} from 'flockn/types';
-import serialize from 'flockn/serialize';
+import serializable from 'flockn/mixins/serializable';
 
 class TextureLabel {
   constructor(texture) {
@@ -67,14 +67,8 @@ class TextureLabel {
       }
     });
   }
-
-  toJSON() {
-    return serialize.toJSON(this);
-  }
-
-  toString() {
-    return serialize.toString(this);
-  }
 }
+
+serializable(TextureLabel);
 
 export default TextureLabel;
