@@ -32,14 +32,20 @@ class Vector2 {
     return new Vector2(magnitude * Math.cos(angle), magnitude * Math.sin(angle));
   }
 
+  toJSON() {
+    return this.clone();
+  }
+
   toString() {
-    return JSON.stringify({x: this.x, y: this.y});
+    return JSON.stringify(this.toJSON());
+  }
+
+  static fromJSON(obj) {
+    return new Vector2(obj.x, obj.y);
   }
 
   static fromString(str) {
-    var obj = JSON.parse(str);
-
-    return new Vector2(obj.x, obj.y);
+    return Vector2.fromJSON(JSON.parse(str));
   }
 
   clone() {
