@@ -2,7 +2,7 @@ import {Color} from 'flockn/types';
 import EventMap from 'eventmap';
 import TextureImage from 'flockn/texture/image';
 import TextureLabel from 'flockn/texture/label';
-import serialize from 'flockn/serialize';
+import serializable from 'flockn/mixins/serializable';
 
 class Texture extends EventMap {
   constructor() {
@@ -31,14 +31,8 @@ class Texture extends EventMap {
       this.height = this.label.height;
     });
   }
-
-  toJSON() {
-    return serialize.toJSON(this);
-  }
-
-  toString() {
-    return serialize.toString(this);
-  }
 }
+
+serializable(Texture);
 
 export default Texture;
