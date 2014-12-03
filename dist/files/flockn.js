@@ -593,6 +593,7 @@
   var addable = _flocknMixins.addable;
   var renderable = _flocknMixins.renderable;
   var updateable = _flocknMixins.updateable;
+  var serializable = _flocknMixins.serializable;
   var GameObject = (function (Base) {
     var GameObject = function GameObject(descriptor) {
       var _this = this;
@@ -763,13 +764,6 @@
           }
         }
       },
-      toJSON: {
-        writable: true,
-        value: function () {
-          // Serialize this object
-          return serialize(this);
-        }
-      },
       animate: {
         writable: true,
         value: function (property, end, time, callback) {
@@ -784,17 +778,13 @@
             });
           }
         }
-      },
-      toString: {
-        writable: true,
-        value: function () {
-          return serialize(this);
-        }
       }
     });
 
     return GameObject;
   })(Base);
+
+  serializable(GameObject);
 
   GameObject.store = {};
 
@@ -1278,19 +1268,21 @@
 });
 (function (factory) {
   if (typeof define === "function" && define.amd) {
-    define('flockn/mixins', ["exports", "flockn/mixins/addable", "flockn/mixins/renderable", "flockn/mixins/updateable"], factory);
+    define('flockn/mixins', ["exports", "flockn/mixins/addable", "flockn/mixins/renderable", "flockn/mixins/updateable", "flockn/mixins/serializable"], factory);
   } else if (typeof exports !== "undefined") {
-    factory(exports, require("flockn/mixins/addable"), require("flockn/mixins/renderable"), require("flockn/mixins/updateable"));
+    factory(exports, require("flockn/mixins/addable"), require("flockn/mixins/renderable"), require("flockn/mixins/updateable"), require("flockn/mixins/serializable"));
   }
-})(function (exports, _flocknMixinsAddable, _flocknMixinsRenderable, _flocknMixinsUpdateable) {
+})(function (exports, _flocknMixinsAddable, _flocknMixinsRenderable, _flocknMixinsUpdateable, _flocknMixinsSerializable) {
   "use strict";
 
   var addable = _flocknMixinsAddable.default;
   var renderable = _flocknMixinsRenderable.default;
   var updateable = _flocknMixinsUpdateable.default;
+  var serializable = _flocknMixinsSerializable.default;
   exports.addable = addable;
   exports.renderable = renderable;
   exports.updateable = updateable;
+  exports.serializable = serializable;
 });
 (function (factory) {
   if (typeof define === "function" && define.amd) {
@@ -1326,6 +1318,30 @@
   };
 
   exports.default = renderable;
+});
+(function (factory) {
+  if (typeof define === "function" && define.amd) {
+    define('flockn/mixins/serializable', ["exports", "flockn/serialize"], factory);
+  } else if (typeof exports !== "undefined") {
+    factory(exports, require("flockn/serialize"));
+  }
+})(function (exports, _flocknSerialize) {
+  "use strict";
+
+  var serialize = _flocknSerialize.default;
+
+
+  var serializable = function serializable(Factory) {
+    Factory.prototype.toJSON = function () {
+      return serialize.toJSON(this);
+    };
+
+    Factory.prototype.toString = function () {
+      return serialize.toString(this);
+    };
+  };
+
+  exports.default = serializable;
 });
 (function (factory) {
   if (typeof define === "function" && define.amd) {
@@ -1509,73 +1525,110 @@
   var EventMap = _eventmap.default;
 
 
-  // Serialize function to `JSON.stringify` with a custom replacer
-  var serialize = function serialize(obj) {
-    // Shift parent reference
-    // TODO: This is a bit a hacky I understand, but it works for now. Once the object is passed into
-    //  JSON.stringify, we ran into a call stack error
-    var parentRef = null;
+  var serialize = {};
 
-    if (Object.hasOwnProperty.call(obj, "parent")) {
-      parentRef = obj.parent;
-      obj.parent = null;
+  serialize.json = {};
+
+  serialize.json.filter = ["id", "parent", "audio", "input", "world"];
+  serialize.json.defaultReplacer = [];
+
+  serialize.json.defaultReplacer.push(function (key, value) {
+    if (key === "events" && value instanceof EventMap) {
+      value = value.serialize();
     }
 
-    var string = JSON.stringify(obj, function (key, value) {
-      console.log(key, value);
+    return value;
+  });
 
-      // Avoiding cyclic dependencies
-      if (key === "parent" || key === "world" || key === "input") {
-        return;
-      }
+  serialize.json.defaultReplacer.push(function (key, value) {
+    // Convert image to Base64
+    if (value instanceof Image) {
+      var canvas = document.createElement("canvas");
+      var context = canvas.getContext("2d");
+      canvas.height = this.height;
+      canvas.width = this.width;
+      context.drawImage(this.data, 0, 0);
+      var dataURL = canvas.toDataURL("image/png");
+      canvas = null;
 
-      if (key === "events" && obj instanceof EventMap) {
-        value = obj.serialize();
-      }
+      value = {
+        data: dataURL,
+        type: "image/png"
+      };
+    }
 
-      // Use custom toString function if available
-      if (typeof value === "object" && value != null && Object.hasOwnProperty.call(value, "toString")) {
-        value = value.toString();
-      }
+    return value;
+  });
 
-      // Convert image to Base64
-      if (value instanceof Image) {
-        var canvas = document.createElement("canvas");
-        var context = canvas.getContext("2d");
-        canvas.height = this.height;
-        canvas.width = this.width;
-        context.drawImage(this.data, 0, 0);
-        var dataURL = canvas.toDataURL("image/png");
-        canvas = null;
+  serialize.json.defaultReplacer.push(function (key, value) {
+    // Stringify the descriptor
+    if (key === "descriptor") {
+      value = value.toString();
+    }
 
-        value = dataURL;
-      }
+    return value;
+  });
 
-      // Stringify the descriptor
-      if (key === "descriptor") {
-        value = value.toString();
-      }
+  serialize.json.defaultReplacer.push(function (key, value) {
+    if (Object.hasOwnProperty(value, "toJSON")) {
+      value = value.toJSON();
+    }
 
+    return value;
+  });
+
+  serialize.json.defaultReplacer.push(function (key, value) {
+    if (typeof value !== "function") {
       return value;
-    });
+    }
+  });
 
-    // Put the parent reference back in
-    if (Object.hasOwnProperty.call(obj, "parent")) {
-      obj.parent = parentRef;
+  serialize.toJSON = function (obj, replacer) {
+    var clonedObj = {};
+
+    var replacers = [].concat.apply([], [serialize.json.defaultReplacer, replacer]);
+
+
+    for (var key in obj) {
+      (function (key, value) {
+        if (!Object.hasOwnProperty.call(obj, key)) {
+          return;
+        }
+
+        if (serialize.json.filter.indexOf(key) >= 0) {
+          return;
+        }
+
+        for (var i = 0, j = replacers.length; i < j; i++) {
+          (function (rep) {
+            if (rep) {
+              value = rep.call(obj, key, value);
+            }
+          })(replacers[i]);
+        }
+
+        if (typeof value !== "undefined") {
+          clonedObj[key] = value;
+        }
+      })(key, obj[key]);
     }
 
-    return string;
+    return clonedObj;
+  };
+
+  serialize.toString = function (obj) {
+    return JSON.stringify(serialize.toJSON(obj));
   };
 
   exports.default = serialize;
 });
 (function (factory) {
   if (typeof define === "function" && define.amd) {
-    define('flockn/texture/image', ["exports", "flockn/types", "flockn/serialize"], factory);
+    define('flockn/texture/image', ["exports", "flockn/types", "flockn/mixins/serializable"], factory);
   } else if (typeof exports !== "undefined") {
-    factory(exports, require("flockn/types"), require("flockn/serialize"));
+    factory(exports, require("flockn/types"), require("flockn/mixins/serializable"));
   }
-})(function (exports, _flocknTypes, _flocknSerialize) {
+})(function (exports, _flocknTypes, _flocknMixinsSerializable) {
   "use strict";
 
   var _classProps = function (child, staticProps, instanceProps) {
@@ -1585,7 +1638,7 @@
 
   var Color = _flocknTypes.Color;
   var Vector2 = _flocknTypes.Vector2;
-  var serialize = _flocknSerialize.default;
+  var serializable = _flocknMixinsSerializable.default;
   var TextureImage = (function () {
     var TextureImage = function TextureImage(texture) {
       // The default values for `image`
@@ -1624,10 +1677,16 @@
     };
 
     _classProps(TextureImage, null, {
+      toJSON: {
+        writable: true,
+        value: function () {
+          return serialize.toJSON(this);
+        }
+      },
       toString: {
         writable: true,
         value: function () {
-          return serialize(this);
+          return serialize.toString(this);
         }
       }
     });
@@ -1635,21 +1694,18 @@
     return TextureImage;
   })();
 
+  serializable(TextureImage);
+
   exports.default = TextureImage;
 });
 (function (factory) {
   if (typeof define === "function" && define.amd) {
-    define('flockn/texture', ["exports", "flockn/types", "eventmap", "flockn/texture/image", "flockn/texture/label", "flockn/serialize"], factory);
+    define('flockn/texture', ["exports", "flockn/types", "eventmap", "flockn/texture/image", "flockn/texture/label", "flockn/mixins/serializable"], factory);
   } else if (typeof exports !== "undefined") {
-    factory(exports, require("flockn/types"), require("eventmap"), require("flockn/texture/image"), require("flockn/texture/label"), require("flockn/serialize"));
+    factory(exports, require("flockn/types"), require("eventmap"), require("flockn/texture/image"), require("flockn/texture/label"), require("flockn/mixins/serializable"));
   }
-})(function (exports, _flocknTypes, _eventmap, _flocknTextureImage, _flocknTextureLabel, _flocknSerialize) {
+})(function (exports, _flocknTypes, _eventmap, _flocknTextureImage, _flocknTextureLabel, _flocknMixinsSerializable) {
   "use strict";
-
-  var _classProps = function (child, staticProps, instanceProps) {
-    if (staticProps) Object.defineProperties(child, staticProps);
-    if (instanceProps) Object.defineProperties(child.prototype, instanceProps);
-  };
 
   var _extends = function (child, parent) {
     child.prototype = Object.create(parent.prototype, {
@@ -1667,7 +1723,7 @@
   var EventMap = _eventmap.default;
   var TextureImage = _flocknTextureImage.default;
   var TextureLabel = _flocknTextureLabel.default;
-  var serialize = _flocknSerialize.default;
+  var serializable = _flocknMixinsSerializable.default;
   var Texture = (function (EventMap) {
     var Texture = function Texture() {
       var _this = this;
@@ -1699,114 +1755,91 @@
 
     _extends(Texture, EventMap);
 
-    _classProps(Texture, null, {
-      toString: {
-        writable: true,
-        value: function () {
-          return serialize(this);
-        }
-      }
-    });
-
     return Texture;
   })(EventMap);
+
+  serializable(Texture);
 
   exports.default = Texture;
 });
 (function (factory) {
   if (typeof define === "function" && define.amd) {
-    define('flockn/texture/label', ["exports", "flockn/types", "flockn/serialize"], factory);
+    define('flockn/texture/label', ["exports", "flockn/types", "flockn/mixins/serializable"], factory);
   } else if (typeof exports !== "undefined") {
-    factory(exports, require("flockn/types"), require("flockn/serialize"));
+    factory(exports, require("flockn/types"), require("flockn/mixins/serializable"));
   }
-})(function (exports, _flocknTypes, _flocknSerialize) {
+})(function (exports, _flocknTypes, _flocknMixinsSerializable) {
   "use strict";
 
-  var _classProps = function (child, staticProps, instanceProps) {
-    if (staticProps) Object.defineProperties(child, staticProps);
-    if (instanceProps) Object.defineProperties(child.prototype, instanceProps);
-  };
-
   var Color = _flocknTypes.Color;
-  var serialize = _flocknSerialize.default;
-  var TextureLabel = (function () {
-    var TextureLabel = function TextureLabel(texture) {
-      // Default value for `label`
-      this.drawable = false;
-      this.font = {
-        size: 10,
-        name: "Arial",
-        color: Color.black(),
-        decoration: []
-      };
-
-      this.align = {
-        x: "center",
-        y: "center"
-      };
-      this.width = 0;
-      this.height = 0;
-
-      var text = "";
-
-      Object.defineProperty(this, "text", {
-        get: function () {
-          return text;
-        },
-        set: function (value) {
-          text = value;
-
-          // Calculate the size of the label and update the dimensions
-          // TODO: This should be handled somewhere else, but I'm not sure where
-          var tmpElem = document.createElement("div");
-          tmpElem.innerText = text;
-          tmpElem.style.position = "absolute";
-          tmpElem.style.left = "-9999px";
-          tmpElem.style.top = "-9999px";
-          tmpElem.style.fontSize = this.font.size + "px";
-          tmpElem.style.fontFamily = this.font.name;
-          tmpElem.style.color = this.font.color;
-
-          this.font.decoration.forEach(function (decoration) {
-            switch (decoration) {
-              case "bold":
-                tmpElem.style.fontWeight = "bold";
-                break;
-              case "italic":
-                tmpElem.style.fontStyle = "italic";
-                break;
-              case "underline":
-                tmpElem.style.textDecoration = "underline";
-                break;
-              default:
-                break;
-            }
-          });
-
-          document.body.appendChild(tmpElem);
-
-          this.width = tmpElem.clientWidth;
-          this.height = tmpElem.clientHeight;
-          this.drawable = true;
-
-          document.body.removeChild(tmpElem);
-
-          texture.trigger("label-loaded");
-        }
-      });
+  var serializable = _flocknMixinsSerializable.default;
+  var TextureLabel = function TextureLabel(texture) {
+    // Default value for `label`
+    this.drawable = false;
+    this.font = {
+      size: 10,
+      name: "Arial",
+      color: Color.black(),
+      decoration: []
     };
 
-    _classProps(TextureLabel, null, {
-      toString: {
-        writable: true,
-        value: function () {
-          return serialize(this);
-        }
+    this.align = {
+      x: "center",
+      y: "center"
+    };
+    this.width = 0;
+    this.height = 0;
+
+    var text = "";
+
+    Object.defineProperty(this, "text", {
+      get: function () {
+        return text;
+      },
+      set: function (value) {
+        text = value;
+
+        // Calculate the size of the label and update the dimensions
+        // TODO: This should be handled somewhere else, but I'm not sure where
+        var tmpElem = document.createElement("div");
+        tmpElem.innerText = text;
+        tmpElem.style.position = "absolute";
+        tmpElem.style.left = "-9999px";
+        tmpElem.style.top = "-9999px";
+        tmpElem.style.fontSize = this.font.size + "px";
+        tmpElem.style.fontFamily = this.font.name;
+        tmpElem.style.color = this.font.color;
+
+        this.font.decoration.forEach(function (decoration) {
+          switch (decoration) {
+            case "bold":
+              tmpElem.style.fontWeight = "bold";
+              break;
+            case "italic":
+              tmpElem.style.fontStyle = "italic";
+              break;
+            case "underline":
+              tmpElem.style.textDecoration = "underline";
+              break;
+            default:
+              break;
+          }
+        });
+
+        document.body.appendChild(tmpElem);
+
+        this.width = tmpElem.clientWidth;
+        this.height = tmpElem.clientHeight;
+        this.drawable = true;
+
+        document.body.removeChild(tmpElem);
+
+        texture.trigger("label-loaded");
       }
     });
+  };
 
-    return TextureLabel;
-  })();
+  serializable(TextureLabel);
 
   exports.default = TextureLabel;
 });
@@ -1904,7 +1937,7 @@
           }
         }
       },
-      toString: {
+      toJSON: {
         writable: true,
         value: function () {
           if (this.a < 1) {
@@ -1916,6 +1949,12 @@
           } else {
             return "rgb(" + this.r + "," + this.g + "," + this.b + ")";
           }
+        }
+      },
+      toString: {
+        writable: true,
+        value: function () {
+          return this.toJSON();
         }
       },
       toHex: {
@@ -2008,15 +2047,22 @@
         }
       }
     }, {
+      clone: {
+        writable: true,
+        value: function () {
+          return new Rect({ x: this.x, y: this.y, w: this.w, h: this.h });
+        }
+      },
+      toJSON: {
+        writable: true,
+        value: function () {
+          return { x: this.x, y: this.y, w: this.w, h: this.h };
+        }
+      },
       toString: {
         writable: true,
         value: function () {
-          return JSON.stringify({
-            x: this.x,
-            y: this.y,
-            w: this.w,
-            h: this.h
-          });
+          return JSON.stringify(this.toJSON());
         }
       },
       center: {
@@ -2076,12 +2122,16 @@
           return new Vector2(magnitude * Math.cos(angle), magnitude * Math.sin(angle));
         }
       },
+      fromJSON: {
+        writable: true,
+        value: function (obj) {
+          return new Vector2(obj.x, obj.y);
+        }
+      },
       fromString: {
         writable: true,
         value: function (str) {
-          var obj = JSON.parse(str);
-
-          return new Vector2(obj.x, obj.y);
+          return Vector2.fromJSON(JSON.parse(str));
         }
       }
     }, {
@@ -2109,10 +2159,16 @@
           return Math.atan2(this.x, this.y);
         }
       },
+      toJSON: {
+        writable: true,
+        value: function () {
+          return this.clone();
+        }
+      },
       toString: {
         writable: true,
         value: function () {
-          return JSON.stringify({ x: this.x, y: this.y });
+          return JSON.stringify(this.toJSON());
         }
       },
       clone: {
@@ -2218,12 +2274,16 @@
           return new Vector3(vec1.y * vec2.z - vec2.y * vec1.z, vec1.z * vec2.x - vec2.z * vec1.x, vec1.x * vec2.y - vec2.x * vec1.y);
         }
       },
+      fromJSON: {
+        writable: true,
+        value: function (obj) {
+          return new Vector3(obj.x, obj.y, obj.z);
+        }
+      },
       fromString: {
         writable: true,
         value: function (str) {
-          var obj = JSON.parse(str);
-
-          return new Vector3(obj.x, obj.y, obj.z);
+          return Vector3.fromJSON(JSON.parse(str));
         }
       },
       forward: {
@@ -2284,10 +2344,16 @@
           return new Vector2(this.x, this.y, this.z);
         }
       },
+      toJSON: {
+        writable: true,
+        value: function () {
+          return this.clone();
+        }
+      },
       toString: {
         writable: true,
         value: function () {
-          return JSON.stringify({ x: this.x, y: this.y, z: this.z });
+          return JSON.stringify(this.toJSON());
         }
       },
       add: {
