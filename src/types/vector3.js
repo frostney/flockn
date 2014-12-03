@@ -33,14 +33,20 @@ class Vector3 {
     return new Vector2(this.x, this.y, this.z);
   }
 
+  toJSON() {
+    return this.clone();
+  }
+
   toString() {
-    return JSON.stringify({x: this.x, y: this.y, z: this.z});
+    return JSON.stringify(this.toJSON());
+  }
+
+  static fromJSON(obj) {
+    return new Vector3(obj.x, obj.y, obj.z);
   }
 
   static fromString(str) {
-    var obj = JSON.parse(str);
-
-    return new Vector3(obj.x, obj.y, obj.z);
+    return Vector3.fromJSON(JSON.parse(str));
   }
 
   add(vector) {
