@@ -8,7 +8,7 @@ import Texture from 'flockn/texture';
 
 import {Vector2, Vector3, Color, Rect} from 'flockn/types';
 
-import {addable, renderable, updateable} from 'flockn/mixins';
+import {addable, renderable, updateable, serializable} from 'flockn/mixins';
 
 
 class GameObject extends Base {
@@ -156,11 +156,6 @@ class GameObject extends Base {
     }
   }
 
-  toJSON() {
-    // Serialize this object
-    return serialize(this);
-  }
-
   animate(property, end, time, callback) {
     // TODO: Tweening does not work yet
     if ( typeof this[property] === 'number') {
@@ -175,10 +170,6 @@ class GameObject extends Base {
     }
   }
 
-  toString() {
-    return serialize(this);
-  }
-
   // Game objects can be defined and are stored on the object itself
   static define(name, factory) {
     GameObject.store[name] = factory;
@@ -188,6 +179,8 @@ class GameObject extends Base {
 
   }
 }
+
+serializable(GameObject);
 
 GameObject.store = {};
 
