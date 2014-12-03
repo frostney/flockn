@@ -8,8 +8,8 @@ serialize.json.filter = ['id', 'parent'];
 serialize.json.defaultReplacer = [];
 
 serialize.json.defaultReplacer.push(function(key, value) {
-  if (key === 'events' && obj instanceof EventMap) {
-    value = obj.serialize();
+  if (key === 'events' && value instanceof EventMap) {
+    value = value.serialize();
   }
 
   return value;
