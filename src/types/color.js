@@ -47,7 +47,7 @@ class Color {
     }
   }
 
-  toString() {
+  toJSON() {
     if (this.a < 1) {
       if (this.a === 0) {
         return 'transparent';
@@ -57,6 +57,10 @@ class Color {
     } else {
       return `rgb(${this.r},${this.g},${this.b})`;
     }
+  }
+
+  toString() {
+    return this.toJSON();
   }
 
   toHex() {
