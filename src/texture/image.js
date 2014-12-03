@@ -1,5 +1,5 @@
 import {Color, Vector2} from 'flockn/types';
-import serialize from 'flockn/serialize';
+import serializable from 'flockn/mixins/serializable';
 
 class TextureImage {
   constructor(texture) {
@@ -45,5 +45,7 @@ class TextureImage {
     return serialize.toString(this);
   }
 }
+
+serializable(TextureImage);
 
 export default TextureImage;
