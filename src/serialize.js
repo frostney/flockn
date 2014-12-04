@@ -36,16 +36,7 @@ serialize.json.defaultReplacer.push(function(key, value) {
 });
 
 serialize.json.defaultReplacer.push(function(key, value) {
-  // Stringify the descriptor
-  if (key === 'descriptor') {
-    value = value.toString();
-  }
-
-  return value;
-});
-
-serialize.json.defaultReplacer.push(function(key, value) {
-  if (Object.hasOwnProperty(value, 'toJSON')) {
+  if (value.toJSON && typeof value.toJSON === 'function') {
     value = value.toJSON();
   }
 
@@ -53,8 +44,13 @@ serialize.json.defaultReplacer.push(function(key, value) {
 });
 
 serialize.json.defaultReplacer.push(function(key, value) {
+  // Functions are not allowed expect for the descriptor
   if (typeof value !== 'function') {
     return value;
+  } else {
+    if (key === 'descriptor') {
+      return value;
+    }
   }
 });
 
@@ -92,7 +88,15 @@ serialize.toJSON = function(obj, replacer) {
 };
 
 serialize.toString = function(obj) {
-  return JSON.stringify(serialize.toJSON(obj));
+  return JSON.stringify(serialize.toJSON(obj), function(key, value) {
+    // Functions that are still left should be stringified
+
+    if (typeof value === 'function') {
+      value = value.toString();
+    }
+
+    return value;
+  });
 };
 
 export default serialize;
