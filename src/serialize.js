@@ -36,6 +36,10 @@ serialize.json.defaultReplacer.push(function(key, value) {
 });
 
 serialize.json.defaultReplacer.push(function(key, value) {
+  if (value === null) {
+    return value;
+  }
+
   if (value.toJSON && typeof value.toJSON === 'function') {
     value = value.toJSON();
   }
