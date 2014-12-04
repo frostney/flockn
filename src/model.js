@@ -1,4 +1,5 @@
 import EventMap from 'eventmap';
+import {serializable} from 'flockn/mixins';
 
 class Model extends EventMap {
   constructor() {
@@ -26,5 +27,7 @@ class Model extends EventMap {
     return Object.hasOwnProperty.call(this.data, name);
   }
 }
+
+serializable(Model);
 
 export default Model;
