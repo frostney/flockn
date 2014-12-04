@@ -4,7 +4,7 @@ var serialize = {};
 
 serialize.json = {};
 
-serialize.json.filter = ['id', 'parent', 'audio', 'input', 'world'];
+serialize.json.filter = ['id', 'parent', 'audio', 'input', 'world', 'assetLoader'];
 serialize.json.defaultReplacer = [];
 
 serialize.json.defaultReplacer.push(function(key, value) {

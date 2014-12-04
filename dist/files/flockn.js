@@ -234,6 +234,7 @@
   var Group = _flocknGroup.default;
   var addable = _flocknMixins.addable;
   var updateable = _flocknMixins.updateable;
+  var serializable = _flocknMixins.serializable;
   var Behavior = (function (Base) {
     var Behavior = function Behavior(descriptor) {
       Base.call(this, "Behavior", descriptor);
@@ -272,6 +273,8 @@
 
     return Behavior;
   })(Base);
+
+  serializable(Behavior);
 
   // Behaviors can be defined and are stored on the object itself
   Behavior.store = {};
@@ -380,11 +383,11 @@
 });
 (function (factory) {
   if (typeof define === "function" && define.amd) {
-    define('flockn/game', ["exports", "gameboard/loop", "flockn/base", "flockn/graphics", "flockn/scene", "flockn/types/color", "flockn/viewport", "flockn/mixins"], factory);
+    define('flockn/game', ["exports", "gameboard/loop", "gameboard/assetloader", "flockn/base", "flockn/graphics", "flockn/scene", "flockn/types/color", "flockn/viewport", "flockn/mixins"], factory);
   } else if (typeof exports !== "undefined") {
-    factory(exports, require("gameboard/loop"), require("flockn/base"), require("flockn/graphics"), require("flockn/scene"), require("flockn/types/color"), require("flockn/viewport"), require("flockn/mixins"));
+    factory(exports, require("gameboard/loop"), require("gameboard/assetloader"), require("flockn/base"), require("flockn/graphics"), require("flockn/scene"), require("flockn/types/color"), require("flockn/viewport"), require("flockn/mixins"));
   }
-})(function (exports, _gameboardLoop, _flocknBase, _flocknGraphics, _flocknScene, _flocknTypesColor, _flocknViewport, _flocknMixins) {
+})(function (exports, _gameboardLoop, _gameboardAssetloader, _flocknBase, _flocknGraphics, _flocknScene, _flocknTypesColor, _flocknViewport, _flocknMixins) {
   "use strict";
 
   var _classProps = function (child, staticProps, instanceProps) {
@@ -405,6 +408,7 @@
   };
 
   var Loop = _gameboardLoop;
+  var AssetLoader = _gameboardAssetloader;
   var Base = _flocknBase.default;
   var Graphics = _flocknGraphics.default;
   var Scene = _flocknScene.default;
@@ -413,6 +417,7 @@
   var addable = _flocknMixins.addable;
   var renderable = _flocknMixins.renderable;
   var updateable = _flocknMixins.updateable;
+  var serializable = _flocknMixins.serializable;
 
 
   var root = window;
@@ -437,6 +442,8 @@
       this.width = root.innerWidth;
       this.height = root.innerHeight;
       this.color = new Color(255, 255, 255);
+
+      this.assetLoader = new AssetLoader();
 
       // Set the viewport object
       this.viewport = Viewport;
@@ -524,7 +531,11 @@
       },
       preload: {
         writable: true,
-        value: function (assets) {}
+        value: function (assets) {
+          this.assetLoader.assets = assets;
+
+          return this.assetLoader;
+        }
       },
       run: {
         writable: true,
@@ -550,6 +561,8 @@
 
     return Game;
   })(Base);
+
+  serializable(Game);
 
   exports.default = Game;
 });
@@ -884,11 +897,11 @@
 });
 (function (factory) {
   if (typeof define === "function" && define.amd) {
-    define('flockn/group', ["exports", "gameboard"], factory);
+    define('flockn/group', ["exports", "gameboard", "flockn/serialize"], factory);
   } else if (typeof exports !== "undefined") {
-    factory(exports, require("gameboard"));
+    factory(exports, require("gameboard"), require("flockn/serialize"));
   }
-})(function (exports, _gameboard) {
+})(function (exports, _gameboard, _flocknSerialize) {
   "use strict";
 
   var _classProps = function (child, staticProps, instanceProps) {
@@ -897,6 +910,7 @@
   };
 
   var Log = _gameboard.Log;
+  var serialize = _flocknSerialize.default;
 
 
   var unidentified = "untitled";
@@ -1102,13 +1116,19 @@
       toJSON: {
         writable: true,
         value: function () {
-          return this.values();
+          return this.values().map(function (child) {
+            if (child.toJSON && typeof child === "function") {
+              return child.toJSON();
+            } else {
+              return child;
+            }
+          });
         }
       },
       toString: {
         writable: true,
         value: function () {
-          return JSON.stringify(this.values());
+          return serialize.toString(this.toJSON());
         }
       },
       remove: {
@@ -1380,11 +1400,11 @@
 });
 (function (factory) {
   if (typeof define === "function" && define.amd) {
-    define('flockn/model', ["exports", "eventmap"], factory);
+    define('flockn/model', ["exports", "eventmap", "flockn/mixins"], factory);
   } else if (typeof exports !== "undefined") {
-    factory(exports, require("eventmap"));
+    factory(exports, require("eventmap"), require("flockn/mixins"));
   }
-})(function (exports, _eventmap) {
+})(function (exports, _eventmap, _flocknMixins) {
   "use strict";
 
   var _classProps = function (child, staticProps, instanceProps) {
@@ -1405,6 +1425,7 @@
   };
 
   var EventMap = _eventmap.default;
+  var serializable = _flocknMixins.serializable;
   var Model = (function (EventMap) {
     var Model = function Model() {
       EventMap.call(this);
@@ -1445,6 +1466,8 @@
     return Model;
   })(EventMap);
 
+  serializable(Model);
+
   exports.default = Model;
 });
 (function (factory) {
@@ -1478,6 +1501,7 @@
   var addable = _flocknMixins.addable;
   var renderable = _flocknMixins.renderable;
   var updateable = _flocknMixins.updateable;
+  var serializable = _flocknMixins.serializable;
   var Scene = (function (Base) {
     var Scene = function Scene(descriptor) {
       Base.call(this, "Scene", descriptor);
@@ -1511,6 +1535,8 @@
     return Scene;
   })(Base);
 
+  serializable(Scene);
+
   exports.default = Scene;
 });
 (function (factory) {
@@ -1529,7 +1555,7 @@
 
   serialize.json = {};
 
-  serialize.json.filter = ["id", "parent", "audio", "input", "world"];
+  serialize.json.filter = ["id", "parent", "audio", "input", "world", "assetLoader"];
   serialize.json.defaultReplacer = [];
 
   serialize.json.defaultReplacer.push(function (key, value) {
@@ -1561,16 +1587,11 @@
   });
 
   serialize.json.defaultReplacer.push(function (key, value) {
-    // Stringify the descriptor
-    if (key === "descriptor") {
-      value = value.toString();
+    if (value === null) {
+      return value;
     }
 
-    return value;
-  });
-
-  serialize.json.defaultReplacer.push(function (key, value) {
-    if (Object.hasOwnProperty(value, "toJSON")) {
+    if (value.toJSON && typeof value.toJSON === "function") {
       value = value.toJSON();
     }
 
@@ -1578,8 +1599,13 @@
   });
 
   serialize.json.defaultReplacer.push(function (key, value) {
+    // Functions are not allowed expect for the descriptor
     if (typeof value !== "function") {
       return value;
+    } else {
+      if (key === "descriptor") {
+        return value;
+      }
     }
   });
 
@@ -1617,7 +1643,15 @@
   };
 
   serialize.toString = function (obj) {
-    return JSON.stringify(serialize.toJSON(obj));
+    return JSON.stringify(serialize.toJSON(obj), function (key, value) {
+      // Functions that are still left should be stringified
+
+      if (typeof value === "function") {
+        value = value.toString();
+      }
+
+      return value;
+    });
   };
 
   exports.default = serialize;
@@ -2341,7 +2375,7 @@
       clone: {
         writable: true,
         value: function () {
-          return new Vector2(this.x, this.y, this.z);
+          return new Vector3(this.x, this.y, this.z);
         }
       },
       toJSON: {
