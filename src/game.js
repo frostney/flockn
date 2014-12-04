@@ -6,7 +6,7 @@ import Scene from 'flockn/scene';
 import Color from 'flockn/types/color';
 import Viewport from 'flockn/viewport';
 
-import {addable, renderable, updateable} from 'flockn/mixins';
+import {addable, renderable, updateable, serializable} from 'flockn/mixins';
 
 var root = window;
 
@@ -128,5 +128,7 @@ class Game extends Base {
     });
   }
 }
+
+serializable(Game);
 
 export default Game;
