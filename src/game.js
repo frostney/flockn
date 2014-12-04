@@ -1,4 +1,5 @@
 import * as Loop from 'gameboard/loop';
+import * as AssetLoader from 'gameboard/assetloader';
 
 import Base from 'flockn/base';
 import Graphics from 'flockn/graphics';
@@ -31,6 +32,8 @@ class Game extends Base {
     this.width = root.innerWidth;
     this.height = root.innerHeight;
     this.color = new Color(255, 255, 255);
+
+    this.assetLoader = new AssetLoader();
 
     // Set the viewport object
     this.viewport = Viewport;
@@ -108,7 +111,9 @@ class Game extends Base {
   }
 
   preload(assets) {
+    this.assetLoader.assets = assets;
 
+    return this.assetLoader;
   }
 
   run(name) {
