@@ -30,7 +30,7 @@ class Vector3 {
   }
 
   clone() {
-    return new Vector2(this.x, this.y, this.z);
+    return new Vector3(this.x, this.y, this.z);
   }
 
   toJSON() {
