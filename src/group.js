@@ -1,4 +1,5 @@
 import {Log} from 'gameboard';
+import serialize from 'flockn/serialize';
 
 var unidentified = 'untitled';
 var unidentifiedCounter = 0;
@@ -140,11 +141,17 @@ class Group {
   }
 
   toJSON() {
-    return this.values();
+    return this.values().map(child => {
+      if (child.toJSON && typeof child === 'function') {
+        return child.toJSON();
+      } else {
+        return child;
+      }
+    });
   }
 
   toString() {
-    return JSON.stringify(this.values());
+    return serialize.toString(this.toJSON());
   }
 
   static fromJSON(arr) {
