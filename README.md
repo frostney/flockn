@@ -7,7 +7,7 @@ flockn
 flockn is a lightweight ECMAScript 6 game engine. (It currently uses 6to5 to generate ECMAScript 5 compatible output.)
 
 Alternatives:
-* If you are just interested in the DOM/jQuery side of things and wish more control over what's get added to the DOM, you should try [Lyria](https://github.com/freezedev/lyria).
+* If you are just interested in the DOM/jQuery side of things and wish more control over what's getting added to the DOM, you should try [Lyria](https://github.com/freezedev/lyria).
 * For a full-blown and less opiniated game engine, you could try [Phaser](https://github.com/photonstorm/phaser).
 
 How does it work?
