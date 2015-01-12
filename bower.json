@@ -34,6 +34,11 @@
   "devDependencies": {
     "almond": "~0.3.0",
     "normalize-css": "~3.0.1",
-    "font-awesome": "~4.2.0"
+    "font-awesome": "~4.2.0",
+    "mocha": "~2.1.0",
+    "chai": "~1.10.0"
+  },
+  "resolutions": {
+    "eventmap": "~1.4.0"
   }
 }
