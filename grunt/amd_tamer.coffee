@@ -31,7 +31,7 @@ module.exports =
   test:
     options:
       namespace: 'spec'
-      base: 'test/spec'
+      base: 'test/spec/'
     files: [{
       expand: true
       cwd: 'test/spec/'
