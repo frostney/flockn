@@ -9,6 +9,5 @@
 
   var Behavior = _flocknBehavior.default;
 
-
   Behavior.define("sprite-animation", function () {});
 });

@@ -9,7 +9,6 @@
 
   var Behavior = _flocknBehavior.default;
 
-
   Behavior.define("collision", function () {
     this.update(function (dt) {});
   });

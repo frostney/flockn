@@ -12,7 +12,6 @@
   var createRootElement = _flocknGraphicsRootelement.default;
   var mouse = _flocknInputMouse;
 
-
   Graphics.renderer = "Canvas";
 
   var rootElement = null;
@@ -41,19 +40,20 @@
   Graphics.before("render", function (obj) {
     switch (obj.type) {
       case "Game":
+
         context.clearRect(0, 0, obj.width, obj.height);
 
         context.fillStyle = obj.color.toString();
         context.fillRect(0, 0, obj.width, obj.height);
         break;
-      default:
-        break;
+      default: break;
     }
   });
 
   Graphics.on("render", function (obj) {
     switch (obj.type) {
       case "GameObject":
+
         context.save();
 
         context.translate(obj.position.x + obj.origin.x, obj.position.y + obj.origin.y);
@@ -81,12 +81,12 @@
         context.restore();
         break;
       case "Scene":
+
         if (obj.parent.activeScene !== obj.name) {
           return;
         }
         break;
-      default:
-        break;
+      default: break;
     }
   });
 });

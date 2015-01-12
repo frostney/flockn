@@ -11,7 +11,6 @@
   var Model = _flocknModel.default;
   var Input = _gameboard.Input;
 
-
   var keyData = new Model();
 
   keyData.name = "keys";
@@ -24,7 +23,6 @@
 
   Behavior.define("movement", function () {
     var _this = this;
-
 
     this.addModel(keyData);
 

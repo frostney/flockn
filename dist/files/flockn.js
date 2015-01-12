@@ -37,6 +37,7 @@
 
   var _classProps = function (child, staticProps, instanceProps) {
     if (staticProps) Object.defineProperties(child, staticProps);
+
     if (instanceProps) Object.defineProperties(child.prototype, instanceProps);
   };
 
@@ -57,7 +58,6 @@
   var Audio = _flocknAudio.default;
   var Group = _flocknGroup.default;
   var World = _flocknWorld.default;
-
 
   var objectIndex = 0;
 
@@ -81,7 +81,9 @@
   var Base = (function (EventMap) {
     var Base = function Base(type, descriptor) {
       if (descriptor === undefined) descriptor = function () {};
+
       if (type === undefined) type = "Base";
+
       EventMap.call(this);
 
       // Count up `objectIndex` and stringify it
@@ -215,6 +217,7 @@
 
   var _classProps = function (child, staticProps, instanceProps) {
     if (staticProps) Object.defineProperties(child, staticProps);
+
     if (instanceProps) Object.defineProperties(child.prototype, instanceProps);
   };
 
@@ -392,6 +395,7 @@
 
   var _classProps = function (child, staticProps, instanceProps) {
     if (staticProps) Object.defineProperties(child, staticProps);
+
     if (instanceProps) Object.defineProperties(child.prototype, instanceProps);
   };
 
@@ -419,12 +423,12 @@
   var updateable = _flocknMixins.updateable;
   var serializable = _flocknMixins.serializable;
 
-
   var root = window;
 
   var Game = (function (Base) {
     var Game = function Game(descriptor) {
       var _this = this;
+
       // The new operator does not need to be set explicitly.
       // If it isn't we return an instance of `Game`
       if (!this || !this instanceof Game) {
@@ -541,6 +545,7 @@
         writable: true,
         value: function (name) {
           var _this2 = this;
+
           this.on("executed", function () {
             // Start the game loop
             Loop.run();
@@ -577,6 +582,7 @@
 
   var _classProps = function (child, staticProps, instanceProps) {
     if (staticProps) Object.defineProperties(child, staticProps);
+
     if (instanceProps) Object.defineProperties(child.prototype, instanceProps);
   };
 
@@ -610,6 +616,7 @@
   var GameObject = (function (Base) {
     var GameObject = function GameObject(descriptor) {
       var _this = this;
+
       Base.call(this, "GameObject", descriptor);
 
       this.visible = true;
@@ -814,7 +821,6 @@
 
   var EventMap = _eventmap;
 
-
   // `Graphics` is an instance of an `EventMap`
   var Graphics = new EventMap();
 
@@ -906,12 +912,12 @@
 
   var _classProps = function (child, staticProps, instanceProps) {
     if (staticProps) Object.defineProperties(child, staticProps);
+
     if (instanceProps) Object.defineProperties(child.prototype, instanceProps);
   };
 
   var Log = _gameboard.Log;
   var serialize = _flocknSerialize.default;
-
 
   var unidentified = "untitled";
   var unidentifiedCounter = 0;
@@ -953,7 +959,6 @@
           var name = obj.name;
           var tags = obj.tags;
           var id = obj.id;
-
 
           name = name || (unidentified + unidentifiedCounter++);
           id = id || (unidentified + unidentifiedCounter++);
@@ -1002,6 +1007,7 @@
         writable: true,
         value: function () {
           var _this2 = this;
+
           return Object.keys(this.ids).filter(function (id) {
             return id != null;
           }).map(function (id) {
@@ -1073,6 +1079,7 @@
         writable: true,
         value: function (type) {
           var _this3 = this;
+
           return this.types[type].map(function (index) {
             return _this3[index];
           });
@@ -1090,6 +1097,7 @@
         writable: true,
         value: function (tag) {
           var _this4 = this;
+
           return this.tags[tag].map(function (index) {
             return _this4[index];
           });
@@ -1135,6 +1143,7 @@
         writable: true,
         value: function (index) {
           var _this5 = this;
+
           var id = Object.keys(ids)[index];
 
           var obj = this.ids[id];
@@ -1145,7 +1154,6 @@
 
           var name = obj.name;
           var tags = obj.tags;
-
 
           this.ids[id] = null;
           this.names[name] = null;
@@ -1176,6 +1184,7 @@
         writable: true,
         value: function (tags) {
           var _this6 = this;
+
           if (!Array.isArray(tags)) {
             tags = [tags];
           }
@@ -1195,6 +1204,8 @@
 
   exports.default = Group;
 });
+// These are things that might be moved into freezedev/gameboard
+
 (function (factory) {
   if (typeof define === "function" && define.amd) {
     define('flockn/input/mouse', ["exports", "flockn/types/vector2"], factory);
@@ -1205,7 +1216,6 @@
   "use strict";
 
   var Vector2 = _flocknTypesVector2.default;
-
 
   var events = ["click", "mousedown", "mouseup", "mouseover"];
 
@@ -1235,7 +1245,6 @@
 
   var _slice = Array.prototype.slice;
   var Graphics = _flocknGraphics.default;
-
 
   var addable = function addable(Factory, groupInstance, extraFn) {
     var adder = function adder(child) {
@@ -1316,11 +1325,11 @@
   var checkForFlag = _flocknUtilsCheckforflag.default;
   var Graphics = _flocknGraphics.default;
 
-
   var isVisible = checkForFlag("visible");
 
   var renderable = function renderable() {
     var _this = this;
+
     this.on("render", function () {
       // Only render if element is visible
       if (!isVisible.call(_this)) {
@@ -1350,7 +1359,6 @@
 
   var serialize = _flocknSerialize.default;
 
-
   var serializable = function serializable(Factory) {
     Factory.prototype.toJSON = function () {
       return serialize.toJSON(this);
@@ -1374,7 +1382,6 @@
 
   var checkForFlag = _flocknUtilsCheckforflag.default;
 
-
   var isStatic = checkForFlag("static");
 
   // TODO: This is not completely how I want it be as it only sets the children as static and not the element itself
@@ -1382,6 +1389,7 @@
   //  interactive property
   var updatable = function updateable() {
     var _this = this;
+
     // Update all children
     this.on("update", function (dt) {
       if (!isStatic.call(_this)) {
@@ -1409,6 +1417,7 @@
 
   var _classProps = function (child, staticProps, instanceProps) {
     if (staticProps) Object.defineProperties(child, staticProps);
+
     if (instanceProps) Object.defineProperties(child.prototype, instanceProps);
   };
 
@@ -1481,6 +1490,7 @@
 
   var _classProps = function (child, staticProps, instanceProps) {
     if (staticProps) Object.defineProperties(child, staticProps);
+
     if (instanceProps) Object.defineProperties(child.prototype, instanceProps);
   };
 
@@ -1550,7 +1560,6 @@
 
   var EventMap = _eventmap.default;
 
-
   var serialize = {};
 
   serialize.json = {};
@@ -1614,7 +1623,6 @@
 
     var replacers = [].concat.apply([], [serialize.json.defaultReplacer, replacer]);
 
-
     for (var key in obj) {
       (function (key, value) {
         if (!Object.hasOwnProperty.call(obj, key)) {
@@ -1667,6 +1675,7 @@
 
   var _classProps = function (child, staticProps, instanceProps) {
     if (staticProps) Object.defineProperties(child, staticProps);
+
     if (instanceProps) Object.defineProperties(child.prototype, instanceProps);
   };
 
@@ -1691,6 +1700,7 @@
         },
         set: function (value) {
           var _this = this;
+
           filename = value;
 
           // TODO: Most of this should already be handled by the preloader
@@ -1761,6 +1771,7 @@
   var Texture = (function (EventMap) {
     var Texture = function Texture() {
       var _this = this;
+
       EventMap.call(this);
 
       // Set up dimensions
@@ -1847,16 +1858,18 @@
         this.font.decoration.forEach(function (decoration) {
           switch (decoration) {
             case "bold":
+
               tmpElem.style.fontWeight = "bold";
               break;
             case "italic":
+
               tmpElem.style.fontStyle = "italic";
               break;
             case "underline":
+
               tmpElem.style.textDecoration = "underline";
               break;
-            default:
-              break;
+            default: break;
           }
         });
 
@@ -1888,6 +1901,7 @@
 
   var _classProps = function (child, staticProps, instanceProps) {
     if (staticProps) Object.defineProperties(child, staticProps);
+
     if (instanceProps) Object.defineProperties(child.prototype, instanceProps);
   };
 
@@ -1896,9 +1910,13 @@
   var Color = (function () {
     var Color = function Color(r, g, b, a) {
       if (a === undefined) a = 1;
+
       if (b === undefined) b = 0;
+
       if (g === undefined) g = 0;
+
       if (r === undefined) r = 0;
+
       this.set(r, g, b, a);
     };
 
@@ -1920,9 +1938,13 @@
         writable: true,
         value: function (r, g, b, a) {
           if (a === undefined) a = 1;
+
           if (b === undefined) b = 0;
+
           if (g === undefined) g = 0;
+
           if (r === undefined) r = 0;
+
           this.r = r;
           this.g = g;
           this.b = b;
@@ -2030,7 +2052,6 @@
   var Vector3 = _flocknTypesVector3.default;
   var Rect = _flocknTypesRect.default;
 
-
   var Types = {};
 
   Types.Color = Color;
@@ -2055,6 +2076,7 @@
 
   var _classProps = function (child, staticProps, instanceProps) {
     if (staticProps) Object.defineProperties(child, staticProps);
+
     if (instanceProps) Object.defineProperties(child.prototype, instanceProps);
   };
 
@@ -2062,9 +2084,13 @@
   var Rect = (function () {
     var Rect = function Rect(x, y, w, h) {
       if (h === undefined) h = 0;
+
       if (w === undefined) w = 0;
+
       if (y === undefined) y = 0;
+
       if (x === undefined) x = 0;
+
       this.x = x;
       this.y = y;
       this.w = w;
@@ -2129,6 +2155,7 @@
 
   var _classProps = function (child, staticProps, instanceProps) {
     if (staticProps) Object.defineProperties(child, staticProps);
+
     if (instanceProps) Object.defineProperties(child.prototype, instanceProps);
   };
 
@@ -2139,7 +2166,9 @@
   var Vector2 = (function () {
     var Vector2 = function Vector2(x, y) {
       if (y === undefined) y = 0;
+
       if (x === undefined) x = 0;
+
       this.set(x, y);
     };
 
@@ -2173,7 +2202,9 @@
         writable: true,
         value: function (x, y) {
           if (y === undefined) y = 0;
+
           if (x === undefined) x = 0;
+
           this.x = x;
           this.y = y;
         }
@@ -2280,6 +2311,7 @@
 
   var _classProps = function (child, staticProps, instanceProps) {
     if (staticProps) Object.defineProperties(child, staticProps);
+
     if (instanceProps) Object.defineProperties(child.prototype, instanceProps);
   };
 
@@ -2290,8 +2322,11 @@
   var Vector3 = (function () {
     var Vector3 = function Vector3(x, y, z) {
       if (z === undefined) z = 0;
+
       if (y === undefined) y = 0;
+
       if (x === undefined) x = 0;
+
       this.set(x, y, z);
     };
 
@@ -2355,8 +2390,11 @@
         writable: true,
         value: function (x, y, z) {
           if (z === undefined) z = 0;
+
           if (y === undefined) y = 0;
+
           if (x === undefined) x = 0;
+
           this.x = x;
           this.y = y;
           this.z = z;
@@ -2509,7 +2547,6 @@
   "use strict";
 
   var Model = _flocknModel.default;
-
 
   // `World` is an instance of a model
   var world = new Model();

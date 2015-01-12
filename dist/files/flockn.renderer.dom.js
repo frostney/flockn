@@ -11,7 +11,6 @@
   var createRootElement = _flocknGraphicsRootelement.default;
   var mouse = _flocknInputMouse;
 
-
   var root = window;
 
   var pixelize = function (num) {
@@ -71,10 +70,12 @@
 
     switch (obj.type) {
       case "Scene":
+
         element.style.width = pixelize(obj.parent.width);
         element.style.height = pixelize(obj.parent.height);
         break;
       case "GameObject":
+
         element.style.left = pixelize(obj.position.x);
         element.style.top = pixelize(obj.position.y);
         element.style.width = pixelize(obj.width);
@@ -86,7 +87,6 @@
           });
         });
 
-
         // Mouseenter and Mouseleave are kinda special right now
         root.addEventListener("mouseenter", function (evt) {
           obj.trigger("mouseenter", evt);
@@ -97,8 +97,7 @@
         }, true);
 
         break;
-      default:
-        break;
+      default: break;
     }
 
     parentElem.appendChild(element);
@@ -142,6 +141,7 @@
 
       switch (obj.type) {
         case "GameObject":
+
           var elemVisible = element.style.display === "block";
 
           if (elemVisible !== obj.visible) {
@@ -228,22 +228,25 @@
             obj.texture.label.font.decoration.forEach(function (decoration) {
               switch (decoration) {
                 case "bold":
+
                   element.style.fontWeight = "bold";
                   break;
                 case "italic":
+
                   element.style.fontStyle = "italic";
                   break;
                 case "underline":
+
                   element.style.textDecoration = "underline";
                   break;
-                default:
-                  break;
+                default: break;
               }
             });
           }
 
           break;
         case "Scene":
+
           var elemVisibleStyle = element.style.display;
 
           if (obj.parent.activeScene !== obj.name) {
@@ -256,8 +259,7 @@
             }
           }
           break;
-        default:
-          break;
+        default: break;
       }
     }
   });
