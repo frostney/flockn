@@ -28,3 +28,13 @@ module.exports =
       rename: (dest, src) ->
         "#{dest}<%= package.name %>.plugin.#{src}"
     }]
+  test:
+    options:
+      namespace: 'spec'
+      base: 'test/spec'
+    files: [{
+      expand: true
+      cwd: 'test/spec/'
+      src: '*.js'
+      dest: 'test/spec/'
+    }]
