@@ -7,9 +7,16 @@
 })(function (exports, _flocknGraphics, _flocknGraphicsRootelement, _flocknInputMouse) {
   "use strict";
 
-  var Graphics = _flocknGraphics.default;
-  var createRootElement = _flocknGraphicsRootelement.default;
+  var _interopRequire = function (obj) {
+    return obj && (obj["default"] || obj);
+  };
+
+  var Graphics = _interopRequire(_flocknGraphics);
+
+  var createRootElement = _interopRequire(_flocknGraphicsRootelement);
+
   var mouse = _flocknInputMouse;
+
 
   var root = window;
 
@@ -50,7 +57,7 @@
     var parent = obj.parent;
 
     var parentElem = (function () {
-      if ((parent && parent.isRoot) || parent == null) {
+      if (parent && parent.isRoot || parent == null) {
         return rootElement;
       } else {
         var parentId = obj.parent.id.toLowerCase();
@@ -70,12 +77,10 @@
 
     switch (obj.type) {
       case "Scene":
-
         element.style.width = pixelize(obj.parent.width);
         element.style.height = pixelize(obj.parent.height);
         break;
       case "GameObject":
-
         element.style.left = pixelize(obj.position.x);
         element.style.top = pixelize(obj.position.y);
         element.style.width = pixelize(obj.width);
@@ -87,6 +92,7 @@
           });
         });
 
+
         // Mouseenter and Mouseleave are kinda special right now
         root.addEventListener("mouseenter", function (evt) {
           obj.trigger("mouseenter", evt);
@@ -97,7 +103,8 @@
         }, true);
 
         break;
-      default: break;
+      default:
+        break;
     }
 
     parentElem.appendChild(element);
@@ -141,11 +148,10 @@
 
       switch (obj.type) {
         case "GameObject":
-
           var elemVisible = element.style.display === "block";
 
           if (elemVisible !== obj.visible) {
-            element.style.display = (obj.visible) ? "block" : "hidden";
+            element.style.display = obj.visible ? "block" : "hidden";
           }
 
           if (!elemVisible) {
@@ -200,11 +206,11 @@
 
           if (obj.texture.image.drawable) {
             if (obj.texture.image.offset.x !== 0) {
-              element.style.backgroundPositionX = obj.texture.image.offset.x * (-1) + "px";
+              element.style.backgroundPositionX = obj.texture.image.offset.x * -1 + "px";
             }
 
             if (obj.texture.image.offset.y !== 0) {
-              element.style.backgroundPositionY = obj.texture.image.offset.y * (-1) + "px";
+              element.style.backgroundPositionY = obj.texture.image.offset.y * -1 + "px";
             }
           }
 
@@ -228,25 +234,22 @@
             obj.texture.label.font.decoration.forEach(function (decoration) {
               switch (decoration) {
                 case "bold":
-
                   element.style.fontWeight = "bold";
                   break;
                 case "italic":
-
                   element.style.fontStyle = "italic";
                   break;
                 case "underline":
-
                   element.style.textDecoration = "underline";
                   break;
-                default: break;
+                default:
+                  break;
               }
             });
           }
 
           break;
         case "Scene":
-
           var elemVisibleStyle = element.style.display;
 
           if (obj.parent.activeScene !== obj.name) {
@@ -259,7 +262,8 @@
             }
           }
           break;
-        default: break;
+        default:
+          break;
       }
     }
   });

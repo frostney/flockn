@@ -7,10 +7,17 @@
 })(function (exports, _flocknTypes, _flocknGraphics, _flocknGraphicsRootelement, _flocknInputMouse) {
   "use strict";
 
+  var _interopRequire = function (obj) {
+    return obj && (obj["default"] || obj);
+  };
+
   var Vector2 = _flocknTypes.Vector2;
-  var Graphics = _flocknGraphics.default;
-  var createRootElement = _flocknGraphicsRootelement.default;
+  var Graphics = _interopRequire(_flocknGraphics);
+
+  var createRootElement = _interopRequire(_flocknGraphicsRootelement);
+
   var mouse = _flocknInputMouse;
+
 
   Graphics.renderer = "Canvas";
 
@@ -40,20 +47,19 @@
   Graphics.before("render", function (obj) {
     switch (obj.type) {
       case "Game":
-
         context.clearRect(0, 0, obj.width, obj.height);
 
         context.fillStyle = obj.color.toString();
         context.fillRect(0, 0, obj.width, obj.height);
         break;
-      default: break;
+      default:
+        break;
     }
   });
 
   Graphics.on("render", function (obj) {
     switch (obj.type) {
       case "GameObject":
-
         context.save();
 
         context.translate(obj.position.x + obj.origin.x, obj.position.y + obj.origin.y);
@@ -81,12 +87,12 @@
         context.restore();
         break;
       case "Scene":
-
         if (obj.parent.activeScene !== obj.name) {
           return;
         }
         break;
-      default: break;
+      default:
+        break;
     }
   });
 });

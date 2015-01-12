@@ -7,7 +7,11 @@
 })(function (exports, _flocknBehavior) {
   "use strict";
 
-  var Behavior = _flocknBehavior.default;
+  var _interopRequire = function (obj) {
+    return obj && (obj["default"] || obj);
+  };
+
+  var Behavior = _interopRequire(_flocknBehavior);
 
   Behavior.define("collision", function () {
     this.update(function (dt) {});

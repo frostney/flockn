@@ -7,9 +7,16 @@
 })(function (exports, _flocknBehavior, _flocknModel, _gameboard) {
   "use strict";
 
-  var Behavior = _flocknBehavior.default;
-  var Model = _flocknModel.default;
+  var _interopRequire = function (obj) {
+    return obj && (obj["default"] || obj);
+  };
+
+  var Behavior = _interopRequire(_flocknBehavior);
+
+  var Model = _interopRequire(_flocknModel);
+
   var Input = _gameboard.Input;
+
 
   var keyData = new Model();
 
@@ -24,9 +31,13 @@
   Behavior.define("movement", function () {
     var _this = this;
 
+
     this.addModel(keyData);
 
     this.input.key.on("down", function (key) {
+
+
+
       var upKeys = _this.data("keys").get("up");
       if (!Array.isArray(upKeys)) {
         upKeys = [upKeys];
