@@ -7,7 +7,7 @@ module.exports = (grunt) ->
 
   grunt.registerTask 'default', ['clean', '6to5:dist', 'amd_tamer', 'uglify']
   
-  grunt.registerTask 'test', ['jshint', '6to5:test']
+  grunt.registerTask 'test', ['jshint', 'consolidate', '6to5:test', 'amd_tamer:test']
   
   grunt.registerTask 'doc', ['groc']
   
