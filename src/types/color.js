@@ -1,4 +1,4 @@
-import * as clamp from 'clamp';
+import clamp from 'clamp';
 import colorConstants from 'flockn/constants/color';
 
 class Color {
