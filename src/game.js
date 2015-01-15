@@ -1,5 +1,5 @@
-import * as Loop from 'gameboard/loop';
-import * as AssetLoader from 'gameboard/assetloader';
+import Loop from 'gameboard/loop';
+import AssetLoader from 'gameboard/assetloader';
 
 import Base from 'flockn/base';
 import Graphics from 'flockn/graphics';
