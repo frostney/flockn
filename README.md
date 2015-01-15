@@ -55,11 +55,13 @@ Features
 
 Philosophy
 ----------
-* Easy-to-use
 * Friendly to JavaScript transpilers: CoffeeScript, TypeScript and more
 * Lightweight
 * Events everywhere (Having an `EventEmitter`-like interface)
 * Pluggable
+* Over-simplification of things
+  * For example, a game would usually have a scene director where scenes are bound to and not on the itself
+  * A texture can either be an image, a text, a color or a combination of these
 * Functions are the best way to describe an object
 * Split entity-component model into 
     * Game objects (base object)
