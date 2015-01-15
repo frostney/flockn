@@ -1,4 +1,4 @@
-import * as EventMap from 'eventmap';
+import EventMap from 'eventmap';
 
 // `Graphics` is an instance of an `EventMap`
 let Graphics = new EventMap();
