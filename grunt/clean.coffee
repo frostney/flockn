@@ -1,2 +1,2 @@
 module.exports =
-  ['dist', 'tmp']
+  ['dist', 'tmp', 'test/browser']
