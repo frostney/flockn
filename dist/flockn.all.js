@@ -1,23 +1,11 @@
-(function (factory) {
-  if (typeof define === "function" && define.amd) {
-    define('flockn/assets', ["exports", "module"], factory);
-  } else if (typeof exports !== "undefined" && typeof module !== "undefined") {
-    factory(exports, module);
-  }
-})(function (exports, module) {
+define('flockn/assets', ["exports", "module"], function (exports, module) {
   "use strict";
 
   var Assets = {};
 
   module.exports = Assets;
 });
-(function (factory) {
-  if (typeof define === "function" && define.amd) {
-    define('flockn/audio', ["exports", "module"], factory);
-  } else if (typeof exports !== "undefined" && typeof module !== "undefined") {
-    factory(exports, module);
-  }
-})(function (exports, module) {
+define('flockn/audio', ["exports", "module"], function (exports, module) {
   "use strict";
 
   var Audio = {};
@@ -26,13 +14,7 @@
 
   module.exports = Audio;
 });
-(function (factory) {
-  if (typeof define === "function" && define.amd) {
-    define('flockn/base', ["exports", "module", "eventmap", "gameboard", "flockn/audio", "flockn/group", "flockn/world"], factory);
-  } else if (typeof exports !== "undefined" && typeof module !== "undefined") {
-    factory(exports, module, require("eventmap"), require("gameboard"), require("flockn/audio"), require("flockn/group"), require("flockn/world"));
-  }
-})(function (exports, module, _eventmap, _gameboard, _flocknAudio, _flocknGroup, _flocknWorld) {
+define('flockn/base', ["exports", "module", "eventmap", "gameboard", "flockn/audio", "flockn/group", "flockn/world"], function (exports, module, _eventmap, _gameboard, _flocknAudio, _flocknGroup, _flocknWorld) {
   "use strict";
 
   var _prototypeProperties = function (child, staticProps, instanceProps) {
@@ -161,7 +143,7 @@
 
     _prototypeProperties(Base, null, {
       apply: {
-        value: function (args) {
+        value: function apply(args) {
           // TODO: Reflect if function check should be enforced here
           if (this.descriptor) {
             // If args is not an array or array-like, provide an empty one
@@ -193,7 +175,7 @@
         configurable: true
       },
       call: {
-        value: function () {
+        value: function call() {
           // Call `Base#apply` with the arguments object
           this.apply(arguments);
         },
@@ -204,7 +186,7 @@
       reset: {
 
         // Alias for `Base#call`
-        value: function () {
+        value: function reset() {
           return this.call.apply(this, arguments);
         },
         writable: true,
@@ -212,19 +194,19 @@
         configurable: true
       },
       closest: {
-        value: function () {},
+        value: function closest() {},
         writable: true,
         enumerable: true,
         configurable: true
       },
       find: {
-        value: function () {},
+        value: function find() {},
         writable: true,
         enumerable: true,
         configurable: true
       },
       log: {
-        value: function () {
+        value: function log() {
           if (console && console.log) {
             var argArray = [].slice.call(arguments);
 
@@ -249,13 +231,7 @@
 
   module.exports = Base;
 });
-(function (factory) {
-  if (typeof define === "function" && define.amd) {
-    define('flockn/behavior', ["exports", "module", "flockn/base", "flockn/group", "flockn/mixins"], factory);
-  } else if (typeof exports !== "undefined" && typeof module !== "undefined") {
-    factory(exports, module, require("flockn/base"), require("flockn/group"), require("flockn/mixins"));
-  }
-})(function (exports, module, _flocknBase, _flocknGroup, _flocknMixins) {
+define('flockn/behavior', ["exports", "module", "flockn/base", "flockn/group", "flockn/mixins"], function (exports, module, _flocknBase, _flocknGroup, _flocknMixins) {
   "use strict";
 
   var _prototypeProperties = function (child, staticProps, instanceProps) {
@@ -331,7 +307,7 @@
 
     _prototypeProperties(Behavior, {
       define: {
-        value: function (name, factory) {
+        value: function define(name, factory) {
           Behavior.store[name] = factory;
         },
         writable: true,
@@ -340,7 +316,7 @@
       }
     }, {
       addBehavior: {
-        value: function () {
+        value: function addBehavior() {
           // When a behavior is added, the reference to the game object is set
           this.queue.push(addable(Behavior, this.children, function (child) {
             child.gameObject = this.gameObject;
@@ -351,7 +327,7 @@
         configurable: true
       },
       removeBehavior: {
-        value: function () {},
+        value: function removeBehavior() {},
         writable: true,
         enumerable: true,
         configurable: true
@@ -368,13 +344,7 @@
 
   module.exports = Behavior;
 });
-(function (factory) {
-  if (typeof define === "function" && define.amd) {
-    define('flockn/constants/color', ["exports", "module"], factory);
-  } else if (typeof exports !== "undefined" && typeof module !== "undefined") {
-    factory(exports, module);
-  }
-})(function (exports, module) {
+define('flockn/constants/color', ["exports", "module"], function (exports, module) {
   "use strict";
 
   var colors = {
@@ -468,13 +438,7 @@
 
   module.exports = colors;
 });
-(function (factory) {
-  if (typeof define === "function" && define.amd) {
-    define('flockn/game', ["exports", "module", "gameboard/loop", "gameboard/assetloader", "flockn/base", "flockn/graphics", "flockn/scene", "flockn/types/color", "flockn/viewport", "flockn/mixins"], factory);
-  } else if (typeof exports !== "undefined" && typeof module !== "undefined") {
-    factory(exports, module, require("gameboard/loop"), require("gameboard/assetloader"), require("flockn/base"), require("flockn/graphics"), require("flockn/scene"), require("flockn/types/color"), require("flockn/viewport"), require("flockn/mixins"));
-  }
-})(function (exports, module, _gameboardLoop, _gameboardAssetloader, _flocknBase, _flocknGraphics, _flocknScene, _flocknTypesColor, _flocknViewport, _flocknMixins) {
+define('flockn/game', ["exports", "module", "gameboard/loop", "gameboard/assetloader", "flockn/base", "flockn/graphics", "flockn/scene", "flockn/types/color", "flockn/viewport", "flockn/mixins"], function (exports, module, _gameboardLoop, _gameboardAssetloader, _flocknBase, _flocknGraphics, _flocknScene, _flocknTypesColor, _flocknViewport, _flocknMixins) {
   "use strict";
 
   var _prototypeProperties = function (child, staticProps, instanceProps) {
@@ -523,8 +487,10 @@
     return obj && (obj["default"] || obj);
   };
 
-  var Loop = _gameboardLoop;
-  var AssetLoader = _gameboardAssetloader;
+  var Loop = _interopRequire(_gameboardLoop);
+
+  var AssetLoader = _interopRequire(_gameboardAssetloader);
+
   var Base = _interopRequire(_flocknBase);
 
   var Graphics = _interopRequire(_flocknGraphics);
@@ -622,7 +588,7 @@
 
     _prototypeProperties(Game, null, {
       addScene: {
-        value: function () {
+        value: function addScene() {
           // When adding a scene, the dimension of scenes should be
           // exactly as large as the `Game` instance itself
           this.queue.push(addable(Scene, this.children, function (child) {
@@ -635,7 +601,7 @@
         configurable: true
       },
       showScene: {
-        value: function (name) {
+        value: function showScene(name) {
           // TODO: Add transitions
           this.children.forEach(function (scene) {
             return scene.visible = false;
@@ -657,7 +623,7 @@
         configurable: true
       },
       preload: {
-        value: function (assets) {
+        value: function preload(assets) {
           this.assetLoader.assets = assets;
 
           return this.assetLoader;
@@ -667,7 +633,7 @@
         configurable: true
       },
       run: {
-        value: function (name) {
+        value: function run(name) {
           var _this2 = this;
           this.on("executed", function () {
             // Start the game loop
@@ -697,13 +663,7 @@
 
   module.exports = Game;
 });
-(function (factory) {
-  if (typeof define === "function" && define.amd) {
-    define('flockn/gameobject', ["exports", "module", "flockn/base", "flockn/behavior", "flockn/graphics", "flockn/group", "flockn/model", "flockn/serialize", "flockn/texture", "flockn/types", "flockn/mixins"], factory);
-  } else if (typeof exports !== "undefined" && typeof module !== "undefined") {
-    factory(exports, module, require("flockn/base"), require("flockn/behavior"), require("flockn/graphics"), require("flockn/group"), require("flockn/model"), require("flockn/serialize"), require("flockn/texture"), require("flockn/types"), require("flockn/mixins"));
-  }
-})(function (exports, module, _flocknBase, _flocknBehavior, _flocknGraphics, _flocknGroup, _flocknModel, _flocknSerialize, _flocknTexture, _flocknTypes, _flocknMixins) {
+define('flockn/gameobject', ["exports", "module", "flockn/base", "flockn/behavior", "flockn/graphics", "flockn/group", "flockn/model", "flockn/serialize", "flockn/texture", "flockn/types", "flockn/mixins"], function (exports, module, _flocknBase, _flocknBehavior, _flocknGraphics, _flocknGroup, _flocknModel, _flocknSerialize, _flocknTexture, _flocknTypes, _flocknMixins) {
   "use strict";
 
   var _prototypeProperties = function (child, staticProps, instanceProps) {
@@ -851,7 +811,7 @@
       define: {
 
         // Game objects can be defined and are stored on the object itself
-        value: function (name, factory) {
+        value: function define(name, factory) {
           GameObject.store[name] = factory;
         },
         writable: true,
@@ -859,7 +819,7 @@
         configurable: true
       },
       fromString: {
-        value: function () {},
+        value: function fromString() {},
         writable: true,
         enumerable: true,
         configurable: true
@@ -906,7 +866,7 @@
         configurable: true
       },
       bounds: {
-        value: function () {
+        value: function bounds() {
           // TODO: Also take care of scale
           // TODO: Also take care of rotation
           return new Rect(this.position.x, this.position.y, this.width, this.height);
@@ -916,7 +876,7 @@
         configurable: true
       },
       addGameObject: {
-        value: function () {
+        value: function addGameObject() {
           // Add a game object to this game object
           this.queue.push(addable(GameObject, this.children).apply(this, arguments));
         },
@@ -925,7 +885,7 @@
         configurable: true
       },
       addBehavior: {
-        value: function () {
+        value: function addBehavior() {
           // Add a `Behavior` instance to the the game object and update the `gameObject` property
           this.queue.push(addable(Behavior, this.children, function (child) {
             child.gameObject = this;
@@ -936,7 +896,7 @@
         configurable: true
       },
       addModel: {
-        value: function () {
+        value: function addModel() {
           // Add a `Model` instance to the game object
           this.queue.push(addable(Model, this.children).apply(this, arguments));
         },
@@ -945,25 +905,25 @@
         configurable: true
       },
       removeGameObject: {
-        value: function () {},
+        value: function removeGameObject() {},
         writable: true,
         enumerable: true,
         configurable: true
       },
       removeBehavior: {
-        value: function () {},
+        value: function removeBehavior() {},
         writable: true,
         enumerable: true,
         configurable: true
       },
       removeModel: {
-        value: function () {},
+        value: function removeModel() {},
         writable: true,
         enumerable: true,
         configurable: true
       },
       data: {
-        value: function (name) {
+        value: function data(name) {
           if (!name) {
             return this.models.byName("default");
           } else {
@@ -975,7 +935,7 @@
         configurable: true
       },
       animate: {
-        value: function (property, end, time, callback) {
+        value: function animate(property, end, time, callback) {
           // TODO: Tweening does not work yet
           if (typeof this[property] === "number") {
             var distance = end - this[property];
@@ -1002,17 +962,14 @@
 
   module.exports = GameObject;
 });
-(function (factory) {
-  if (typeof define === "function" && define.amd) {
-    define('flockn/graphics', ["exports", "module", "eventmap"], factory);
-  } else if (typeof exports !== "undefined" && typeof module !== "undefined") {
-    factory(exports, module, require("eventmap"));
-  }
-})(function (exports, module, _eventmap) {
+define('flockn/graphics', ["exports", "module", "eventmap"], function (exports, module, _eventmap) {
   "use strict";
 
-  var EventMap = _eventmap;
+  var _interopRequire = function (obj) {
+    return obj && (obj["default"] || obj);
+  };
 
+  var EventMap = _interopRequire(_eventmap);
 
   // `Graphics` is an instance of an `EventMap`
   var Graphics = new EventMap();
@@ -1026,13 +983,7 @@
 
   module.exports = Graphics;
 });
-(function (factory) {
-  if (typeof define === "function" && define.amd) {
-    define('flockn/graphics/rootelement', ["exports", "module"], factory);
-  } else if (typeof exports !== "undefined" && typeof module !== "undefined") {
-    factory(exports, module);
-  }
-})(function (exports, module) {
+define('flockn/graphics/rootelement', ["exports", "module"], function (exports, module) {
   "use strict";
 
   var createRootElement = function createRootElement(elementName, extraFn) {
@@ -1094,13 +1045,7 @@
 
   module.exports = createRootElement;
 });
-(function (factory) {
-  if (typeof define === "function" && define.amd) {
-    define('flockn/group', ["exports", "module", "gameboard", "flockn/serialize"], factory);
-  } else if (typeof exports !== "undefined" && typeof module !== "undefined") {
-    factory(exports, module, require("gameboard"), require("flockn/serialize"));
-  }
-})(function (exports, module, _gameboard, _flocknSerialize) {
+define('flockn/group', ["exports", "module", "gameboard", "flockn/serialize"], function (exports, module, _gameboard, _flocknSerialize) {
   "use strict";
 
   var _prototypeProperties = function (child, staticProps, instanceProps) {
@@ -1130,7 +1075,7 @@
 
     _prototypeProperties(Group, {
       fromJSON: {
-        value: function (arr) {
+        value: function fromJSON(arr) {
           var group = new Group();
 
           arr.forEach(function (obj) {
@@ -1144,7 +1089,7 @@
         configurable: true
       },
       fromString: {
-        value: function (str) {
+        value: function fromString(str) {
           return Group.fromJSON(JSON.parse(str));
         },
         writable: true,
@@ -1153,7 +1098,7 @@
       }
     }, {
       push: {
-        value: function (obj) {
+        value: function push(obj) {
           var _this = this;
           var name = obj.name;
           var tags = obj.tags;
@@ -1192,7 +1137,7 @@
         configurable: true
       },
       pop: {
-        value: function () {
+        value: function pop() {
           var ids = Object.keys(this.ids);
 
           for (var i = ids.length,
@@ -1210,7 +1155,7 @@
         configurable: true
       },
       values: {
-        value: function () {
+        value: function values() {
           var _this2 = this;
           return Object.keys(this.ids).filter(function (id) {
             return id != null;
@@ -1223,7 +1168,7 @@
         configurable: true
       },
       all: {
-        value: function (filter) {
+        value: function all(filter) {
           var objects = [];
 
           var recurse = function (group) {
@@ -1251,7 +1196,7 @@
         configurable: true
       },
       forEach: {
-        value: function (callback) {
+        value: function forEach(callback) {
           this.values().forEach(function (obj) {
             return callback(obj);
           });
@@ -1261,7 +1206,7 @@
         configurable: true
       },
       map: {
-        value: function (callback) {
+        value: function map(callback) {
           var mappedArray = new Group();
 
           this.forEach(function (obj) {
@@ -1275,7 +1220,7 @@
         configurable: true
       },
       filter: {
-        value: function (callback) {
+        value: function filter(callback) {
           var filteredArray = new Group();
 
           this.forEach(function (obj) {
@@ -1291,7 +1236,7 @@
         configurable: true
       },
       byType: {
-        value: function (type) {
+        value: function byType(type) {
           var _this3 = this;
           return this.types[type].map(function (index) {
             return _this3[index];
@@ -1302,7 +1247,7 @@
         configurable: true
       },
       byName: {
-        value: function (name) {
+        value: function byName(name) {
           var index = this.names[name];
 
           return this.ids[Object.keys(this.ids)[index]];
@@ -1312,7 +1257,7 @@
         configurable: true
       },
       byTag: {
-        value: function (tag) {
+        value: function byTag(tag) {
           var _this4 = this;
           return this.tags[tag].map(function (index) {
             return _this4[index];
@@ -1323,7 +1268,7 @@
         configurable: true
       },
       first: {
-        value: function () {
+        value: function first() {
           return this.values()[0];
         },
         writable: true,
@@ -1331,7 +1276,7 @@
         configurable: true
       },
       last: {
-        value: function () {
+        value: function last() {
           var values = this.values();
 
           return values[values.length - 1];
@@ -1341,13 +1286,13 @@
         configurable: true
       },
       select: {
-        value: function (selector) {},
+        value: function select(selector) {},
         writable: true,
         enumerable: true,
         configurable: true
       },
       toJSON: {
-        value: function () {
+        value: function toJSON() {
           return this.values().map(function (child) {
             if (child.toJSON && typeof child === "function") {
               return child.toJSON();
@@ -1361,7 +1306,7 @@
         configurable: true
       },
       toString: {
-        value: function () {
+        value: function toString() {
           return serialize.toString(this.toJSON());
         },
         writable: true,
@@ -1369,7 +1314,7 @@
         configurable: true
       },
       remove: {
-        value: function (index) {
+        value: function remove(index) {
           var _this5 = this;
           var id = Object.keys(ids)[index];
 
@@ -1405,7 +1350,7 @@
         configurable: true
       },
       removeByName: {
-        value: function (name) {
+        value: function removeByName(name) {
           var index = this.names[name];
           this.remove(index);
         },
@@ -1414,7 +1359,7 @@
         configurable: true
       },
       removeByTag: {
-        value: function (tags) {
+        value: function removeByTag(tags) {
           var _this6 = this;
           if (!Array.isArray(tags)) {
             tags = [tags];
@@ -1440,13 +1385,7 @@
 });
 
 // TODO: There needs to be a parser here
-(function (factory) {
-  if (typeof define === "function" && define.amd) {
-    define('flockn/input/mouse', ["exports", "flockn/types/vector2"], factory);
-  } else if (typeof exports !== "undefined") {
-    factory(exports, require("flockn/types/vector2"));
-  }
-})(function (exports, _flocknTypesVector2) {
+define('flockn/input/mouse', ["exports", "flockn/types/vector2"], function (exports, _flocknTypesVector2) {
   "use strict";
 
   var _interopRequire = function (obj) {
@@ -1474,13 +1413,7 @@
   exports.absolutePosition = absolutePosition;
   exports.relativePosition = relativePosition;
 });
-(function (factory) {
-  if (typeof define === "function" && define.amd) {
-    define('flockn/mixins/addable', ["exports", "module", "flockn/graphics"], factory);
-  } else if (typeof exports !== "undefined" && typeof module !== "undefined") {
-    factory(exports, module, require("flockn/graphics"));
-  }
-})(function (exports, module, _flocknGraphics) {
+define('flockn/mixins/addable', ["exports", "module", "flockn/graphics"], function (exports, module, _flocknGraphics) {
   "use strict";
 
   var _interopRequire = function (obj) {
@@ -1491,9 +1424,9 @@
 
   var addable = function addable(Factory, groupInstance, extraFn) {
     var adder = function adder(child) {
-      var args = [];
-
-      for (var _key = 1; _key < arguments.length; _key++) {
+      for (var _len = arguments.length,
+          args = Array(_len > 1 ? _len - 1 : 0),
+          _key = 1; _key < _len; _key++) {
         args[_key - 1] = arguments[_key];
       }
 
@@ -1542,13 +1475,7 @@
 
   module.exports = addable;
 });
-(function (factory) {
-  if (typeof define === "function" && define.amd) {
-    define('flockn/mixins', ["exports", "flockn/mixins/addable", "flockn/mixins/renderable", "flockn/mixins/updateable", "flockn/mixins/serializable"], factory);
-  } else if (typeof exports !== "undefined") {
-    factory(exports, require("flockn/mixins/addable"), require("flockn/mixins/renderable"), require("flockn/mixins/updateable"), require("flockn/mixins/serializable"));
-  }
-})(function (exports, _flocknMixinsAddable, _flocknMixinsRenderable, _flocknMixinsUpdateable, _flocknMixinsSerializable) {
+define('flockn/mixins', ["exports", "flockn/mixins/addable", "flockn/mixins/renderable", "flockn/mixins/updateable", "flockn/mixins/serializable"], function (exports, _flocknMixinsAddable, _flocknMixinsRenderable, _flocknMixinsUpdateable, _flocknMixinsSerializable) {
   "use strict";
 
   var _interopRequire = function (obj) {
@@ -1568,13 +1495,7 @@
   exports.updateable = updateable;
   exports.serializable = serializable;
 });
-(function (factory) {
-  if (typeof define === "function" && define.amd) {
-    define('flockn/mixins/renderable', ["exports", "module", "flockn/utils/checkforflag", "flockn/graphics"], factory);
-  } else if (typeof exports !== "undefined" && typeof module !== "undefined") {
-    factory(exports, module, require("flockn/utils/checkforflag"), require("flockn/graphics"));
-  }
-})(function (exports, module, _flocknUtilsCheckforflag, _flocknGraphics) {
+define('flockn/mixins/renderable', ["exports", "module", "flockn/utils/checkforflag", "flockn/graphics"], function (exports, module, _flocknUtilsCheckforflag, _flocknGraphics) {
   "use strict";
 
   var _interopRequire = function (obj) {
@@ -1607,13 +1528,7 @@
 
   module.exports = renderable;
 });
-(function (factory) {
-  if (typeof define === "function" && define.amd) {
-    define('flockn/mixins/serializable', ["exports", "module", "flockn/serialize"], factory);
-  } else if (typeof exports !== "undefined" && typeof module !== "undefined") {
-    factory(exports, module, require("flockn/serialize"));
-  }
-})(function (exports, module, _flocknSerialize) {
+define('flockn/mixins/serializable', ["exports", "module", "flockn/serialize"], function (exports, module, _flocknSerialize) {
   "use strict";
 
   var _interopRequire = function (obj) {
@@ -1634,13 +1549,7 @@
 
   module.exports = serializable;
 });
-(function (factory) {
-  if (typeof define === "function" && define.amd) {
-    define('flockn/mixins/updateable', ["exports", "module", "flockn/utils/checkforflag"], factory);
-  } else if (typeof exports !== "undefined" && typeof module !== "undefined") {
-    factory(exports, module, require("flockn/utils/checkforflag"));
-  }
-})(function (exports, module, _flocknUtilsCheckforflag) {
+define('flockn/mixins/updateable', ["exports", "module", "flockn/utils/checkforflag"], function (exports, module, _flocknUtilsCheckforflag) {
   "use strict";
 
   var _interopRequire = function (obj) {
@@ -1672,13 +1581,7 @@
 
   module.exports = updatable;
 });
-(function (factory) {
-  if (typeof define === "function" && define.amd) {
-    define('flockn/model', ["exports", "module", "eventmap", "flockn/mixins"], factory);
-  } else if (typeof exports !== "undefined" && typeof module !== "undefined") {
-    factory(exports, module, require("eventmap"), require("flockn/mixins"));
-  }
-})(function (exports, module, _eventmap, _flocknMixins) {
+define('flockn/model', ["exports", "module", "eventmap", "flockn/mixins"], function (exports, module, _eventmap, _flocknMixins) {
   "use strict";
 
   var _prototypeProperties = function (child, staticProps, instanceProps) {
@@ -1742,7 +1645,7 @@
 
     _prototypeProperties(Model, null, {
       get: {
-        value: function () {
+        value: function get() {
           // Get an attribute if it exists
           if (Object.hasOwnProperty.call(this.data, name)) {
             return this.data[name];
@@ -1753,7 +1656,7 @@
         configurable: true
       },
       set: {
-        value: function (name, value) {
+        value: function set(name, value) {
           // Set or add an attribute
           this.data[name] = value;
           // Trigger the `change` event with `name` and `value` as its parameters
@@ -1764,7 +1667,7 @@
         configurable: true
       },
       has: {
-        value: function (name) {
+        value: function has(name) {
           return Object.hasOwnProperty.call(this.data, name);
         },
         writable: true,
@@ -1780,13 +1683,7 @@
 
   module.exports = Model;
 });
-(function (factory) {
-  if (typeof define === "function" && define.amd) {
-    define('flockn/plugins/collision', ["exports", "flockn/behavior"], factory);
-  } else if (typeof exports !== "undefined") {
-    factory(exports, require("flockn/behavior"));
-  }
-})(function (exports, _flocknBehavior) {
+define('flockn/plugins/collision', ["exports", "flockn/behavior"], function (exports, _flocknBehavior) {
   "use strict";
 
   var _interopRequire = function (obj) {
@@ -1799,13 +1696,7 @@
     this.update(function (dt) {});
   });
 });
-(function (factory) {
-  if (typeof define === "function" && define.amd) {
-    define('flockn/plugins/movement', ["exports", "flockn/behavior", "flockn/model", "gameboard"], factory);
-  } else if (typeof exports !== "undefined") {
-    factory(exports, require("flockn/behavior"), require("flockn/model"), require("gameboard"));
-  }
-})(function (exports, _flocknBehavior, _flocknModel, _gameboard) {
+define('flockn/plugins/movement', ["exports", "flockn/behavior", "flockn/model", "gameboard"], function (exports, _flocknBehavior, _flocknModel, _gameboard) {
   "use strict";
 
   var _interopRequire = function (obj) {
@@ -1851,13 +1742,7 @@
     });
   });
 });
-(function (factory) {
-  if (typeof define === "function" && define.amd) {
-    define('flockn/plugins/spriteanimation', ["exports", "flockn/behavior"], factory);
-  } else if (typeof exports !== "undefined") {
-    factory(exports, require("flockn/behavior"));
-  }
-})(function (exports, _flocknBehavior) {
+define('flockn/plugins/spriteanimation', ["exports", "flockn/behavior"], function (exports, _flocknBehavior) {
   "use strict";
 
   var _interopRequire = function (obj) {
@@ -1868,13 +1753,7 @@
 
   Behavior.define("sprite-animation", function () {});
 });
-(function (factory) {
-  if (typeof define === "function" && define.amd) {
-    define('flockn/renderer/canvas', ["exports", "flockn/types", "flockn/graphics", "flockn/graphics/rootelement", "flockn/input/mouse"], factory);
-  } else if (typeof exports !== "undefined") {
-    factory(exports, require("flockn/types"), require("flockn/graphics"), require("flockn/graphics/rootelement"), require("flockn/input/mouse"));
-  }
-})(function (exports, _flocknTypes, _flocknGraphics, _flocknGraphicsRootelement, _flocknInputMouse) {
+define('flockn/renderer/canvas', ["exports", "flockn/types", "flockn/graphics", "flockn/graphics/rootelement", "flockn/input/mouse"], function (exports, _flocknTypes, _flocknGraphics, _flocknGraphicsRootelement, _flocknInputMouse) {
   "use strict";
 
   var _interopRequire = function (obj) {
@@ -1966,13 +1845,7 @@
     }
   });
 });
-(function (factory) {
-  if (typeof define === "function" && define.amd) {
-    define('flockn/renderer/dom', ["exports", "flockn/graphics", "flockn/graphics/rootelement", "flockn/input/mouse"], factory);
-  } else if (typeof exports !== "undefined") {
-    factory(exports, require("flockn/graphics"), require("flockn/graphics/rootelement"), require("flockn/input/mouse"));
-  }
-})(function (exports, _flocknGraphics, _flocknGraphicsRootelement, _flocknInputMouse) {
+define('flockn/renderer/dom', ["exports", "flockn/graphics", "flockn/graphics/rootelement", "flockn/input/mouse"], function (exports, _flocknGraphics, _flocknGraphicsRootelement, _flocknInputMouse) {
   "use strict";
 
   var _interopRequire = function (obj) {
@@ -2236,13 +2109,7 @@
     }
   });
 });
-(function (factory) {
-  if (typeof define === "function" && define.amd) {
-    define('flockn/scene', ["exports", "module", "flockn/base", "flockn/gameobject", "flockn/mixins"], factory);
-  } else if (typeof exports !== "undefined" && typeof module !== "undefined") {
-    factory(exports, module, require("flockn/base"), require("flockn/gameobject"), require("flockn/mixins"));
-  }
-})(function (exports, module, _flocknBase, _flocknGameobject, _flocknMixins) {
+define('flockn/scene', ["exports", "module", "flockn/base", "flockn/gameobject", "flockn/mixins"], function (exports, module, _flocknBase, _flocknGameobject, _flocknMixins) {
   "use strict";
 
   var _prototypeProperties = function (child, staticProps, instanceProps) {
@@ -2321,7 +2188,7 @@
       define: {
 
         // Scenes can be defined and are stored on the object itself
-        value: function (name, factory) {
+        value: function define(name, factory) {
           Scene.store[name] = factory;
         },
         writable: true,
@@ -2330,7 +2197,7 @@
       }
     }, {
       addGameObject: {
-        value: function () {
+        value: function addGameObject() {
           // Allow game objects to be added to scenes
           this.queue.push(addable(GameObject, this.children).apply(this, arguments));
         },
@@ -2347,13 +2214,7 @@
 
   module.exports = Scene;
 });
-(function (factory) {
-  if (typeof define === "function" && define.amd) {
-    define('flockn/serialize', ["exports", "module", "eventmap"], factory);
-  } else if (typeof exports !== "undefined" && typeof module !== "undefined") {
-    factory(exports, module, require("eventmap"));
-  }
-})(function (exports, module, _eventmap) {
+define('flockn/serialize', ["exports", "module", "eventmap"], function (exports, module, _eventmap) {
   "use strict";
 
   var _interopRequire = function (obj) {
@@ -2468,13 +2329,7 @@
 
   module.exports = serialize;
 });
-(function (factory) {
-  if (typeof define === "function" && define.amd) {
-    define('flockn/texture/image', ["exports", "module", "flockn/types", "flockn/mixins/serializable"], factory);
-  } else if (typeof exports !== "undefined" && typeof module !== "undefined") {
-    factory(exports, module, require("flockn/types"), require("flockn/mixins/serializable"));
-  }
-})(function (exports, module, _flocknTypes, _flocknMixinsSerializable) {
+define('flockn/texture/image', ["exports", "module", "flockn/types", "flockn/mixins/serializable"], function (exports, module, _flocknTypes, _flocknMixinsSerializable) {
   "use strict";
 
   var _prototypeProperties = function (child, staticProps, instanceProps) {
@@ -2529,7 +2384,7 @@
 
     _prototypeProperties(TextureImage, null, {
       toJSON: {
-        value: function () {
+        value: function toJSON() {
           return serialize.toJSON(this);
         },
         writable: true,
@@ -2537,7 +2392,7 @@
         configurable: true
       },
       toString: {
-        value: function () {
+        value: function toString() {
           return serialize.toString(this);
         },
         writable: true,
@@ -2553,13 +2408,7 @@
 
   module.exports = TextureImage;
 });
-(function (factory) {
-  if (typeof define === "function" && define.amd) {
-    define('flockn/texture', ["exports", "module", "flockn/types", "eventmap", "flockn/texture/image", "flockn/texture/label", "flockn/mixins/serializable"], factory);
-  } else if (typeof exports !== "undefined" && typeof module !== "undefined") {
-    factory(exports, module, require("flockn/types"), require("eventmap"), require("flockn/texture/image"), require("flockn/texture/label"), require("flockn/mixins/serializable"));
-  }
-})(function (exports, module, _flocknTypes, _eventmap, _flocknTextureImage, _flocknTextureLabel, _flocknMixinsSerializable) {
+define('flockn/texture', ["exports", "module", "flockn/types", "eventmap", "flockn/texture/image", "flockn/texture/label", "flockn/mixins/serializable"], function (exports, module, _flocknTypes, _eventmap, _flocknTextureImage, _flocknTextureLabel, _flocknMixinsSerializable) {
   "use strict";
 
   var _get = function get(object, property, receiver) {
@@ -2650,13 +2499,7 @@
 
   module.exports = Texture;
 });
-(function (factory) {
-  if (typeof define === "function" && define.amd) {
-    define('flockn/texture/label', ["exports", "module", "flockn/types", "flockn/mixins/serializable"], factory);
-  } else if (typeof exports !== "undefined" && typeof module !== "undefined") {
-    factory(exports, module, require("flockn/types"), require("flockn/mixins/serializable"));
-  }
-})(function (exports, module, _flocknTypes, _flocknMixinsSerializable) {
+define('flockn/texture/label', ["exports", "module", "flockn/types", "flockn/mixins/serializable"], function (exports, module, _flocknTypes, _flocknMixinsSerializable) {
   "use strict";
 
   var _interopRequire = function (obj) {
@@ -2736,13 +2579,7 @@
 
   module.exports = TextureLabel;
 });
-(function (factory) {
-  if (typeof define === "function" && define.amd) {
-    define('flockn/types/color', ["exports", "module", "clamp", "flockn/constants/color"], factory);
-  } else if (typeof exports !== "undefined" && typeof module !== "undefined") {
-    factory(exports, module, require("clamp"), require("flockn/constants/color"));
-  }
-})(function (exports, module, _clamp, _flocknConstantsColor) {
+define('flockn/types/color', ["exports", "module", "clamp", "flockn/constants/color"], function (exports, module, _clamp, _flocknConstantsColor) {
   "use strict";
 
   var _prototypeProperties = function (child, staticProps, instanceProps) {
@@ -2754,7 +2591,8 @@
     return obj && (obj["default"] || obj);
   };
 
-  var clamp = _clamp;
+  var clamp = _interopRequire(_clamp);
+
   var colorConstants = _interopRequire(_flocknConstantsColor);
 
   var Color = (function () {
@@ -2770,7 +2608,7 @@
       random: {
 
         // Getting a random color for debugging is quite useful sometimes
-        value: function () {
+        value: function random() {
           var col = [0, 0, 0];
 
           col = col.map(function () {
@@ -2785,7 +2623,7 @@
       }
     }, {
       set: {
-        value: function () {
+        value: function set() {
           var r = arguments[0] === undefined ? 0 : arguments[0];
           var g = arguments[1] === undefined ? 0 : arguments[1];
           var b = arguments[2] === undefined ? 0 : arguments[2];
@@ -2800,7 +2638,7 @@
         configurable: true
       },
       lighten: {
-        value: function (factor) {
+        value: function lighten(factor) {
           factor = clamp(factor, 0, 1);
 
           this.r = clamp(this.r + factor * 255 | 0, 0, 255);
@@ -2812,7 +2650,7 @@
         configurable: true
       },
       darken: {
-        value: function (factor) {
+        value: function darken(factor) {
           factor = clamp(factor, 0, 1);
 
           this.r = clamp(this.r - factor * 255 | 0, 0, 255);
@@ -2824,7 +2662,7 @@
         configurable: true
       },
       fadeIn: {
-        value: function (factor) {
+        value: function fadeIn(factor) {
           factor = clamp(factor, 0, 1);
 
           this.a = this.a + this.a * factor;
@@ -2837,7 +2675,7 @@
         configurable: true
       },
       fadeOut: {
-        value: function (factor) {
+        value: function fadeOut(factor) {
           factor = clamp(factor, 0, 1);
 
           this.a = this.a - this.a * factor;
@@ -2850,7 +2688,7 @@
         configurable: true
       },
       toJSON: {
-        value: function () {
+        value: function toJSON() {
           if (this.a < 1) {
             if (this.a === 0) {
               return "transparent";
@@ -2866,7 +2704,7 @@
         configurable: true
       },
       toString: {
-        value: function () {
+        value: function toString() {
           return this.toJSON();
         },
         writable: true,
@@ -2874,7 +2712,7 @@
         configurable: true
       },
       toHex: {
-        value: function () {
+        value: function toHex() {
           return "#" + this.r.toString(16) + "" + this.g.toString(16) + "" + this.b.toString(16);
         },
         writable: true,
@@ -2900,13 +2738,7 @@
 
   module.exports = Color;
 });
-(function (factory) {
-  if (typeof define === "function" && define.amd) {
-    define('flockn/types', ["exports", "module", "flockn/types/color", "flockn/types/vector2", "flockn/types/vector3", "flockn/types/rect"], factory);
-  } else if (typeof exports !== "undefined" && typeof module !== "undefined") {
-    factory(exports, module, require("flockn/types/color"), require("flockn/types/vector2"), require("flockn/types/vector3"), require("flockn/types/rect"));
-  }
-})(function (exports, module, _flocknTypesColor, _flocknTypesVector2, _flocknTypesVector3, _flocknTypesRect) {
+define('flockn/types', ["exports", "module", "flockn/types/color", "flockn/types/vector2", "flockn/types/vector3", "flockn/types/rect"], function (exports, module, _flocknTypesColor, _flocknTypesVector2, _flocknTypesVector3, _flocknTypesRect) {
   "use strict";
 
   var _extends = function (target) {
@@ -2946,13 +2778,7 @@
   exports.Rect = Rect;
   module.exports = _extends(exports["default"], exports);
 });
-(function (factory) {
-  if (typeof define === "function" && define.amd) {
-    define('flockn/types/rect', ["exports", "module", "flockn/types/vector2"], factory);
-  } else if (typeof exports !== "undefined" && typeof module !== "undefined") {
-    factory(exports, module, require("flockn/types/vector2"));
-  }
-})(function (exports, module, _flocknTypesVector2) {
+define('flockn/types/rect', ["exports", "module", "flockn/types/vector2"], function (exports, module, _flocknTypesVector2) {
   "use strict";
 
   var _prototypeProperties = function (child, staticProps, instanceProps) {
@@ -2980,7 +2806,7 @@
 
     _prototypeProperties(Rect, {
       fromString: {
-        value: function (str) {
+        value: function fromString(str) {
           var obj = JSON.parse(str);
 
           return new Rect(obj.x, obj.y, obj.w, obj.h);
@@ -2991,7 +2817,7 @@
       }
     }, {
       clone: {
-        value: function () {
+        value: function clone() {
           return new Rect({ x: this.x, y: this.y, w: this.w, h: this.h });
         },
         writable: true,
@@ -2999,7 +2825,7 @@
         configurable: true
       },
       toJSON: {
-        value: function () {
+        value: function toJSON() {
           return { x: this.x, y: this.y, w: this.w, h: this.h };
         },
         writable: true,
@@ -3007,7 +2833,7 @@
         configurable: true
       },
       toString: {
-        value: function () {
+        value: function toString() {
           return JSON.stringify(this.toJSON());
         },
         writable: true,
@@ -3015,7 +2841,7 @@
         configurable: true
       },
       center: {
-        value: function () {
+        value: function center() {
           return new Vector2(this.w / 2, this.h / 2);
         },
         writable: true,
@@ -3023,7 +2849,7 @@
         configurable: true
       },
       contains: {
-        value: function (vector) {
+        value: function contains(vector) {
           return vector.x >= this.x && vector.y >= this.y && vector.x < this.x + this.w && vector.y < this.y + this.h;
         },
         writable: true,
@@ -3037,13 +2863,7 @@
 
   module.exports = Rect;
 });
-(function (factory) {
-  if (typeof define === "function" && define.amd) {
-    define('flockn/types/vector2', ["exports", "module"], factory);
-  } else if (typeof exports !== "undefined" && typeof module !== "undefined") {
-    factory(exports, module);
-  }
-})(function (exports, module) {
+define('flockn/types/vector2', ["exports", "module"], function (exports, module) {
   "use strict";
 
   var _prototypeProperties = function (child, staticProps, instanceProps) {
@@ -3064,7 +2884,7 @@
 
     _prototypeProperties(Vector2, {
       dot: {
-        value: function (vec1, vec2) {
+        value: function dot(vec1, vec2) {
           return vec1.x * vec2.x + vec1.y * vec2.y;
         },
         writable: true,
@@ -3072,7 +2892,7 @@
         configurable: true
       },
       fromAngle: {
-        value: function (angle, magnitude) {
+        value: function fromAngle(angle, magnitude) {
           return new Vector2(magnitude * Math.cos(angle), magnitude * Math.sin(angle));
         },
         writable: true,
@@ -3080,7 +2900,7 @@
         configurable: true
       },
       fromJSON: {
-        value: function (obj) {
+        value: function fromJSON(obj) {
           return new Vector2(obj.x, obj.y);
         },
         writable: true,
@@ -3088,7 +2908,7 @@
         configurable: true
       },
       fromString: {
-        value: function (str) {
+        value: function fromString(str) {
           return Vector2.fromJSON(JSON.parse(str));
         },
         writable: true,
@@ -3097,7 +2917,7 @@
       }
     }, {
       set: {
-        value: function () {
+        value: function set() {
           var x = arguments[0] === undefined ? 0 : arguments[0];
           var y = arguments[1] === undefined ? 0 : arguments[1];
           this.x = x;
@@ -3129,7 +2949,7 @@
         configurable: true
       },
       toJSON: {
-        value: function () {
+        value: function toJSON() {
           return this.clone();
         },
         writable: true,
@@ -3137,7 +2957,7 @@
         configurable: true
       },
       toString: {
-        value: function () {
+        value: function toString() {
           return JSON.stringify(this.toJSON());
         },
         writable: true,
@@ -3145,7 +2965,7 @@
         configurable: true
       },
       clone: {
-        value: function () {
+        value: function clone() {
           return new Vector2(this.x, this.y);
         },
         writable: true,
@@ -3153,7 +2973,7 @@
         configurable: true
       },
       add: {
-        value: function (vector) {
+        value: function add(vector) {
           this.x += vector.x;
           this.y += vector.y;
 
@@ -3164,7 +2984,7 @@
         configurable: true
       },
       subtract: {
-        value: function (vector) {
+        value: function subtract(vector) {
           this.x -= vector.x;
           this.y -= vector.y;
 
@@ -3175,7 +2995,7 @@
         configurable: true
       },
       multiply: {
-        value: function (vector) {
+        value: function multiply(vector) {
           this.x *= vector.x;
           this.y *= vector.y;
 
@@ -3186,7 +3006,7 @@
         configurable: true
       },
       divide: {
-        value: function (vector) {
+        value: function divide(vector) {
           this.x /= vector.x;
           this.y /= vector.y;
 
@@ -3197,7 +3017,7 @@
         configurable: true
       },
       normalize: {
-        value: function () {
+        value: function normalize() {
           this.x = this.x / this.magnitude;
           this.y = this.y / this.magnitude;
 
@@ -3208,7 +3028,7 @@
         configurable: true
       },
       equals: {
-        value: function (v) {
+        value: function equals(v) {
           return this.x === v.x && this.y === v.y;
         },
         writable: true,
@@ -3222,13 +3042,7 @@
 
   module.exports = Vector2;
 });
-(function (factory) {
-  if (typeof define === "function" && define.amd) {
-    define('flockn/types/vector3', ["exports", "module"], factory);
-  } else if (typeof exports !== "undefined" && typeof module !== "undefined") {
-    factory(exports, module);
-  }
-})(function (exports, module) {
+define('flockn/types/vector3', ["exports", "module"], function (exports, module) {
   "use strict";
 
   var _prototypeProperties = function (child, staticProps, instanceProps) {
@@ -3250,7 +3064,7 @@
 
     _prototypeProperties(Vector3, {
       dot: {
-        value: function (vec1, vec2) {
+        value: function dot(vec1, vec2) {
           return vec1.x * vec2.x + vec1.y * vec2.y + vec1.z * vec2.z;
         },
         writable: true,
@@ -3258,7 +3072,7 @@
         configurable: true
       },
       cross: {
-        value: function (vec1, vec2) {
+        value: function cross(vec1, vec2) {
           return new Vector3(vec1.y * vec2.z - vec2.y * vec1.z, vec1.z * vec2.x - vec2.z * vec1.x, vec1.x * vec2.y - vec2.x * vec1.y);
         },
         writable: true,
@@ -3266,7 +3080,7 @@
         configurable: true
       },
       fromJSON: {
-        value: function (obj) {
+        value: function fromJSON(obj) {
           return new Vector3(obj.x, obj.y, obj.z);
         },
         writable: true,
@@ -3274,7 +3088,7 @@
         configurable: true
       },
       fromString: {
-        value: function (str) {
+        value: function fromString(str) {
           return Vector3.fromJSON(JSON.parse(str));
         },
         writable: true,
@@ -3282,7 +3096,7 @@
         configurable: true
       },
       forward: {
-        value: function () {
+        value: function forward() {
           return new Vector3(0, 0, 1);
         },
         writable: true,
@@ -3290,7 +3104,7 @@
         configurable: true
       },
       right: {
-        value: function () {
+        value: function right() {
           return new Vector3(1, 0, 0);
         },
         writable: true,
@@ -3298,7 +3112,7 @@
         configurable: true
       },
       one: {
-        value: function () {
+        value: function one() {
           return new Vector3(1, 1, 1);
         },
         writable: true,
@@ -3306,7 +3120,7 @@
         configurable: true
       },
       up: {
-        value: function () {
+        value: function up() {
           return new Vector3(0, 1, 0);
         },
         writable: true,
@@ -3314,7 +3128,7 @@
         configurable: true
       },
       zero: {
-        value: function () {
+        value: function zero() {
           return new Vector3(0, 0, 0);
         },
         writable: true,
@@ -3323,7 +3137,7 @@
       }
     }, {
       set: {
-        value: function () {
+        value: function set() {
           var x = arguments[0] === undefined ? 0 : arguments[0];
           var y = arguments[1] === undefined ? 0 : arguments[1];
           var z = arguments[2] === undefined ? 0 : arguments[2];
@@ -3350,7 +3164,7 @@
         configurable: true
       },
       clone: {
-        value: function () {
+        value: function clone() {
           return new Vector3(this.x, this.y, this.z);
         },
         writable: true,
@@ -3358,7 +3172,7 @@
         configurable: true
       },
       toJSON: {
-        value: function () {
+        value: function toJSON() {
           return this.clone();
         },
         writable: true,
@@ -3366,7 +3180,7 @@
         configurable: true
       },
       toString: {
-        value: function () {
+        value: function toString() {
           return JSON.stringify(this.toJSON());
         },
         writable: true,
@@ -3374,7 +3188,7 @@
         configurable: true
       },
       add: {
-        value: function (vector) {
+        value: function add(vector) {
           this.x += vector.x;
           this.y += vector.y;
           this.z += vector.z;
@@ -3386,7 +3200,7 @@
         configurable: true
       },
       subtract: {
-        value: function (vector) {
+        value: function subtract(vector) {
           this.x -= vector.x;
           this.y -= vector.y;
           this.z -= vector.z;
@@ -3398,7 +3212,7 @@
         configurable: true
       },
       multiply: {
-        value: function (vector) {
+        value: function multiply(vector) {
           this.x *= vector.x;
           this.y *= vector.y;
           this.z *= vector.z;
@@ -3410,7 +3224,7 @@
         configurable: true
       },
       divide: {
-        value: function (vector) {
+        value: function divide(vector) {
           this.x /= vector.x;
           this.y /= vector.y;
           this.z /= vector.z;
@@ -3422,7 +3236,7 @@
         configurable: true
       },
       normalize: {
-        value: function () {
+        value: function normalize() {
           this.x = this.x / this.magnitude;
           this.y = this.y / this.magnitude;
           this.z = this.z / this.magnitude;
@@ -3434,7 +3248,7 @@
         configurable: true
       },
       equals: {
-        value: function (v) {
+        value: function equals(v) {
           return this.x === v.x && this.y === v.y && this.z === v.z;
         },
         writable: true,
@@ -3448,13 +3262,7 @@
 
   module.exports = Vector3;
 });
-(function (factory) {
-  if (typeof define === "function" && define.amd) {
-    define('flockn/utils/checkforflag', ["exports", "module"], factory);
-  } else if (typeof exports !== "undefined" && typeof module !== "undefined") {
-    factory(exports, module);
-  }
-})(function (exports, module) {
+define('flockn/utils/checkforflag', ["exports", "module"], function (exports, module) {
   "use strict";
 
   var checkForFlag = function checkForFlag(property) {
@@ -3473,13 +3281,7 @@
 
   module.exports = checkForFlag;
 });
-(function (factory) {
-  if (typeof define === "function" && define.amd) {
-    define('flockn/viewport', ["exports", "module"], factory);
-  } else if (typeof exports !== "undefined" && typeof module !== "undefined") {
-    factory(exports, module);
-  }
-})(function (exports, module) {
+define('flockn/viewport', ["exports", "module"], function (exports, module) {
   "use strict";
 
   var Viewport = {};
@@ -3494,13 +3296,7 @@
 
   module.exports = Viewport;
 });
-(function (factory) {
-  if (typeof define === "function" && define.amd) {
-    define('flockn/world', ["exports", "module", "flockn/model"], factory);
-  } else if (typeof exports !== "undefined" && typeof module !== "undefined") {
-    factory(exports, module, require("flockn/model"));
-  }
-})(function (exports, module, _flocknModel) {
+define('flockn/world', ["exports", "module", "flockn/model"], function (exports, module, _flocknModel) {
   "use strict";
 
   var _interopRequire = function (obj) {

@@ -1,10 +1,4 @@
-(function (factory) {
-  if (typeof define === "function" && define.amd) {
-    define('flockn/plugins/movement', ["exports", "flockn/behavior", "flockn/model", "gameboard"], factory);
-  } else if (typeof exports !== "undefined") {
-    factory(exports, require("flockn/behavior"), require("flockn/model"), require("gameboard"));
-  }
-})(function (exports, _flocknBehavior, _flocknModel, _gameboard) {
+define('flockn/plugins/movement', ["exports", "flockn/behavior", "flockn/model", "gameboard"], function (exports, _flocknBehavior, _flocknModel, _gameboard) {
   "use strict";
 
   var _interopRequire = function (obj) {
