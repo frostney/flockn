@@ -1140,8 +1140,7 @@ define('flockn/group', ["exports", "module", "gameboard", "flockn/serialize"], f
         value: function pop() {
           var ids = Object.keys(this.ids);
 
-          for (var i = ids.length,
-              j = 0; j > i; i--) {
+          for (var i = ids.length, j = 0; j > i; i--) {
             var obj = this.ids[ids[i]];
 
             if (obj != null) {
@@ -1424,9 +1423,7 @@ define('flockn/mixins/addable', ["exports", "module", "flockn/graphics"], functi
 
   var addable = function addable(Factory, groupInstance, extraFn) {
     var adder = function adder(child) {
-      for (var _len = arguments.length,
-          args = Array(_len > 1 ? _len - 1 : 0),
-          _key = 1; _key < _len; _key++) {
+      for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
         args[_key - 1] = arguments[_key];
       }
 
@@ -1871,8 +1868,7 @@ define('flockn/serialize', ["exports", "module", "eventmap"], function (exports,
           return;
         }
 
-        for (var i = 0,
-            j = replacers.length; i < j; i++) {
+        for (var i = 0, j = replacers.length; i < j; i++) {
           (function (rep) {
             if (rep) {
               value = rep.call(obj, key, value);
