@@ -3,7 +3,7 @@ module.exports =
     sourceMap: true
   dist:
     options:
-      modules: 'umd'
+      modules: 'amd'
     files: [{
       expand: true,
       cwd: 'src',
