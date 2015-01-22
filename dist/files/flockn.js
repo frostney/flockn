@@ -22,43 +22,6 @@ define('flockn/base', ["exports", "module", "eventmap", "gameboard", "flockn/aud
     if (instanceProps) Object.defineProperties(child.prototype, instanceProps);
   };
 
-  var _get = function get(object, property, receiver) {
-    var desc = Object.getOwnPropertyDescriptor(object, property);
-
-    if (desc === undefined) {
-      var parent = Object.getPrototypeOf(object);
-
-      if (parent === null) {
-        return undefined;
-      } else {
-        return get(parent, property, receiver);
-      }
-    } else if ("value" in desc && desc.writable) {
-      return desc.value;
-    } else {
-      var getter = desc.get;
-      if (getter === undefined) {
-        return undefined;
-      }
-      return getter.call(receiver);
-    }
-  };
-
-  var _inherits = function (subClass, superClass) {
-    if (typeof superClass !== "function" && superClass !== null) {
-      throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
-    }
-    subClass.prototype = Object.create(superClass && superClass.prototype, {
-      constructor: {
-        value: subClass,
-        enumerable: false,
-        writable: true,
-        configurable: true
-      }
-    });
-    if (superClass) subClass.__proto__ = superClass;
-  };
-
   var _interopRequire = function (obj) {
     return obj && (obj["default"] || obj);
   };
@@ -91,11 +54,11 @@ define('flockn/base', ["exports", "module", "eventmap", "gameboard", "flockn/aud
     }
   };
 
-  var Base = (function (EventMap) {
+  var Base = (function () {
     function Base() {
       var type = arguments[0] === undefined ? "Base" : arguments[0];
       var descriptor = arguments[1] === undefined ? function () {} : arguments[1];
-      _get(Object.getPrototypeOf(Base.prototype), "constructor", this).call(this);
+      EventMap.mixin(this, Base);
 
       // Count up `objectIndex` and stringify it
       var currentObject = numToIdString(++objectIndex);
@@ -138,8 +101,6 @@ define('flockn/base', ["exports", "module", "eventmap", "gameboard", "flockn/aud
       // Emit an event
       this.trigger("constructed");
     }
-
-    _inherits(Base, EventMap);
 
     _prototypeProperties(Base, null, {
       apply: {
@@ -225,7 +186,7 @@ define('flockn/base', ["exports", "module", "eventmap", "gameboard", "flockn/aud
     });
 
     return Base;
-  })(EventMap);
+  })();
 
   Base.queueOrder = ["Game", "Scene", "GameObject", "Behavior", "Model"];
 
