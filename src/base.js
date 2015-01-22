@@ -25,9 +25,9 @@ var numToIdString = function(num) {
   }
 };
 
-class Base extends EventMap {
+class Base {
   constructor(type = 'Base', descriptor = function() {}) {
-    super();
+    EventMap.mixin(this, Base);
 
     // Count up `objectIndex` and stringify it
     var currentObject = numToIdString(++objectIndex);
