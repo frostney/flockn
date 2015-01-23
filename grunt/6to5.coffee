@@ -1,6 +1,7 @@
 module.exports =
   options:
     sourceMap: true
+    loose: ['classes']
   dist:
     options:
       modules: 'amd'
