@@ -17,9 +17,19 @@ define('flockn/audio', ["exports", "module"], function (exports, module) {
 define('flockn/base', ["exports", "module", "eventmap", "gameboard", "flockn/audio", "flockn/group", "flockn/world"], function (exports, module, _eventmap, _gameboard, _flocknAudio, _flocknGroup, _flocknWorld) {
   "use strict";
 
-  var _prototypeProperties = function (child, staticProps, instanceProps) {
-    if (staticProps) Object.defineProperties(child, staticProps);
-    if (instanceProps) Object.defineProperties(child.prototype, instanceProps);
+  var _inherits = function (subClass, superClass) {
+    if (typeof superClass !== "function" && superClass !== null) {
+      throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
+    }
+    subClass.prototype = Object.create(superClass && superClass.prototype, {
+      constructor: {
+        value: subClass,
+        enumerable: false,
+        writable: true,
+        configurable: true
+      }
+    });
+    if (superClass) subClass.__proto__ = superClass;
   };
 
   var _interopRequire = function (obj) {
@@ -54,11 +64,11 @@ define('flockn/base', ["exports", "module", "eventmap", "gameboard", "flockn/aud
     }
   };
 
-  var Base = (function () {
+  var Base = (function (EventMap) {
     function Base() {
       var type = arguments[0] === undefined ? "Base" : arguments[0];
       var descriptor = arguments[1] === undefined ? function () {} : arguments[1];
-      EventMap.mixin(this, Base);
+      EventMap.call(this);
 
       // Count up `objectIndex` and stringify it
       var currentObject = numToIdString(++objectIndex);
@@ -102,91 +112,65 @@ define('flockn/base', ["exports", "module", "eventmap", "gameboard", "flockn/aud
       this.trigger("constructed");
     }
 
-    _prototypeProperties(Base, null, {
-      apply: {
-        value: function apply(args) {
-          // TODO: Reflect if function check should be enforced here
-          if (this.descriptor) {
-            // If args is not an array or array-like, provide an empty one
-            args = args || [];
+    _inherits(Base, EventMap);
 
-            // Call the `descriptor` property with `args`
-            this.descriptor.apply(this, args);
+    Base.prototype.apply = function apply(args) {
+      // TODO: Reflect if function check should be enforced here
+      if (this.descriptor) {
+        // If args is not an array or array-like, provide an empty one
+        args = args || [];
 
-            // Trigger an event
-            this.trigger("execute");
+        // Call the `descriptor` property with `args`
+        this.descriptor.apply(this, args);
 
-            // TODO: Impose an order in the queue, such as:
-            // (Game) -> Scene -> GameObject -> Behavior -> Model
+        // Trigger an event
+        this.trigger("execute");
 
-            // TODO: Implement z-order
-            this.queue.forEach(function (q) {
-              q && q();
-            });
+        // TODO: Impose an order in the queue, such as:
+        // (Game) -> Scene -> GameObject -> Behavior -> Model
 
-            // Reset the queue
-            this.queue = [];
+        // TODO: Implement z-order
+        this.queue.forEach(function (q) {
+          q && q();
+        });
 
-            // Find a way to directly before and after events
-            this.trigger("executed");
-          }
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
-      call: {
-        value: function call() {
-          // Call `Base#apply` with the arguments object
-          this.apply(arguments);
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
-      reset: {
+        // Reset the queue
+        this.queue = [];
 
-        // Alias for `Base#call`
-        value: function reset() {
-          return this.call.apply(this, arguments);
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
-      closest: {
-        value: function closest() {},
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
-      find: {
-        value: function find() {},
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
-      log: {
-        value: function log() {
-          if (console && console.log) {
-            var argArray = [].slice.call(arguments);
-
-            // Log with `console.log`: Prepend the type and name
-            argArray.unshift(":");
-            argArray.unshift(this.name);
-            argArray.unshift(this.type);
-
-            return console.log.apply(console, argArray);
-          }
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
+        // Find a way to directly before and after events
+        this.trigger("executed");
       }
-    });
+    };
+
+    Base.prototype.call = function call() {
+      // Call `Base#apply` with the arguments object
+      this.apply(arguments);
+    };
+
+    // Alias for `Base#call`
+    Base.prototype.reset = function reset() {
+      return this.call.apply(this, arguments);
+    };
+
+    Base.prototype.closest = function closest() {};
+
+    Base.prototype.find = function find() {};
+
+    Base.prototype.log = function log() {
+      if (console && console.log) {
+        var argArray = [].slice.call(arguments);
+
+        // Log with `console.log`: Prepend the type and name
+        argArray.unshift(":");
+        argArray.unshift(this.name);
+        argArray.unshift(this.type);
+
+        return console.log.apply(console, argArray);
+      }
+    };
 
     return Base;
-  })();
+  })(EventMap);
 
   Base.queueOrder = ["Game", "Scene", "GameObject", "Behavior", "Model"];
 
@@ -194,33 +178,6 @@ define('flockn/base', ["exports", "module", "eventmap", "gameboard", "flockn/aud
 });
 define('flockn/behavior', ["exports", "module", "flockn/base", "flockn/group", "flockn/mixins"], function (exports, module, _flocknBase, _flocknGroup, _flocknMixins) {
   "use strict";
-
-  var _prototypeProperties = function (child, staticProps, instanceProps) {
-    if (staticProps) Object.defineProperties(child, staticProps);
-    if (instanceProps) Object.defineProperties(child.prototype, instanceProps);
-  };
-
-  var _get = function get(object, property, receiver) {
-    var desc = Object.getOwnPropertyDescriptor(object, property);
-
-    if (desc === undefined) {
-      var parent = Object.getPrototypeOf(object);
-
-      if (parent === null) {
-        return undefined;
-      } else {
-        return get(parent, property, receiver);
-      }
-    } else if ("value" in desc && desc.writable) {
-      return desc.value;
-    } else {
-      var getter = desc.get;
-      if (getter === undefined) {
-        return undefined;
-      }
-      return getter.call(receiver);
-    }
-  };
 
   var _inherits = function (subClass, superClass) {
     if (typeof superClass !== "function" && superClass !== null) {
@@ -255,7 +212,7 @@ define('flockn/behavior', ["exports", "module", "flockn/base", "flockn/group", "
   // Behaviors can attach any number of behaviors to itself
   var Behavior = (function (Base) {
     function Behavior(descriptor) {
-      _get(Object.getPrototypeOf(Behavior.prototype), "constructor", this).call(this, "Behavior", descriptor);
+      Base.call(this, "Behavior", descriptor);
 
       // Reference to the game object itself
       this.gameObject = null;
@@ -266,34 +223,18 @@ define('flockn/behavior', ["exports", "module", "flockn/base", "flockn/group", "
 
     _inherits(Behavior, Base);
 
-    _prototypeProperties(Behavior, {
-      define: {
-        value: function define(name, factory) {
-          Behavior.store[name] = factory;
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      }
-    }, {
-      addBehavior: {
-        value: function addBehavior() {
-          // When a behavior is added, the reference to the game object is set
-          this.queue.push(addable(Behavior, this.children, function (child) {
-            child.gameObject = this.gameObject;
-          }).apply(this, arguments));
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
-      removeBehavior: {
-        value: function removeBehavior() {},
-        writable: true,
-        enumerable: true,
-        configurable: true
-      }
-    });
+    Behavior.prototype.addBehavior = function addBehavior() {
+      // When a behavior is added, the reference to the game object is set
+      this.queue.push(addable(Behavior, this.children, function (child) {
+        child.gameObject = this.gameObject;
+      }).apply(this, arguments));
+    };
+
+    Behavior.prototype.removeBehavior = function removeBehavior() {};
+
+    Behavior.define = function define(name, factory) {
+      Behavior.store[name] = factory;
+    };
 
     return Behavior;
   })(Base);
@@ -402,33 +343,6 @@ define('flockn/constants/color', ["exports", "module"], function (exports, modul
 define('flockn/game', ["exports", "module", "gameboard/loop", "gameboard/assetloader", "flockn/base", "flockn/graphics", "flockn/scene", "flockn/types/color", "flockn/viewport", "flockn/mixins"], function (exports, module, _gameboardLoop, _gameboardAssetloader, _flocknBase, _flocknGraphics, _flocknScene, _flocknTypesColor, _flocknViewport, _flocknMixins) {
   "use strict";
 
-  var _prototypeProperties = function (child, staticProps, instanceProps) {
-    if (staticProps) Object.defineProperties(child, staticProps);
-    if (instanceProps) Object.defineProperties(child.prototype, instanceProps);
-  };
-
-  var _get = function get(object, property, receiver) {
-    var desc = Object.getOwnPropertyDescriptor(object, property);
-
-    if (desc === undefined) {
-      var parent = Object.getPrototypeOf(object);
-
-      if (parent === null) {
-        return undefined;
-      } else {
-        return get(parent, property, receiver);
-      }
-    } else if ("value" in desc && desc.writable) {
-      return desc.value;
-    } else {
-      var getter = desc.get;
-      if (getter === undefined) {
-        return undefined;
-      }
-      return getter.call(receiver);
-    }
-  };
-
   var _inherits = function (subClass, superClass) {
     if (typeof superClass !== "function" && superClass !== null) {
       throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
@@ -482,7 +396,7 @@ define('flockn/game', ["exports", "module", "gameboard/loop", "gameboard/assetlo
       }
 
       // Extend the `Base` class
-      _get(Object.getPrototypeOf(Game.prototype), "constructor", this).call(this, "Game", descriptor);
+      Base.call(this, "Game", descriptor);
 
       // `this.container` is a string, which is the id of the element.
       // If it's not given, it should create a new element. This should be handled by the renderer.
@@ -547,75 +461,56 @@ define('flockn/game', ["exports", "module", "gameboard/loop", "gameboard/assetlo
 
     _inherits(Game, Base);
 
-    _prototypeProperties(Game, null, {
-      addScene: {
-        value: function addScene() {
-          // When adding a scene, the dimension of scenes should be
-          // exactly as large as the `Game` instance itself
-          this.queue.push(addable(Scene, this.children, function (child) {
-            child.width = this.width;
-            child.height = this.height;
-          }).apply(this, arguments));
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
-      showScene: {
-        value: function showScene(name) {
-          // TODO: Add transitions
-          this.children.forEach(function (scene) {
-            return scene.visible = false;
-          });
+    Game.prototype.addScene = function addScene() {
+      // When adding a scene, the dimension of scenes should be
+      // exactly as large as the `Game` instance itself
+      this.queue.push(addable(Scene, this.children, function (child) {
+        child.width = this.width;
+        child.height = this.height;
+      }).apply(this, arguments));
+    };
 
-          // Set the `activeScene` property
-          this.activeScene = this.children.byName(name);
-          this.activeScene.visible = true;
+    Game.prototype.showScene = function showScene(name) {
+      // TODO: Add transitions
+      this.children.forEach(function (scene) {
+        return scene.visible = false;
+      });
 
-          if (this.activeScene) {
-            this.activeScene.trigger("resize", root.innerWidth, root.innerHeight);
+      // Set the `activeScene` property
+      this.activeScene = this.children.byName(name);
+      this.activeScene.visible = true;
 
-            // Trigger the `show` event
-            this.trigger("show", name, this.children[this.activeScene]);
-          }
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
-      preload: {
-        value: function preload(assets) {
-          this.assetLoader.assets = assets;
+      if (this.activeScene) {
+        this.activeScene.trigger("resize", root.innerWidth, root.innerHeight);
 
-          return this.assetLoader;
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
-      run: {
-        value: function run(name) {
-          var _this2 = this;
-          this.on("executed", function () {
-            // Start the game loop
-            Loop.run();
-
-            if (!name) {
-              // If there's only no name, take the first scene
-              if (_this2.children.length >= 1) {
-                name = _this2.children.first().name;
-              }
-            }
-
-            // Show the scene if a parameter has been specified
-            _this2.showScene(name);
-          });
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
+        // Trigger the `show` event
+        this.trigger("show", name, this.children[this.activeScene]);
       }
-    });
+    };
+
+    Game.prototype.preload = function preload(assets) {
+      this.assetLoader.assets = assets;
+
+      return this.assetLoader;
+    };
+
+    Game.prototype.run = function run(name) {
+      var _this2 = this;
+      this.on("executed", function () {
+        // Start the game loop
+        Loop.run();
+
+        if (!name) {
+          // If there's only no name, take the first scene
+          if (_this2.children.length >= 1) {
+            name = _this2.children.first().name;
+          }
+        }
+
+        // Show the scene if a parameter has been specified
+        _this2.showScene(name);
+      });
+    };
 
     return Game;
   })(Base);
@@ -630,28 +525,6 @@ define('flockn/gameobject', ["exports", "module", "flockn/base", "flockn/behavio
   var _prototypeProperties = function (child, staticProps, instanceProps) {
     if (staticProps) Object.defineProperties(child, staticProps);
     if (instanceProps) Object.defineProperties(child.prototype, instanceProps);
-  };
-
-  var _get = function get(object, property, receiver) {
-    var desc = Object.getOwnPropertyDescriptor(object, property);
-
-    if (desc === undefined) {
-      var parent = Object.getPrototypeOf(object);
-
-      if (parent === null) {
-        return undefined;
-      } else {
-        return get(parent, property, receiver);
-      }
-    } else if ("value" in desc && desc.writable) {
-      return desc.value;
-    } else {
-      var getter = desc.get;
-      if (getter === undefined) {
-        return undefined;
-      }
-      return getter.call(receiver);
-    }
   };
 
   var _inherits = function (subClass, superClass) {
@@ -698,7 +571,7 @@ define('flockn/gameobject', ["exports", "module", "flockn/base", "flockn/behavio
   var GameObject = (function (Base) {
     function GameObject(descriptor) {
       var _this = this;
-      _get(Object.getPrototypeOf(GameObject.prototype), "constructor", this).call(this, "GameObject", descriptor);
+      Base.call(this, "GameObject", descriptor);
 
       this.visible = true;
 
@@ -768,24 +641,64 @@ define('flockn/gameobject', ["exports", "module", "flockn/base", "flockn/behavio
 
     _inherits(GameObject, Base);
 
-    _prototypeProperties(GameObject, {
-      define: {
+    GameObject.prototype.bounds = function bounds() {
+      // TODO: Also take care of scale
+      // TODO: Also take care of rotation
+      return new Rect(this.position.x, this.position.y, this.width, this.height);
+    };
 
-        // Game objects can be defined and are stored on the object itself
-        value: function define(name, factory) {
-          GameObject.store[name] = factory;
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
-      fromString: {
-        value: function fromString() {},
-        writable: true,
-        enumerable: true,
-        configurable: true
+    GameObject.prototype.addGameObject = function addGameObject() {
+      // Add a game object to this game object
+      this.queue.push(addable(GameObject, this.children).apply(this, arguments));
+    };
+
+    GameObject.prototype.addBehavior = function addBehavior() {
+      // Add a `Behavior` instance to the the game object and update the `gameObject` property
+      this.queue.push(addable(Behavior, this.children, function (child) {
+        child.gameObject = this;
+      }).apply(this, arguments));
+    };
+
+    GameObject.prototype.addModel = function addModel() {
+      // Add a `Model` instance to the game object
+      this.queue.push(addable(Model, this.children).apply(this, arguments));
+    };
+
+    GameObject.prototype.removeGameObject = function removeGameObject() {};
+
+    GameObject.prototype.removeBehavior = function removeBehavior() {};
+
+    GameObject.prototype.removeModel = function removeModel() {};
+
+    GameObject.prototype.data = function data(name) {
+      if (!name) {
+        return this.models.byName("default");
+      } else {
+        return this.models.byName(name);
       }
-    }, {
+    };
+
+    GameObject.prototype.animate = function animate(property, end, time, callback) {
+      // TODO: Tweening does not work yet
+      if (typeof this[property] === "number") {
+        var distance = end - this[property];
+        var timeInS = time / 1000;
+
+        var animateName = "animate-" + Date.now();
+        this.on(animateName, function (dt) {
+          this.off(animateName);
+        });
+      }
+    };
+
+    // Game objects can be defined and are stored on the object itself
+    GameObject.define = function define(name, factory) {
+      GameObject.store[name] = factory;
+    };
+
+    GameObject.fromString = function fromString() {};
+
+    _prototypeProperties(GameObject, null, {
       left: {
         get: function () {
           return this.position.x;
@@ -823,92 +736,6 @@ define('flockn/gameobject', ["exports", "module", "flockn/base", "flockn/behavio
         set: function (value) {
           this.position.y = this.parent.height - this.height - value;
         },
-        enumerable: true,
-        configurable: true
-      },
-      bounds: {
-        value: function bounds() {
-          // TODO: Also take care of scale
-          // TODO: Also take care of rotation
-          return new Rect(this.position.x, this.position.y, this.width, this.height);
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
-      addGameObject: {
-        value: function addGameObject() {
-          // Add a game object to this game object
-          this.queue.push(addable(GameObject, this.children).apply(this, arguments));
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
-      addBehavior: {
-        value: function addBehavior() {
-          // Add a `Behavior` instance to the the game object and update the `gameObject` property
-          this.queue.push(addable(Behavior, this.children, function (child) {
-            child.gameObject = this;
-          }).apply(this, arguments));
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
-      addModel: {
-        value: function addModel() {
-          // Add a `Model` instance to the game object
-          this.queue.push(addable(Model, this.children).apply(this, arguments));
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
-      removeGameObject: {
-        value: function removeGameObject() {},
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
-      removeBehavior: {
-        value: function removeBehavior() {},
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
-      removeModel: {
-        value: function removeModel() {},
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
-      data: {
-        value: function data(name) {
-          if (!name) {
-            return this.models.byName("default");
-          } else {
-            return this.models.byName(name);
-          }
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
-      animate: {
-        value: function animate(property, end, time, callback) {
-          // TODO: Tweening does not work yet
-          if (typeof this[property] === "number") {
-            var distance = end - this[property];
-            var timeInS = time / 1000;
-
-            var animateName = "animate-" + Date.now();
-            this.on(animateName, function (dt) {
-              this.off(animateName);
-            });
-          }
-        },
-        writable: true,
         enumerable: true,
         configurable: true
       }
@@ -1009,11 +836,6 @@ define('flockn/graphics/rootelement', ["exports", "module"], function (exports, 
 define('flockn/group', ["exports", "module", "gameboard", "flockn/serialize"], function (exports, module, _gameboard, _flocknSerialize) {
   "use strict";
 
-  var _prototypeProperties = function (child, staticProps, instanceProps) {
-    if (staticProps) Object.defineProperties(child, staticProps);
-    if (instanceProps) Object.defineProperties(child.prototype, instanceProps);
-  };
-
   var _interopRequire = function (obj) {
     return obj && (obj["default"] || obj);
   };
@@ -1034,309 +856,225 @@ define('flockn/group', ["exports", "module", "gameboard", "flockn/serialize"], f
       this.types = {};
     }
 
-    _prototypeProperties(Group, {
-      fromJSON: {
-        value: function fromJSON(arr) {
-          var group = new Group();
+    Group.prototype.push = function push(obj) {
+      var _this = this;
+      var name = obj.name;
+      var tags = obj.tags;
+      var id = obj.id;
 
-          arr.forEach(function (obj) {
-            return group.push(obj);
-          });
 
-          return group;
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
-      fromString: {
-        value: function fromString(str) {
-          return Group.fromJSON(JSON.parse(str));
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
+      name = name || unidentified + unidentifiedCounter++;
+      id = id || unidentified + unidentifiedCounter++;
+      tags = tags || [];
+
+      if (this.ids[id] != null || this.names[name] != null) {
+        Log.w("An object with the name " + name + " or id " + id + " already exists");
+        return;
       }
-    }, {
-      push: {
-        value: function push(obj) {
-          var _this = this;
-          var name = obj.name;
-          var tags = obj.tags;
-          var id = obj.id;
 
+      var currentLength = Object.keys(this.ids);
+      this.ids[id] = obj;
 
-          name = name || unidentified + unidentifiedCounter++;
-          id = id || unidentified + unidentifiedCounter++;
-          tags = tags || [];
+      Object.keys(this.tags).forEach(function (tag) {
+        _this.tags[tag] = _this.tags[tag] || [];
+        _this.tags[tag].push(currentLength);
+      });
 
-          if (this.ids[id] != null || this.names[name] != null) {
-            Log.w("An object with the name " + name + " or id " + id + " already exists");
-            return;
-          }
+      this.names[name] = this.length;
 
-          var currentLength = Object.keys(this.ids);
-          this.ids[id] = obj;
-
-          Object.keys(this.tags).forEach(function (tag) {
-            _this.tags[tag] = _this.tags[tag] || [];
-            _this.tags[tag].push(currentLength);
-          });
-
-          this.names[name] = this.length;
-
-          if (obj.type != null) {
-            this.types[obj.type] = this.types[obj.type] || [];
-            this.types[obj.type].push(currentLength);
-          }
-
-          this.length = this.values().length;
-          return this.length;
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
-      pop: {
-        value: function pop() {
-          var ids = Object.keys(this.ids);
-
-          for (var i = ids.length, j = 0; j > i; i--) {
-            var obj = this.ids[ids[i]];
-
-            if (obj != null) {
-              this.remove(i);
-              return obj;
-            }
-          }
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
-      values: {
-        value: function values() {
-          var _this2 = this;
-          return Object.keys(this.ids).filter(function (id) {
-            return id != null;
-          }).map(function (id) {
-            return _this2.ids[id];
-          });
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
-      all: {
-        value: function all(filter) {
-          var objects = [];
-
-          var recurse = function (group) {
-            group.forEach(function (obj) {
-              if (filter) {
-                if (filter(obj)) {
-                  objects.push(obj);
-                }
-              } else {
-                objects.push(obj);
-              }
-
-              if (obj.children && obj.children instanceof Group) {
-                recurse(obj.children);
-              }
-            });
-          };
-
-          recurse(this);
-
-          return objects;
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
-      forEach: {
-        value: function forEach(callback) {
-          this.values().forEach(function (obj) {
-            return callback(obj);
-          });
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
-      map: {
-        value: function map(callback) {
-          var mappedArray = new Group();
-
-          this.forEach(function (obj) {
-            return mappedArray.push(callback(obj));
-          });
-
-          return mappedArray;
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
-      filter: {
-        value: function filter(callback) {
-          var filteredArray = new Group();
-
-          this.forEach(function (obj) {
-            if (callback(obj)) {
-              filteredArray.push(obj);
-            }
-          });
-
-          return filteredArray;
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
-      byType: {
-        value: function byType(type) {
-          var _this3 = this;
-          return this.types[type].map(function (index) {
-            return _this3[index];
-          });
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
-      byName: {
-        value: function byName(name) {
-          var index = this.names[name];
-
-          return this.ids[Object.keys(this.ids)[index]];
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
-      byTag: {
-        value: function byTag(tag) {
-          var _this4 = this;
-          return this.tags[tag].map(function (index) {
-            return _this4[index];
-          });
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
-      first: {
-        value: function first() {
-          return this.values()[0];
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
-      last: {
-        value: function last() {
-          var values = this.values();
-
-          return values[values.length - 1];
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
-      select: {
-        value: function select(selector) {},
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
-      toJSON: {
-        value: function toJSON() {
-          return this.values().map(function (child) {
-            if (child.toJSON && typeof child === "function") {
-              return child.toJSON();
-            } else {
-              return child;
-            }
-          });
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
-      toString: {
-        value: function toString() {
-          return serialize.toString(this.toJSON());
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
-      remove: {
-        value: function remove(index) {
-          var _this5 = this;
-          var id = Object.keys(ids)[index];
-
-          var obj = this.ids[id];
-
-          if (obj == null) {
-            Log.w("Object at " + index + " does not exist");
-          }
-
-          var name = obj.name;
-          var tags = obj.tags;
-
-
-          this.ids[id] = null;
-          this.names[name] = null;
-
-          this.tags.forEach(function (tag) {
-            var position = tag.indexOf(index);
-
-            if (position >= 0) {
-              if (tag.length === 1) {
-                _this5.tags[tag] = [];
-              } else {
-                _this5.tags[tag].splice(position, 1);
-              }
-            }
-          });
-
-          this.length = all().length;
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
-      removeByName: {
-        value: function removeByName(name) {
-          var index = this.names[name];
-          this.remove(index);
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
-      removeByTag: {
-        value: function removeByTag(tags) {
-          var _this6 = this;
-          if (!Array.isArray(tags)) {
-            tags = [tags];
-          }
-
-          tags.forEach(function (tag) {
-            _this6.tags[tag].forEach(function (index) {
-              return _this6.remove(index);
-            });
-            _this6.tags = [];
-          });
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
+      if (obj.type != null) {
+        this.types[obj.type] = this.types[obj.type] || [];
+        this.types[obj.type].push(currentLength);
       }
-    });
+
+      this.length = this.values().length;
+      return this.length;
+    };
+
+    Group.prototype.pop = function pop() {
+      var ids = Object.keys(this.ids);
+
+      for (var i = ids.length, j = 0; j > i; i--) {
+        var obj = this.ids[ids[i]];
+
+        if (obj != null) {
+          this.remove(i);
+          return obj;
+        }
+      }
+    };
+
+    Group.prototype.values = function values() {
+      var _this2 = this;
+      return Object.keys(this.ids).filter(function (id) {
+        return id != null;
+      }).map(function (id) {
+        return _this2.ids[id];
+      });
+    };
+
+    Group.prototype.all = function all(filter) {
+      var objects = [];
+
+      var recurse = function (group) {
+        group.forEach(function (obj) {
+          if (filter) {
+            if (filter(obj)) {
+              objects.push(obj);
+            }
+          } else {
+            objects.push(obj);
+          }
+
+          if (obj.children && obj.children instanceof Group) {
+            recurse(obj.children);
+          }
+        });
+      };
+
+      recurse(this);
+
+      return objects;
+    };
+
+    Group.prototype.forEach = function forEach(callback) {
+      this.values().forEach(function (obj) {
+        return callback(obj);
+      });
+    };
+
+    Group.prototype.map = function map(callback) {
+      var mappedArray = new Group();
+
+      this.forEach(function (obj) {
+        return mappedArray.push(callback(obj));
+      });
+
+      return mappedArray;
+    };
+
+    Group.prototype.filter = function filter(callback) {
+      var filteredArray = new Group();
+
+      this.forEach(function (obj) {
+        if (callback(obj)) {
+          filteredArray.push(obj);
+        }
+      });
+
+      return filteredArray;
+    };
+
+    Group.prototype.byType = function byType(type) {
+      var _this3 = this;
+      return this.types[type].map(function (index) {
+        return _this3[index];
+      });
+    };
+
+    Group.prototype.byName = function byName(name) {
+      var index = this.names[name];
+
+      return this.ids[Object.keys(this.ids)[index]];
+    };
+
+    Group.prototype.byTag = function byTag(tag) {
+      var _this4 = this;
+      return this.tags[tag].map(function (index) {
+        return _this4[index];
+      });
+    };
+
+    Group.prototype.first = function first() {
+      return this.values()[0];
+    };
+
+    Group.prototype.last = function last() {
+      var values = this.values();
+
+      return values[values.length - 1];
+    };
+
+    Group.prototype.select = function select(selector) {};
+
+    Group.prototype.toJSON = function toJSON() {
+      return this.values().map(function (child) {
+        if (child.toJSON && typeof child === "function") {
+          return child.toJSON();
+        } else {
+          return child;
+        }
+      });
+    };
+
+    Group.prototype.toString = function toString() {
+      return serialize.toString(this.toJSON());
+    };
+
+    Group.fromJSON = function fromJSON(arr) {
+      var group = new Group();
+
+      arr.forEach(function (obj) {
+        return group.push(obj);
+      });
+
+      return group;
+    };
+
+    Group.fromString = function fromString(str) {
+      return Group.fromJSON(JSON.parse(str));
+    };
+
+    Group.prototype.remove = function remove(index) {
+      var _this5 = this;
+      var id = Object.keys(ids)[index];
+
+      var obj = this.ids[id];
+
+      if (obj == null) {
+        Log.w("Object at " + index + " does not exist");
+      }
+
+      var name = obj.name;
+      var tags = obj.tags;
+
+
+      this.ids[id] = null;
+      this.names[name] = null;
+
+      this.tags.forEach(function (tag) {
+        var position = tag.indexOf(index);
+
+        if (position >= 0) {
+          if (tag.length === 1) {
+            _this5.tags[tag] = [];
+          } else {
+            _this5.tags[tag].splice(position, 1);
+          }
+        }
+      });
+
+      this.length = all().length;
+    };
+
+    Group.prototype.removeByName = function removeByName(name) {
+      var index = this.names[name];
+      this.remove(index);
+    };
+
+    Group.prototype.removeByTag = function removeByTag(tags) {
+      var _this6 = this;
+      if (!Array.isArray(tags)) {
+        tags = [tags];
+      }
+
+      tags.forEach(function (tag) {
+        _this6.tags[tag].forEach(function (index) {
+          return _this6.remove(index);
+        });
+        _this6.tags = [];
+      });
+    };
 
     return Group;
   })();
@@ -1542,33 +1280,6 @@ define('flockn/mixins/updateable', ["exports", "module", "flockn/utils/checkforf
 define('flockn/model', ["exports", "module", "eventmap", "flockn/mixins"], function (exports, module, _eventmap, _flocknMixins) {
   "use strict";
 
-  var _prototypeProperties = function (child, staticProps, instanceProps) {
-    if (staticProps) Object.defineProperties(child, staticProps);
-    if (instanceProps) Object.defineProperties(child.prototype, instanceProps);
-  };
-
-  var _get = function get(object, property, receiver) {
-    var desc = Object.getOwnPropertyDescriptor(object, property);
-
-    if (desc === undefined) {
-      var parent = Object.getPrototypeOf(object);
-
-      if (parent === null) {
-        return undefined;
-      } else {
-        return get(parent, property, receiver);
-      }
-    } else if ("value" in desc && desc.writable) {
-      return desc.value;
-    } else {
-      var getter = desc.get;
-      if (getter === undefined) {
-        return undefined;
-      }
-      return getter.call(receiver);
-    }
-  };
-
   var _inherits = function (subClass, superClass) {
     if (typeof superClass !== "function" && superClass !== null) {
       throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
@@ -1593,7 +1304,7 @@ define('flockn/model', ["exports", "module", "eventmap", "flockn/mixins"], funct
   var serializable = _flocknMixins.serializable;
   var Model = (function (EventMap) {
     function Model() {
-      _get(Object.getPrototypeOf(Model.prototype), "constructor", this).call(this);
+      EventMap.call(this);
 
       // Store attribute data
       this.data = {};
@@ -1601,38 +1312,23 @@ define('flockn/model', ["exports", "module", "eventmap", "flockn/mixins"], funct
 
     _inherits(Model, EventMap);
 
-    _prototypeProperties(Model, null, {
-      get: {
-        value: function get() {
-          // Get an attribute if it exists
-          if (Object.hasOwnProperty.call(this.data, name)) {
-            return this.data[name];
-          }
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
-      set: {
-        value: function set(name, value) {
-          // Set or add an attribute
-          this.data[name] = value;
-          // Trigger the `change` event with `name` and `value` as its parameters
-          this.trigger("change", name, value);
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
-      has: {
-        value: function has(name) {
-          return Object.hasOwnProperty.call(this.data, name);
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
+    Model.prototype.get = function get() {
+      // Get an attribute if it exists
+      if (Object.hasOwnProperty.call(this.data, name)) {
+        return this.data[name];
       }
-    });
+    };
+
+    Model.prototype.set = function set(name, value) {
+      // Set or add an attribute
+      this.data[name] = value;
+      // Trigger the `change` event with `name` and `value` as its parameters
+      this.trigger("change", name, value);
+    };
+
+    Model.prototype.has = function has(name) {
+      return Object.hasOwnProperty.call(this.data, name);
+    };
 
     return Model;
   })(EventMap);
@@ -2070,33 +1766,6 @@ define('flockn/renderer/dom', ["exports", "flockn/graphics", "flockn/graphics/ro
 define('flockn/scene', ["exports", "module", "flockn/base", "flockn/gameobject", "flockn/mixins"], function (exports, module, _flocknBase, _flocknGameobject, _flocknMixins) {
   "use strict";
 
-  var _prototypeProperties = function (child, staticProps, instanceProps) {
-    if (staticProps) Object.defineProperties(child, staticProps);
-    if (instanceProps) Object.defineProperties(child.prototype, instanceProps);
-  };
-
-  var _get = function get(object, property, receiver) {
-    var desc = Object.getOwnPropertyDescriptor(object, property);
-
-    if (desc === undefined) {
-      var parent = Object.getPrototypeOf(object);
-
-      if (parent === null) {
-        return undefined;
-      } else {
-        return get(parent, property, receiver);
-      }
-    } else if ("value" in desc && desc.writable) {
-      return desc.value;
-    } else {
-      var getter = desc.get;
-      if (getter === undefined) {
-        return undefined;
-      }
-      return getter.call(receiver);
-    }
-  };
-
   var _inherits = function (subClass, superClass) {
     if (typeof superClass !== "function" && superClass !== null) {
       throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
@@ -2131,7 +1800,7 @@ define('flockn/scene', ["exports", "module", "flockn/base", "flockn/gameobject",
   // on what was set in the `activeScene` property of a `Game` instance.
   var Scene = (function (Base) {
     function Scene(descriptor) {
-      _get(Object.getPrototypeOf(Scene.prototype), "constructor", this).call(this, "Scene", descriptor);
+      Base.call(this, "Scene", descriptor);
 
       this.visible = true;
 
@@ -2142,28 +1811,15 @@ define('flockn/scene', ["exports", "module", "flockn/base", "flockn/gameobject",
 
     _inherits(Scene, Base);
 
-    _prototypeProperties(Scene, {
-      define: {
+    Scene.prototype.addGameObject = function addGameObject() {
+      // Allow game objects to be added to scenes
+      this.queue.push(addable(GameObject, this.children).apply(this, arguments));
+    };
 
-        // Scenes can be defined and are stored on the object itself
-        value: function define(name, factory) {
-          Scene.store[name] = factory;
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      }
-    }, {
-      addGameObject: {
-        value: function addGameObject() {
-          // Allow game objects to be added to scenes
-          this.queue.push(addable(GameObject, this.children).apply(this, arguments));
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      }
-    });
+    // Scenes can be defined and are stored on the object itself
+    Scene.define = function define(name, factory) {
+      Scene.store[name] = factory;
+    };
 
     return Scene;
   })(Base);
@@ -2289,11 +1945,6 @@ define('flockn/serialize', ["exports", "module", "eventmap"], function (exports,
 define('flockn/texture/image', ["exports", "module", "flockn/types", "flockn/mixins/serializable"], function (exports, module, _flocknTypes, _flocknMixinsSerializable) {
   "use strict";
 
-  var _prototypeProperties = function (child, staticProps, instanceProps) {
-    if (staticProps) Object.defineProperties(child, staticProps);
-    if (instanceProps) Object.defineProperties(child.prototype, instanceProps);
-  };
-
   var _interopRequire = function (obj) {
     return obj && (obj["default"] || obj);
   };
@@ -2339,24 +1990,13 @@ define('flockn/texture/image', ["exports", "module", "flockn/types", "flockn/mix
       });
     }
 
-    _prototypeProperties(TextureImage, null, {
-      toJSON: {
-        value: function toJSON() {
-          return serialize.toJSON(this);
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
-      toString: {
-        value: function toString() {
-          return serialize.toString(this);
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      }
-    });
+    TextureImage.prototype.toJSON = function toJSON() {
+      return serialize.toJSON(this);
+    };
+
+    TextureImage.prototype.toString = function toString() {
+      return serialize.toString(this);
+    };
 
     return TextureImage;
   })();
@@ -2367,28 +2007,6 @@ define('flockn/texture/image', ["exports", "module", "flockn/types", "flockn/mix
 });
 define('flockn/texture', ["exports", "module", "flockn/types", "eventmap", "flockn/texture/image", "flockn/texture/label", "flockn/mixins/serializable"], function (exports, module, _flocknTypes, _eventmap, _flocknTextureImage, _flocknTextureLabel, _flocknMixinsSerializable) {
   "use strict";
-
-  var _get = function get(object, property, receiver) {
-    var desc = Object.getOwnPropertyDescriptor(object, property);
-
-    if (desc === undefined) {
-      var parent = Object.getPrototypeOf(object);
-
-      if (parent === null) {
-        return undefined;
-      } else {
-        return get(parent, property, receiver);
-      }
-    } else if ("value" in desc && desc.writable) {
-      return desc.value;
-    } else {
-      var getter = desc.get;
-      if (getter === undefined) {
-        return undefined;
-      }
-      return getter.call(receiver);
-    }
-  };
 
   var _inherits = function (subClass, superClass) {
     if (typeof superClass !== "function" && superClass !== null) {
@@ -2421,7 +2039,7 @@ define('flockn/texture', ["exports", "module", "flockn/types", "eventmap", "floc
   var Texture = (function (EventMap) {
     function Texture() {
       var _this = this;
-      _get(Object.getPrototypeOf(Texture.prototype), "constructor", this).call(this);
+      EventMap.call(this);
 
       // Set up dimensions
       this.width = 0;
@@ -2539,11 +2157,6 @@ define('flockn/texture/label', ["exports", "module", "flockn/types", "flockn/mix
 define('flockn/types/color', ["exports", "module", "clamp", "flockn/constants/color"], function (exports, module, _clamp, _flocknConstantsColor) {
   "use strict";
 
-  var _prototypeProperties = function (child, staticProps, instanceProps) {
-    if (staticProps) Object.defineProperties(child, staticProps);
-    if (instanceProps) Object.defineProperties(child.prototype, instanceProps);
-  };
-
   var _interopRequire = function (obj) {
     return obj && (obj["default"] || obj);
   };
@@ -2561,122 +2174,81 @@ define('flockn/types/color', ["exports", "module", "clamp", "flockn/constants/co
       this.set(r, g, b, a);
     }
 
-    _prototypeProperties(Color, {
-      random: {
+    Color.prototype.set = function set() {
+      var r = arguments[0] === undefined ? 0 : arguments[0];
+      var g = arguments[1] === undefined ? 0 : arguments[1];
+      var b = arguments[2] === undefined ? 0 : arguments[2];
+      var a = arguments[3] === undefined ? 1 : arguments[3];
+      this.r = r;
+      this.g = g;
+      this.b = b;
+      this.a = a;
+    };
 
-        // Getting a random color for debugging is quite useful sometimes
-        value: function random() {
-          var col = [0, 0, 0];
+    Color.prototype.lighten = function lighten(factor) {
+      factor = clamp(factor, 0, 1);
 
-          col = col.map(function () {
-            return ~ ~(Math.random() * 255);
-          });
+      this.r = clamp(this.r + factor * 255 | 0, 0, 255);
+      this.g = clamp(this.g + factor * 255 | 0, 0, 255);
+      this.b = clamp(this.b + factor * 255 | 0, 0, 255);
+    };
 
-          return new Color(col[0], col[1], col[2]);
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
+    Color.prototype.darken = function darken(factor) {
+      factor = clamp(factor, 0, 1);
+
+      this.r = clamp(this.r - factor * 255 | 0, 0, 255);
+      this.g = clamp(this.g - factor * 255 | 0, 0, 255);
+      this.b = clamp(this.b - factor * 255 | 0, 0, 255);
+    };
+
+    Color.prototype.fadeIn = function fadeIn(factor) {
+      factor = clamp(factor, 0, 1);
+
+      this.a = this.a + this.a * factor;
+      if (this.a > 1) {
+        this.a = 1;
       }
-    }, {
-      set: {
-        value: function set() {
-          var r = arguments[0] === undefined ? 0 : arguments[0];
-          var g = arguments[1] === undefined ? 0 : arguments[1];
-          var b = arguments[2] === undefined ? 0 : arguments[2];
-          var a = arguments[3] === undefined ? 1 : arguments[3];
-          this.r = r;
-          this.g = g;
-          this.b = b;
-          this.a = a;
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
-      lighten: {
-        value: function lighten(factor) {
-          factor = clamp(factor, 0, 1);
+    };
 
-          this.r = clamp(this.r + factor * 255 | 0, 0, 255);
-          this.g = clamp(this.g + factor * 255 | 0, 0, 255);
-          this.b = clamp(this.b + factor * 255 | 0, 0, 255);
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
-      darken: {
-        value: function darken(factor) {
-          factor = clamp(factor, 0, 1);
+    Color.prototype.fadeOut = function fadeOut(factor) {
+      factor = clamp(factor, 0, 1);
 
-          this.r = clamp(this.r - factor * 255 | 0, 0, 255);
-          this.g = clamp(this.g - factor * 255 | 0, 0, 255);
-          this.b = clamp(this.b - factor * 255 | 0, 0, 255);
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
-      fadeIn: {
-        value: function fadeIn(factor) {
-          factor = clamp(factor, 0, 1);
-
-          this.a = this.a + this.a * factor;
-          if (this.a > 1) {
-            this.a = 1;
-          }
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
-      fadeOut: {
-        value: function fadeOut(factor) {
-          factor = clamp(factor, 0, 1);
-
-          this.a = this.a - this.a * factor;
-          if (this.a < 0) {
-            this.a = 0;
-          }
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
-      toJSON: {
-        value: function toJSON() {
-          if (this.a < 1) {
-            if (this.a === 0) {
-              return "transparent";
-            } else {
-              return "rgba(" + this.r + "," + this.g + "," + this.b + "," + this.a + ")";
-            }
-          } else {
-            return "rgb(" + this.r + "," + this.g + "," + this.b + ")";
-          }
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
-      toString: {
-        value: function toString() {
-          return this.toJSON();
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
-      toHex: {
-        value: function toHex() {
-          return "#" + this.r.toString(16) + "" + this.g.toString(16) + "" + this.b.toString(16);
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
+      this.a = this.a - this.a * factor;
+      if (this.a < 0) {
+        this.a = 0;
       }
-    });
+    };
+
+    Color.prototype.toJSON = function toJSON() {
+      if (this.a < 1) {
+        if (this.a === 0) {
+          return "transparent";
+        } else {
+          return "rgba(" + this.r + "," + this.g + "," + this.b + "," + this.a + ")";
+        }
+      } else {
+        return "rgb(" + this.r + "," + this.g + "," + this.b + ")";
+      }
+    };
+
+    Color.prototype.toString = function toString() {
+      return this.toJSON();
+    };
+
+    Color.prototype.toHex = function toHex() {
+      return "#" + this.r.toString(16) + "" + this.g.toString(16) + "" + this.b.toString(16);
+    };
+
+    // Getting a random color for debugging is quite useful sometimes
+    Color.random = function random() {
+      var col = [0, 0, 0];
+
+      col = col.map(function () {
+        return ~ ~(Math.random() * 255);
+      });
+
+      return new Color(col[0], col[1], col[2]);
+    };
 
     return Color;
   })();
@@ -2738,11 +2310,6 @@ define('flockn/types', ["exports", "module", "flockn/types/color", "flockn/types
 define('flockn/types/rect', ["exports", "module", "flockn/types/vector2"], function (exports, module, _flocknTypesVector2) {
   "use strict";
 
-  var _prototypeProperties = function (child, staticProps, instanceProps) {
-    if (staticProps) Object.defineProperties(child, staticProps);
-    if (instanceProps) Object.defineProperties(child.prototype, instanceProps);
-  };
-
   var _interopRequire = function (obj) {
     return obj && (obj["default"] || obj);
   };
@@ -2761,59 +2328,31 @@ define('flockn/types/rect', ["exports", "module", "flockn/types/vector2"], funct
       this.h = h;
     }
 
-    _prototypeProperties(Rect, {
-      fromString: {
-        value: function fromString(str) {
-          var obj = JSON.parse(str);
+    Rect.prototype.clone = function clone() {
+      return new Rect({ x: this.x, y: this.y, w: this.w, h: this.h });
+    };
 
-          return new Rect(obj.x, obj.y, obj.w, obj.h);
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      }
-    }, {
-      clone: {
-        value: function clone() {
-          return new Rect({ x: this.x, y: this.y, w: this.w, h: this.h });
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
-      toJSON: {
-        value: function toJSON() {
-          return { x: this.x, y: this.y, w: this.w, h: this.h };
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
-      toString: {
-        value: function toString() {
-          return JSON.stringify(this.toJSON());
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
-      center: {
-        value: function center() {
-          return new Vector2(this.w / 2, this.h / 2);
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
-      contains: {
-        value: function contains(vector) {
-          return vector.x >= this.x && vector.y >= this.y && vector.x < this.x + this.w && vector.y < this.y + this.h;
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      }
-    });
+    Rect.prototype.toJSON = function toJSON() {
+      return { x: this.x, y: this.y, w: this.w, h: this.h };
+    };
+
+    Rect.prototype.toString = function toString() {
+      return JSON.stringify(this.toJSON());
+    };
+
+    Rect.fromString = function fromString(str) {
+      var obj = JSON.parse(str);
+
+      return new Rect(obj.x, obj.y, obj.w, obj.h);
+    };
+
+    Rect.prototype.center = function center() {
+      return new Vector2(this.w / 2, this.h / 2);
+    };
+
+    Rect.prototype.contains = function contains(vector) {
+      return vector.x >= this.x && vector.y >= this.y && vector.x < this.x + this.w && vector.y < this.y + this.h;
+    };
 
     return Rect;
   })();
@@ -2839,51 +2378,81 @@ define('flockn/types/vector2', ["exports", "module"], function (exports, module)
       this.set(x, y);
     }
 
-    _prototypeProperties(Vector2, {
-      dot: {
-        value: function dot(vec1, vec2) {
-          return vec1.x * vec2.x + vec1.y * vec2.y;
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
-      fromAngle: {
-        value: function fromAngle(angle, magnitude) {
-          return new Vector2(magnitude * Math.cos(angle), magnitude * Math.sin(angle));
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
-      fromJSON: {
-        value: function fromJSON(obj) {
-          return new Vector2(obj.x, obj.y);
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
-      fromString: {
-        value: function fromString(str) {
-          return Vector2.fromJSON(JSON.parse(str));
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      }
-    }, {
-      set: {
-        value: function set() {
-          var x = arguments[0] === undefined ? 0 : arguments[0];
-          var y = arguments[1] === undefined ? 0 : arguments[1];
-          this.x = x;
-          this.y = y;
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
+    Vector2.prototype.set = function set() {
+      var x = arguments[0] === undefined ? 0 : arguments[0];
+      var y = arguments[1] === undefined ? 0 : arguments[1];
+      this.x = x;
+      this.y = y;
+    };
+
+    Vector2.dot = function dot(vec1, vec2) {
+      return vec1.x * vec2.x + vec1.y * vec2.y;
+    };
+
+    Vector2.fromAngle = function fromAngle(angle, magnitude) {
+      return new Vector2(magnitude * Math.cos(angle), magnitude * Math.sin(angle));
+    };
+
+    Vector2.prototype.toJSON = function toJSON() {
+      return this.clone();
+    };
+
+    Vector2.prototype.toString = function toString() {
+      return JSON.stringify(this.toJSON());
+    };
+
+    Vector2.fromJSON = function fromJSON(obj) {
+      return new Vector2(obj.x, obj.y);
+    };
+
+    Vector2.fromString = function fromString(str) {
+      return Vector2.fromJSON(JSON.parse(str));
+    };
+
+    Vector2.prototype.clone = function clone() {
+      return new Vector2(this.x, this.y);
+    };
+
+    Vector2.prototype.add = function add(vector) {
+      this.x += vector.x;
+      this.y += vector.y;
+
+      return this;
+    };
+
+    Vector2.prototype.subtract = function subtract(vector) {
+      this.x -= vector.x;
+      this.y -= vector.y;
+
+      return this;
+    };
+
+    Vector2.prototype.multiply = function multiply(vector) {
+      this.x *= vector.x;
+      this.y *= vector.y;
+
+      return this;
+    };
+
+    Vector2.prototype.divide = function divide(vector) {
+      this.x /= vector.x;
+      this.y /= vector.y;
+
+      return this;
+    };
+
+    Vector2.prototype.normalize = function normalize() {
+      this.x = this.x / this.magnitude;
+      this.y = this.y / this.magnitude;
+
+      return this;
+    };
+
+    Vector2.prototype.equals = function equals(v) {
+      return this.x === v.x && this.y === v.y;
+    };
+
+    _prototypeProperties(Vector2, null, {
       magnitude: {
         get: function () {
           return Math.sqrt(sqrMagnitude(this));
@@ -2902,93 +2471,6 @@ define('flockn/types/vector2', ["exports", "module"], function (exports, module)
         get: function () {
           return Math.atan2(this.x, this.y);
         },
-        enumerable: true,
-        configurable: true
-      },
-      toJSON: {
-        value: function toJSON() {
-          return this.clone();
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
-      toString: {
-        value: function toString() {
-          return JSON.stringify(this.toJSON());
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
-      clone: {
-        value: function clone() {
-          return new Vector2(this.x, this.y);
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
-      add: {
-        value: function add(vector) {
-          this.x += vector.x;
-          this.y += vector.y;
-
-          return this;
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
-      subtract: {
-        value: function subtract(vector) {
-          this.x -= vector.x;
-          this.y -= vector.y;
-
-          return this;
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
-      multiply: {
-        value: function multiply(vector) {
-          this.x *= vector.x;
-          this.y *= vector.y;
-
-          return this;
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
-      divide: {
-        value: function divide(vector) {
-          this.x /= vector.x;
-          this.y /= vector.y;
-
-          return this;
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
-      normalize: {
-        value: function normalize() {
-          this.x = this.x / this.magnitude;
-          this.y = this.y / this.magnitude;
-
-          return this;
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
-      equals: {
-        value: function equals(v) {
-          return this.x === v.x && this.y === v.y;
-        },
-        writable: true,
         enumerable: true,
         configurable: true
       }
@@ -3019,93 +2501,108 @@ define('flockn/types/vector3', ["exports", "module"], function (exports, module)
       this.set(x, y, z);
     }
 
-    _prototypeProperties(Vector3, {
-      dot: {
-        value: function dot(vec1, vec2) {
-          return vec1.x * vec2.x + vec1.y * vec2.y + vec1.z * vec2.z;
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
-      cross: {
-        value: function cross(vec1, vec2) {
-          return new Vector3(vec1.y * vec2.z - vec2.y * vec1.z, vec1.z * vec2.x - vec2.z * vec1.x, vec1.x * vec2.y - vec2.x * vec1.y);
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
-      fromJSON: {
-        value: function fromJSON(obj) {
-          return new Vector3(obj.x, obj.y, obj.z);
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
-      fromString: {
-        value: function fromString(str) {
-          return Vector3.fromJSON(JSON.parse(str));
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
-      forward: {
-        value: function forward() {
-          return new Vector3(0, 0, 1);
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
-      right: {
-        value: function right() {
-          return new Vector3(1, 0, 0);
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
-      one: {
-        value: function one() {
-          return new Vector3(1, 1, 1);
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
-      up: {
-        value: function up() {
-          return new Vector3(0, 1, 0);
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
-      zero: {
-        value: function zero() {
-          return new Vector3(0, 0, 0);
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      }
-    }, {
-      set: {
-        value: function set() {
-          var x = arguments[0] === undefined ? 0 : arguments[0];
-          var y = arguments[1] === undefined ? 0 : arguments[1];
-          var z = arguments[2] === undefined ? 0 : arguments[2];
-          this.x = x;
-          this.y = y;
-          this.z = z;
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
+    Vector3.prototype.set = function set() {
+      var x = arguments[0] === undefined ? 0 : arguments[0];
+      var y = arguments[1] === undefined ? 0 : arguments[1];
+      var z = arguments[2] === undefined ? 0 : arguments[2];
+      this.x = x;
+      this.y = y;
+      this.z = z;
+    };
+
+    Vector3.dot = function dot(vec1, vec2) {
+      return vec1.x * vec2.x + vec1.y * vec2.y + vec1.z * vec2.z;
+    };
+
+    Vector3.cross = function cross(vec1, vec2) {
+      return new Vector3(vec1.y * vec2.z - vec2.y * vec1.z, vec1.z * vec2.x - vec2.z * vec1.x, vec1.x * vec2.y - vec2.x * vec1.y);
+    };
+
+    Vector3.prototype.clone = function clone() {
+      return new Vector3(this.x, this.y, this.z);
+    };
+
+    Vector3.prototype.toJSON = function toJSON() {
+      return this.clone();
+    };
+
+    Vector3.prototype.toString = function toString() {
+      return JSON.stringify(this.toJSON());
+    };
+
+    Vector3.fromJSON = function fromJSON(obj) {
+      return new Vector3(obj.x, obj.y, obj.z);
+    };
+
+    Vector3.fromString = function fromString(str) {
+      return Vector3.fromJSON(JSON.parse(str));
+    };
+
+    Vector3.prototype.add = function add(vector) {
+      this.x += vector.x;
+      this.y += vector.y;
+      this.z += vector.z;
+
+      return this;
+    };
+
+    Vector3.prototype.subtract = function subtract(vector) {
+      this.x -= vector.x;
+      this.y -= vector.y;
+      this.z -= vector.z;
+
+      return this;
+    };
+
+    Vector3.prototype.multiply = function multiply(vector) {
+      this.x *= vector.x;
+      this.y *= vector.y;
+      this.z *= vector.z;
+
+      return this;
+    };
+
+    Vector3.prototype.divide = function divide(vector) {
+      this.x /= vector.x;
+      this.y /= vector.y;
+      this.z /= vector.z;
+
+      return this;
+    };
+
+    Vector3.prototype.normalize = function normalize() {
+      this.x = this.x / this.magnitude;
+      this.y = this.y / this.magnitude;
+      this.z = this.z / this.magnitude;
+
+      return this;
+    };
+
+    Vector3.prototype.equals = function equals(v) {
+      return this.x === v.x && this.y === v.y && this.z === v.z;
+    };
+
+    Vector3.forward = function forward() {
+      return new Vector3(0, 0, 1);
+    };
+
+    Vector3.right = function right() {
+      return new Vector3(1, 0, 0);
+    };
+
+    Vector3.one = function one() {
+      return new Vector3(1, 1, 1);
+    };
+
+    Vector3.up = function up() {
+      return new Vector3(0, 1, 0);
+    };
+
+    Vector3.zero = function zero() {
+      return new Vector3(0, 0, 0);
+    };
+
+    _prototypeProperties(Vector3, null, {
       magnitude: {
         get: function () {
           return Math.sqrt(sqrMagnitude(this));
@@ -3117,98 +2614,6 @@ define('flockn/types/vector3', ["exports", "module"], function (exports, module)
         get: function () {
           return sqrMagnitude(this);
         },
-        enumerable: true,
-        configurable: true
-      },
-      clone: {
-        value: function clone() {
-          return new Vector3(this.x, this.y, this.z);
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
-      toJSON: {
-        value: function toJSON() {
-          return this.clone();
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
-      toString: {
-        value: function toString() {
-          return JSON.stringify(this.toJSON());
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
-      add: {
-        value: function add(vector) {
-          this.x += vector.x;
-          this.y += vector.y;
-          this.z += vector.z;
-
-          return this;
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
-      subtract: {
-        value: function subtract(vector) {
-          this.x -= vector.x;
-          this.y -= vector.y;
-          this.z -= vector.z;
-
-          return this;
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
-      multiply: {
-        value: function multiply(vector) {
-          this.x *= vector.x;
-          this.y *= vector.y;
-          this.z *= vector.z;
-
-          return this;
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
-      divide: {
-        value: function divide(vector) {
-          this.x /= vector.x;
-          this.y /= vector.y;
-          this.z /= vector.z;
-
-          return this;
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
-      normalize: {
-        value: function normalize() {
-          this.x = this.x / this.magnitude;
-          this.y = this.y / this.magnitude;
-          this.z = this.z / this.magnitude;
-
-          return this;
-        },
-        writable: true,
-        enumerable: true,
-        configurable: true
-      },
-      equals: {
-        value: function equals(v) {
-          return this.x === v.x && this.y === v.y && this.z === v.z;
-        },
-        writable: true,
         enumerable: true,
         configurable: true
       }
