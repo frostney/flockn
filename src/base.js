@@ -25,9 +25,10 @@ var numToIdString = function(num) {
   }
 };
 
-class Base extends EventMap {
+class Base {
   constructor(type = 'Base', descriptor = function() {}) {
-    super();
+    EventMap.mixin(this, Base);
+    //super();
 
     // Count up `objectIndex` and stringify it
     var currentObject = numToIdString(++objectIndex);
@@ -71,14 +72,16 @@ class Base extends EventMap {
     this.trigger('constructed');
   }
 
-  apply(args) {
+  apply(data) {
     // TODO: Reflect if function check should be enforced here
     if (this.descriptor) {
       // If args is not an array or array-like, provide an empty one
-      args = args || [];
+      data = data || {};
 
       // Call the `descriptor` property with `args`
-      this.descriptor.apply(this, args);
+
+      // Game, world, data
+      this.descriptor.call(this, [{}, this.world, data]);
 
       // Trigger an event
       this.trigger('execute');
