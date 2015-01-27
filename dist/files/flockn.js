@@ -17,6 +17,21 @@ define('flockn/audio', ["exports", "module"], function (exports, module) {
 define('flockn/base', ["exports", "module", "eventmap", "gameboard", "flockn/audio", "flockn/group", "flockn/world"], function (exports, module, _eventmap, _gameboard, _flocknAudio, _flocknGroup, _flocknWorld) {
   "use strict";
 
+  var _inherits = function (subClass, superClass) {
+    if (typeof superClass !== "function" && superClass !== null) {
+      throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
+    }
+    subClass.prototype = Object.create(superClass && superClass.prototype, {
+      constructor: {
+        value: subClass,
+        enumerable: false,
+        writable: true,
+        configurable: true
+      }
+    });
+    if (superClass) subClass.__proto__ = superClass;
+  };
+
   var _interopRequire = function (obj) {
     return obj && (obj["default"] || obj);
   };
@@ -49,12 +64,11 @@ define('flockn/base', ["exports", "module", "eventmap", "gameboard", "flockn/aud
     }
   };
 
-  var Base = (function () {
+  var Base = (function (EventMap) {
     function Base() {
       var type = arguments[0] === undefined ? "Base" : arguments[0];
       var descriptor = arguments[1] === undefined ? function () {} : arguments[1];
-      EventMap.mixin(this, Base);
-      //super();
+      EventMap.call(this);
 
       // Count up `objectIndex` and stringify it
       var currentObject = numToIdString(++objectIndex);
@@ -97,6 +111,8 @@ define('flockn/base', ["exports", "module", "eventmap", "gameboard", "flockn/aud
       // Emit an event
       this.trigger("constructed");
     }
+
+    _inherits(Base, EventMap);
 
     Base.prototype.apply = function apply(data) {
       // TODO: Reflect if function check should be enforced here
@@ -156,7 +172,7 @@ define('flockn/base', ["exports", "module", "eventmap", "gameboard", "flockn/aud
     };
 
     return Base;
-  })();
+  })(EventMap);
 
   Base.queueOrder = ["Game", "Scene", "GameObject", "Behavior", "Model"];
 
