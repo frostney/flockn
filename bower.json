@@ -28,7 +28,7 @@
     "tests"
   ],
   "dependencies": {
-    "eventmap": "~1.4.0",
+    "eventmap": "~1.5.0",
     "gameboard": "0.2.0-alpha7"
   },
   "devDependencies": {
@@ -39,6 +39,6 @@
     "chai": "~1.10.0"
   },
   "resolutions": {
-    "eventmap": "~1.4.0"
+    "eventmap": "~1.5.0"
   }
 }
