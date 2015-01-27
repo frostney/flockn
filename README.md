@@ -56,6 +56,7 @@ Features
 Philosophy
 ----------
 * Friendly to JavaScript transpilers: CoffeeScript, TypeScript and more
+* Transpilers optional: You don't need to use a transpiler though
 * Lightweight
 * Events everywhere (Having an `EventEmitter`-like interface)
 * Pluggable
