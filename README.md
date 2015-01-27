@@ -95,6 +95,7 @@ Roadmap for future versions
 
 Some decisions that need to be made
 -----------------------------------
+- What is the best way to access game and world instances? Binding it to `this` doesn't seem logical, as its not a child from the object, but the other way around
 - Should game objects have the attributes of behaviors?
 - Should game objects have the attributes of models?
 - Should `Object.observe` be used for attributes? (Reducing the `Model#get` and `Model#set` overhead)
