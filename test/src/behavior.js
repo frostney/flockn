@@ -24,4 +24,12 @@ describe('flockn/behavior', function () {
     });
   });
 
+  describe('properties', function() {
+    var behavior = new Behavior();
+
+    it('has the correct type', function() {
+      expect(behavior.type).to.be.a('string');
+      expect(behavior.type).to.equal('Behavior');
+    });
+  });
 });
