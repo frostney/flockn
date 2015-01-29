@@ -20,7 +20,7 @@ describe('flockn/gameobject', function () {
     it('inherits from Base', function() {
       var gameObject = new GameObject();
 
-      expect(gameObject).to.be.an.instanceOf(GameObject);
+      expect(gameObject).to.be.an.instanceOf(Base);
     });
   });
 
