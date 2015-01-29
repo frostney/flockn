@@ -1,5 +1,6 @@
 'use strict';
 
+import EventMap from 'eventmap';
 import Base from 'flockn/base';
 
 describe('flockn/base', function () {
@@ -16,5 +17,10 @@ describe('flockn/base', function () {
       expect(base).to.be.an.instanceOf(Base);
     });
 
+    it('inherits from EventMap', function() {
+      var base = new Base();
+
+      expect(base).to.be.an.instanceOf(EventMap);
+    })
   });
 });
