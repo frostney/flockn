@@ -31,4 +31,12 @@ describe('flockn/game', function () {
     });
   });
 
+  describe('properties', function() {
+    var game = new Game();
+
+    it('has the correct type', function() {
+      expect(game.type).to.be.a('string');
+      expect(game.type).to.equal('Game');
+    });
+  });
 });
