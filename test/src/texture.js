@@ -13,14 +13,14 @@ describe('flockn/texture', function () {
     it('can be instantiated', function () {
       var texture = new Texture();
 
-      expect(model).to.be.a('object');
-      expect(model).to.be.an.instanceOf(Texture);
+      expect(texture).to.be.a('object');
+      expect(texture).to.be.an.instanceOf(Texture);
     });
 
     it('inherits from EventMap', function() {
       var texture = new Texture();
 
-      expect(model).to.be.an.instanceOf(EventMap);
+      expect(texture).to.be.an.instanceOf(EventMap);
     });
   });
 
