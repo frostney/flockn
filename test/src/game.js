@@ -1,6 +1,7 @@
 'use strict';
 
 import Game from 'flockn/game';
+import Base from 'flockn/base';
 
 describe('flockn/game', function () {
 
@@ -16,6 +17,18 @@ describe('flockn/game', function () {
       expect(game).to.be.an.instanceOf(Game);
     });
 
+    it('inherits from Base', function() {
+      var game = new Game();
+
+      expect(game).to.be.an.instanceOf(Base);
+    });
+
+    it('new is optional', function() {
+      var game = Game();
+
+      expect(game).to.be.a('object');
+      expect(game).to.be.an.instanceOf(Game);
+    });
   });
 
 });
