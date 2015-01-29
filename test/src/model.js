@@ -25,19 +25,38 @@ describe('flockn/model', function () {
   });
 
   describe('#get', function() {
+    var model = new Model();
+
     it('undefined when there is no valid property', function() {
-      var model = new Model();
       var test = model.get('test');
 
       expect(test).to.be(undefined);
     });
 
     it('exact property value', function() {
-      var model = new Model();
       model.set('test', 5);
       var test = model.get('test');
 
       expect(test).to.be(5);
+    });
+  });
+
+  describe('#set', function() {
+    var model = new Model();
+
+    it('gets correctly set', function() {
+      model.set('test', 8);
+      var test = model.get('test');
+
+      expect(test).to.be(8);
+    });
+
+    it('overwrites previous value', function() {
+      model.set('test', 8);
+      model.set('test', 12);
+      var test = model.get('test');
+
+      expect(test).to.be(12);
     });
   });
 
