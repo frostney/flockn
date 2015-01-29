@@ -14,7 +14,7 @@ describe('flockn/model', function () {
       var model = new Model();
 
       expect(model).to.be.a('object');
-      expect(model).to.be.an.instanceOf(Game);
+      expect(model).to.be.an.instanceOf(Model);
     });
 
     it('inherits from EventMap', function() {
@@ -28,7 +28,7 @@ describe('flockn/model', function () {
     it('undefined when there is no valid property', function() {
       var model = new Model();
 
-      expect(model.get('text')).to.be(undefined);
+      expect(model.get('test')).to.be(undefined);
     });
 
     it('exact property value', function() {
