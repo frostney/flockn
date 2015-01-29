@@ -47,6 +47,9 @@ new Game(function() {
 
 });
 ```
+Putting everything in one file doesn't work for anything bigger than a small experiment, so I would recommend to
+to put each gameobjects, behaviors and scene in separate files. For a more real-life example, take a look at the
+template.
 
 Features
 --------
