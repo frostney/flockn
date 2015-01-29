@@ -23,4 +23,13 @@ describe('flockn/base', function () {
       expect(base).to.be.an.instanceOf(EventMap);
     })
   });
+
+  describe('properties', function() {
+    var base = new Base();
+
+    it('has the correct type', function() {
+      expect(base.type).to.be.a('string');
+      expect(base.type).to.equal('Base');
+    });
+  });
 });
