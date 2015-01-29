@@ -29,7 +29,7 @@ describe('flockn/scene', function () {
 
     it('has the correct type', function() {
       expect(scene.type).to.be.a('string');
-      expect(scene.type).to.equal('Base');
+      expect(scene.type).to.equal('Scene');
     });
   });
 });
