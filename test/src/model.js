@@ -27,15 +27,17 @@ describe('flockn/model', function () {
   describe('#get', function() {
     it('undefined when there is no valid property', function() {
       var model = new Model();
+      var test = model.get('test');
 
-      expect(model.get('test')).to.be(undefined);
+      expect(test).to.be(undefined);
     });
 
     it('exact property value', function() {
       var model = new Model();
       model.set('test', 5);
+      var test = model.get('test');
 
-      expect(model.get('test')).to.be(5);
+      expect(test).to.be(5);
     });
   });
 
