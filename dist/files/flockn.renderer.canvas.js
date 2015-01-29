@@ -1,9 +1,7 @@
 define('flockn/renderer/canvas', ["exports", "flockn/types", "flockn/graphics", "flockn/graphics/rootelement", "flockn/input/mouse"], function (exports, _flocknTypes, _flocknGraphics, _flocknGraphicsRootelement, _flocknInputMouse) {
   "use strict";
 
-  var _interopRequire = function (obj) {
-    return obj && (obj["default"] || obj);
-  };
+  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 
   var Vector2 = _flocknTypes.Vector2;
   var Graphics = _interopRequire(_flocknGraphics);

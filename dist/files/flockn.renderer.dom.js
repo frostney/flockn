@@ -1,9 +1,7 @@
 define('flockn/renderer/dom', ["exports", "flockn/graphics", "flockn/graphics/rootelement", "flockn/input/mouse"], function (exports, _flocknGraphics, _flocknGraphicsRootelement, _flocknInputMouse) {
   "use strict";
 
-  var _interopRequire = function (obj) {
-    return obj && (obj["default"] || obj);
-  };
+  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 
   var Graphics = _interopRequire(_flocknGraphics);
 

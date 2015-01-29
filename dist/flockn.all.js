@@ -17,24 +17,9 @@ define('flockn/audio', ["exports", "module"], function (exports, module) {
 define('flockn/base', ["exports", "module", "eventmap", "gameboard", "flockn/audio", "flockn/group", "flockn/world"], function (exports, module, _eventmap, _gameboard, _flocknAudio, _flocknGroup, _flocknWorld) {
   "use strict";
 
-  var _inherits = function (subClass, superClass) {
-    if (typeof superClass !== "function" && superClass !== null) {
-      throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
-    }
-    subClass.prototype = Object.create(superClass && superClass.prototype, {
-      constructor: {
-        value: subClass,
-        enumerable: false,
-        writable: true,
-        configurable: true
-      }
-    });
-    if (superClass) subClass.__proto__ = superClass;
-  };
+  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 
-  var _interopRequire = function (obj) {
-    return obj && (obj["default"] || obj);
-  };
+  var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
 
   var EventMap = _interopRequire(_eventmap);
 
@@ -181,24 +166,9 @@ define('flockn/base', ["exports", "module", "eventmap", "gameboard", "flockn/aud
 define('flockn/behavior', ["exports", "module", "flockn/base", "flockn/group", "flockn/mixins"], function (exports, module, _flocknBase, _flocknGroup, _flocknMixins) {
   "use strict";
 
-  var _inherits = function (subClass, superClass) {
-    if (typeof superClass !== "function" && superClass !== null) {
-      throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
-    }
-    subClass.prototype = Object.create(superClass && superClass.prototype, {
-      constructor: {
-        value: subClass,
-        enumerable: false,
-        writable: true,
-        configurable: true
-      }
-    });
-    if (superClass) subClass.__proto__ = superClass;
-  };
+  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 
-  var _interopRequire = function (obj) {
-    return obj && (obj["default"] || obj);
-  };
+  var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
 
   var Base = _interopRequire(_flocknBase);
 
@@ -345,24 +315,9 @@ define('flockn/constants/color', ["exports", "module"], function (exports, modul
 define('flockn/game', ["exports", "module", "gameboard/loop", "gameboard/assetloader", "flockn/base", "flockn/graphics", "flockn/scene", "flockn/types/color", "flockn/viewport", "flockn/mixins"], function (exports, module, _gameboardLoop, _gameboardAssetloader, _flocknBase, _flocknGraphics, _flocknScene, _flocknTypesColor, _flocknViewport, _flocknMixins) {
   "use strict";
 
-  var _inherits = function (subClass, superClass) {
-    if (typeof superClass !== "function" && superClass !== null) {
-      throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
-    }
-    subClass.prototype = Object.create(superClass && superClass.prototype, {
-      constructor: {
-        value: subClass,
-        enumerable: false,
-        writable: true,
-        configurable: true
-      }
-    });
-    if (superClass) subClass.__proto__ = superClass;
-  };
+  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 
-  var _interopRequire = function (obj) {
-    return obj && (obj["default"] || obj);
-  };
+  var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
 
   var Loop = _interopRequire(_gameboardLoop);
 
@@ -497,20 +452,20 @@ define('flockn/game', ["exports", "module", "gameboard/loop", "gameboard/assetlo
     };
 
     Game.prototype.run = function run(name) {
-      var _this2 = this;
+      var _this = this;
       this.on("executed", function () {
         // Start the game loop
         Loop.run();
 
         if (!name) {
           // If there's only no name, take the first scene
-          if (_this2.children.length >= 1) {
-            name = _this2.children.first().name;
+          if (_this.children.length >= 1) {
+            name = _this.children.first().name;
           }
         }
 
         // Show the scene if a parameter has been specified
-        _this2.showScene(name);
+        _this.showScene(name);
       });
     };
 
@@ -524,29 +479,11 @@ define('flockn/game', ["exports", "module", "gameboard/loop", "gameboard/assetlo
 define('flockn/gameobject', ["exports", "module", "flockn/base", "flockn/behavior", "flockn/graphics", "flockn/group", "flockn/model", "flockn/serialize", "flockn/texture", "flockn/types", "flockn/mixins"], function (exports, module, _flocknBase, _flocknBehavior, _flocknGraphics, _flocknGroup, _flocknModel, _flocknSerialize, _flocknTexture, _flocknTypes, _flocknMixins) {
   "use strict";
 
-  var _prototypeProperties = function (child, staticProps, instanceProps) {
-    if (staticProps) Object.defineProperties(child, staticProps);
-    if (instanceProps) Object.defineProperties(child.prototype, instanceProps);
-  };
+  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 
-  var _inherits = function (subClass, superClass) {
-    if (typeof superClass !== "function" && superClass !== null) {
-      throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
-    }
-    subClass.prototype = Object.create(superClass && superClass.prototype, {
-      constructor: {
-        value: subClass,
-        enumerable: false,
-        writable: true,
-        configurable: true
-      }
-    });
-    if (superClass) subClass.__proto__ = superClass;
-  };
+  var _prototypeProperties = function (child, staticProps, instanceProps) { if (staticProps) Object.defineProperties(child, staticProps); if (instanceProps) Object.defineProperties(child.prototype, instanceProps); };
 
-  var _interopRequire = function (obj) {
-    return obj && (obj["default"] || obj);
-  };
+  var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
 
   var Base = _interopRequire(_flocknBase);
 
@@ -755,9 +692,7 @@ define('flockn/gameobject', ["exports", "module", "flockn/base", "flockn/behavio
 define('flockn/graphics', ["exports", "module", "eventmap"], function (exports, module, _eventmap) {
   "use strict";
 
-  var _interopRequire = function (obj) {
-    return obj && (obj["default"] || obj);
-  };
+  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 
   var EventMap = _interopRequire(_eventmap);
 
@@ -838,9 +773,7 @@ define('flockn/graphics/rootelement', ["exports", "module"], function (exports, 
 define('flockn/group', ["exports", "module", "gameboard", "flockn/serialize"], function (exports, module, _gameboard, _flocknSerialize) {
   "use strict";
 
-  var _interopRequire = function (obj) {
-    return obj && (obj["default"] || obj);
-  };
+  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 
   var Log = _gameboard.Log;
   var serialize = _interopRequire(_flocknSerialize);
@@ -907,11 +840,11 @@ define('flockn/group', ["exports", "module", "gameboard", "flockn/serialize"], f
     };
 
     Group.prototype.values = function values() {
-      var _this2 = this;
+      var _this = this;
       return Object.keys(this.ids).filter(function (id) {
         return id != null;
       }).map(function (id) {
-        return _this2.ids[id];
+        return _this.ids[id];
       });
     };
 
@@ -968,9 +901,9 @@ define('flockn/group', ["exports", "module", "gameboard", "flockn/serialize"], f
     };
 
     Group.prototype.byType = function byType(type) {
-      var _this3 = this;
+      var _this = this;
       return this.types[type].map(function (index) {
-        return _this3[index];
+        return _this[index];
       });
     };
 
@@ -981,9 +914,9 @@ define('flockn/group', ["exports", "module", "gameboard", "flockn/serialize"], f
     };
 
     Group.prototype.byTag = function byTag(tag) {
-      var _this4 = this;
+      var _this = this;
       return this.tags[tag].map(function (index) {
-        return _this4[index];
+        return _this[index];
       });
     };
 
@@ -1028,7 +961,7 @@ define('flockn/group', ["exports", "module", "gameboard", "flockn/serialize"], f
     };
 
     Group.prototype.remove = function remove(index) {
-      var _this5 = this;
+      var _this = this;
       var id = Object.keys(ids)[index];
 
       var obj = this.ids[id];
@@ -1049,9 +982,9 @@ define('flockn/group', ["exports", "module", "gameboard", "flockn/serialize"], f
 
         if (position >= 0) {
           if (tag.length === 1) {
-            _this5.tags[tag] = [];
+            _this.tags[tag] = [];
           } else {
-            _this5.tags[tag].splice(position, 1);
+            _this.tags[tag].splice(position, 1);
           }
         }
       });
@@ -1065,16 +998,16 @@ define('flockn/group', ["exports", "module", "gameboard", "flockn/serialize"], f
     };
 
     Group.prototype.removeByTag = function removeByTag(tags) {
-      var _this6 = this;
+      var _this = this;
       if (!Array.isArray(tags)) {
         tags = [tags];
       }
 
       tags.forEach(function (tag) {
-        _this6.tags[tag].forEach(function (index) {
-          return _this6.remove(index);
+        _this.tags[tag].forEach(function (index) {
+          return _this.remove(index);
         });
-        _this6.tags = [];
+        _this.tags = [];
       });
     };
 
@@ -1088,9 +1021,7 @@ define('flockn/group', ["exports", "module", "gameboard", "flockn/serialize"], f
 define('flockn/input/mouse', ["exports", "flockn/types/vector2"], function (exports, _flocknTypesVector2) {
   "use strict";
 
-  var _interopRequire = function (obj) {
-    return obj && (obj["default"] || obj);
-  };
+  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 
   // These are things that might be moved into freezedev/gameboard
 
@@ -1112,13 +1043,12 @@ define('flockn/input/mouse', ["exports", "flockn/types/vector2"], function (expo
   exports.events = events;
   exports.absolutePosition = absolutePosition;
   exports.relativePosition = relativePosition;
+  exports.__esModule = true;
 });
 define('flockn/mixins/addable', ["exports", "module", "flockn/graphics"], function (exports, module, _flocknGraphics) {
   "use strict";
 
-  var _interopRequire = function (obj) {
-    return obj && (obj["default"] || obj);
-  };
+  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 
   var Graphics = _interopRequire(_flocknGraphics);
 
@@ -1176,9 +1106,7 @@ define('flockn/mixins/addable', ["exports", "module", "flockn/graphics"], functi
 define('flockn/mixins', ["exports", "flockn/mixins/addable", "flockn/mixins/renderable", "flockn/mixins/updateable", "flockn/mixins/serializable"], function (exports, _flocknMixinsAddable, _flocknMixinsRenderable, _flocknMixinsUpdateable, _flocknMixinsSerializable) {
   "use strict";
 
-  var _interopRequire = function (obj) {
-    return obj && (obj["default"] || obj);
-  };
+  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 
   var addable = _interopRequire(_flocknMixinsAddable);
 
@@ -1192,13 +1120,12 @@ define('flockn/mixins', ["exports", "flockn/mixins/addable", "flockn/mixins/rend
   exports.renderable = renderable;
   exports.updateable = updateable;
   exports.serializable = serializable;
+  exports.__esModule = true;
 });
 define('flockn/mixins/renderable', ["exports", "module", "flockn/utils/checkforflag", "flockn/graphics"], function (exports, module, _flocknUtilsCheckforflag, _flocknGraphics) {
   "use strict";
 
-  var _interopRequire = function (obj) {
-    return obj && (obj["default"] || obj);
-  };
+  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 
   var checkForFlag = _interopRequire(_flocknUtilsCheckforflag);
 
@@ -1229,9 +1156,7 @@ define('flockn/mixins/renderable', ["exports", "module", "flockn/utils/checkforf
 define('flockn/mixins/serializable', ["exports", "module", "flockn/serialize"], function (exports, module, _flocknSerialize) {
   "use strict";
 
-  var _interopRequire = function (obj) {
-    return obj && (obj["default"] || obj);
-  };
+  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 
   var serialize = _interopRequire(_flocknSerialize);
 
@@ -1250,9 +1175,7 @@ define('flockn/mixins/serializable', ["exports", "module", "flockn/serialize"], 
 define('flockn/mixins/updateable', ["exports", "module", "flockn/utils/checkforflag"], function (exports, module, _flocknUtilsCheckforflag) {
   "use strict";
 
-  var _interopRequire = function (obj) {
-    return obj && (obj["default"] || obj);
-  };
+  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 
   var checkForFlag = _interopRequire(_flocknUtilsCheckforflag);
 
@@ -1282,24 +1205,9 @@ define('flockn/mixins/updateable', ["exports", "module", "flockn/utils/checkforf
 define('flockn/model', ["exports", "module", "eventmap", "flockn/mixins"], function (exports, module, _eventmap, _flocknMixins) {
   "use strict";
 
-  var _inherits = function (subClass, superClass) {
-    if (typeof superClass !== "function" && superClass !== null) {
-      throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
-    }
-    subClass.prototype = Object.create(superClass && superClass.prototype, {
-      constructor: {
-        value: subClass,
-        enumerable: false,
-        writable: true,
-        configurable: true
-      }
-    });
-    if (superClass) subClass.__proto__ = superClass;
-  };
+  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 
-  var _interopRequire = function (obj) {
-    return obj && (obj["default"] || obj);
-  };
+  var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
 
   var EventMap = _interopRequire(_eventmap);
 
@@ -1342,9 +1250,7 @@ define('flockn/model', ["exports", "module", "eventmap", "flockn/mixins"], funct
 define('flockn/plugins/collision', ["exports", "flockn/behavior"], function (exports, _flocknBehavior) {
   "use strict";
 
-  var _interopRequire = function (obj) {
-    return obj && (obj["default"] || obj);
-  };
+  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 
   var Behavior = _interopRequire(_flocknBehavior);
 
@@ -1355,9 +1261,7 @@ define('flockn/plugins/collision', ["exports", "flockn/behavior"], function (exp
 define('flockn/plugins/movement', ["exports", "flockn/behavior", "flockn/model", "gameboard"], function (exports, _flocknBehavior, _flocknModel, _gameboard) {
   "use strict";
 
-  var _interopRequire = function (obj) {
-    return obj && (obj["default"] || obj);
-  };
+  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 
   var Behavior = _interopRequire(_flocknBehavior);
 
@@ -1401,9 +1305,7 @@ define('flockn/plugins/movement', ["exports", "flockn/behavior", "flockn/model",
 define('flockn/plugins/spriteanimation', ["exports", "flockn/behavior"], function (exports, _flocknBehavior) {
   "use strict";
 
-  var _interopRequire = function (obj) {
-    return obj && (obj["default"] || obj);
-  };
+  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 
   var Behavior = _interopRequire(_flocknBehavior);
 
@@ -1412,9 +1314,7 @@ define('flockn/plugins/spriteanimation', ["exports", "flockn/behavior"], functio
 define('flockn/renderer/canvas', ["exports", "flockn/types", "flockn/graphics", "flockn/graphics/rootelement", "flockn/input/mouse"], function (exports, _flocknTypes, _flocknGraphics, _flocknGraphicsRootelement, _flocknInputMouse) {
   "use strict";
 
-  var _interopRequire = function (obj) {
-    return obj && (obj["default"] || obj);
-  };
+  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 
   var Vector2 = _flocknTypes.Vector2;
   var Graphics = _interopRequire(_flocknGraphics);
@@ -1504,9 +1404,7 @@ define('flockn/renderer/canvas', ["exports", "flockn/types", "flockn/graphics", 
 define('flockn/renderer/dom', ["exports", "flockn/graphics", "flockn/graphics/rootelement", "flockn/input/mouse"], function (exports, _flocknGraphics, _flocknGraphicsRootelement, _flocknInputMouse) {
   "use strict";
 
-  var _interopRequire = function (obj) {
-    return obj && (obj["default"] || obj);
-  };
+  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 
   var Graphics = _interopRequire(_flocknGraphics);
 
@@ -1768,24 +1666,9 @@ define('flockn/renderer/dom', ["exports", "flockn/graphics", "flockn/graphics/ro
 define('flockn/scene', ["exports", "module", "flockn/base", "flockn/gameobject", "flockn/mixins"], function (exports, module, _flocknBase, _flocknGameobject, _flocknMixins) {
   "use strict";
 
-  var _inherits = function (subClass, superClass) {
-    if (typeof superClass !== "function" && superClass !== null) {
-      throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
-    }
-    subClass.prototype = Object.create(superClass && superClass.prototype, {
-      constructor: {
-        value: subClass,
-        enumerable: false,
-        writable: true,
-        configurable: true
-      }
-    });
-    if (superClass) subClass.__proto__ = superClass;
-  };
+  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 
-  var _interopRequire = function (obj) {
-    return obj && (obj["default"] || obj);
-  };
+  var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
 
   var Base = _interopRequire(_flocknBase);
 
@@ -1833,9 +1716,7 @@ define('flockn/scene', ["exports", "module", "flockn/base", "flockn/gameobject",
 define('flockn/serialize', ["exports", "module", "eventmap"], function (exports, module, _eventmap) {
   "use strict";
 
-  var _interopRequire = function (obj) {
-    return obj && (obj["default"] || obj);
-  };
+  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 
   var EventMap = _interopRequire(_eventmap);
 
@@ -1947,9 +1828,7 @@ define('flockn/serialize', ["exports", "module", "eventmap"], function (exports,
 define('flockn/texture/image', ["exports", "module", "flockn/types", "flockn/mixins/serializable"], function (exports, module, _flocknTypes, _flocknMixinsSerializable) {
   "use strict";
 
-  var _interopRequire = function (obj) {
-    return obj && (obj["default"] || obj);
-  };
+  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 
   var Color = _flocknTypes.Color;
   var Vector2 = _flocknTypes.Vector2;
@@ -2010,24 +1889,9 @@ define('flockn/texture/image', ["exports", "module", "flockn/types", "flockn/mix
 define('flockn/texture', ["exports", "module", "flockn/types", "eventmap", "flockn/texture/image", "flockn/texture/label", "flockn/mixins/serializable"], function (exports, module, _flocknTypes, _eventmap, _flocknTextureImage, _flocknTextureLabel, _flocknMixinsSerializable) {
   "use strict";
 
-  var _inherits = function (subClass, superClass) {
-    if (typeof superClass !== "function" && superClass !== null) {
-      throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
-    }
-    subClass.prototype = Object.create(superClass && superClass.prototype, {
-      constructor: {
-        value: subClass,
-        enumerable: false,
-        writable: true,
-        configurable: true
-      }
-    });
-    if (superClass) subClass.__proto__ = superClass;
-  };
+  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 
-  var _interopRequire = function (obj) {
-    return obj && (obj["default"] || obj);
-  };
+  var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
 
   var Color = _flocknTypes.Color;
   var EventMap = _interopRequire(_eventmap);
@@ -2079,9 +1943,7 @@ define('flockn/texture', ["exports", "module", "flockn/types", "eventmap", "floc
 define('flockn/texture/label', ["exports", "module", "flockn/types", "flockn/mixins/serializable"], function (exports, module, _flocknTypes, _flocknMixinsSerializable) {
   "use strict";
 
-  var _interopRequire = function (obj) {
-    return obj && (obj["default"] || obj);
-  };
+  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 
   var Color = _flocknTypes.Color;
   var serializable = _interopRequire(_flocknMixinsSerializable);
@@ -2159,9 +2021,7 @@ define('flockn/texture/label', ["exports", "module", "flockn/types", "flockn/mix
 define('flockn/types/color', ["exports", "module", "clamp", "flockn/constants/color"], function (exports, module, _clamp, _flocknConstantsColor) {
   "use strict";
 
-  var _interopRequire = function (obj) {
-    return obj && (obj["default"] || obj);
-  };
+  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 
   var clamp = _interopRequire(_clamp);
 
@@ -2269,23 +2129,10 @@ define('flockn/types/color', ["exports", "module", "clamp", "flockn/constants/co
 
   module.exports = Color;
 });
-define('flockn/types', ["exports", "module", "flockn/types/color", "flockn/types/vector2", "flockn/types/vector3", "flockn/types/rect"], function (exports, module, _flocknTypesColor, _flocknTypesVector2, _flocknTypesVector3, _flocknTypesRect) {
+define('flockn/types', ["exports", "flockn/types/color", "flockn/types/vector2", "flockn/types/vector3", "flockn/types/rect"], function (exports, _flocknTypesColor, _flocknTypesVector2, _flocknTypesVector3, _flocknTypesRect) {
   "use strict";
 
-  var _extends = function (target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = arguments[i];
-      for (var key in source) {
-        target[key] = source[key];
-      }
-    }
-
-    return target;
-  };
-
-  var _interopRequire = function (obj) {
-    return obj && (obj["default"] || obj);
-  };
+  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 
   var Color = _interopRequire(_flocknTypesColor);
 
@@ -2307,14 +2154,12 @@ define('flockn/types', ["exports", "module", "flockn/types/color", "flockn/types
   exports.Vector2 = Vector2;
   exports.Vector3 = Vector3;
   exports.Rect = Rect;
-  module.exports = _extends(exports["default"], exports);
+  exports.__esModule = true;
 });
 define('flockn/types/rect', ["exports", "module", "flockn/types/vector2"], function (exports, module, _flocknTypesVector2) {
   "use strict";
 
-  var _interopRequire = function (obj) {
-    return obj && (obj["default"] || obj);
-  };
+  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 
   var Vector2 = _interopRequire(_flocknTypesVector2);
 
@@ -2364,10 +2209,7 @@ define('flockn/types/rect', ["exports", "module", "flockn/types/vector2"], funct
 define('flockn/types/vector2', ["exports", "module"], function (exports, module) {
   "use strict";
 
-  var _prototypeProperties = function (child, staticProps, instanceProps) {
-    if (staticProps) Object.defineProperties(child, staticProps);
-    if (instanceProps) Object.defineProperties(child.prototype, instanceProps);
-  };
+  var _prototypeProperties = function (child, staticProps, instanceProps) { if (staticProps) Object.defineProperties(child, staticProps); if (instanceProps) Object.defineProperties(child.prototype, instanceProps); };
 
   var sqrMagnitude = function (v) {
     return Vector2.dot(v, v);
@@ -2486,10 +2328,7 @@ define('flockn/types/vector2', ["exports", "module"], function (exports, module)
 define('flockn/types/vector3', ["exports", "module"], function (exports, module) {
   "use strict";
 
-  var _prototypeProperties = function (child, staticProps, instanceProps) {
-    if (staticProps) Object.defineProperties(child, staticProps);
-    if (instanceProps) Object.defineProperties(child.prototype, instanceProps);
-  };
+  var _prototypeProperties = function (child, staticProps, instanceProps) { if (staticProps) Object.defineProperties(child, staticProps); if (instanceProps) Object.defineProperties(child.prototype, instanceProps); };
 
   var sqrMagnitude = function (v) {
     return Vector3.dot(v, v);
@@ -2663,9 +2502,7 @@ define('flockn/viewport', ["exports", "module"], function (exports, module) {
 define('flockn/world', ["exports", "module", "flockn/model"], function (exports, module, _flocknModel) {
   "use strict";
 
-  var _interopRequire = function (obj) {
-    return obj && (obj["default"] || obj);
-  };
+  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 
   var Model = _interopRequire(_flocknModel);
 
