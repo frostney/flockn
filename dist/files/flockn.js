@@ -1222,7 +1222,7 @@ define('flockn/model', ["exports", "module", "eventmap", "flockn/mixins"], funct
 
     _inherits(Model, EventMap);
 
-    Model.prototype.get = function get() {
+    Model.prototype.get = function get(name) {
       // Get an attribute if it exists
       if (Object.hasOwnProperty.call(this.data, name)) {
         return this.data[name];
