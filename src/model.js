@@ -9,7 +9,7 @@ class Model extends EventMap {
     this.data = {};
   }
 
-  get() {
+  get(name) {
     // Get an attribute if it exists
     if (Object.hasOwnProperty.call(this.data, name)) {
       return this.data[name];
