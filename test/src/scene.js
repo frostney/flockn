@@ -24,4 +24,12 @@ describe('flockn/scene', function () {
     });
   });
 
+  describe('properties', function() {
+    var scene = new Scene();
+
+    it('has the correct type', function() {
+      expect(scene.type).to.be.a('string');
+      expect(scene.type).to.equal('Base');
+    });
+  });
 });
