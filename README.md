@@ -84,7 +84,7 @@ Roadmap for next release
 - [ ] Deserialization
 - [X] Documentation
 - [ ] Examples
-- [ ] Unit tests
+- [X] Unit tests
 - [ ] Default behaviors (e.g. sprite animation, collision)
 - [ ] Audio
 - [ ] Preloader/Assetloader
