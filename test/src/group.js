@@ -1,6 +1,7 @@
 'use strict';
 
 import Group from 'flockn/group';
+import Behavior from 'flockn/behavior';
 
 describe('flockn/group', function () {
 
@@ -9,12 +10,27 @@ describe('flockn/group', function () {
   });
 
   describe('constructor', function () {
-    it('can be instantiated', function () {
-      var group = new Group();
+    var group = new Group();
 
+    it('can be instantiated', function () {
       expect(group).to.be.a('object');
       expect(group).to.be.an.instanceOf(Group);
     });
+
+    it('has default values', function() {
+      expect(group.length).to.be.a('number');
+      expect(group.length).to.equal(0);
+
+      expect(group.ids).to.be.a('object');
+
+      expect(group.tags).to.be.a('object');
+
+      expect(group.types).to.be.a('object');
+    });
+  });
+
+  describe('Using behaviors', function() {
+
   });
 
 });
