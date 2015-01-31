@@ -176,6 +176,6 @@ class GameObject extends Base {
 }
 
 serializable(GameObject);
-storable(GameObject)
+storable(GameObject);
 
 export default GameObject;
