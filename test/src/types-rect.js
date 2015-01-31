@@ -37,4 +37,12 @@ describe('flockn/types/rect', function () {
     it('x value should be 0 if x, y, w and h are 0', () => expect(rect.center().x).to.equal(0));
     it('y value should be 0 if x, y, w and h are 0', () => expect(rect.center().y).to.equal(0));
   });
+
+  describe('#toString()', function() {
+    var rect = new Rect();
+    var rect2 = new Rect(20, 20, 40, 40);
+
+    it('stringified empty rect', () => expect(rect.toString()).to.equal(JSON.stringify({x: 0, y: 0, w: 0, h: 0})));
+    it('stringified custom rect', () => expect(rect2.toString()).to.equal(JSON.stringify({x: 20, y: 20, w: 40, h: 40})));
+  });
 });
