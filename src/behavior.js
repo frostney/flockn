@@ -1,7 +1,7 @@
 import Base from 'flockn/base';
 import Group from 'flockn/group';
 
-import {addable, updateable, serializable} from 'flockn/mixins';
+import {addable, updateable, serializable, storable} from 'flockn/mixins';
 
 
 // Behaviors only provide logic. There is no rendering involved.
@@ -27,15 +27,9 @@ class Behavior extends Base {
   removeBehavior() {
 
   }
-
-  static define(name, factory) {
-    Behavior.store[name] = factory;
-  }
 }
 
 serializable(Behavior);
-
-// Behaviors can be defined and are stored on the object itself
-Behavior.store = {};
+storable(Behavior);
 
 export default Behavior;
