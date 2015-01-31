@@ -27,7 +27,7 @@ class Rect {
   }
 
   center() {
-    return new Vector2(this.w / 2, this.h / 2);
+    return new Vector2(this.x + (this.w / 2), this.y + (this.h / 2));
   }
 
   contains(vector) {
