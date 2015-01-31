@@ -32,4 +32,14 @@ describe('flockn/behavior', function () {
       expect(behavior.type).to.equal('Behavior');
     });
   });
+
+  describe('Define behaviors', function() {
+    it('property exists', function() {
+      expect(Behavior.define).to.be.a('function');
+    });
+
+    it('store exists', function() {
+      expect(Behavior.store).to.be.a('object');
+    });
+  });
 });
