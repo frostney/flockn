@@ -1,5 +1,5 @@
 import EventMap from 'eventmap';
-import {serializable} from 'flockn/mixins';
+import {serializable, storable} from 'flockn/mixins';
 
 class Model extends EventMap {
   constructor() {
@@ -33,5 +33,6 @@ class Model extends EventMap {
 }
 
 serializable(Model);
+storable(Model);
 
 export default Model;
