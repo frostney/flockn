@@ -77,4 +77,22 @@ describe('flockn/types/rect', function () {
     it('vector contained in rect', () => expect(rect.contains(vector)).to.equal(true));
     it('vector not contained in rect', () => expect(rect2.contains(vector)).to.equal(false));
   });
+
+  describe('#center', function () {
+    var rect = new Rect(10, 10, 40, 40);
+    var vector = rect.center();
+
+    it('returns a vector', () => expect(vector).to.be.an.instanceOf(Vector2));
+    it('centers the rect', () => expect(vector).to.deep.equal({x: 30, y: 30}));
+  });
+
+  describe('.fromString', function () {
+    var obj = {x: 10, y: 10, w: 50, h: 50};
+    var string = JSON.stringify(obj);
+
+    var rect = Rect.fromString(string);
+
+    it('is a rect', () => expect(rect).to.be.an.instanceOf(Rect));
+    it('has the correct values', () => expect(rect).to.deep.equals(obj));
+  });
 });
