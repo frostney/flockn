@@ -30,14 +30,14 @@ describe('flockn/model', function () {
     it('undefined when there is no valid property', function() {
       var test = model.get('test');
 
-      expect(test).to.be(undefined);
+      expect(test).to.equal(undefined);
     });
 
     it('exact property value', function() {
       model.set('test', 5);
       var test = model.get('test');
 
-      expect(test).to.be(5);
+      expect(test).to.equal(5);
     });
   });
 
@@ -48,7 +48,7 @@ describe('flockn/model', function () {
       model.set('test', 8);
       var test = model.get('test');
 
-      expect(test).to.be(8);
+      expect(test).to.equal(8);
     });
 
     it('overwrites previous value', function() {
@@ -56,7 +56,7 @@ describe('flockn/model', function () {
       model.set('test', 12);
       var test = model.get('test');
 
-      expect(test).to.be(12);
+      expect(test).to.equal(12);
     });
   });
 
