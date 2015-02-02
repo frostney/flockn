@@ -177,6 +177,7 @@ define('flockn/behavior', ["exports", "module", "flockn/base", "flockn/group", "
   var addable = _flocknMixins.addable;
   var updateable = _flocknMixins.updateable;
   var serializable = _flocknMixins.serializable;
+  var storable = _flocknMixins.storable;
 
 
 
@@ -204,17 +205,11 @@ define('flockn/behavior', ["exports", "module", "flockn/base", "flockn/group", "
 
     Behavior.prototype.removeBehavior = function removeBehavior() {};
 
-    Behavior.define = function define(name, factory) {
-      Behavior.store[name] = factory;
-    };
-
     return Behavior;
   })(Base);
 
   serializable(Behavior);
-
-  // Behaviors can be defined and are stored on the object itself
-  Behavior.store = {};
+  storable(Behavior);
 
   module.exports = Behavior;
 });
@@ -507,6 +502,7 @@ define('flockn/gameobject', ["exports", "module", "flockn/base", "flockn/behavio
   var renderable = _flocknMixins.renderable;
   var updateable = _flocknMixins.updateable;
   var serializable = _flocknMixins.serializable;
+  var storable = _flocknMixins.storable;
   var GameObject = (function (Base) {
     function GameObject(descriptor) {
       var _this = this;
@@ -630,11 +626,6 @@ define('flockn/gameobject', ["exports", "module", "flockn/base", "flockn/behavio
       }
     };
 
-    // Game objects can be defined and are stored on the object itself
-    GameObject.define = function define(name, factory) {
-      GameObject.store[name] = factory;
-    };
-
     GameObject.fromString = function fromString() {};
 
     _prototypeProperties(GameObject, null, {
@@ -684,8 +675,7 @@ define('flockn/gameobject', ["exports", "module", "flockn/base", "flockn/behavio
   })(Base);
 
   serializable(GameObject);
-
-  GameObject.store = {};
+  storable(GameObject);
 
   module.exports = GameObject;
 });
@@ -1103,7 +1093,7 @@ define('flockn/mixins/addable', ["exports", "module", "flockn/graphics"], functi
 
   module.exports = addable;
 });
-define('flockn/mixins', ["exports", "flockn/mixins/addable", "flockn/mixins/renderable", "flockn/mixins/updateable", "flockn/mixins/serializable"], function (exports, _flocknMixinsAddable, _flocknMixinsRenderable, _flocknMixinsUpdateable, _flocknMixinsSerializable) {
+define('flockn/mixins', ["exports", "flockn/mixins/addable", "flockn/mixins/renderable", "flockn/mixins/updateable", "flockn/mixins/serializable", "flockn/mixins/storable"], function (exports, _flocknMixinsAddable, _flocknMixinsRenderable, _flocknMixinsUpdateable, _flocknMixinsSerializable, _flocknMixinsStorable) {
   "use strict";
 
   var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
@@ -1116,10 +1106,13 @@ define('flockn/mixins', ["exports", "flockn/mixins/addable", "flockn/mixins/rend
 
   var serializable = _interopRequire(_flocknMixinsSerializable);
 
+  var storable = _interopRequire(_flocknMixinsStorable);
+
   exports.addable = addable;
   exports.renderable = renderable;
   exports.updateable = updateable;
   exports.serializable = serializable;
+  exports.storable = storable;
   exports.__esModule = true;
 });
 define('flockn/mixins/renderable', ["exports", "module", "flockn/utils/checkforflag", "flockn/graphics"], function (exports, module, _flocknUtilsCheckforflag, _flocknGraphics) {
@@ -1172,6 +1165,23 @@ define('flockn/mixins/serializable', ["exports", "module", "flockn/serialize"], 
 
   module.exports = serializable;
 });
+define('flockn/mixins/storable', ["exports", "module"], function (exports, module) {
+  "use strict";
+
+  var storable = function (Factory) {
+    Factory.store = {};
+
+    Factory.define = function (name, factory) {
+      if (Factory[store][name]) {
+        throw new Error("" + name + " does already exist.");
+      } else {
+        Factory[store][name] = factory;
+      }
+    };
+  };
+
+  module.exports = storable;
+});
 define('flockn/mixins/updateable', ["exports", "module", "flockn/utils/checkforflag"], function (exports, module, _flocknUtilsCheckforflag) {
   "use strict";
 
@@ -1212,6 +1222,7 @@ define('flockn/model', ["exports", "module", "eventmap", "flockn/mixins"], funct
   var EventMap = _interopRequire(_eventmap);
 
   var serializable = _flocknMixins.serializable;
+  var storable = _flocknMixins.storable;
   var Model = (function (EventMap) {
     function Model() {
       EventMap.call(this);
@@ -1236,6 +1247,8 @@ define('flockn/model', ["exports", "module", "eventmap", "flockn/mixins"], funct
       this.trigger("change", name, value);
     };
 
+    Model.prototype.bind = function bind() {};
+
     Model.prototype.has = function has(name) {
       return Object.hasOwnProperty.call(this.data, name);
     };
@@ -1244,6 +1257,7 @@ define('flockn/model', ["exports", "module", "eventmap", "flockn/mixins"], funct
   })(EventMap);
 
   serializable(Model);
+  storable(Model);
 
   module.exports = Model;
 });
@@ -1262,6 +1276,7 @@ define('flockn/scene', ["exports", "module", "flockn/base", "flockn/gameobject",
   var renderable = _flocknMixins.renderable;
   var updateable = _flocknMixins.updateable;
   var serializable = _flocknMixins.serializable;
+  var storable = _flocknMixins.storable;
 
 
   // A `Scene` instance is a layer for `GameObject` instances.
@@ -1285,15 +1300,11 @@ define('flockn/scene', ["exports", "module", "flockn/base", "flockn/gameobject",
       this.queue.push(addable(GameObject, this.children).apply(this, arguments));
     };
 
-    // Scenes can be defined and are stored on the object itself
-    Scene.define = function define(name, factory) {
-      Scene.store[name] = factory;
-    };
-
     return Scene;
   })(Base);
 
   serializable(Scene);
+  storable(Scene);
 
   module.exports = Scene;
 });
@@ -1778,7 +1789,7 @@ define('flockn/types/rect', ["exports", "module", "flockn/types/vector2"], funct
     };
 
     Rect.prototype.center = function center() {
-      return new Vector2(this.w / 2, this.h / 2);
+      return new Vector2(this.x + this.w / 2, this.y + this.h / 2);
     };
 
     Rect.prototype.contains = function contains(vector) {
