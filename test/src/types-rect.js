@@ -93,6 +93,6 @@ describe('flockn/types/rect', function () {
     var rect = Rect.fromString(string);
 
     it('is a rect', () => expect(rect).to.be.an.instanceOf(Rect));
-    it('has the correct values', () => expect(rect).to.deep.equals(obj));
+    it('has the correct values', () => expect(rect).to.deep.equal(obj));
   });
 });
