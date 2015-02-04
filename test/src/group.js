@@ -30,7 +30,15 @@ describe('flockn/group', function () {
   });
 
   describe('Using behaviors', function() {
+    var group = new Group();
 
+    it('adds behavior', function() {
+      var b = new Behavior();
+
+      group.push(b);
+
+      expect(group.length).to.equal(1);
+    });
   });
 
 });
