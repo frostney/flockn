@@ -83,7 +83,10 @@ describe('flockn/types/rect', function () {
     var vector = rect.center();
 
     it('returns a vector', () => expect(vector).to.be.an.instanceOf(Vector2));
-    it('centers the rect', () => expect(vector).to.deep.equal({x: 30, y: 30}));
+    it('centers the rect', () => {
+      expect(vector.x).to.equal(30);
+      expect(vector.y).to.equal(30);
+    });
   });
 
   describe('.fromString', function () {
@@ -93,6 +96,11 @@ describe('flockn/types/rect', function () {
     var rect = Rect.fromString(string);
 
     it('is a rect', () => expect(rect).to.be.an.instanceOf(Rect));
-    it('has the correct values', () => expect(rect).to.deep.equal(obj));
+    it('has the correct values', () => {
+      expect(rect.x).to.equal(10);
+      expect(rect.y).to.equal(10);
+      expect(rect.w).to.equal(50);
+      expect(rect.h).to.equal(50);
+    });
   });
 });
