@@ -19,6 +19,16 @@
 
     <link rel="stylesheet" href="../../bower_components/mocha/mocha.css" />
 
+    <script>
+    // PhantomJS. Why u no support Function#bind
+    Function.prototype.bind = Function.prototype.bind || function (thisp) {
+        var fn = this;
+        return function () {
+            return fn.apply(thisp, arguments);
+        };
+    };
+    </script>
+
     <script src="../../bower_components/mocha/mocha.js"></script>
     <script src="../../bower_components/chai/chai.js"></script>
 
