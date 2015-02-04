@@ -79,9 +79,9 @@ Status of renderers
 
 Roadmap for next release
 ------------------------
-- [ ] Canvas renderer
-- [ ] Serialization
-- [ ] Deserialization
+- [X] Canvas renderer
+- [X] Serialization
+- [X] Deserialization
 - [X] Documentation
 - [ ] Examples
 - [X] Unit tests
