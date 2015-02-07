@@ -114,4 +114,4 @@ Type `grunt` (or `npm run grunt`) to build everything. You also need to have Bow
 
 License
 -------
-This is public domain. If public domain does not work for you, you can use MIT alternatively.
+This is public domain (UNLICENSE). If public domain does not work for you, you can use MIT alternatively.
