@@ -106,7 +106,7 @@ Some decisions that need to be made
 
 Building for yourself
 ---------------------
-flockn uses Grunt as its task runner
+flockn uses Grunt as its task runner.
 Grunt can either be installed through `npm install -g grunt-cli` or you can use it as a local dependency.
 After that, navigate to the flockn root folder and type `npm install` to install all necessary dependencies.  
 
