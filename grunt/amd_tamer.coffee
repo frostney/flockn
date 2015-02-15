@@ -5,6 +5,8 @@ module.exports =
     namespace: '<%= package.name %>'
     base: 'tmp/'
   all:
+    options:
+      footer: '\n//# sourceMappingURL=<%= package.name %>.all.js.map'
     files:
       'dist/<%= package.name %>.all.js': 'tmp/**/*.js'
   base:
