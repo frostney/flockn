@@ -65,7 +65,7 @@ Philosophy
 * Pluggable
 * Over-simplification of things. Examples:
   * A flockn game instance binds scenes on itself. In other game engines, a scene director usually handles it and is mounted to the game/application instance
-  * A texture can either be an image, a text, a color or a combination of these
+  * A texture can either be an image, a text, a color or a combination of these. In other game engines, a texture only holds the data of a texture whereas other objects need a texture to display anything on the screen
 * Functions are the best way to describe an object
 * Split entity-component model into 
     * Game objects (base object)
