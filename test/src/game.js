@@ -22,13 +22,6 @@ describe('flockn/game', function () {
 
       expect(game).to.be.an.instanceOf(Base);
     });
-
-    it('new is optional', function() {
-      var game = Game();
-
-      expect(game).to.be.a('object');
-      expect(game).to.be.an.instanceOf(Game);
-    });
   });
 
   describe('properties', function() {
