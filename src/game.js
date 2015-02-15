@@ -15,12 +15,6 @@ var root = window;
 // Any number of `Scene` instances can be attached to a `Game` instance
 class Game extends Base {
   constructor(descriptor) {
-    // The new operator does not need to be set explicitly.
-    // If it isn't we return an instance of `Game`
-    if (!this || !this instanceof Game) {
-      return new Game(descriptor);
-    }
-
     // Extend the `Base` class
     super('Game', descriptor);
 
