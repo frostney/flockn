@@ -59,7 +59,7 @@ Features
 Philosophy
 ----------
 * Friendly to JavaScript transpilers: CoffeeScript, TypeScript and more
-* Transpilers optional: You don't need to use a transpiler though if you don't want to
+* Transpilers are optional though: You don't need to use a transpiler with `flockn`
 * Lightweight
 * Events everywhere (Having an `EventEmitter`-like interface)
 * Pluggable
@@ -106,7 +106,7 @@ Some decisions that need to be made
 
 Building for yourself
 ---------------------
-flockn uses Grunt as its task runner
+flockn uses Grunt as its task runner.
 Grunt can either be installed through `npm install -g grunt-cli` or you can use it as a local dependency.
 After that, navigate to the flockn root folder and type `npm install` to install all necessary dependencies.  
 
@@ -114,4 +114,4 @@ Type `grunt` (or `npm run grunt`) to build everything. You also need to have Bow
 
 License
 -------
-This is public domain. If public domain does not work for you, you can use MIT alternatively.
+This is public domain (UNLICENSE). If public domain does not work for you, you can use MIT alternatively.
