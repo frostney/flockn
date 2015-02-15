@@ -358,12 +358,6 @@ define('flockn/game', ["exports", "module", "gameboard/loop", "gameboard/assetlo
       var _this = this;
       _classCallCheck(this, Game);
 
-      // The new operator does not need to be set explicitly.
-      // If it isn't we return an instance of `Game`
-      if (!this || !this instanceof Game) {
-        return new Game(descriptor);
-      }
-
       // Extend the `Base` class
       Base.call(this, "Game", descriptor);
 
@@ -1033,6 +1027,18 @@ define('flockn/group', ["exports", "module", "gameboard", "flockn/serialize"], f
 });
 
 // TODO: There needs to be a parser here
+
+define('flockn', ["exports", "module", "flockn/game"], function (exports, module, _flocknGame) {
+  "use strict";
+
+  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+
+  var Game = _interopRequire(_flocknGame);
+
+  module.exports = function (descriptor) {
+    return new Game(descriptor);
+  };
+});
 
 define('flockn/input/mouse', ["exports", "flockn/types/vector2"], function (exports, _flocknTypesVector2) {
   "use strict";
