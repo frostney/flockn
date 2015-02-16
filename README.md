@@ -14,10 +14,11 @@ How does it work?
 -----------------
 
 ```javascript
-import Game from 'flockn/game';
+import flockn from 'flockn';
 
 // Create a game instance, no need to store it as a variable
-new Game(function() {
+// Using the flockn module is a shorthand for: import Game from 'flockn/game'; new Game(function() { ...
+flockn(function() {
   // The logic for the game itself
 
   // Add a scene to the game
