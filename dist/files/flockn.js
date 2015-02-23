@@ -93,11 +93,8 @@ define('flockn/base', ["exports", "module", "eventmap", "gameboard", "flockn/aud
       // `Input` should be available in instances derived from `Base`
       this.input = Input;
 
-      // As should `Audio`...
+      // As should `Audio`
       this.audio = Audio;
-
-      // ...and `World`
-      this.world = World;
 
       // Emit an event
       this.trigger("constructed");
@@ -114,7 +111,7 @@ define('flockn/base', ["exports", "module", "eventmap", "gameboard", "flockn/aud
         // Call the `descriptor` property with `args`
 
         // Game, world, data
-        this.descriptor.call(this, [{}, this.world, data]);
+        this.descriptor.call(this, data, World);
 
         // Trigger an event
         this.trigger("execute");
@@ -1028,16 +1025,36 @@ define('flockn/group', ["exports", "module", "gameboard", "flockn/serialize"], f
 
 // TODO: There needs to be a parser here
 
-define('flockn', ["exports", "module", "flockn/game"], function (exports, module, _flocknGame) {
+define('flockn', ["exports", "module", "flockn/game", "flockn/gameobject", "flockn/scene", "flockn/behavior"], function (exports, module, _flocknGame, _flocknGameobject, _flocknScene, _flocknBehavior) {
   "use strict";
 
   var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 
   var Game = _interopRequire(_flocknGame);
 
-  module.exports = function (descriptor) {
+  var GameObject = _interopRequire(_flocknGameobject);
+
+  var Scene = _interopRequire(_flocknScene);
+
+  var Behavior = _interopRequire(_flocknBehavior);
+
+  var flockn = function flockn(descriptor) {
     return new Game(descriptor);
   };
+
+  flockn.gameObject = function (name, factory) {
+    return GameObject.define(name, factory);
+  };
+
+  flockn.scene = function (name, factory) {
+    return Scene.define(name, factory);
+  };
+
+  flockn.behavior = function (name, factory) {
+    return Behavior.define(name, factory);
+  };
+
+  module.exports = flockn;
 });
 
 define('flockn/input/mouse', ["exports", "flockn/types/vector2"], function (exports, _flocknTypesVector2) {
