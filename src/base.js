@@ -61,11 +61,8 @@ class Base extends EventMap {
     // `Input` should be available in instances derived from `Base`
     this.input = Input;
 
-    // As should `Audio`...
+    // As should `Audio`
     this.audio = Audio;
-
-    // ...and `World`
-    this.world = World;
 
     // Emit an event
     this.trigger('constructed');
@@ -80,7 +77,7 @@ class Base extends EventMap {
       // Call the `descriptor` property with `args`
 
       // Game, world, data
-      this.descriptor.call(this, [{}, this.world, data]);
+      this.descriptor.call(this, data, World);
 
       // Trigger an event
       this.trigger('execute');
