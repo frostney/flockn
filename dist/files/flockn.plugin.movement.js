@@ -1,4 +1,4 @@
-define('flockn/plugins/movement', ["exports", "flockn/behavior", "flockn/model", "gameboard"], function (exports, _flocknBehavior, _flocknModel, _gameboard) {
+define('flockn/plugins/movement', ["exports", "flockn/behavior", "flockn/model", "gamebox"], function (exports, _flocknBehavior, _flocknModel, _gamebox) {
   "use strict";
 
   var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
@@ -7,7 +7,7 @@ define('flockn/plugins/movement', ["exports", "flockn/behavior", "flockn/model",
 
   var Model = _interopRequire(_flocknModel);
 
-  var Input = _gameboard.Input;
+  var Input = _gamebox.Input;
 
 
   var keyData = new Model();

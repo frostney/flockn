@@ -16,7 +16,7 @@ define('flockn/audio', ["exports", "module"], function (exports, module) {
   module.exports = Audio;
 });
 
-define('flockn/base', ["exports", "module", "eventmap", "gameboard", "flockn/audio", "flockn/group", "flockn/world"], function (exports, module, _eventmap, _gameboard, _flocknAudio, _flocknGroup, _flocknWorld) {
+define('flockn/base', ["exports", "module", "eventmap", "gamebox", "flockn/audio", "flockn/group", "flockn/world"], function (exports, module, _eventmap, _gamebox, _flocknAudio, _flocknGroup, _flocknWorld) {
   "use strict";
 
   var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
@@ -27,7 +27,7 @@ define('flockn/base', ["exports", "module", "eventmap", "gameboard", "flockn/aud
 
   var EventMap = _interopRequire(_eventmap);
 
-  var Input = _gameboard.Input;
+  var Input = _gamebox.Input;
   var Audio = _interopRequire(_flocknAudio);
 
   var Group = _interopRequire(_flocknGroup);
@@ -317,7 +317,7 @@ define('flockn/constants/color', ["exports", "module"], function (exports, modul
   module.exports = colors;
 });
 
-define('flockn/game', ["exports", "module", "gameboard/loop", "gameboard/assetloader", "flockn/base", "flockn/graphics", "flockn/scene", "flockn/types/color", "flockn/viewport", "flockn/mixins"], function (exports, module, _gameboardLoop, _gameboardAssetloader, _flocknBase, _flocknGraphics, _flocknScene, _flocknTypesColor, _flocknViewport, _flocknMixins) {
+define('flockn/game', ["exports", "module", "gamebox/loop", "gamebox/assetloader", "flockn/base", "flockn/graphics", "flockn/scene", "flockn/types/color", "flockn/viewport", "flockn/mixins"], function (exports, module, _gameboxLoop, _gameboxAssetloader, _flocknBase, _flocknGraphics, _flocknScene, _flocknTypesColor, _flocknViewport, _flocknMixins) {
   "use strict";
 
   var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
@@ -326,9 +326,9 @@ define('flockn/game', ["exports", "module", "gameboard/loop", "gameboard/assetlo
 
   var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 
-  var Loop = _interopRequire(_gameboardLoop);
+  var Loop = _interopRequire(_gameboxLoop);
 
-  var AssetLoader = _interopRequire(_gameboardAssetloader);
+  var AssetLoader = _interopRequire(_gameboxAssetloader);
 
   var Base = _interopRequire(_flocknBase);
 
@@ -772,14 +772,14 @@ define('flockn/graphics/rootelement', ["exports", "module"], function (exports, 
   module.exports = createRootElement;
 });
 
-define('flockn/group', ["exports", "module", "gameboard", "flockn/serialize"], function (exports, module, _gameboard, _flocknSerialize) {
+define('flockn/group', ["exports", "module", "gamebox", "flockn/serialize"], function (exports, module, _gamebox, _flocknSerialize) {
   "use strict";
 
   var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 
   var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 
-  var Log = _gameboard.Log;
+  var Log = _gamebox.Log;
   var serialize = _interopRequire(_flocknSerialize);
 
   var unidentified = "untitled";
@@ -1376,6 +1376,24 @@ define('flockn/scene', ["exports", "module", "flockn/base", "flockn/gameobject",
   storable(Scene);
 
   module.exports = Scene;
+});
+
+define('flockn/selector', ["exports", "module"], function (exports, module) {
+  "use strict";
+
+  var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+
+  var Selector = (function () {
+    function Selector(selectorString) {
+      _classCallCheck(this, Selector);
+    }
+
+    Selector.prototype.parse = function parse() {};
+
+    return Selector;
+  })();
+
+  module.exports = Selector;
 });
 
 define('flockn/serialize', ["exports", "module", "eventmap"], function (exports, module, _eventmap) {
