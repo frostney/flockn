@@ -1,7 +1,7 @@
 import Behavior from 'flockn/behavior';
 import Model from 'flockn/model';
 
-import {Input} from 'gameboard';
+import {Input} from 'gamebox';
 
 var keyData = new Model();
 

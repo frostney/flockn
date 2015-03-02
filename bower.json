@@ -1,6 +1,6 @@
 {
   "name": "flockn",
-  "version": "0.1.0-alpha4",
+  "version": "0.1.0-alpha5",
   "homepage": "https://github.com/freezedev/flockn",
   "authors": [
     "Johannes Stein <johannesstein@freeze-dev.com>"
@@ -29,7 +29,7 @@
   ],
   "dependencies": {
     "eventmap": "~1.5.0",
-    "gameboard": "0.2.0-alpha7"
+    "gamebox": "0.2.0-alpha9"
   },
   "devDependencies": {
     "almond": "~0.3.0",

@@ -1,4 +1,4 @@
-import {Log} from 'gameboard';
+import {Log} from 'gamebox';
 import serialize from 'flockn/serialize';
 
 var unidentified = 'untitled';

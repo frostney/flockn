@@ -1,6 +1,6 @@
 import EventMap from 'eventmap';
 
-import {Input} from 'gameboard';
+import {Input} from 'gamebox';
 
 import Audio from 'flockn/audio';
 import Group from 'flockn/group';
