@@ -17,7 +17,8 @@ How does it work?
 import flockn from 'flockn';
 
 // Create a game instance, no need to store it as a variable
-// Using the flockn module is a shorthand for: import Game from 'flockn/game'; new Game(function() { ...
+// Using the flockn module is a shorthand for: 
+//    import Game from 'flockn/game'; new Game(function() { ...
 flockn(function() {
   // The logic for the game itself
 
