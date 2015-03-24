@@ -28,6 +28,7 @@
   },
   "homepage": "https://github.com/freezedev/flockn",
   "devDependencies": {
+    "babel-loader": "^4.2.0",
     "chai": "^2.1.2",
     "grunt": "^0.4.5",
     "grunt-amd-tamer": "^0.1.13",
@@ -53,6 +54,7 @@
     "karma-commonjs": "0.0.13",
     "karma-mocha": "^0.1.10",
     "karma-phantomjs-launcher": "^0.1.4",
+    "karma-webpack": "^1.5.0",
     "load-grunt-config": "^0.16.0",
     "metalsmith-collections": "^0.7.0",
     "metalsmith-markdown": "^0.2.1",
@@ -60,10 +62,11 @@
     "metalsmith-stylus": "^0.2.1",
     "metalsmith-templates": "^0.6.0",
     "mocha": "^2.2.1",
-    "time-grunt": "^1.0.0"
+    "time-grunt": "^1.0.0",
+    "webpack": "^1.7.3"
   },
   "dependencies": {
     "eventmap": "^1.6.0",
-    "gamebox": "^0.2.0-alpha9"
+    "gamebox": "^0.2.0-alpha10"
   }
 }
