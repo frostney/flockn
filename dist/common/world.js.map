@@ -1,0 +1,1 @@
+{"version":3,"sources":["src/world.js"],"names":[],"mappings":";;;;IAAO,KAAK,2BAAM,cAAc;;;AAGhC,IAAI,KAAK,GAAG,IAAI,KAAK,EAAE,CAAC;;iBAET,KAAK","file":"src/world.js","sourcesContent":["import Model from 'flockn/model';\n\n// `World` is an instance of a model\nvar world = new Model();\n\nexport default world;\n"]}

@@ -1,0 +1,1 @@
+{"version":3,"sources":["src/audio.js"],"names":[],"mappings":";;AAAA,IAAI,KAAK,GAAG,EAAE,CAAC;;AAEf,KAAK,CAAC,IAAI,GAAG,YAAW,EAEvB,CAAC;;iBAEa,KAAK","file":"src/audio.js","sourcesContent":["var Audio = {};\n\nAudio.play = function() {\n\n};\n\nexport default Audio;\n"]}
