@@ -2,7 +2,7 @@
   "name": "flockn",
   "version": "0.1.0-alpha5",
   "description": "Micro game engine",
-  "main": "dist/flockn.all.js",
+  "main": "dist/common/index.js",
   "directories": {
     "example": "examples",
     "test": "test"
@@ -28,6 +28,7 @@
   },
   "homepage": "https://github.com/freezedev/flockn",
   "devDependencies": {
+    "chai": "^2.1.2",
     "grunt": "^0.4.5",
     "grunt-amd-tamer": "^0.1.13",
     "grunt-babel": "^4.0.0",
@@ -39,17 +40,26 @@
     "grunt-contrib-uglify": "^0.7.0",
     "grunt-gh-pages": "^0.10.0",
     "grunt-groc": "^0.5.0",
+    "grunt-karma": "^0.10.1",
     "grunt-metalsmith": "^1.0.0",
     "grunt-mocha": "^0.4.11",
     "handlebars": "^3.0.0",
     "jade": "^1.3.1",
     "jit-grunt": "^0.9.0",
+    "karma": "^0.12.31",
+    "karma-babel-preprocessor": "^4.0.1",
+    "karma-chai": "^0.1.0",
+    "karma-chrome-launcher": "^0.1.7",
+    "karma-commonjs": "0.0.13",
+    "karma-mocha": "^0.1.10",
+    "karma-phantomjs-launcher": "^0.1.4",
     "load-grunt-config": "^0.16.0",
     "metalsmith-collections": "^0.7.0",
     "metalsmith-markdown": "^0.2.1",
     "metalsmith-navigation": "^0.1.0",
     "metalsmith-stylus": "^0.2.1",
     "metalsmith-templates": "^0.6.0",
+    "mocha": "^2.2.1",
     "time-grunt": "^1.0.0"
   },
   "dependencies": {
