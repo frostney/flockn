@@ -7,10 +7,10 @@ module.exports = function (config) {
     basePath: '',
     frameworks: ['mocha', 'chai'],
     files: [
-      'test/src/**/*.js'
+      'test/**/*.js'
     ],
     preprocessors: {
-      'test/src/**/*.js': ['webpack']
+      'test/**/*.js': ['webpack']
     },
     webpack: {
       devtool: 'inline-source-map',
