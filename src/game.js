@@ -1,5 +1,4 @@
-import Loop from 'gamebox/loop';
-import AssetLoader from 'gamebox/assetloader';
+import {Loop, AssetLoader} from 'gamebox';
 
 import Base from 'flockn/base';
 import Graphics from 'flockn/graphics';
