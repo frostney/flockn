@@ -11,6 +11,7 @@ var isStatic = checkForFlag("static");
 //  interactive property
 var updatable = function updateable() {
   var _this = this;
+
   // Update all children
   this.on("update", function (dt) {
     if (!isStatic.call(_this)) {

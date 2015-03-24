@@ -8,6 +8,7 @@ var _flocknTypes = require("flockn/types");
 
 var Color = _flocknTypes.Color;
 var Vector2 = _flocknTypes.Vector2;
+
 var serializable = _interopRequire(require("flockn/mixins/serializable"));
 
 var TextureImage = (function () {
@@ -25,11 +26,12 @@ var TextureImage = (function () {
     var filename = "";
 
     Object.defineProperty(this, "filename", {
-      get: function () {
+      get: function get() {
         return filename;
       },
-      set: function (value) {
+      set: function set(value) {
         var _this = this;
+
         filename = value;
 
         // TODO: Most of this should already be handled by the preloader

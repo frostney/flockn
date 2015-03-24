@@ -6,6 +6,7 @@ define('flockn/plugins/collision', ["exports", "flockn/behavior"], function (exp
   var Behavior = _interopRequire(_flocknBehavior);
 
   Behavior.define("collision", function () {
+
     this.update(function (dt) {});
   });
 });

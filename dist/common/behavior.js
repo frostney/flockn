@@ -17,15 +17,14 @@ var updateable = _flocknMixins.updateable;
 var serializable = _flocknMixins.serializable;
 var storable = _flocknMixins.storable;
 
-
-
 // Behaviors only provide logic. There is no rendering involved.
 // Behaviors can attach any number of behaviors to itself
-var Behavior = (function (Base) {
+
+var Behavior = (function (_Base) {
   function Behavior(descriptor) {
     _classCallCheck(this, Behavior);
 
-    Base.call(this, "Behavior", descriptor);
+    _Base.call(this, "Behavior", descriptor);
 
     // Reference to the game object itself
     this.gameObject = null;
@@ -34,7 +33,7 @@ var Behavior = (function (Base) {
     updateable.call(this);
   }
 
-  _inherits(Behavior, Base);
+  _inherits(Behavior, _Base);
 
   Behavior.prototype.addBehavior = function addBehavior() {
     // When a behavior is added, the reference to the game object is set

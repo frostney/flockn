@@ -1,6 +1,6 @@
 "use strict";
 
-var storable = function (Factory) {
+var storable = function storable(Factory) {
   Factory.store = {};
 
   Factory.define = function (name, factory) {

@@ -9,6 +9,7 @@ var _classCallCheck = function (instance, Constructor) { if (!(instance instance
 var EventMap = _interopRequire(require("eventmap"));
 
 var Input = require("gamebox").Input;
+
 var Audio = _interopRequire(require("flockn/audio"));
 
 var Group = _interopRequire(require("flockn/group"));
@@ -19,7 +20,7 @@ var objectIndex = 0;
 
 var prependMax = 10000;
 
-var numToIdString = function (num) {
+var numToIdString = function numToIdString(num) {
   var stringNum = num + "";
 
   if (num >= prependMax) {
@@ -34,13 +35,14 @@ var numToIdString = function (num) {
   }
 };
 
-var Base = (function (EventMap) {
+var Base = (function (_EventMap) {
   function Base() {
     var type = arguments[0] === undefined ? "Base" : arguments[0];
     var descriptor = arguments[1] === undefined ? function () {} : arguments[1];
+
     _classCallCheck(this, Base);
 
-    EventMap.call(this);
+    _EventMap.call(this);
 
     // Count up `objectIndex` and stringify it
     var currentObject = numToIdString(++objectIndex);
@@ -53,7 +55,7 @@ var Base = (function (EventMap) {
 
     // The `id` property is read-only and returns the type and the stringified object index
     Object.defineProperty(this, "id", {
-      get: function () {
+      get: function get() {
         return internalId;
       },
       enumerable: true
@@ -81,7 +83,7 @@ var Base = (function (EventMap) {
     this.trigger("constructed");
   }
 
-  _inherits(Base, EventMap);
+  _inherits(Base, _EventMap);
 
   Base.prototype.apply = function apply(data) {
     // TODO: Reflect if function check should be enforced here
@@ -119,6 +121,7 @@ var Base = (function (EventMap) {
   };
 
   // Alias for `Base#call`
+
   Base.prototype.reset = function reset() {
     return this.call.apply(this, arguments);
   };

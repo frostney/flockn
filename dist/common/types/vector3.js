@@ -1,10 +1,10 @@
 "use strict";
 
-var _prototypeProperties = function (child, staticProps, instanceProps) { if (staticProps) Object.defineProperties(child, staticProps); if (instanceProps) Object.defineProperties(child.prototype, instanceProps); };
+var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
 var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 
-var sqrMagnitude = function (v) {
+var sqrMagnitude = function sqrMagnitude(v) {
   return Vector3.dot(v, v);
 };
 
@@ -13,6 +13,7 @@ var Vector3 = (function () {
     var x = arguments[0] === undefined ? 0 : arguments[0];
     var y = arguments[1] === undefined ? 0 : arguments[1];
     var z = arguments[2] === undefined ? 0 : arguments[2];
+
     _classCallCheck(this, Vector3);
 
     this.set(x, y, z);
@@ -22,6 +23,7 @@ var Vector3 = (function () {
     var x = arguments[0] === undefined ? 0 : arguments[0];
     var y = arguments[1] === undefined ? 0 : arguments[1];
     var z = arguments[2] === undefined ? 0 : arguments[2];
+
     this.x = x;
     this.y = y;
     this.z = z;
@@ -119,18 +121,16 @@ var Vector3 = (function () {
     return new Vector3(0, 0, 0);
   };
 
-  _prototypeProperties(Vector3, null, {
+  _createClass(Vector3, {
     magnitude: {
       get: function () {
         return Math.sqrt(sqrMagnitude(this));
-      },
-      configurable: true
+      }
     },
     sqrMagnitude: {
       get: function () {
         return sqrMagnitude(this);
-      },
-      configurable: true
+      }
     }
   });
 

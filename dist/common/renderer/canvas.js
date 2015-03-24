@@ -5,6 +5,7 @@ var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? ob
 var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 
 var Vector2 = require("flockn/types").Vector2;
+
 var Graphics = _interopRequire(require("flockn/graphics"));
 
 var createRootElement = _interopRequire(require("flockn/graphics/rootelement"));

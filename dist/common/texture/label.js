@@ -5,6 +5,7 @@ var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["defau
 var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 
 var Color = require("flockn/types").Color;
+
 var serializable = _interopRequire(require("flockn/mixins/serializable"));
 
 var TextureLabel = function TextureLabel(texture) {
@@ -29,10 +30,10 @@ var TextureLabel = function TextureLabel(texture) {
   var text = "";
 
   Object.defineProperty(this, "text", {
-    get: function () {
+    get: function get() {
       return text;
     },
-    set: function (value) {
+    set: function set(value) {
       text = value;
 
       // Calculate the size of the label and update the dimensions

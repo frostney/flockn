@@ -67,7 +67,6 @@ serialize.toJSON = function (obj, replacer) {
 
   var replacers = [].concat.apply([], [serialize.json.defaultReplacer, replacer]);
 
-
   for (var key in obj) {
     (function (key, value) {
       if (!Object.hasOwnProperty.call(obj, key)) {

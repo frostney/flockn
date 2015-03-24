@@ -18,15 +18,15 @@ var updateable = _flocknMixins.updateable;
 var serializable = _flocknMixins.serializable;
 var storable = _flocknMixins.storable;
 
-
 // A `Scene` instance is a layer for `GameObject` instances.
 // Any number of game objects can be added to a scene. Only one scene should be visible at the same time, depending
 // on what was set in the `activeScene` property of a `Game` instance.
-var Scene = (function (Base) {
+
+var Scene = (function (_Base) {
   function Scene(descriptor) {
     _classCallCheck(this, Scene);
 
-    Base.call(this, "Scene", descriptor);
+    _Base.call(this, "Scene", descriptor);
 
     this.visible = true;
 
@@ -35,7 +35,7 @@ var Scene = (function (Base) {
     updateable.call(this);
   }
 
-  _inherits(Scene, Base);
+  _inherits(Scene, _Base);
 
   Scene.prototype.addGameObject = function addGameObject() {
     // Allow game objects to be added to scenes

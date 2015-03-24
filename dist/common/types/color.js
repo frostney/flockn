@@ -14,6 +14,7 @@ var Color = (function () {
     var g = arguments[1] === undefined ? 0 : arguments[1];
     var b = arguments[2] === undefined ? 0 : arguments[2];
     var a = arguments[3] === undefined ? 1 : arguments[3];
+
     _classCallCheck(this, Color);
 
     this.set(r, g, b, a);
@@ -24,6 +25,7 @@ var Color = (function () {
     var g = arguments[1] === undefined ? 0 : arguments[1];
     var b = arguments[2] === undefined ? 0 : arguments[2];
     var a = arguments[3] === undefined ? 1 : arguments[3];
+
     this.r = r;
     this.g = g;
     this.b = b;
@@ -85,6 +87,7 @@ var Color = (function () {
   };
 
   // Getting a random color for debugging is quite useful sometimes
+
   Color.random = function random() {
     var col = [0, 0, 0];
 

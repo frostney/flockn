@@ -1,10 +1,10 @@
 "use strict";
 
-var _prototypeProperties = function (child, staticProps, instanceProps) { if (staticProps) Object.defineProperties(child, staticProps); if (instanceProps) Object.defineProperties(child.prototype, instanceProps); };
+var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
 var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 
-var sqrMagnitude = function (v) {
+var sqrMagnitude = function sqrMagnitude(v) {
   return Vector2.dot(v, v);
 };
 
@@ -12,6 +12,7 @@ var Vector2 = (function () {
   function Vector2() {
     var x = arguments[0] === undefined ? 0 : arguments[0];
     var y = arguments[1] === undefined ? 0 : arguments[1];
+
     _classCallCheck(this, Vector2);
 
     this.set(x, y);
@@ -20,6 +21,7 @@ var Vector2 = (function () {
   Vector2.prototype.set = function set() {
     var x = arguments[0] === undefined ? 0 : arguments[0];
     var y = arguments[1] === undefined ? 0 : arguments[1];
+
     this.x = x;
     this.y = y;
   };
@@ -91,24 +93,21 @@ var Vector2 = (function () {
     return this.x === v.x && this.y === v.y;
   };
 
-  _prototypeProperties(Vector2, null, {
+  _createClass(Vector2, {
     magnitude: {
       get: function () {
         return Math.sqrt(sqrMagnitude(this));
-      },
-      configurable: true
+      }
     },
     sqrMagnitude: {
       get: function () {
         return sqrMagnitude(this);
-      },
-      configurable: true
+      }
     },
     angle: {
       get: function () {
         return Math.atan2(this.x, this.y);
-      },
-      configurable: true
+      }
     }
   });
 

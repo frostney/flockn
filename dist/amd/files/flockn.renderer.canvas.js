@@ -4,12 +4,12 @@ define('flockn/renderer/canvas', ["exports", "flockn/types", "flockn/graphics", 
   var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 
   var Vector2 = _flocknTypes.Vector2;
+
   var Graphics = _interopRequire(_flocknGraphics);
 
   var createRootElement = _interopRequire(_flocknGraphicsRootelement);
 
   var mouse = _flocknInputMouse;
-
 
   Graphics.renderer = "Canvas";
 

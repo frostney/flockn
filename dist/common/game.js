@@ -27,18 +27,19 @@ var renderable = _flocknMixins.renderable;
 var updateable = _flocknMixins.updateable;
 var serializable = _flocknMixins.serializable;
 
-
 var root = window;
 
 // Game is the entry point for all games made with flockn.
 // Any number of `Scene` instances can be attached to a `Game` instance
-var Game = (function (Base) {
+
+var Game = (function (_Base) {
   function Game(descriptor) {
     var _this = this;
+
     _classCallCheck(this, Game);
 
     // Extend the `Base` class
-    Base.call(this, "Game", descriptor);
+    _Base.call(this, "Game", descriptor);
 
     // `this.container` is a string, which is the id of the element.
     // If it's not given, it should create a new element. This should be handled by the renderer.
@@ -101,7 +102,7 @@ var Game = (function (Base) {
     }, false);
   }
 
-  _inherits(Game, Base);
+  _inherits(Game, _Base);
 
   Game.prototype.addScene = function addScene() {
     // When adding a scene, the dimension of scenes should be
@@ -138,6 +139,7 @@ var Game = (function (Base) {
 
   Game.prototype.run = function run(name) {
     var _this = this;
+
     this.on("executed", function () {
       // Start the game loop
       Loop.run();

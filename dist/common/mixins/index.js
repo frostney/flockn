@@ -2,6 +2,10 @@
 
 var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
 var addable = _interopRequire(require("flockn/mixins/addable"));
 
 var renderable = _interopRequire(require("flockn/mixins/renderable"));
@@ -17,7 +21,4 @@ exports.renderable = renderable;
 exports.updateable = updateable;
 exports.serializable = serializable;
 exports.storable = storable;
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
 //# sourceMappingURL=index.js.map

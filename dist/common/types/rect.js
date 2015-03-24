@@ -12,6 +12,7 @@ var Rect = (function () {
     var y = arguments[1] === undefined ? 0 : arguments[1];
     var w = arguments[2] === undefined ? 0 : arguments[2];
     var h = arguments[3] === undefined ? 0 : arguments[3];
+
     _classCallCheck(this, Rect);
 
     this.x = x;

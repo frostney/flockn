@@ -2,7 +2,7 @@
 
 var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 
-var _prototypeProperties = function (child, staticProps, instanceProps) { if (staticProps) Object.defineProperties(child, staticProps); if (instanceProps) Object.defineProperties(child.prototype, instanceProps); };
+var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
 var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
 
@@ -28,6 +28,7 @@ var Vector2 = _flocknTypes.Vector2;
 var Vector3 = _flocknTypes.Vector3;
 var Color = _flocknTypes.Color;
 var Rect = _flocknTypes.Rect;
+
 var _flocknMixins = require("flockn/mixins");
 
 var addable = _flocknMixins.addable;
@@ -35,12 +36,14 @@ var renderable = _flocknMixins.renderable;
 var updateable = _flocknMixins.updateable;
 var serializable = _flocknMixins.serializable;
 var storable = _flocknMixins.storable;
-var GameObject = (function (Base) {
+
+var GameObject = (function (_Base) {
   function GameObject(descriptor) {
     var _this = this;
+
     _classCallCheck(this, GameObject);
 
-    Base.call(this, "GameObject", descriptor);
+    _Base.call(this, "GameObject", descriptor);
 
     this.visible = true;
 
@@ -108,7 +111,7 @@ var GameObject = (function (Base) {
     updateable.call(this);
   }
 
-  _inherits(GameObject, Base);
+  _inherits(GameObject, _Base);
 
   GameObject.prototype.bounds = function bounds() {
     // TODO: Also take care of scale
@@ -155,6 +158,7 @@ var GameObject = (function (Base) {
 
       var animateName = "animate-" + Date.now();
       this.on(animateName, function (dt) {
+
         this.off(animateName);
       });
     }
@@ -162,15 +166,14 @@ var GameObject = (function (Base) {
 
   GameObject.fromString = function fromString() {};
 
-  _prototypeProperties(GameObject, null, {
+  _createClass(GameObject, {
     left: {
       get: function () {
         return this.position.x;
       },
       set: function (value) {
         this.position.x = value;
-      },
-      configurable: true
+      }
     },
     top: {
       get: function () {
@@ -178,8 +181,7 @@ var GameObject = (function (Base) {
       },
       set: function (value) {
         this.position.y = value;
-      },
-      configurable: true
+      }
     },
     right: {
       get: function () {
@@ -187,8 +189,7 @@ var GameObject = (function (Base) {
       },
       set: function (value) {
         this.position.x = this.parent.width - this.width - value;
-      },
-      configurable: true
+      }
     },
     bottom: {
       get: function () {
@@ -196,8 +197,7 @@ var GameObject = (function (Base) {
       },
       set: function (value) {
         this.position.y = this.parent.height - this.height - value;
-      },
-      configurable: true
+      }
     }
   });
 

@@ -12,11 +12,11 @@ var mouse = _interopRequireWildcard(require("flockn/input/mouse"));
 
 var root = window;
 
-var pixelize = function (num) {
+var pixelize = function pixelize(num) {
   return num + "px";
 };
 
-var unpixelize = function (str) {
+var unpixelize = function unpixelize(str) {
   return parseFloat(str) || 0;
 };
 
@@ -83,7 +83,6 @@ Graphics.on("add", function (obj) {
           obj.trigger(mouse.relativePosition(evt, rootElement, obj));
         });
       });
-
 
       // Mouseenter and Mouseleave are kinda special right now
       root.addEventListener("mouseenter", function (evt) {

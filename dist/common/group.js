@@ -5,6 +5,7 @@ var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["defau
 var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 
 var Log = require("gamebox").Log;
+
 var serialize = _interopRequire(require("flockn/serialize"));
 
 var unidentified = "untitled";
@@ -24,10 +25,10 @@ var Group = (function () {
 
   Group.prototype.push = function push(obj) {
     var _this = this;
+
     var name = obj.name;
     var tags = obj.tags;
     var id = obj.id;
-
 
     name = name || unidentified + unidentifiedCounter++;
     id = id || unidentified + unidentifiedCounter++;
@@ -72,6 +73,7 @@ var Group = (function () {
 
   Group.prototype.values = function values() {
     var _this = this;
+
     return Object.keys(this.ids).filter(function (id) {
       return id != null;
     }).map(function (id) {
@@ -82,7 +84,17 @@ var Group = (function () {
   Group.prototype.all = function all(filter) {
     var objects = [];
 
-    var recurse = function (group) {
+    var recurse = (function (_recurse) {
+      var _recurseWrapper = function recurse(_x) {
+        return _recurse.apply(this, arguments);
+      };
+
+      _recurseWrapper.toString = function () {
+        return _recurse.toString();
+      };
+
+      return _recurseWrapper;
+    })(function (group) {
       group.forEach(function (obj) {
         if (filter) {
           if (filter(obj)) {
@@ -96,7 +108,7 @@ var Group = (function () {
           recurse(obj.children);
         }
       });
-    };
+    });
 
     recurse(this);
 
@@ -133,6 +145,7 @@ var Group = (function () {
 
   Group.prototype.byType = function byType(type) {
     var _this = this;
+
     return this.types[type].map(function (index) {
       return _this[index];
     });
@@ -146,6 +159,7 @@ var Group = (function () {
 
   Group.prototype.byTag = function byTag(tag) {
     var _this = this;
+
     return this.tags[tag].map(function (index) {
       return _this[index];
     });
@@ -193,6 +207,7 @@ var Group = (function () {
 
   Group.prototype.remove = function remove(index) {
     var _this = this;
+
     var id = Object.keys(ids)[index];
 
     var obj = this.ids[id];
@@ -203,7 +218,6 @@ var Group = (function () {
 
     var name = obj.name;
     var tags = obj.tags;
-
 
     this.ids[id] = null;
     this.names[name] = null;
@@ -230,6 +244,7 @@ var Group = (function () {
 
   Group.prototype.removeByTag = function removeByTag(tags) {
     var _this = this;
+
     if (!Array.isArray(tags)) {
       tags = [tags];
     }
@@ -246,5 +261,6 @@ var Group = (function () {
 })();
 
 module.exports = Group;
+
 // TODO: There needs to be a parser here
 //# sourceMappingURL=group.js.map

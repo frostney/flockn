@@ -7,6 +7,7 @@ var _inherits = function (subClass, superClass) { if (typeof superClass !== "fun
 var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 
 var Color = require("flockn/types").Color;
+
 var EventMap = _interopRequire(require("eventmap"));
 
 var TextureImage = _interopRequire(require("flockn/texture/image"));
@@ -15,12 +16,13 @@ var TextureLabel = _interopRequire(require("flockn/texture/label"));
 
 var serializable = _interopRequire(require("flockn/mixins/serializable"));
 
-var Texture = (function (EventMap) {
+var Texture = (function (_EventMap) {
   function Texture() {
     var _this = this;
+
     _classCallCheck(this, Texture);
 
-    EventMap.call(this);
+    _EventMap.call(this);
 
     // Set up dimensions
     this.width = 0;
@@ -46,7 +48,7 @@ var Texture = (function (EventMap) {
     });
   }
 
-  _inherits(Texture, EventMap);
+  _inherits(Texture, _EventMap);
 
   return Texture;
 })(EventMap);

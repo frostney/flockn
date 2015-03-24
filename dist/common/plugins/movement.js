@@ -8,7 +8,6 @@ var Model = _interopRequire(require("flockn/model"));
 
 var Input = require("gamebox").Input;
 
-
 var keyData = new Model();
 
 keyData.name = "keys";
@@ -22,12 +21,9 @@ var movements = ["up", "down", "left", "right"];
 Behavior.define("movement", function () {
   var _this = this;
 
-
   this.addModel(keyData);
 
   this.input.key.on("down", function (key) {
-
-
 
     var upKeys = _this.data("keys").get("up");
     if (!Array.isArray(upKeys)) {

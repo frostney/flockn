@@ -9,7 +9,6 @@ define('flockn/plugins/movement', ["exports", "flockn/behavior", "flockn/model",
 
   var Input = _gamebox.Input;
 
-
   var keyData = new Model();
 
   keyData.name = "keys";
@@ -23,12 +22,9 @@ define('flockn/plugins/movement', ["exports", "flockn/behavior", "flockn/model",
   Behavior.define("movement", function () {
     var _this = this;
 
-
     this.addModel(keyData);
 
     this.input.key.on("down", function (key) {
-
-
 
       var upKeys = _this.data("keys").get("up");
       if (!Array.isArray(upKeys)) {

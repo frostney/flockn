@@ -10,6 +10,7 @@ var isVisible = checkForFlag("visible");
 
 var renderable = function renderable() {
   var _this = this;
+
   this.on("render", function () {
     // Only render if element is visible
     if (!isVisible.call(_this)) {

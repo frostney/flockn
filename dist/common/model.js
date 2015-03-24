@@ -12,17 +12,18 @@ var _flocknMixins = require("flockn/mixins");
 
 var serializable = _flocknMixins.serializable;
 var storable = _flocknMixins.storable;
-var Model = (function (EventMap) {
+
+var Model = (function (_EventMap) {
   function Model() {
     _classCallCheck(this, Model);
 
-    EventMap.call(this);
+    _EventMap.call(this);
 
     // Store attribute data
     this.data = {};
   }
 
-  _inherits(Model, EventMap);
+  _inherits(Model, _EventMap);
 
   Model.prototype.get = function get(name) {
     // Get an attribute if it exists
