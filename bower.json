@@ -28,7 +28,7 @@
     "tests"
   ],
   "dependencies": {
-    "eventmap": "~1.5.0",
+    "eventmap": "~1.6.0",
     "gamebox": "0.2.0-alpha9"
   },
   "devDependencies": {
@@ -37,8 +37,5 @@
     "font-awesome": "~4.2.0",
     "mocha": "~2.1.0",
     "chai": "~1.10.0"
-  },
-  "resolutions": {
-    "eventmap": "~1.5.0"
   }
 }
