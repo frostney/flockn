@@ -75,30 +75,6 @@ Philosophy
     * Behaviors (logic) 
     * Models (data)
 
-Status of renderers
--------------------
-* DOM renderer: ~80%
-* Canvas renderer: ~60%
-
-Roadmap for next release
-------------------------
-- [X] Canvas renderer
-- [X] Serialization
-- [X] Deserialization
-- [X] Documentation
-- [ ] Examples
-- [X] Unit tests
-- [ ] Default behaviors (e.g. sprite animation, collision)
-- [ ] Audio
-- [ ] Preloader/Assetloader
-- [ ] Tweening
-- [ ] Github page
-
-Roadmap for future versions
----------------------------
-- [ ] [PIXI](https://github.com/GoodBoyDigital/pixi.js) renderer
-- [ ] WebGL renderer
-
 Some decisions that need to be made
 -----------------------------------
 - What is the best way to access game and world instances? Binding it to `this` doesn't seem logical, as its not a child from the object, but the other way around
