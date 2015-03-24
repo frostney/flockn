@@ -8,16 +8,16 @@ module.exports =
     options:
       footer: '\n//# sourceMappingURL=<%= package.name %>.all.js.map'
     files:
-      'dist/<%= package.name %>.all.js': 'tmp/**/*.js'
+      'dist/amd/<%= package.name %>.all.js': 'tmp/**/*.js'
   base:
     files:
-      'dist/files/<%= package.name %>.js': ['tmp/**/*.js', '!tmp/renderer/**/*.js', '!tmp/plugins/**/*.js']
+      'dist/amd/files/<%= package.name %>.js': ['tmp/**/*.js', '!tmp/renderer/**/*.js', '!tmp/plugins/**/*.js']
   renderer:
     files: [{
       expand: true
       cwd: 'tmp/renderer/'
       src: '*.js'
-      dest: 'dist/files/'
+      dest: 'dist/amd/files/'
       rename: (dest, src) ->
         "#{dest}<%= package.name %>.renderer.#{src}"
     }]
@@ -26,7 +26,7 @@ module.exports =
       expand: true
       cwd: 'tmp/plugins/'
       src: '*.js'
-      dest: 'dist/files/'
+      dest: 'dist/amd/files/'
       rename: (dest, src) ->
         "#{dest}<%= package.name %>.plugin.#{src}"
     }]
