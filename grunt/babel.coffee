@@ -20,12 +20,3 @@ module.exports =
       src: ['**/*.js'],
       dest: 'dist/common/'
     }]
-  test:
-    options:
-      modules: 'amd'
-    files: [{
-      expand: true,
-      cwd: 'test/src'
-      src: ['**/*.js']
-      dest: 'test/spec'
-    }]
