@@ -319,7 +319,7 @@ define('flockn/constants/color', ["exports", "module"], function (exports, modul
   module.exports = colors;
 });
 
-define('flockn/game', ["exports", "module", "gamebox/loop", "gamebox/assetloader", "flockn/base", "flockn/graphics", "flockn/scene", "flockn/types/color", "flockn/viewport", "flockn/mixins"], function (exports, module, _gameboxLoop, _gameboxAssetloader, _flocknBase, _flocknGraphics, _flocknScene, _flocknTypesColor, _flocknViewport, _flocknMixins) {
+define('flockn/game', ["exports", "module", "gamebox", "flockn/base", "flockn/graphics", "flockn/scene", "flockn/types/color", "flockn/viewport", "flockn/mixins"], function (exports, module, _gamebox, _flocknBase, _flocknGraphics, _flocknScene, _flocknTypesColor, _flocknViewport, _flocknMixins) {
   "use strict";
 
   var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
@@ -328,9 +328,8 @@ define('flockn/game', ["exports", "module", "gamebox/loop", "gamebox/assetloader
 
   var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 
-  var Loop = _interopRequire(_gameboxLoop);
-
-  var AssetLoader = _interopRequire(_gameboxAssetloader);
+  var Loop = _gamebox.Loop;
+  var AssetLoader = _gamebox.AssetLoader;
 
   var Base = _interopRequire(_flocknBase);
 
@@ -1744,14 +1743,14 @@ define('flockn/texture/label', ["exports", "module", "flockn/types", "flockn/mix
   module.exports = TextureLabel;
 });
 
-define('flockn/types/color', ["exports", "module", "clamp", "flockn/constants/color"], function (exports, module, _clamp, _flocknConstantsColor) {
+define('flockn/types/color', ["exports", "module", "gamebox/math/clamp", "flockn/constants/color"], function (exports, module, _gameboxMathClamp, _flocknConstantsColor) {
   "use strict";
 
   var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 
   var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 
-  var clamp = _interopRequire(_clamp);
+  var clamp = _interopRequire(_gameboxMathClamp);
 
   var colorConstants = _interopRequire(_flocknConstantsColor);
 

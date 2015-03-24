@@ -4,7 +4,7 @@ var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["defau
 
 var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 
-var clamp = _interopRequire(require("clamp"));
+var clamp = _interopRequire(require("gamebox/math/clamp"));
 
 var colorConstants = _interopRequire(require("flockn/constants/color"));
 

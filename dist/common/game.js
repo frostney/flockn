@@ -6,9 +6,10 @@ var _inherits = function (subClass, superClass) { if (typeof superClass !== "fun
 
 var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 
-var Loop = _interopRequire(require("gamebox/loop"));
+var _gamebox = require("gamebox");
 
-var AssetLoader = _interopRequire(require("gamebox/assetloader"));
+var Loop = _gamebox.Loop;
+var AssetLoader = _gamebox.AssetLoader;
 
 var Base = _interopRequire(require("flockn/base"));
 
