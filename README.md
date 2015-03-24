@@ -17,7 +17,8 @@ How does it work?
 import flockn from 'flockn';
 
 // Create a game instance, no need to store it as a variable
-// Using the flockn module is a shorthand for: import Game from 'flockn/game'; new Game(function() { ...
+// Using the flockn module is a shorthand for: 
+//    import Game from 'flockn/game'; new Game(function() { ...
 flockn(function() {
   // The logic for the game itself
 
@@ -50,7 +51,8 @@ flockn(function() {
 ```
 Putting everything in one file doesn't work for anything bigger than a small experiment, so I would recommend to
 to put each gameobjects, behaviors and scene in separate files. For a more real-life example, take a look at the
-template.
+[template](http://github.com/freezedev/flockn-template).
+There is also an online playground.
 
 Features
 --------
