@@ -1,4 +1,4 @@
-import clamp from 'clamp';
+import clamp from 'gamebox/math/clamp';
 import colorConstants from 'flockn/constants/color';
 
 class Color {
