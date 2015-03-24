@@ -1,20 +1,35 @@
 'use strict';
 
+var path = require('path');
+
 module.exports = function (config) {
   config.set({
     basePath: '',
-    frameworks: ['mocha', 'chai', 'commonjs'],
+    frameworks: ['mocha', 'chai'],
     files: [
-      'node_modules/eventmap/dist/eventmap.js',
-      'node_modules/karma-babel-preprocessor/node_modules/babel-core/browser-polyfill.js',
-      'src/**/*.js',
       'test/src/**/*.js'
     ],
     preprocessors: {
-      'node_modules/eventmap/dist/eventmap.js': ['commonjs'],
-      'src/**/*.js': ['babel', 'commonjs'],
-      'test/src/**/*.js': ['babel', 'commonjs']
+      'test/src/**/*.js': ['webpack']
     },
+    webpack: {
+      devtool: 'inline-source-map',
+      module: {
+        loaders: [
+          { test: /\.js$/, loader: 'babel-loader' }
+        ]
+      },
+      resolve: {
+        alias: {
+          'flockn': path.join(process.cwd(), 'dist/common')
+        }
+      }
+    },
+
+    webpackServer: {
+      noInfo: true
+    },
+    
     exclude: [],
     port: 8080,
     logLevel: config.LOG_INFO,
