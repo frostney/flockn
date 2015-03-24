@@ -3,15 +3,15 @@
 module.exports = function (config) {
   config.set({
     basePath: '',
-    frameworks: ['mocha', 'chai'],
+    frameworks: ['mocha', 'chai', 'commonjs'],
     files: [
       'node_modules/karma-babel-preprocessor/node_modules/babel-core/browser-polyfill.js',
       'src/**/*.js',
       'test/src/**/*.js'
     ],
     preprocessors: {
-      'src/**/*.js': ['babel'],
-      'test/src/**/*.js': ['babel']
+      'src/**/*.js': ['babel', 'commonjs'],
+      'test/src/**/*.js': ['babel', 'commonjs']
     },
     exclude: [],
     port: 8080,
