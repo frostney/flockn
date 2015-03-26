@@ -1,5 +1,7 @@
-import clamp from 'gamebox/math/clamp';
+import {Math} from 'gamebox';
 import colorConstants from 'flockn/constants/color';
+
+const {clamp} = Math;
 
 class Color {
   constructor(r = 0, g = 0, b = 0, a = 1) {
