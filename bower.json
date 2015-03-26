@@ -29,7 +29,7 @@
   ],
   "dependencies": {
     "eventmap": "~1.6.0",
-    "gamebox": "0.2.0-alpha11"
+    "gamebox": "0.2.0-alpha12"
   },
   "devDependencies": {
     "almond": "~0.3.0",
