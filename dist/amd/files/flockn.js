@@ -1743,16 +1743,18 @@ define('flockn/texture/label', ["exports", "module", "flockn/types", "flockn/mix
   module.exports = TextureLabel;
 });
 
-define('flockn/types/color', ["exports", "module", "gamebox/math/clamp", "flockn/constants/color"], function (exports, module, _gameboxMathClamp, _flocknConstantsColor) {
+define('flockn/types/color', ["exports", "module", "gamebox", "flockn/constants/color"], function (exports, module, _gamebox, _flocknConstantsColor) {
   "use strict";
 
   var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 
   var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 
-  var clamp = _interopRequire(_gameboxMathClamp);
+  var Math = _gamebox.Math;
 
   var colorConstants = _interopRequire(_flocknConstantsColor);
+
+  var clamp = Math.clamp;
 
   var Color = (function () {
     function Color() {
