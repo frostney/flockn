@@ -2,6 +2,7 @@ flockn
 ======
 
 [![Build Status](https://travis-ci.org/freezedev/flockn.svg?branch=master)](https://travis-ci.org/freezedev/flockn)
+[![Dependency Status](https://david-dm.org/freezedev/flockn.svg)](https://david-dm.org/freezedev/flockn)
 [![devDependency Status](https://david-dm.org/freezedev/flockn/dev-status.svg)](https://david-dm.org/freezedev/flockn#info=devDependencies)
 
 flockn is a lightweight ECMAScript 6 game engine. (It currently uses [Babel](https://github.com/babel/babel) to generate ECMAScript 5 compatible output.)
