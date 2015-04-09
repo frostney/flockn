@@ -14,11 +14,8 @@ var updateable = _interopRequire(require("flockn/mixins/updateable"));
 
 var serializable = _interopRequire(require("flockn/mixins/serializable"));
 
-var storable = _interopRequire(require("flockn/mixins/storable"));
-
 exports.addable = addable;
 exports.renderable = renderable;
 exports.updateable = updateable;
 exports.serializable = serializable;
-exports.storable = storable;
 //# sourceMappingURL=index.js.map
