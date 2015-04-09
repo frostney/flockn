@@ -1,7 +1,7 @@
 import Base from 'flockn/base';
 import Group from 'flockn/group';
 
-import {addable, updateable, serializable, storable} from 'flockn/mixins';
+import {addable, updateable, serializable} from 'flockn/mixins';
 
 
 // Behaviors only provide logic. There is no rendering involved.
@@ -30,6 +30,5 @@ class Behavior extends Base {
 }
 
 serializable(Behavior);
-storable(Behavior);
 
 export default Behavior;

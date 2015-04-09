@@ -8,7 +8,7 @@ import Texture from 'flockn/texture';
 
 import {Vector2, Vector3, Color, Rect} from 'flockn/types';
 
-import {addable, renderable, updateable, serializable, storable} from 'flockn/mixins';
+import {addable, renderable, updateable, serializable} from 'flockn/mixins';
 
 
 class GameObject extends Base {
@@ -176,6 +176,5 @@ class GameObject extends Base {
 }
 
 serializable(GameObject);
-storable(GameObject);
 
 export default GameObject;

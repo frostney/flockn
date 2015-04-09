@@ -1,7 +1,7 @@
 import Base from 'flockn/base';
 import GameObject from 'flockn/gameobject';
 
-import {addable, renderable, updateable, serializable, storable} from 'flockn/mixins';
+import {addable, renderable, updateable, serializable} from 'flockn/mixins';
 
 // A `Scene` instance is a layer for `GameObject` instances.
 // Any number of game objects can be added to a scene. Only one scene should be visible at the same time, depending
@@ -24,6 +24,5 @@ class Scene extends Base {
 }
 
 serializable(Scene);
-storable(Scene);
 
 export default Scene;
