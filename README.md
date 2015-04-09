@@ -5,7 +5,7 @@ flockn
 [![Dependency Status](https://david-dm.org/freezedev/flockn.svg)](https://david-dm.org/freezedev/flockn)
 [![devDependency Status](https://david-dm.org/freezedev/flockn/dev-status.svg)](https://david-dm.org/freezedev/flockn#info=devDependencies)
 
-flockn is a lightweight ECMAScript 6 game engine. (It currently uses [Babel](https://github.com/babel/babel) to generate ECMAScript 5 compatible output.)
+flockn is a lightweight declarative game engine. (While it uses [Babel](https://github.com/babel/babel) to generate ECMAScript 5 compatible output, the use of Babel or ES6 in flockn-related project is not enforced. There no ES6 features that need to be used as flockn exposes an easy-to-use ES5 interface.)
 
 Alternatives:
 * If you are just interested in the DOM/jQuery side of things and wish more control over what's getting added to the DOM, you should try [Lyria](https://github.com/freezedev/lyria).
