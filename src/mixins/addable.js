@@ -4,24 +4,16 @@ var addable = function addable(Factory, groupInstance, extraFn) {
 
   var adder = function adder(child, ...args) {
 
-    if (!( child instanceof Factory)) {
-      if ( typeof child === 'string') {
-        if (Object.hasOwnProperty.call(Factory.store, child)) {
-          child = new Factory(Factory.store[child]);
-        }
-      } else {
-        if ( typeof child === 'function') {
-          child = new Factory(child);
-        } else {
-          // TODO: This should be also able to deep assign properties
-          child = new Factory(function() {
-            Object.keys(child).forEach(function(key) {
-              this[key] = child[key];
-            }, this);
-          });
-        }
-      }
+    // I have decided against letting anything other through than functions
+    // I feel that it more complexity than it tried to solve and I had to handle some edge cases
+    // and more thorough type checking
+
+    if (typeof child !== 'function') {
+      throw new Error('A child has to be a function');
     }
+
+    child = new Factory(child);
+       
     groupInstance.push(child);
     child.parent = this;
 
