@@ -1,18 +1,24 @@
-"use strict";
+'use strict';
 
-var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
 
-var EventMap = _interopRequire(require("eventmap"));
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+
+var _EventMap = require('eventmap');
+
+var _EventMap2 = _interopRequireWildcard(_EventMap);
 
 var serialize = {};
 
 serialize.json = {};
 
-serialize.json.filter = ["id", "parent", "audio", "input", "world", "assetLoader"];
+serialize.json.filter = ['id', 'parent', 'audio', 'input', 'world', 'assetLoader'];
 serialize.json.defaultReplacer = [];
 
 serialize.json.defaultReplacer.push(function (key, value) {
-  if (key === "events" && value instanceof EventMap) {
+  if (key === 'events' && value instanceof _EventMap2['default']) {
     value = value.serialize();
   }
 
@@ -22,17 +28,17 @@ serialize.json.defaultReplacer.push(function (key, value) {
 serialize.json.defaultReplacer.push(function (key, value) {
   // Convert image to Base64
   if (value instanceof Image) {
-    var canvas = document.createElement("canvas");
-    var context = canvas.getContext("2d");
+    var canvas = document.createElement('canvas');
+    var context = canvas.getContext('2d');
     canvas.height = this.height;
     canvas.width = this.width;
     context.drawImage(this.data, 0, 0);
-    var dataURL = canvas.toDataURL("image/png");
+    var dataURL = canvas.toDataURL('image/png');
     canvas = null;
 
     value = {
       data: dataURL,
-      type: "image/png"
+      type: 'image/png'
     };
   }
 
@@ -44,7 +50,7 @@ serialize.json.defaultReplacer.push(function (key, value) {
     return value;
   }
 
-  if (value.toJSON && typeof value.toJSON === "function") {
+  if (value.toJSON && typeof value.toJSON === 'function') {
     value = value.toJSON();
   }
 
@@ -53,10 +59,10 @@ serialize.json.defaultReplacer.push(function (key, value) {
 
 serialize.json.defaultReplacer.push(function (key, value) {
   // Functions are not allowed expect for the descriptor
-  if (typeof value !== "function") {
+  if (typeof value !== 'function') {
     return value;
   } else {
-    if (key === "descriptor") {
+    if (key === 'descriptor') {
       return value;
     }
   }
@@ -85,7 +91,7 @@ serialize.toJSON = function (obj, replacer) {
         })(replacers[i]);
       }
 
-      if (typeof value !== "undefined") {
+      if (typeof value !== 'undefined') {
         clonedObj[key] = value;
       }
     })(key, obj[key]);
@@ -98,7 +104,7 @@ serialize.toString = function (obj) {
   return JSON.stringify(serialize.toJSON(obj), function (key, value) {
     // Functions that are still left should be stringified
 
-    if (typeof value === "function") {
+    if (typeof value === 'function') {
       value = value.toString();
     }
 
@@ -106,5 +112,6 @@ serialize.toString = function (obj) {
   });
 };
 
-module.exports = serialize;
+exports['default'] = serialize;
+module.exports = exports['default'];
 //# sourceMappingURL=serialize.js.map

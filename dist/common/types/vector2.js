@@ -1,9 +1,12 @@
 "use strict";
 
-var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
 var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 var sqrMagnitude = function sqrMagnitude(v) {
   return Vector2.dot(v, v);
 };
@@ -93,26 +96,26 @@ var Vector2 = (function () {
     return this.x === v.x && this.y === v.y;
   };
 
-  _createClass(Vector2, {
-    magnitude: {
-      get: function () {
-        return Math.sqrt(sqrMagnitude(this));
-      }
-    },
-    sqrMagnitude: {
-      get: function () {
-        return sqrMagnitude(this);
-      }
-    },
-    angle: {
-      get: function () {
-        return Math.atan2(this.x, this.y);
-      }
+  _createClass(Vector2, [{
+    key: "magnitude",
+    get: function () {
+      return Math.sqrt(sqrMagnitude(this));
     }
-  });
+  }, {
+    key: "sqrMagnitude",
+    get: function () {
+      return sqrMagnitude(this);
+    }
+  }, {
+    key: "angle",
+    get: function () {
+      return Math.atan2(this.x, this.y);
+    }
+  }]);
 
   return Vector2;
 })();
 
-module.exports = Vector2;
+exports["default"] = Vector2;
+module.exports = exports["default"];
 //# sourceMappingURL=vector2.js.map

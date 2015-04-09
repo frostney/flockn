@@ -1,10 +1,12 @@
-"use strict";
+'use strict';
 
-var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
 
-var Behavior = _interopRequire(require("flockn/behavior"));
+var _Behavior = require('flockn/behavior');
 
-Behavior.define("collision", function () {
+var _Behavior2 = _interopRequireWildcard(_Behavior);
+
+_Behavior2['default'].define('collision', function () {
 
   this.update(function (dt) {});
 });

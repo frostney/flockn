@@ -1,29 +1,37 @@
-"use strict";
+'use strict';
 
-var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
 
-Object.defineProperty(exports, "__esModule", {
+Object.defineProperty(exports, '__esModule', {
   value: true
 });
 
-var Color = _interopRequire(require("flockn/types/color"));
+var _Color = require('flockn/types/color');
 
-var Vector2 = _interopRequire(require("flockn/types/vector2"));
+var _Color2 = _interopRequireWildcard(_Color);
 
-var Vector3 = _interopRequire(require("flockn/types/vector3"));
+var _Vector2 = require('flockn/types/vector2');
 
-var Rect = _interopRequire(require("flockn/types/rect"));
+var _Vector22 = _interopRequireWildcard(_Vector2);
+
+var _Vector3 = require('flockn/types/vector3');
+
+var _Vector32 = _interopRequireWildcard(_Vector3);
+
+var _Rect = require('flockn/types/rect');
+
+var _Rect2 = _interopRequireWildcard(_Rect);
 
 var Types = {};
 
-Types.Color = Color;
-Types.Vector2 = Vector2;
-Types.Vector3 = Vector3;
-Types.Rect = Rect;
+Types.Color = _Color2['default'];
+Types.Vector2 = _Vector22['default'];
+Types.Vector3 = _Vector32['default'];
+Types.Rect = _Rect2['default'];
 
-exports["default"] = Types;
-exports.Color = Color;
-exports.Vector2 = Vector2;
-exports.Vector3 = Vector3;
-exports.Rect = Rect;
+exports['default'] = Types;
+exports.Color = _Color2['default'];
+exports.Vector2 = _Vector22['default'];
+exports.Vector3 = _Vector32['default'];
+exports.Rect = _Rect2['default'];
 //# sourceMappingURL=index.js.map

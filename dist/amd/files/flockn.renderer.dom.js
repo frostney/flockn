@@ -1,38 +1,36 @@
-define('flockn/renderer/dom', ["exports", "flockn/graphics", "flockn/graphics/rootelement", "flockn/input/mouse"], function (exports, _flocknGraphics, _flocknGraphicsRootelement, _flocknInputMouse) {
-  "use strict";
+define('flockn/renderer/dom', ['exports', 'flockn/graphics', 'flockn/graphics/rootelement', 'flockn/input/mouse'], function (exports, _flocknGraphics, _flocknGraphicsRootelement, _flocknInputMouse) {
+  'use strict';
 
-  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
 
-  var Graphics = _interopRequire(_flocknGraphics);
+  var _Graphics = _interopRequire(_flocknGraphics);
 
-  var createRootElement = _interopRequire(_flocknGraphicsRootelement);
-
-  var mouse = _flocknInputMouse;
+  var _createRootElement = _interopRequire(_flocknGraphicsRootelement);
 
   var root = window;
 
   var pixelize = function pixelize(num) {
-    return num + "px";
+    return num + 'px';
   };
 
   var unpixelize = function unpixelize(str) {
     return parseFloat(str) || 0;
   };
 
-  Graphics.renderer = "DOM";
+  _Graphics.renderer = 'DOM';
 
   var rootElement = null;
 
-  Graphics.on("initialize", function (Game) {
-    rootElement = createRootElement.call(Game, "div", function (rootElement) {
+  _Graphics.on('initialize', function (Game) {
+    rootElement = _createRootElement.call(Game, 'div', function (rootElement) {
       rootElement.style.backgroundColor = this.color.toString();
-      rootElement.style.overflow = "hidden";
-      rootElement.style.cursor = "default";
-      rootElement.style.userSelect = rootElement.style.mozUserSelect = rootElement.style.webkitUserSelect = "none";
+      rootElement.style.overflow = 'hidden';
+      rootElement.style.cursor = 'default';
+      rootElement.style.userSelect = rootElement.style.mozUserSelect = rootElement.style.webkitUserSelect = 'none';
     });
   });
 
-  Graphics.on("add", function (obj) {
+  _Graphics.on('add', function (obj) {
     var elementId = obj.id.toLowerCase();
 
     // Remove previous elements of the same id
@@ -61,35 +59,35 @@ define('flockn/renderer/dom', ["exports", "flockn/graphics", "flockn/graphics/ro
       }
     })();
 
-    var element = document.createElement("div");
+    var element = document.createElement('div');
     element.id = elementId;
-    element.className = [obj.type.toLowerCase(), obj.name.toLowerCase()].join(" ");
-    element.style.position = "absolute";
+    element.className = [obj.type.toLowerCase(), obj.name.toLowerCase()].join(' ');
+    element.style.position = 'absolute';
 
     switch (obj.type) {
-      case "Scene":
+      case 'Scene':
         element.style.width = pixelize(obj.parent.width);
         element.style.height = pixelize(obj.parent.height);
         break;
-      case "GameObject":
+      case 'GameObject':
         element.style.left = pixelize(obj.position.x);
         element.style.top = pixelize(obj.position.y);
         element.style.width = pixelize(obj.width);
         element.style.height = pixelize(obj.height);
 
-        mouse.events.forEach(function (eventName) {
+        _flocknInputMouse.events.forEach(function (eventName) {
           root.addEventListener(eventName, function (evt) {
-            obj.trigger(mouse.relativePosition(evt, rootElement, obj));
+            obj.trigger(_flocknInputMouse.relativePosition(evt, rootElement, obj));
           });
         });
 
         // Mouseenter and Mouseleave are kinda special right now
-        root.addEventListener("mouseenter", function (evt) {
-          obj.trigger("mouseenter", evt);
+        root.addEventListener('mouseenter', function (evt) {
+          obj.trigger('mouseenter', evt);
         }, true);
 
-        root.addEventListener("mouseleave", function (evt) {
-          obj.trigger("mouseleave", evt);
+        root.addEventListener('mouseleave', function (evt) {
+          obj.trigger('mouseleave', evt);
         }, true);
 
         break;
@@ -100,17 +98,17 @@ define('flockn/renderer/dom', ["exports", "flockn/graphics", "flockn/graphics/ro
     parentElem.appendChild(element);
   });
 
-  Graphics.on("texture-image-loaded", function (obj, texture) {
+  _Graphics.on('texture-image-loaded', function (obj, texture) {
     var element = document.getElementById(obj.id.toLowerCase());
 
     if (element != null) {
-      element.style.backgroundImage = "url(" + texture.image.filename + ")";
+      element.style.backgroundImage = 'url(' + texture.image.filename + ')';
       element.style.width = pixelize(obj.width);
       element.style.height = pixelize(obj.height);
     }
   });
 
-  Graphics.on("texture-label-loaded", function (obj, texture) {
+  _Graphics.on('texture-label-loaded', function (obj, texture) {
     var element = document.getElementById(obj.id.toLowerCase());
 
     if (element != null) {
@@ -121,13 +119,13 @@ define('flockn/renderer/dom', ["exports", "flockn/graphics", "flockn/graphics/ro
 
   var dirtyObjects = {};
 
-  Graphics.after("render", function (obj) {
+  _Graphics.after('render', function (obj) {
     var objId = obj.id.toLowerCase();
 
     dirtyObjects[objId] = obj;
   });
 
-  Graphics.on("render", function (obj) {
+  _Graphics.on('render', function (obj) {
     var objId = obj.id.toLowerCase();
 
     // Update element attributes
@@ -137,11 +135,11 @@ define('flockn/renderer/dom', ["exports", "flockn/graphics", "flockn/graphics/ro
       var prevObj = dirtyObjects[objId] || {};
 
       switch (obj.type) {
-        case "GameObject":
-          var elemVisible = element.style.display === "block";
+        case 'GameObject':
+          var elemVisible = element.style.display === 'block';
 
           if (elemVisible !== obj.visible) {
-            element.style.display = obj.visible ? "block" : "hidden";
+            element.style.display = obj.visible ? 'block' : 'hidden';
           }
 
           if (!elemVisible) {
@@ -170,7 +168,7 @@ define('flockn/renderer/dom', ["exports", "flockn/graphics", "flockn/graphics/ro
           }
 
           if (obj.angle) {
-            element.style.transform = element.style.mozTransform = element.style.webkitTransform = "rotate(" + obj.angle + "deg)";
+            element.style.transform = element.style.mozTransform = element.style.webkitTransform = 'rotate(' + obj.angle + 'deg)';
           }
 
           if (obj.alpha !== 1) {
@@ -181,12 +179,12 @@ define('flockn/renderer/dom', ["exports", "flockn/graphics", "flockn/graphics/ro
           element.style.backgroundColor = obj.texture.backgroundColor.toString();
 
           // Set origin
-          element.style.transformOrigin = element.style.mozTransformOrigin = element.webkitTransformOrigin = obj.origin.x + "px " + obj.origin.y + "px";
+          element.style.transformOrigin = element.style.mozTransformOrigin = element.webkitTransformOrigin = obj.origin.x + 'px ' + obj.origin.y + 'px';
 
           // Set border
           if (obj.border.width > 0) {
             element.style.borderWidth = pixelize(obj.border.width);
-            element.style.borderStyle = "solid";
+            element.style.borderStyle = 'solid';
             element.style.borderColor = obj.border.color.toString();
 
             if (obj.border.radius > 0) {
@@ -196,18 +194,18 @@ define('flockn/renderer/dom', ["exports", "flockn/graphics", "flockn/graphics/ro
 
           if (obj.texture.image.drawable) {
             if (obj.texture.image.offset.x !== 0) {
-              element.style.backgroundPositionX = obj.texture.image.offset.x * -1 + "px";
+              element.style.backgroundPositionX = obj.texture.image.offset.x * -1 + 'px';
             }
 
             if (obj.texture.image.offset.y !== 0) {
-              element.style.backgroundPositionY = obj.texture.image.offset.y * -1 + "px";
+              element.style.backgroundPositionY = obj.texture.image.offset.y * -1 + 'px';
             }
           }
 
           if (obj.texture.label.drawable) {
             element.innerText = obj.texture.label.text;
 
-            element.style.whiteSpace = "nowrap";
+            element.style.whiteSpace = 'nowrap';
 
             if (obj.texture.label.font.size) {
               element.style.fontSize = pixelize(obj.texture.label.font.size);
@@ -223,14 +221,14 @@ define('flockn/renderer/dom', ["exports", "flockn/graphics", "flockn/graphics/ro
 
             obj.texture.label.font.decoration.forEach(function (decoration) {
               switch (decoration) {
-                case "bold":
-                  element.style.fontWeight = "bold";
+                case 'bold':
+                  element.style.fontWeight = 'bold';
                   break;
-                case "italic":
-                  element.style.fontStyle = "italic";
+                case 'italic':
+                  element.style.fontStyle = 'italic';
                   break;
-                case "underline":
-                  element.style.textDecoration = "underline";
+                case 'underline':
+                  element.style.textDecoration = 'underline';
                   break;
                 default:
                   break;
@@ -239,16 +237,16 @@ define('flockn/renderer/dom', ["exports", "flockn/graphics", "flockn/graphics/ro
           }
 
           break;
-        case "Scene":
+        case 'Scene':
           var elemVisibleStyle = element.style.display;
 
           if (obj.parent.activeScene !== obj.name) {
-            if (elemVisibleStyle !== "hidden") {
-              element.style.display = "hidden";
+            if (elemVisibleStyle !== 'hidden') {
+              element.style.display = 'hidden';
             }
           } else {
-            if (elemVisibleStyle !== "block") {
-              element.style.display = "block";
+            if (elemVisibleStyle !== 'block') {
+              element.style.display = 'block';
             }
           }
           break;

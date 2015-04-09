@@ -1,21 +1,24 @@
-"use strict";
+'use strict';
 
-var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
 
-var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
 
-var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+var _inherits = function (subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
 
-var Base = _interopRequire(require("flockn/base"));
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
 
-var GameObject = _interopRequire(require("flockn/gameobject"));
+var _Base2 = require('flockn/base');
 
-var _flocknMixins = require("flockn/mixins");
+var _Base3 = _interopRequireWildcard(_Base2);
 
-var addable = _flocknMixins.addable;
-var renderable = _flocknMixins.renderable;
-var updateable = _flocknMixins.updateable;
-var serializable = _flocknMixins.serializable;
+var _GameObject = require('flockn/gameobject');
+
+var _GameObject2 = _interopRequireWildcard(_GameObject);
+
+var _addable$renderable$updateable$serializable = require('flockn/mixins');
 
 // A `Scene` instance is a layer for `GameObject` instances.
 // Any number of game objects can be added to a scene. Only one scene should be visible at the same time, depending
@@ -25,26 +28,27 @@ var Scene = (function (_Base) {
   function Scene(descriptor) {
     _classCallCheck(this, Scene);
 
-    _Base.call(this, "Scene", descriptor);
+    _Base.call(this, 'Scene', descriptor);
 
     this.visible = true;
 
     // Mix in `renderable` and `updateable`
-    renderable.call(this);
-    updateable.call(this);
+    _addable$renderable$updateable$serializable.renderable.call(this);
+    _addable$renderable$updateable$serializable.updateable.call(this);
   }
 
   _inherits(Scene, _Base);
 
   Scene.prototype.addGameObject = function addGameObject() {
     // Allow game objects to be added to scenes
-    this.queue.push(addable(GameObject, this.children).apply(this, arguments));
+    this.queue.push(_addable$renderable$updateable$serializable.addable(_GameObject2['default'], this.children).apply(this, arguments));
   };
 
   return Scene;
-})(Base);
+})(_Base3['default']);
 
-serializable(Scene);
+_addable$renderable$updateable$serializable.serializable(Scene);
 
-module.exports = Scene;
+exports['default'] = Scene;
+module.exports = exports['default'];
 //# sourceMappingURL=scene.js.map

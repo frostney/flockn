@@ -16,38 +16,36 @@ define('flockn/audio', ["exports", "module"], function (exports, module) {
   module.exports = Audio;
 });
 
-define('flockn/base', ["exports", "module", "eventmap", "gamebox", "flockn/audio", "flockn/group", "flockn/world"], function (exports, module, _eventmap, _gamebox, _flocknAudio, _flocknGroup, _flocknWorld) {
-  "use strict";
+define('flockn/base', ['exports', 'module', 'eventmap', 'gamebox', 'flockn/audio', 'flockn/group', 'flockn/world'], function (exports, module, _eventmap, _gamebox, _flocknAudio, _flocknGroup, _flocknWorld) {
+  'use strict';
 
-  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
 
-  var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+  var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
 
-  var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+  var _inherits = function (subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
 
-  var EventMap = _interopRequire(_eventmap);
+  var _EventMap2 = _interopRequire(_eventmap);
 
-  var Input = _gamebox.Input;
+  var _Audio = _interopRequire(_flocknAudio);
 
-  var Audio = _interopRequire(_flocknAudio);
+  var _Group = _interopRequire(_flocknGroup);
 
-  var Group = _interopRequire(_flocknGroup);
-
-  var World = _interopRequire(_flocknWorld);
+  var _World = _interopRequire(_flocknWorld);
 
   var objectIndex = 0;
 
   var prependMax = 10000;
 
   var numToIdString = function numToIdString(num) {
-    var stringNum = num + "";
+    var stringNum = num + '';
 
     if (num >= prependMax) {
       return stringNum;
     } else {
-      var prependLength = (prependMax + "").length - stringNum.length;
+      var prependLength = (prependMax + '').length - stringNum.length;
       for (var i = 0; i < prependLength; i++) {
-        stringNum = "0" + stringNum;
+        stringNum = '0' + stringNum;
       }
 
       return stringNum;
@@ -56,7 +54,7 @@ define('flockn/base', ["exports", "module", "eventmap", "gamebox", "flockn/audio
 
   var Base = (function (_EventMap) {
     function Base() {
-      var type = arguments[0] === undefined ? "Base" : arguments[0];
+      var type = arguments[0] === undefined ? 'Base' : arguments[0];
       var descriptor = arguments[1] === undefined ? function () {} : arguments[1];
 
       _classCallCheck(this, Base);
@@ -68,12 +66,12 @@ define('flockn/base', ["exports", "module", "eventmap", "gamebox", "flockn/audio
 
       this.type = type;
 
-      var internalId = "" + this.type + "-" + Date.now() + "-" + currentObject;
+      var internalId = '' + this.type + '-' + Date.now() + '-' + currentObject;
 
       this.name = internalId;
 
       // The `id` property is read-only and returns the type and the stringified object index
-      Object.defineProperty(this, "id", {
+      Object.defineProperty(this, 'id', {
         get: function get() {
           return internalId;
         },
@@ -84,7 +82,7 @@ define('flockn/base', ["exports", "module", "eventmap", "gamebox", "flockn/audio
       this.descriptor = descriptor;
 
       // Create a new group for all children elements
-      this.children = new Group();
+      this.children = new _Group();
 
       // Add a queue: All addable elements will be pushed into the queue first and called after everything else in
       // the `descriptor` has been called
@@ -93,13 +91,13 @@ define('flockn/base', ["exports", "module", "eventmap", "gamebox", "flockn/audio
       this.parent = null;
 
       // `Input` should be available in instances derived from `Base`
-      this.input = Input;
+      this.input = _gamebox.Input;
 
       // As should `Audio`
-      this.audio = Audio;
+      this.audio = _Audio;
 
       // Emit an event
-      this.trigger("constructed");
+      this.trigger('constructed');
     }
 
     _inherits(Base, _EventMap);
@@ -113,10 +111,10 @@ define('flockn/base', ["exports", "module", "eventmap", "gamebox", "flockn/audio
         // Call the `descriptor` property with `args`
 
         // Game, world, data
-        this.descriptor.call(this, data, World);
+        this.descriptor.call(this, data, _World);
 
         // Trigger an event
-        this.trigger("execute");
+        this.trigger('execute');
 
         // TODO: Impose an order in the queue, such as:
         // (Game) -> Scene -> GameObject -> Behavior -> Model
@@ -130,7 +128,7 @@ define('flockn/base', ["exports", "module", "eventmap", "gamebox", "flockn/audio
         this.queue = [];
 
         // Find a way to directly before and after events
-        this.trigger("executed");
+        this.trigger('executed');
       }
     };
 
@@ -154,7 +152,7 @@ define('flockn/base', ["exports", "module", "eventmap", "gamebox", "flockn/audio
         var argArray = [].slice.call(arguments);
 
         // Log with `console.log`: Prepend the type and name
-        argArray.unshift(":");
+        argArray.unshift(':');
         argArray.unshift(this.name);
         argArray.unshift(this.type);
 
@@ -163,29 +161,25 @@ define('flockn/base', ["exports", "module", "eventmap", "gamebox", "flockn/audio
     };
 
     return Base;
-  })(EventMap);
+  })(_EventMap2);
 
-  Base.queueOrder = ["Game", "Scene", "GameObject", "Behavior", "Model"];
+  Base.queueOrder = ['Game', 'Scene', 'GameObject', 'Behavior', 'Model'];
 
   module.exports = Base;
 });
 
-define('flockn/behavior', ["exports", "module", "flockn/base", "flockn/group", "flockn/mixins"], function (exports, module, _flocknBase, _flocknGroup, _flocknMixins) {
-  "use strict";
+define('flockn/behavior', ['exports', 'module', 'flockn/base', 'flockn/group', 'flockn/mixins'], function (exports, module, _flocknBase, _flocknGroup, _flocknMixins) {
+  'use strict';
 
-  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
 
-  var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+  var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
 
-  var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+  var _inherits = function (subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
 
-  var Base = _interopRequire(_flocknBase);
+  var _Base2 = _interopRequire(_flocknBase);
 
-  var Group = _interopRequire(_flocknGroup);
-
-  var addable = _flocknMixins.addable;
-  var updateable = _flocknMixins.updateable;
-  var serializable = _flocknMixins.serializable;
+  var _Group = _interopRequire(_flocknGroup);
 
   // Behaviors only provide logic. There is no rendering involved.
   // Behaviors can attach any number of behaviors to itself
@@ -194,20 +188,20 @@ define('flockn/behavior', ["exports", "module", "flockn/base", "flockn/group", "
     function Behavior(descriptor) {
       _classCallCheck(this, Behavior);
 
-      _Base.call(this, "Behavior", descriptor);
+      _Base.call(this, 'Behavior', descriptor);
 
       // Reference to the game object itself
       this.gameObject = null;
 
       // Mix in `updateable`
-      updateable.call(this);
+      _flocknMixins.updateable.call(this);
     }
 
     _inherits(Behavior, _Base);
 
     Behavior.prototype.addBehavior = function addBehavior() {
       // When a behavior is added, the reference to the game object is set
-      this.queue.push(addable(Behavior, this.children, function (child) {
+      this.queue.push(_flocknMixins.addable(Behavior, this.children, function (child) {
         child.gameObject = this.gameObject;
       }).apply(this, arguments));
     };
@@ -215,9 +209,9 @@ define('flockn/behavior', ["exports", "module", "flockn/base", "flockn/group", "
     Behavior.prototype.removeBehavior = function removeBehavior() {};
 
     return Behavior;
-  })(Base);
+  })(_Base2);
 
-  serializable(Behavior);
+  _flocknMixins.serializable(Behavior);
 
   module.exports = Behavior;
 });
@@ -317,32 +311,24 @@ define('flockn/constants/color', ["exports", "module"], function (exports, modul
   module.exports = colors;
 });
 
-define('flockn/game', ["exports", "module", "gamebox", "flockn/base", "flockn/graphics", "flockn/scene", "flockn/types/color", "flockn/viewport", "flockn/mixins"], function (exports, module, _gamebox, _flocknBase, _flocknGraphics, _flocknScene, _flocknTypesColor, _flocknViewport, _flocknMixins) {
-  "use strict";
+define('flockn/game', ['exports', 'module', 'gamebox', 'flockn/base', 'flockn/graphics', 'flockn/scene', 'flockn/types/color', 'flockn/viewport', 'flockn/mixins'], function (exports, module, _gamebox, _flocknBase, _flocknGraphics, _flocknScene, _flocknTypesColor, _flocknViewport, _flocknMixins) {
+  'use strict';
 
-  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
 
-  var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+  var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
 
-  var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+  var _inherits = function (subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
 
-  var Loop = _gamebox.Loop;
-  var AssetLoader = _gamebox.AssetLoader;
+  var _Base2 = _interopRequire(_flocknBase);
 
-  var Base = _interopRequire(_flocknBase);
+  var _Graphics = _interopRequire(_flocknGraphics);
 
-  var Graphics = _interopRequire(_flocknGraphics);
+  var _Scene = _interopRequire(_flocknScene);
 
-  var Scene = _interopRequire(_flocknScene);
+  var _Color = _interopRequire(_flocknTypesColor);
 
-  var Color = _interopRequire(_flocknTypesColor);
-
-  var Viewport = _interopRequire(_flocknViewport);
-
-  var addable = _flocknMixins.addable;
-  var renderable = _flocknMixins.renderable;
-  var updateable = _flocknMixins.updateable;
-  var serializable = _flocknMixins.serializable;
+  var _Viewport = _interopRequire(_flocknViewport);
 
   var root = window;
 
@@ -356,7 +342,7 @@ define('flockn/game', ["exports", "module", "gamebox", "flockn/base", "flockn/gr
       _classCallCheck(this, Game);
 
       // Extend the `Base` class
-      _Base.call(this, "Game", descriptor);
+      _Base.call(this, 'Game', descriptor);
 
       // `this.container` is a string, which is the id of the element.
       // If it's not given, it should create a new element. This should be handled by the renderer.
@@ -365,12 +351,12 @@ define('flockn/game', ["exports", "module", "gamebox", "flockn/base", "flockn/gr
       // By default, the width and height of a `Game` instance will be as large as the inside of the browser window.
       this.width = root.innerWidth;
       this.height = root.innerHeight;
-      this.color = new Color(255, 255, 255);
+      this.color = new _Color(255, 255, 255);
 
-      this.assetLoader = new AssetLoader();
+      this.assetLoader = new _gamebox.AssetLoader();
 
       // Set the viewport object
-      this.viewport = Viewport;
+      this.viewport = _Viewport;
 
       // `this.activeScene` is set to `null` by default, but will change to the instance of the scene
       // once a scene will be shown
@@ -380,42 +366,42 @@ define('flockn/game', ["exports", "module", "gamebox", "flockn/base", "flockn/gr
       // because it won't be added to anywhere else
       this.call();
 
-      Graphics.trigger("initialize", this);
+      _Graphics.trigger('initialize', this);
 
       // Mix in `renderable` and `updateable`
-      renderable.call(this);
-      updateable.call(this);
+      _flocknMixins.renderable.call(this);
+      _flocknMixins.updateable.call(this);
 
       // Bind the game loop to the `update` event
-      Loop.on("update", function (dt) {
+      _gamebox.Loop.on('update', function (dt) {
         // Deltatime should not be a millisecond value, but a second one.
         // It should be a value between 0 - 1
-        _this.trigger("update", dt / 1000);
+        _this.trigger('update', dt / 1000);
       });
 
       // Bind the game loop to the `render` event
-      Loop.on("render", function () {
-        _this.trigger("render");
+      _gamebox.Loop.on('render', function () {
+        _this.trigger('render');
       });
 
       // Add a `resize` event to each `Game` instance
-      root.addEventListener("resize", function () {
+      root.addEventListener('resize', function () {
         var newWidth = root.innerWidth;
         var newHeight = root.innerHeight;
 
-        _this.trigger("resize", newWidth, newHeight);
+        _this.trigger('resize', newWidth, newHeight);
 
         // Trigger resize event for the current scene
         var currentScene = _this.children.byName(_this.activeScene);
 
         if (currentScene) {
-          currentScene.trigger("resize", root.innerWidth, root.innerHeight);
+          currentScene.trigger('resize', root.innerWidth, root.innerHeight);
         }
       }, false);
 
       // Add an `orientationchange` event to each `Game` instance
-      root.addEventListener("orientationchange", function () {
-        _this.trigger("orientationchange");
+      root.addEventListener('orientationchange', function () {
+        _this.trigger('orientationchange');
       }, false);
     }
 
@@ -424,7 +410,7 @@ define('flockn/game', ["exports", "module", "gamebox", "flockn/base", "flockn/gr
     Game.prototype.addScene = function addScene() {
       // When adding a scene, the dimension of scenes should be
       // exactly as large as the `Game` instance itself
-      this.queue.push(addable(Scene, this.children, function (child) {
+      this.queue.push(_flocknMixins.addable(_Scene, this.children, function (child) {
         child.width = this.width;
         child.height = this.height;
       }).apply(this, arguments));
@@ -441,10 +427,10 @@ define('flockn/game', ["exports", "module", "gamebox", "flockn/base", "flockn/gr
       this.activeScene.visible = true;
 
       if (this.activeScene) {
-        this.activeScene.trigger("resize", root.innerWidth, root.innerHeight);
+        this.activeScene.trigger('resize', root.innerWidth, root.innerHeight);
 
         // Trigger the `show` event
-        this.trigger("show", name, this.children[this.activeScene]);
+        this.trigger('show', name, this.children[this.activeScene]);
       }
     };
 
@@ -455,65 +441,56 @@ define('flockn/game', ["exports", "module", "gamebox", "flockn/base", "flockn/gr
     };
 
     Game.prototype.run = function run(name) {
-      var _this = this;
+      var _this2 = this;
 
-      this.on("executed", function () {
+      this.on('executed', function () {
         // Start the game loop
-        Loop.run();
+        _gamebox.Loop.run();
 
         if (!name) {
           // If there's only no name, take the first scene
-          if (_this.children.length >= 1) {
-            name = _this.children.first().name;
+          if (_this2.children.length >= 1) {
+            name = _this2.children.first().name;
           }
         }
 
         // Show the scene if a parameter has been specified
-        _this.showScene(name);
+        _this2.showScene(name);
       });
     };
 
     return Game;
-  })(Base);
+  })(_Base2);
 
-  serializable(Game);
+  _flocknMixins.serializable(Game);
 
   module.exports = Game;
 });
 
-define('flockn/gameobject', ["exports", "module", "flockn/base", "flockn/behavior", "flockn/graphics", "flockn/group", "flockn/model", "flockn/serialize", "flockn/texture", "flockn/types", "flockn/mixins"], function (exports, module, _flocknBase, _flocknBehavior, _flocknGraphics, _flocknGroup, _flocknModel, _flocknSerialize, _flocknTexture, _flocknTypes, _flocknMixins) {
-  "use strict";
+define('flockn/gameobject', ['exports', 'module', 'flockn/base', 'flockn/behavior', 'flockn/graphics', 'flockn/group', 'flockn/model', 'flockn/serialize', 'flockn/texture', 'flockn/types', 'flockn/mixins'], function (exports, module, _flocknBase, _flocknBehavior, _flocknGraphics, _flocknGroup, _flocknModel, _flocknSerialize, _flocknTexture, _flocknTypes, _flocknMixins) {
+  'use strict';
 
-  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
 
-  var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+  var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
 
-  var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+  var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
-  var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+  var _inherits = function (subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
 
-  var Base = _interopRequire(_flocknBase);
+  var _Base2 = _interopRequire(_flocknBase);
 
-  var Behavior = _interopRequire(_flocknBehavior);
+  var _Behavior = _interopRequire(_flocknBehavior);
 
-  var Graphics = _interopRequire(_flocknGraphics);
+  var _Graphics = _interopRequire(_flocknGraphics);
 
-  var Group = _interopRequire(_flocknGroup);
+  var _Group = _interopRequire(_flocknGroup);
 
-  var Model = _interopRequire(_flocknModel);
+  var _Model = _interopRequire(_flocknModel);
 
-  var serialize = _interopRequire(_flocknSerialize);
+  var _serialize = _interopRequire(_flocknSerialize);
 
-  var Texture = _interopRequire(_flocknTexture);
-
-  var Vector2 = _flocknTypes.Vector2;
-  var Vector3 = _flocknTypes.Vector3;
-  var Color = _flocknTypes.Color;
-  var Rect = _flocknTypes.Rect;
-  var addable = _flocknMixins.addable;
-  var renderable = _flocknMixins.renderable;
-  var updateable = _flocknMixins.updateable;
-  var serializable = _flocknMixins.serializable;
+  var _Texture = _interopRequire(_flocknTexture);
 
   var GameObject = (function (_Base) {
     function GameObject(descriptor) {
@@ -521,20 +498,20 @@ define('flockn/gameobject', ["exports", "module", "flockn/base", "flockn/behavio
 
       _classCallCheck(this, GameObject);
 
-      _Base.call(this, "GameObject", descriptor);
+      _Base.call(this, 'GameObject', descriptor);
 
       this.visible = true;
 
-      this.position = new Vector3();
+      this.position = new _flocknTypes.Vector3();
 
       this.fitToTexture = true;
 
       // Create a new texture and bind it to the `texture` property
-      this.texture = new Texture();
+      this.texture = new _Texture();
       this.texture.parent = this;
 
       // Once the image is loaded, update width and height if `fitToTexture` is set
-      this.texture.on("image-loaded", function () {
+      this.texture.on('image-loaded', function () {
         if (_this.fitToTexture) {
           _this.width = _this.texture.image.width;
           _this.height = _this.texture.image.height;
@@ -544,11 +521,11 @@ define('flockn/gameobject', ["exports", "module", "flockn/base", "flockn/behavio
         }
 
         // TODO: Evaluate if the Graphics trigger should only be in the texture
-        Graphics.trigger("texture-image-loaded", _this, _this.texture);
+        _Graphics.trigger('texture-image-loaded', _this, _this.texture);
       });
 
       // Once the label is loaded, update width and height if `fitToTexture` is set
-      this.texture.on("label-loaded", function () {
+      this.texture.on('label-loaded', function () {
         if (_this.fitToTexture) {
           _this.width = _this.texture.label.width;
           _this.height = _this.texture.label.height;
@@ -557,7 +534,7 @@ define('flockn/gameobject', ["exports", "module", "flockn/base", "flockn/behavio
           _this.origin.y = _this.height / 2;
 
           // TODO: Evaluate if the Graphics trigger should only be in the texture
-          Graphics.trigger("texture-label-loaded", _this, _this.texture);
+          _Graphics.trigger('texture-label-loaded', _this, _this.texture);
         }
       });
 
@@ -568,25 +545,25 @@ define('flockn/gameobject', ["exports", "module", "flockn/base", "flockn/behavio
 
       this.alpha = 1;
 
-      this.scale = new Vector2(1, 1);
+      this.scale = new _flocknTypes.Vector2(1, 1);
 
-      this.origin = new Vector2(this.width / 2, this.width / 2);
+      this.origin = new _flocknTypes.Vector2(this.width / 2, this.width / 2);
 
       this.border = {
         width: 0,
-        color: new Color(),
+        color: new _flocknTypes.Color(),
         radius: 0
       };
 
       // Add default model
-      var defaultModel = new Model();
-      defaultModel.name = "default";
+      var defaultModel = new _Model();
+      defaultModel.name = 'default';
 
       this.addModel(defaultModel);
 
       // Mix in renderable and updateable
-      renderable.call(this);
-      updateable.call(this);
+      _flocknMixins.renderable.call(this);
+      _flocknMixins.updateable.call(this);
     }
 
     _inherits(GameObject, _Base);
@@ -594,24 +571,24 @@ define('flockn/gameobject', ["exports", "module", "flockn/base", "flockn/behavio
     GameObject.prototype.bounds = function bounds() {
       // TODO: Also take care of scale
       // TODO: Also take care of rotation
-      return new Rect(this.position.x, this.position.y, this.width, this.height);
+      return new _flocknTypes.Rect(this.position.x, this.position.y, this.width, this.height);
     };
 
     GameObject.prototype.addGameObject = function addGameObject() {
       // Add a game object to this game object
-      this.queue.push(addable(GameObject, this.children).apply(this, arguments));
+      this.queue.push(_flocknMixins.addable(GameObject, this.children).apply(this, arguments));
     };
 
     GameObject.prototype.addBehavior = function addBehavior() {
       // Add a `Behavior` instance to the the game object and update the `gameObject` property
-      this.queue.push(addable(Behavior, this.children, function (child) {
+      this.queue.push(_flocknMixins.addable(_Behavior, this.children, function (child) {
         child.gameObject = this;
       }).apply(this, arguments));
     };
 
     GameObject.prototype.addModel = function addModel() {
       // Add a `Model` instance to the game object
-      this.queue.push(addable(Model, this.children).apply(this, arguments));
+      this.queue.push(_flocknMixins.addable(_Model, this.children).apply(this, arguments));
     };
 
     GameObject.prototype.removeGameObject = function removeGameObject() {};
@@ -622,7 +599,7 @@ define('flockn/gameobject', ["exports", "module", "flockn/base", "flockn/behavio
 
     GameObject.prototype.data = function data(name) {
       if (!name) {
-        return this.models.byName("default");
+        return this.models.byName('default');
       } else {
         return this.models.byName(name);
       }
@@ -630,11 +607,11 @@ define('flockn/gameobject', ["exports", "module", "flockn/base", "flockn/behavio
 
     GameObject.prototype.animate = function animate(property, end, time, callback) {
       // TODO: Tweening does not work yet
-      if (typeof this[property] === "number") {
+      if (typeof this[property] === 'number') {
         var distance = end - this[property];
         var timeInS = time / 1000;
 
-        var animateName = "animate-" + Date.now();
+        var animateName = 'animate-' + Date.now();
         this.on(animateName, function (dt) {
 
           this.off(animateName);
@@ -644,61 +621,60 @@ define('flockn/gameobject', ["exports", "module", "flockn/base", "flockn/behavio
 
     GameObject.fromString = function fromString() {};
 
-    _createClass(GameObject, {
-      left: {
-        get: function () {
-          return this.position.x;
-        },
-        set: function (value) {
-          this.position.x = value;
-        }
+    _createClass(GameObject, [{
+      key: 'left',
+      get: function () {
+        return this.position.x;
       },
-      top: {
-        get: function () {
-          return this.position.y;
-        },
-        set: function (value) {
-          this.position.y = value;
-        }
-      },
-      right: {
-        get: function () {
-          return this.parent.width - this.width - this.position.x;
-        },
-        set: function (value) {
-          this.position.x = this.parent.width - this.width - value;
-        }
-      },
-      bottom: {
-        get: function () {
-          return this.parent.height - this.height - this.position.y;
-        },
-        set: function (value) {
-          this.position.y = this.parent.height - this.height - value;
-        }
+      set: function (value) {
+        this.position.x = value;
       }
-    });
+    }, {
+      key: 'top',
+      get: function () {
+        return this.position.y;
+      },
+      set: function (value) {
+        this.position.y = value;
+      }
+    }, {
+      key: 'right',
+      get: function () {
+        return this.parent.width - this.width - this.position.x;
+      },
+      set: function (value) {
+        this.position.x = this.parent.width - this.width - value;
+      }
+    }, {
+      key: 'bottom',
+      get: function () {
+        return this.parent.height - this.height - this.position.y;
+      },
+      set: function (value) {
+        this.position.y = this.parent.height - this.height - value;
+      }
+    }]);
 
     return GameObject;
-  })(Base);
+  })(_Base2);
 
-  serializable(GameObject);
+  _flocknMixins.serializable(GameObject);
 
   module.exports = GameObject;
 });
 
-define('flockn/graphics', ["exports", "module", "eventmap"], function (exports, module, _eventmap) {
-  "use strict";
+define('flockn/graphics', ['exports', 'module', 'eventmap'], function (exports, module, _eventmap) {
+  'use strict';
 
-  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
 
-  var EventMap = _interopRequire(_eventmap);
+  var _EventMap = _interopRequire(_eventmap);
 
   // `Graphics` is an instance of an `EventMap`
-  var Graphics = new EventMap();
+  var Graphics = new _EventMap();
 
   // Special property `renderer` can be modified, but not deleted
-  Object.defineProperty(Graphics, "renderer", {
+  Object.defineProperty(Graphics, 'renderer', {
     value: null,
     writable: true,
     enumerable: true
@@ -707,8 +683,8 @@ define('flockn/graphics', ["exports", "module", "eventmap"], function (exports, 
   module.exports = Graphics;
 });
 
-define('flockn/graphics/rootelement', ["exports", "module"], function (exports, module) {
-  "use strict";
+define('flockn/graphics/rootelement', ['exports', 'module'], function (exports, module) {
+  'use strict';
 
   var createRootElement = function createRootElement(elementName, extraFn) {
     // Sets the container name: If none is given, set the id of the object.
@@ -718,7 +694,7 @@ define('flockn/graphics/rootelement', ["exports", "module"], function (exports, 
         this.container = this.id;
         return this.container;
       } else {
-        if (this.container.indexOf("#") === 0) {
+        if (this.container.indexOf('#') === 0) {
           return this.container.slice(1);
         }
       }
@@ -740,12 +716,12 @@ define('flockn/graphics/rootelement', ["exports", "module"], function (exports, 
       rootElement = element;
     }
 
-    rootElement.className = [this.type.toLowerCase(), this.name.toLowerCase()].join(" ");
+    rootElement.className = [this.type.toLowerCase(), this.name.toLowerCase()].join(' ');
 
     // Set the dimensions of the `rootElement`
-    rootElement.style.position = "absolute";
-    rootElement.style.width = this.width + "px";
-    rootElement.style.height = this.height + "px";
+    rootElement.style.position = 'absolute';
+    rootElement.style.width = this.width + 'px';
+    rootElement.style.height = this.height + 'px';
 
     // Allow some extra functionality to happen here.
     // It should be called on the same context and the
@@ -754,13 +730,13 @@ define('flockn/graphics/rootelement', ["exports", "module"], function (exports, 
 
     // Center the element if it's smaller than the inside of the browser's window
     if (this.width < window.innerWidth) {
-      rootElement.style.left = "50%";
-      rootElement.style.marginLeft = this.width * -0.5 + "px";
+      rootElement.style.left = '50%';
+      rootElement.style.marginLeft = this.width * -0.5 + 'px';
     }
 
     if (this.height < window.innerHeight) {
-      rootElement.style.top = "50%";
-      rootElement.style.marginTop = this.width * -0.5 + "px";
+      rootElement.style.top = '50%';
+      rootElement.style.marginTop = this.width * -0.5 + 'px';
     }
 
     // Return the element, in case someone wants to meddle with it
@@ -770,18 +746,16 @@ define('flockn/graphics/rootelement', ["exports", "module"], function (exports, 
   module.exports = createRootElement;
 });
 
-define('flockn/group', ["exports", "module", "gamebox", "flockn/serialize"], function (exports, module, _gamebox, _flocknSerialize) {
-  "use strict";
+define('flockn/group', ['exports', 'module', 'gamebox', 'flockn/serialize'], function (exports, module, _gamebox, _flocknSerialize) {
+  'use strict';
 
-  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
 
-  var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+  var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
 
-  var Log = _gamebox.Log;
+  var _serialize = _interopRequire(_flocknSerialize);
 
-  var serialize = _interopRequire(_flocknSerialize);
-
-  var unidentified = "untitled";
+  var unidentified = 'untitled';
   var unidentifiedCounter = 0;
 
   var Group = (function () {
@@ -808,7 +782,7 @@ define('flockn/group', ["exports", "module", "gamebox", "flockn/serialize"], fun
       tags = tags || [];
 
       if (this.ids[id] != null || this.names[name] != null) {
-        Log.w("An object with the name " + name + " or id " + id + " already exists");
+        _gamebox.Log.w('An object with the name ' + name + ' or id ' + id + ' already exists');
         return;
       }
 
@@ -845,12 +819,12 @@ define('flockn/group', ["exports", "module", "gamebox", "flockn/serialize"], fun
     };
 
     Group.prototype.values = function values() {
-      var _this = this;
+      var _this2 = this;
 
       return Object.keys(this.ids).filter(function (id) {
         return id != null;
       }).map(function (id) {
-        return _this.ids[id];
+        return _this2.ids[id];
       });
     };
 
@@ -858,15 +832,15 @@ define('flockn/group', ["exports", "module", "gamebox", "flockn/serialize"], fun
       var objects = [];
 
       var recurse = (function (_recurse) {
-        var _recurseWrapper = function recurse(_x) {
+        function recurse(_x) {
           return _recurse.apply(this, arguments);
-        };
+        }
 
-        _recurseWrapper.toString = function () {
+        recurse.toString = function () {
           return _recurse.toString();
         };
 
-        return _recurseWrapper;
+        return recurse;
       })(function (group) {
         group.forEach(function (obj) {
           if (filter) {
@@ -917,10 +891,10 @@ define('flockn/group', ["exports", "module", "gamebox", "flockn/serialize"], fun
     };
 
     Group.prototype.byType = function byType(type) {
-      var _this = this;
+      var _this3 = this;
 
       return this.types[type].map(function (index) {
-        return _this[index];
+        return _this3[index];
       });
     };
 
@@ -931,10 +905,10 @@ define('flockn/group', ["exports", "module", "gamebox", "flockn/serialize"], fun
     };
 
     Group.prototype.byTag = function byTag(tag) {
-      var _this = this;
+      var _this4 = this;
 
       return this.tags[tag].map(function (index) {
-        return _this[index];
+        return _this4[index];
       });
     };
 
@@ -952,7 +926,7 @@ define('flockn/group', ["exports", "module", "gamebox", "flockn/serialize"], fun
 
     Group.prototype.toJSON = function toJSON() {
       return this.values().map(function (child) {
-        if (child.toJSON && typeof child === "function") {
+        if (child.toJSON && typeof child === 'function') {
           return child.toJSON();
         } else {
           return child;
@@ -961,7 +935,7 @@ define('flockn/group', ["exports", "module", "gamebox", "flockn/serialize"], fun
     };
 
     Group.prototype.toString = function toString() {
-      return serialize.toString(this.toJSON());
+      return _serialize.toString(this.toJSON());
     };
 
     Group.fromJSON = function fromJSON(arr) {
@@ -979,14 +953,14 @@ define('flockn/group', ["exports", "module", "gamebox", "flockn/serialize"], fun
     };
 
     Group.prototype.remove = function remove(index) {
-      var _this = this;
+      var _this5 = this;
 
       var id = Object.keys(ids)[index];
 
       var obj = this.ids[id];
 
       if (obj == null) {
-        Log.w("Object at " + index + " does not exist");
+        _gamebox.Log.w('Object at ' + index + ' does not exist');
       }
 
       var name = obj.name;
@@ -1000,9 +974,9 @@ define('flockn/group', ["exports", "module", "gamebox", "flockn/serialize"], fun
 
         if (position >= 0) {
           if (tag.length === 1) {
-            _this.tags[tag] = [];
+            _this5.tags[tag] = [];
           } else {
-            _this.tags[tag].splice(position, 1);
+            _this5.tags[tag].splice(position, 1);
           }
         }
       });
@@ -1016,17 +990,17 @@ define('flockn/group', ["exports", "module", "gamebox", "flockn/serialize"], fun
     };
 
     Group.prototype.removeByTag = function removeByTag(tags) {
-      var _this = this;
+      var _this6 = this;
 
       if (!Array.isArray(tags)) {
         tags = [tags];
       }
 
       tags.forEach(function (tag) {
-        _this.tags[tag].forEach(function (index) {
-          return _this.remove(index);
+        _this6.tags[tag].forEach(function (index) {
+          return _this6.remove(index);
         });
-        _this.tags = [];
+        _this6.tags = [];
       });
     };
 
@@ -1038,59 +1012,59 @@ define('flockn/group', ["exports", "module", "gamebox", "flockn/serialize"], fun
 
 // TODO: There needs to be a parser here
 
-define('flockn', ["exports", "module", "flockn/game", "flockn/gameobject", "flockn/scene", "flockn/behavior"], function (exports, module, _flocknGame, _flocknGameobject, _flocknScene, _flocknBehavior) {
-  "use strict";
+define('flockn', ['exports', 'module', 'flockn/game', 'flockn/gameobject', 'flockn/scene', 'flockn/behavior'], function (exports, module, _flocknGame, _flocknGameobject, _flocknScene, _flocknBehavior) {
+  'use strict';
 
-  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
 
-  var Game = _interopRequire(_flocknGame);
+  var _Game = _interopRequire(_flocknGame);
 
-  var GameObject = _interopRequire(_flocknGameobject);
+  var _GameObject = _interopRequire(_flocknGameobject);
 
-  var Scene = _interopRequire(_flocknScene);
+  var _Scene = _interopRequire(_flocknScene);
 
-  var Behavior = _interopRequire(_flocknBehavior);
+  var _Behavior = _interopRequire(_flocknBehavior);
 
   var flockn = function flockn(descriptor) {
-    return new Game(descriptor);
+    return new _Game(descriptor);
   };
 
   flockn.gameObject = function (name, factory) {
-    return GameObject.define(name, factory);
+    return _GameObject.define(name, factory);
   };
 
   flockn.scene = function (name, factory) {
-    return Scene.define(name, factory);
+    return _Scene.define(name, factory);
   };
 
   flockn.behavior = function (name, factory) {
-    return Behavior.define(name, factory);
+    return _Behavior.define(name, factory);
   };
 
   module.exports = flockn;
 });
 
-define('flockn/input/mouse', ["exports", "flockn/types/vector2"], function (exports, _flocknTypesVector2) {
-  "use strict";
+define('flockn/input/mouse', ['exports', 'flockn/types/vector2'], function (exports, _flocknTypesVector2) {
+  'use strict';
 
-  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
 
-  Object.defineProperty(exports, "__esModule", {
+  Object.defineProperty(exports, '__esModule', {
     value: true
   });
   // These are things that might be moved into freezedev/gameboard
 
-  var Vector2 = _interopRequire(_flocknTypesVector2);
+  var _Vector2 = _interopRequire(_flocknTypesVector2);
 
-  var events = ["click", "mousedown", "mouseup", "mouseover"];
+  var events = ['click', 'mousedown', 'mouseup', 'mouseover'];
 
   var absolutePosition = function absolutePosition(event, rootElement) {
-    return new Vector2(event.pageX - rootElement.offsetLeft, event.pageY - rootElement.offsetTop);
+    return new _Vector2(event.pageX - rootElement.offsetLeft, event.pageY - rootElement.offsetTop);
   };
 
   var relativePosition = function relativePosition(event, rootElement, offset) {
     // Normalize offset
-    var offsetVector = Object.hasOwnProperty.call(offset, "x") && Object.hasOwnProperty.call(offset, "y") ? offset : new Vector2(offset.left, offset.top);
+    var offsetVector = Object.hasOwnProperty.call(offset, 'x') && Object.hasOwnProperty.call(offset, 'y') ? offset : new _Vector2(offset.left, offset.top);
 
     return absolutePosition(event, rootElement).subtract(offsetVector);
   };
@@ -1100,12 +1074,12 @@ define('flockn/input/mouse', ["exports", "flockn/types/vector2"], function (expo
   exports.relativePosition = relativePosition;
 });
 
-define('flockn/mixins/addable', ["exports", "module", "flockn/graphics"], function (exports, module, _flocknGraphics) {
-  "use strict";
+define('flockn/mixins/addable', ['exports', 'module', 'flockn/graphics'], function (exports, module, _flocknGraphics) {
+  'use strict';
 
-  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
 
-  var Graphics = _interopRequire(_flocknGraphics);
+  var _Graphics = _interopRequire(_flocknGraphics);
 
   var addable = function addable(Factory, groupInstance, extraFn) {
 
@@ -1118,8 +1092,8 @@ define('flockn/mixins/addable', ["exports", "module", "flockn/graphics"], functi
       // I feel that it more complexity than it tried to solve and I had to handle some edge cases
       // and more thorough type checking
 
-      if (typeof child !== "function") {
-        throw new Error("A child has to be a function");
+      if (typeof child !== 'function') {
+        throw new Error('A child has to be a function');
       }
 
       child = new Factory(child);
@@ -1131,14 +1105,14 @@ define('flockn/mixins/addable', ["exports", "module", "flockn/graphics"], functi
         extraFn.call(this, child);
       }
 
-      Graphics.trigger("add", child);
+      _Graphics.trigger('add', child);
 
       // Only call apply if it's available. Models for example don't have one
       if (child.apply) {
         child.apply(args);
       }
 
-      child.trigger("add", child, args);
+      child.trigger('add', child, args);
     };
 
     return function () {
@@ -1152,55 +1126,55 @@ define('flockn/mixins/addable', ["exports", "module", "flockn/graphics"], functi
   module.exports = addable;
 });
 
-define('flockn/mixins', ["exports", "flockn/mixins/addable", "flockn/mixins/renderable", "flockn/mixins/updateable", "flockn/mixins/serializable"], function (exports, _flocknMixinsAddable, _flocknMixinsRenderable, _flocknMixinsUpdateable, _flocknMixinsSerializable) {
-  "use strict";
+define('flockn/mixins', ['exports', 'flockn/mixins/addable', 'flockn/mixins/renderable', 'flockn/mixins/updateable', 'flockn/mixins/serializable'], function (exports, _flocknMixinsAddable, _flocknMixinsRenderable, _flocknMixinsUpdateable, _flocknMixinsSerializable) {
+  'use strict';
 
-  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
 
-  Object.defineProperty(exports, "__esModule", {
+  Object.defineProperty(exports, '__esModule', {
     value: true
   });
 
-  var addable = _interopRequire(_flocknMixinsAddable);
+  var _addable = _interopRequire(_flocknMixinsAddable);
 
-  var renderable = _interopRequire(_flocknMixinsRenderable);
+  var _renderable = _interopRequire(_flocknMixinsRenderable);
 
-  var updateable = _interopRequire(_flocknMixinsUpdateable);
+  var _updateable = _interopRequire(_flocknMixinsUpdateable);
 
-  var serializable = _interopRequire(_flocknMixinsSerializable);
+  var _serializable = _interopRequire(_flocknMixinsSerializable);
 
-  exports.addable = addable;
-  exports.renderable = renderable;
-  exports.updateable = updateable;
-  exports.serializable = serializable;
+  exports.addable = _addable;
+  exports.renderable = _renderable;
+  exports.updateable = _updateable;
+  exports.serializable = _serializable;
 });
 
-define('flockn/mixins/renderable', ["exports", "module", "flockn/utils/checkforflag", "flockn/graphics"], function (exports, module, _flocknUtilsCheckforflag, _flocknGraphics) {
-  "use strict";
+define('flockn/mixins/renderable', ['exports', 'module', 'flockn/utils/checkforflag', 'flockn/graphics'], function (exports, module, _flocknUtilsCheckforflag, _flocknGraphics) {
+  'use strict';
 
-  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
 
-  var checkForFlag = _interopRequire(_flocknUtilsCheckforflag);
+  var _checkForFlag = _interopRequire(_flocknUtilsCheckforflag);
 
-  var Graphics = _interopRequire(_flocknGraphics);
+  var _Graphics = _interopRequire(_flocknGraphics);
 
-  var isVisible = checkForFlag("visible");
+  var isVisible = _checkForFlag('visible');
 
   var renderable = function renderable() {
     var _this = this;
 
-    this.on("render", function () {
+    this.on('render', function () {
       // Only render if element is visible
       if (!isVisible.call(_this)) {
         return;
       }
 
       // Emit `render` event on the `Graphics` object
-      Graphics.trigger("render", _this);
+      _Graphics.trigger('render', _this);
 
       // Render all children elements
       _this.children.forEach(function (child) {
-        return child.trigger("render");
+        return child.trigger('render');
       });
     });
   };
@@ -1208,34 +1182,34 @@ define('flockn/mixins/renderable', ["exports", "module", "flockn/utils/checkforf
   module.exports = renderable;
 });
 
-define('flockn/mixins/serializable', ["exports", "module", "flockn/serialize"], function (exports, module, _flocknSerialize) {
-  "use strict";
+define('flockn/mixins/serializable', ['exports', 'module', 'flockn/serialize'], function (exports, module, _flocknSerialize) {
+  'use strict';
 
-  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
 
-  var serialize = _interopRequire(_flocknSerialize);
+  var _serialize = _interopRequire(_flocknSerialize);
 
   var serializable = function serializable(Factory) {
     Factory.prototype.toJSON = function () {
-      return serialize.toJSON(this);
+      return _serialize.toJSON(this);
     };
 
     Factory.prototype.toString = function () {
-      return serialize.toString(this);
+      return _serialize.toString(this);
     };
   };
 
   module.exports = serializable;
 });
 
-define('flockn/mixins/updateable', ["exports", "module", "flockn/utils/checkforflag"], function (exports, module, _flocknUtilsCheckforflag) {
-  "use strict";
+define('flockn/mixins/updateable', ['exports', 'module', 'flockn/utils/checkforflag'], function (exports, module, _flocknUtilsCheckforflag) {
+  'use strict';
 
-  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
 
-  var checkForFlag = _interopRequire(_flocknUtilsCheckforflag);
+  var _checkForFlag = _interopRequire(_flocknUtilsCheckforflag);
 
-  var isStatic = checkForFlag("static");
+  var isStatic = _checkForFlag('static');
 
   // TODO: This is not completely how I want it be as it only sets the children as static and not the element itself
   // TODO: Evaluate if it's a good idea if static elements shouldn't be able to interact with similar to PIXI's
@@ -1244,14 +1218,14 @@ define('flockn/mixins/updateable', ["exports", "module", "flockn/utils/checkforf
     var _this = this;
 
     // Update all children
-    this.on("update", function (dt) {
+    this.on('update', function (dt) {
       if (!isStatic.call(_this)) {
         return;
       }
 
       _this.children.forEach(function (child) {
         if (child.update) {
-          child.trigger("update", dt);
+          child.trigger('update', dt);
         }
       });
     });
@@ -1260,18 +1234,16 @@ define('flockn/mixins/updateable', ["exports", "module", "flockn/utils/checkforf
   module.exports = updatable;
 });
 
-define('flockn/model', ["exports", "module", "eventmap", "flockn/mixins"], function (exports, module, _eventmap, _flocknMixins) {
-  "use strict";
+define('flockn/model', ['exports', 'module', 'eventmap', 'flockn/mixins'], function (exports, module, _eventmap, _flocknMixins) {
+  'use strict';
 
-  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
 
-  var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+  var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
 
-  var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+  var _inherits = function (subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
 
-  var EventMap = _interopRequire(_eventmap);
-
-  var serializable = _flocknMixins.serializable;
+  var _EventMap2 = _interopRequire(_eventmap);
 
   var Model = (function (_EventMap) {
     function Model() {
@@ -1296,7 +1268,7 @@ define('flockn/model', ["exports", "module", "eventmap", "flockn/mixins"], funct
       // Set or add an attribute
       this.data[name] = value;
       // Trigger the `change` event with `name` and `value` as its parameters
-      this.trigger("change", name, value);
+      this.trigger('change', name, value);
     };
 
     Model.prototype.bind = function bind() {};
@@ -1306,118 +1278,112 @@ define('flockn/model', ["exports", "module", "eventmap", "flockn/mixins"], funct
     };
 
     return Model;
-  })(EventMap);
+  })(_EventMap2);
 
-  serializable(Model);
+  _flocknMixins.serializable(Model);
 
   module.exports = Model;
 });
 
-define('flockn/plugins/collision', ["exports", "flockn/behavior"], function (exports, _flocknBehavior) {
-  "use strict";
+define('flockn/plugins/collision', ['exports', 'flockn/behavior'], function (exports, _flocknBehavior) {
+  'use strict';
 
-  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
 
-  var Behavior = _interopRequire(_flocknBehavior);
+  var _Behavior = _interopRequire(_flocknBehavior);
 
-  Behavior.define("collision", function () {
+  _Behavior.define('collision', function () {
 
     this.update(function (dt) {});
   });
 });
 
-define('flockn/plugins/movement', ["exports", "flockn/behavior", "flockn/model", "gamebox"], function (exports, _flocknBehavior, _flocknModel, _gamebox) {
-  "use strict";
+define('flockn/plugins/movement', ['exports', 'flockn/behavior', 'flockn/model', 'gamebox'], function (exports, _flocknBehavior, _flocknModel, _gamebox) {
+  'use strict';
 
-  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
 
-  var Behavior = _interopRequire(_flocknBehavior);
+  var _Behavior = _interopRequire(_flocknBehavior);
 
-  var Model = _interopRequire(_flocknModel);
+  var _Model = _interopRequire(_flocknModel);
 
-  var Input = _gamebox.Input;
+  var keyData = new _Model();
 
-  var keyData = new Model();
+  keyData.name = 'keys';
+  keyData.set('up', ['up', 'w']);
+  keyData.set('down', ['down', 's']);
+  keyData.set('left', ['left', 'a']);
+  keyData.set('right', ['right', 'd']);
 
-  keyData.name = "keys";
-  keyData.set("up", ["up", "w"]);
-  keyData.set("down", ["down", "s"]);
-  keyData.set("left", ["left", "a"]);
-  keyData.set("right", ["right", "d"]);
+  var movements = ['up', 'down', 'left', 'right'];
 
-  var movements = ["up", "down", "left", "right"];
-
-  Behavior.define("movement", function () {
+  _Behavior.define('movement', function () {
     var _this = this;
 
     this.addModel(keyData);
 
-    this.input.key.on("down", function (key) {
+    this.input.key.on('down', function (key) {
 
-      var upKeys = _this.data("keys").get("up");
+      var upKeys = _this.data('keys').get('up');
       if (!Array.isArray(upKeys)) {
         upKeys = [upKeys];
       }
 
-      _this.trigger("up");
-      _this.trigger("down");
-      _this.trigger("left");
-      _this.trigger("right");
+      _this.trigger('up');
+      _this.trigger('down');
+      _this.trigger('left');
+      _this.trigger('right');
     });
   });
 });
 
-define('flockn/plugins/spriteanimation', ["exports", "flockn/behavior"], function (exports, _flocknBehavior) {
-  "use strict";
+define('flockn/plugins/spriteanimation', ['exports', 'flockn/behavior'], function (exports, _flocknBehavior) {
+  'use strict';
 
-  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
 
-  var Behavior = _interopRequire(_flocknBehavior);
+  var _Behavior = _interopRequire(_flocknBehavior);
 
-  Behavior.define("sprite-animation", function () {});
+  _Behavior.define('sprite-animation', function () {});
 });
 
-define('flockn/renderer/canvas', ["exports", "flockn/types", "flockn/graphics", "flockn/graphics/rootelement", "flockn/input/mouse"], function (exports, _flocknTypes, _flocknGraphics, _flocknGraphicsRootelement, _flocknInputMouse) {
-  "use strict";
+define('flockn/renderer/canvas', ['exports', 'flockn/types', 'flockn/graphics', 'flockn/graphics/rootelement', 'flockn/input/mouse'], function (exports, _flocknTypes, _flocknGraphics, _flocknGraphicsRootelement, _flocknInputMouse) {
+  'use strict';
 
-  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
 
-  var Vector2 = _flocknTypes.Vector2;
+  var _Graphics = _interopRequire(_flocknGraphics);
 
-  var Graphics = _interopRequire(_flocknGraphics);
+  var _createRootElement = _interopRequire(_flocknGraphicsRootelement);
 
-  var createRootElement = _interopRequire(_flocknGraphicsRootelement);
-
-  var mouse = _flocknInputMouse;
-
-  Graphics.renderer = "Canvas";
+  _Graphics.renderer = 'Canvas';
 
   var rootElement = null;
   var context = null;
 
-  Graphics.on("initialize", function (Game) {
-    rootElement = createRootElement.call(Game, "canvas", function (rootElement) {
+  _Graphics.on('initialize', function (Game) {
+    rootElement = _createRootElement.call(Game, 'canvas', function (rootElement) {
       rootElement.width = Game.width;
       rootElement.height = Game.height;
-      context = rootElement.getContext("2d");
+      context = rootElement.getContext('2d');
     });
 
-    mouse.events.forEach(function (eventName) {
+    _flocknInputMouse.events.forEach(function (eventName) {
       rootElement.addEventListener(eventName, function (e) {
         if (Game.activeScene) {
           Game.activeScene.children.all(function (obj) {
-            return obj.visible && obj.bounds().contains(mouse.relativePosition(e, rootElement, obj));
+            return obj.visible && obj.bounds().contains(_flocknInputMouse.relativePosition(e, rootElement, obj));
           }).forEach(function (obj) {
-            return obj.trigger(eventName, mouse.relativePosition(e, rootElement, obj));
+            return obj.trigger(eventName, _flocknInputMouse.relativePosition(e, rootElement, obj));
           });
         }
       });
     });
   });
 
-  Graphics.before("render", function (obj) {
+  _Graphics.before('render', function (obj) {
     switch (obj.type) {
-      case "Game":
+      case 'Game':
         context.clearRect(0, 0, obj.width, obj.height);
 
         context.fillStyle = obj.color.toString();
@@ -1428,9 +1394,9 @@ define('flockn/renderer/canvas', ["exports", "flockn/types", "flockn/graphics", 
     }
   });
 
-  Graphics.on("render", function (obj) {
+  _Graphics.on('render', function (obj) {
     switch (obj.type) {
-      case "GameObject":
+      case 'GameObject':
         context.save();
 
         context.translate(obj.position.x + obj.origin.x, obj.position.y + obj.origin.y);
@@ -1439,7 +1405,7 @@ define('flockn/renderer/canvas', ["exports", "flockn/types", "flockn/graphics", 
           context.rotate(obj.angle * (Math.PI / 180));
         }
 
-        if (obj.texture.backgroundColor.toString() !== "transparent") {
+        if (obj.texture.backgroundColor.toString() !== 'transparent') {
           context.fillStyle = obj.texture.backgroundColor.toString();
           context.fillRect(-obj.origin.x, -obj.origin.y, obj.width, obj.height);
         }
@@ -1449,7 +1415,7 @@ define('flockn/renderer/canvas', ["exports", "flockn/types", "flockn/graphics", 
         }
 
         if (obj.texture.label.drawable) {
-          var fontName = obj.texture.label.font.size + "px " + obj.texture.label.font.name;
+          var fontName = obj.texture.label.font.size + 'px ' + obj.texture.label.font.name;
 
           context.fillStyle = obj.texture.label.font.color.toString();
           context.fillText(obj.texture.label.text, -obj.origin.x, -obj.origin.y);
@@ -1457,7 +1423,7 @@ define('flockn/renderer/canvas', ["exports", "flockn/types", "flockn/graphics", 
 
         context.restore();
         break;
-      case "Scene":
+      case 'Scene':
         if (obj.parent.activeScene !== obj.name) {
           return;
         }
@@ -1468,41 +1434,39 @@ define('flockn/renderer/canvas', ["exports", "flockn/types", "flockn/graphics", 
   });
 });
 
-define('flockn/renderer/dom', ["exports", "flockn/graphics", "flockn/graphics/rootelement", "flockn/input/mouse"], function (exports, _flocknGraphics, _flocknGraphicsRootelement, _flocknInputMouse) {
-  "use strict";
+define('flockn/renderer/dom', ['exports', 'flockn/graphics', 'flockn/graphics/rootelement', 'flockn/input/mouse'], function (exports, _flocknGraphics, _flocknGraphicsRootelement, _flocknInputMouse) {
+  'use strict';
 
-  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
 
-  var Graphics = _interopRequire(_flocknGraphics);
+  var _Graphics = _interopRequire(_flocknGraphics);
 
-  var createRootElement = _interopRequire(_flocknGraphicsRootelement);
-
-  var mouse = _flocknInputMouse;
+  var _createRootElement = _interopRequire(_flocknGraphicsRootelement);
 
   var root = window;
 
   var pixelize = function pixelize(num) {
-    return num + "px";
+    return num + 'px';
   };
 
   var unpixelize = function unpixelize(str) {
     return parseFloat(str) || 0;
   };
 
-  Graphics.renderer = "DOM";
+  _Graphics.renderer = 'DOM';
 
   var rootElement = null;
 
-  Graphics.on("initialize", function (Game) {
-    rootElement = createRootElement.call(Game, "div", function (rootElement) {
+  _Graphics.on('initialize', function (Game) {
+    rootElement = _createRootElement.call(Game, 'div', function (rootElement) {
       rootElement.style.backgroundColor = this.color.toString();
-      rootElement.style.overflow = "hidden";
-      rootElement.style.cursor = "default";
-      rootElement.style.userSelect = rootElement.style.mozUserSelect = rootElement.style.webkitUserSelect = "none";
+      rootElement.style.overflow = 'hidden';
+      rootElement.style.cursor = 'default';
+      rootElement.style.userSelect = rootElement.style.mozUserSelect = rootElement.style.webkitUserSelect = 'none';
     });
   });
 
-  Graphics.on("add", function (obj) {
+  _Graphics.on('add', function (obj) {
     var elementId = obj.id.toLowerCase();
 
     // Remove previous elements of the same id
@@ -1531,35 +1495,35 @@ define('flockn/renderer/dom', ["exports", "flockn/graphics", "flockn/graphics/ro
       }
     })();
 
-    var element = document.createElement("div");
+    var element = document.createElement('div');
     element.id = elementId;
-    element.className = [obj.type.toLowerCase(), obj.name.toLowerCase()].join(" ");
-    element.style.position = "absolute";
+    element.className = [obj.type.toLowerCase(), obj.name.toLowerCase()].join(' ');
+    element.style.position = 'absolute';
 
     switch (obj.type) {
-      case "Scene":
+      case 'Scene':
         element.style.width = pixelize(obj.parent.width);
         element.style.height = pixelize(obj.parent.height);
         break;
-      case "GameObject":
+      case 'GameObject':
         element.style.left = pixelize(obj.position.x);
         element.style.top = pixelize(obj.position.y);
         element.style.width = pixelize(obj.width);
         element.style.height = pixelize(obj.height);
 
-        mouse.events.forEach(function (eventName) {
+        _flocknInputMouse.events.forEach(function (eventName) {
           root.addEventListener(eventName, function (evt) {
-            obj.trigger(mouse.relativePosition(evt, rootElement, obj));
+            obj.trigger(_flocknInputMouse.relativePosition(evt, rootElement, obj));
           });
         });
 
         // Mouseenter and Mouseleave are kinda special right now
-        root.addEventListener("mouseenter", function (evt) {
-          obj.trigger("mouseenter", evt);
+        root.addEventListener('mouseenter', function (evt) {
+          obj.trigger('mouseenter', evt);
         }, true);
 
-        root.addEventListener("mouseleave", function (evt) {
-          obj.trigger("mouseleave", evt);
+        root.addEventListener('mouseleave', function (evt) {
+          obj.trigger('mouseleave', evt);
         }, true);
 
         break;
@@ -1570,17 +1534,17 @@ define('flockn/renderer/dom', ["exports", "flockn/graphics", "flockn/graphics/ro
     parentElem.appendChild(element);
   });
 
-  Graphics.on("texture-image-loaded", function (obj, texture) {
+  _Graphics.on('texture-image-loaded', function (obj, texture) {
     var element = document.getElementById(obj.id.toLowerCase());
 
     if (element != null) {
-      element.style.backgroundImage = "url(" + texture.image.filename + ")";
+      element.style.backgroundImage = 'url(' + texture.image.filename + ')';
       element.style.width = pixelize(obj.width);
       element.style.height = pixelize(obj.height);
     }
   });
 
-  Graphics.on("texture-label-loaded", function (obj, texture) {
+  _Graphics.on('texture-label-loaded', function (obj, texture) {
     var element = document.getElementById(obj.id.toLowerCase());
 
     if (element != null) {
@@ -1591,13 +1555,13 @@ define('flockn/renderer/dom', ["exports", "flockn/graphics", "flockn/graphics/ro
 
   var dirtyObjects = {};
 
-  Graphics.after("render", function (obj) {
+  _Graphics.after('render', function (obj) {
     var objId = obj.id.toLowerCase();
 
     dirtyObjects[objId] = obj;
   });
 
-  Graphics.on("render", function (obj) {
+  _Graphics.on('render', function (obj) {
     var objId = obj.id.toLowerCase();
 
     // Update element attributes
@@ -1607,11 +1571,11 @@ define('flockn/renderer/dom', ["exports", "flockn/graphics", "flockn/graphics/ro
       var prevObj = dirtyObjects[objId] || {};
 
       switch (obj.type) {
-        case "GameObject":
-          var elemVisible = element.style.display === "block";
+        case 'GameObject':
+          var elemVisible = element.style.display === 'block';
 
           if (elemVisible !== obj.visible) {
-            element.style.display = obj.visible ? "block" : "hidden";
+            element.style.display = obj.visible ? 'block' : 'hidden';
           }
 
           if (!elemVisible) {
@@ -1640,7 +1604,7 @@ define('flockn/renderer/dom', ["exports", "flockn/graphics", "flockn/graphics/ro
           }
 
           if (obj.angle) {
-            element.style.transform = element.style.mozTransform = element.style.webkitTransform = "rotate(" + obj.angle + "deg)";
+            element.style.transform = element.style.mozTransform = element.style.webkitTransform = 'rotate(' + obj.angle + 'deg)';
           }
 
           if (obj.alpha !== 1) {
@@ -1651,12 +1615,12 @@ define('flockn/renderer/dom', ["exports", "flockn/graphics", "flockn/graphics/ro
           element.style.backgroundColor = obj.texture.backgroundColor.toString();
 
           // Set origin
-          element.style.transformOrigin = element.style.mozTransformOrigin = element.webkitTransformOrigin = obj.origin.x + "px " + obj.origin.y + "px";
+          element.style.transformOrigin = element.style.mozTransformOrigin = element.webkitTransformOrigin = obj.origin.x + 'px ' + obj.origin.y + 'px';
 
           // Set border
           if (obj.border.width > 0) {
             element.style.borderWidth = pixelize(obj.border.width);
-            element.style.borderStyle = "solid";
+            element.style.borderStyle = 'solid';
             element.style.borderColor = obj.border.color.toString();
 
             if (obj.border.radius > 0) {
@@ -1666,18 +1630,18 @@ define('flockn/renderer/dom', ["exports", "flockn/graphics", "flockn/graphics/ro
 
           if (obj.texture.image.drawable) {
             if (obj.texture.image.offset.x !== 0) {
-              element.style.backgroundPositionX = obj.texture.image.offset.x * -1 + "px";
+              element.style.backgroundPositionX = obj.texture.image.offset.x * -1 + 'px';
             }
 
             if (obj.texture.image.offset.y !== 0) {
-              element.style.backgroundPositionY = obj.texture.image.offset.y * -1 + "px";
+              element.style.backgroundPositionY = obj.texture.image.offset.y * -1 + 'px';
             }
           }
 
           if (obj.texture.label.drawable) {
             element.innerText = obj.texture.label.text;
 
-            element.style.whiteSpace = "nowrap";
+            element.style.whiteSpace = 'nowrap';
 
             if (obj.texture.label.font.size) {
               element.style.fontSize = pixelize(obj.texture.label.font.size);
@@ -1693,14 +1657,14 @@ define('flockn/renderer/dom', ["exports", "flockn/graphics", "flockn/graphics/ro
 
             obj.texture.label.font.decoration.forEach(function (decoration) {
               switch (decoration) {
-                case "bold":
-                  element.style.fontWeight = "bold";
+                case 'bold':
+                  element.style.fontWeight = 'bold';
                   break;
-                case "italic":
-                  element.style.fontStyle = "italic";
+                case 'italic':
+                  element.style.fontStyle = 'italic';
                   break;
-                case "underline":
-                  element.style.textDecoration = "underline";
+                case 'underline':
+                  element.style.textDecoration = 'underline';
                   break;
                 default:
                   break;
@@ -1709,16 +1673,16 @@ define('flockn/renderer/dom', ["exports", "flockn/graphics", "flockn/graphics/ro
           }
 
           break;
-        case "Scene":
+        case 'Scene':
           var elemVisibleStyle = element.style.display;
 
           if (obj.parent.activeScene !== obj.name) {
-            if (elemVisibleStyle !== "hidden") {
-              element.style.display = "hidden";
+            if (elemVisibleStyle !== 'hidden') {
+              element.style.display = 'hidden';
             }
           } else {
-            if (elemVisibleStyle !== "block") {
-              element.style.display = "block";
+            if (elemVisibleStyle !== 'block') {
+              element.style.display = 'block';
             }
           }
           break;
@@ -1729,23 +1693,18 @@ define('flockn/renderer/dom', ["exports", "flockn/graphics", "flockn/graphics/ro
   });
 });
 
-define('flockn/scene', ["exports", "module", "flockn/base", "flockn/gameobject", "flockn/mixins"], function (exports, module, _flocknBase, _flocknGameobject, _flocknMixins) {
-  "use strict";
+define('flockn/scene', ['exports', 'module', 'flockn/base', 'flockn/gameobject', 'flockn/mixins'], function (exports, module, _flocknBase, _flocknGameobject, _flocknMixins) {
+  'use strict';
 
-  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
 
-  var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+  var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
 
-  var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+  var _inherits = function (subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
 
-  var Base = _interopRequire(_flocknBase);
+  var _Base2 = _interopRequire(_flocknBase);
 
-  var GameObject = _interopRequire(_flocknGameobject);
-
-  var addable = _flocknMixins.addable;
-  var renderable = _flocknMixins.renderable;
-  var updateable = _flocknMixins.updateable;
-  var serializable = _flocknMixins.serializable;
+  var _GameObject = _interopRequire(_flocknGameobject);
 
   // A `Scene` instance is a layer for `GameObject` instances.
   // Any number of game objects can be added to a scene. Only one scene should be visible at the same time, depending
@@ -1755,26 +1714,26 @@ define('flockn/scene', ["exports", "module", "flockn/base", "flockn/gameobject",
     function Scene(descriptor) {
       _classCallCheck(this, Scene);
 
-      _Base.call(this, "Scene", descriptor);
+      _Base.call(this, 'Scene', descriptor);
 
       this.visible = true;
 
       // Mix in `renderable` and `updateable`
-      renderable.call(this);
-      updateable.call(this);
+      _flocknMixins.renderable.call(this);
+      _flocknMixins.updateable.call(this);
     }
 
     _inherits(Scene, _Base);
 
     Scene.prototype.addGameObject = function addGameObject() {
       // Allow game objects to be added to scenes
-      this.queue.push(addable(GameObject, this.children).apply(this, arguments));
+      this.queue.push(_flocknMixins.addable(_GameObject, this.children).apply(this, arguments));
     };
 
     return Scene;
-  })(Base);
+  })(_Base2);
 
-  serializable(Scene);
+  _flocknMixins.serializable(Scene);
 
   module.exports = Scene;
 });
@@ -1797,22 +1756,22 @@ define('flockn/selector', ["exports", "module"], function (exports, module) {
   module.exports = Selector;
 });
 
-define('flockn/serialize', ["exports", "module", "eventmap"], function (exports, module, _eventmap) {
-  "use strict";
+define('flockn/serialize', ['exports', 'module', 'eventmap'], function (exports, module, _eventmap) {
+  'use strict';
 
-  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
 
-  var EventMap = _interopRequire(_eventmap);
+  var _EventMap = _interopRequire(_eventmap);
 
   var serialize = {};
 
   serialize.json = {};
 
-  serialize.json.filter = ["id", "parent", "audio", "input", "world", "assetLoader"];
+  serialize.json.filter = ['id', 'parent', 'audio', 'input', 'world', 'assetLoader'];
   serialize.json.defaultReplacer = [];
 
   serialize.json.defaultReplacer.push(function (key, value) {
-    if (key === "events" && value instanceof EventMap) {
+    if (key === 'events' && value instanceof _EventMap) {
       value = value.serialize();
     }
 
@@ -1822,17 +1781,17 @@ define('flockn/serialize', ["exports", "module", "eventmap"], function (exports,
   serialize.json.defaultReplacer.push(function (key, value) {
     // Convert image to Base64
     if (value instanceof Image) {
-      var canvas = document.createElement("canvas");
-      var context = canvas.getContext("2d");
+      var canvas = document.createElement('canvas');
+      var context = canvas.getContext('2d');
       canvas.height = this.height;
       canvas.width = this.width;
       context.drawImage(this.data, 0, 0);
-      var dataURL = canvas.toDataURL("image/png");
+      var dataURL = canvas.toDataURL('image/png');
       canvas = null;
 
       value = {
         data: dataURL,
-        type: "image/png"
+        type: 'image/png'
       };
     }
 
@@ -1844,7 +1803,7 @@ define('flockn/serialize', ["exports", "module", "eventmap"], function (exports,
       return value;
     }
 
-    if (value.toJSON && typeof value.toJSON === "function") {
+    if (value.toJSON && typeof value.toJSON === 'function') {
       value = value.toJSON();
     }
 
@@ -1853,10 +1812,10 @@ define('flockn/serialize', ["exports", "module", "eventmap"], function (exports,
 
   serialize.json.defaultReplacer.push(function (key, value) {
     // Functions are not allowed expect for the descriptor
-    if (typeof value !== "function") {
+    if (typeof value !== 'function') {
       return value;
     } else {
-      if (key === "descriptor") {
+      if (key === 'descriptor') {
         return value;
       }
     }
@@ -1885,7 +1844,7 @@ define('flockn/serialize', ["exports", "module", "eventmap"], function (exports,
           })(replacers[i]);
         }
 
-        if (typeof value !== "undefined") {
+        if (typeof value !== 'undefined') {
           clonedObj[key] = value;
         }
       })(key, obj[key]);
@@ -1898,7 +1857,7 @@ define('flockn/serialize', ["exports", "module", "eventmap"], function (exports,
     return JSON.stringify(serialize.toJSON(obj), function (key, value) {
       // Functions that are still left should be stringified
 
-      if (typeof value === "function") {
+      if (typeof value === 'function') {
         value = value.toString();
       }
 
@@ -1909,33 +1868,30 @@ define('flockn/serialize', ["exports", "module", "eventmap"], function (exports,
   module.exports = serialize;
 });
 
-define('flockn/texture/image', ["exports", "module", "flockn/types", "flockn/mixins/serializable"], function (exports, module, _flocknTypes, _flocknMixinsSerializable) {
-  "use strict";
+define('flockn/texture/image', ['exports', 'module', 'flockn/types', 'flockn/mixins/serializable'], function (exports, module, _flocknTypes, _flocknMixinsSerializable) {
+  'use strict';
 
-  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
 
-  var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+  var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
 
-  var Color = _flocknTypes.Color;
-  var Vector2 = _flocknTypes.Vector2;
-
-  var serializable = _interopRequire(_flocknMixinsSerializable);
+  var _serializable = _interopRequire(_flocknMixinsSerializable);
 
   var TextureImage = (function () {
     function TextureImage(texture) {
       _classCallCheck(this, TextureImage);
 
       // The default values for `image`
-      this.color = Color.transparent();
+      this.color = _flocknTypes.Color.transparent();
       this.drawable = false;
-      this.offset = new Vector2(0, 0);
+      this.offset = new _flocknTypes.Vector2(0, 0);
       this.data = null;
       this.width = 0;
       this.height = 0;
 
-      var filename = "";
+      var filename = '';
 
-      Object.defineProperty(this, "filename", {
+      Object.defineProperty(this, 'filename', {
         get: function get() {
           return filename;
         },
@@ -1954,7 +1910,7 @@ define('flockn/texture/image', ["exports", "module", "flockn/types", "flockn/mix
             _this.height = img.height;
             _this.drawable = true;
 
-            texture.trigger("image-loaded");
+            texture.trigger('image-loaded');
           };
         },
         enumerable: true
@@ -1972,29 +1928,27 @@ define('flockn/texture/image', ["exports", "module", "flockn/types", "flockn/mix
     return TextureImage;
   })();
 
-  serializable(TextureImage);
+  _serializable(TextureImage);
 
   module.exports = TextureImage;
 });
 
-define('flockn/texture', ["exports", "module", "flockn/types", "eventmap", "flockn/texture/image", "flockn/texture/label", "flockn/mixins/serializable"], function (exports, module, _flocknTypes, _eventmap, _flocknTextureImage, _flocknTextureLabel, _flocknMixinsSerializable) {
-  "use strict";
+define('flockn/texture', ['exports', 'module', 'flockn/types', 'eventmap', 'flockn/texture/image', 'flockn/texture/label', 'flockn/mixins/serializable'], function (exports, module, _flocknTypes, _eventmap, _flocknTextureImage, _flocknTextureLabel, _flocknMixinsSerializable) {
+  'use strict';
 
-  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
 
-  var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+  var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
 
-  var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+  var _inherits = function (subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
 
-  var Color = _flocknTypes.Color;
+  var _EventMap2 = _interopRequire(_eventmap);
 
-  var EventMap = _interopRequire(_eventmap);
+  var _TextureImage = _interopRequire(_flocknTextureImage);
 
-  var TextureImage = _interopRequire(_flocknTextureImage);
+  var _TextureLabel = _interopRequire(_flocknTextureLabel);
 
-  var TextureLabel = _interopRequire(_flocknTextureLabel);
-
-  var serializable = _interopRequire(_flocknMixinsSerializable);
+  var _serializable = _interopRequire(_flocknMixinsSerializable);
 
   var Texture = (function (_EventMap) {
     function Texture() {
@@ -2011,18 +1965,18 @@ define('flockn/texture', ["exports", "module", "flockn/types", "eventmap", "floc
       // Set parent property
       this.parent = null;
 
-      this.image = new TextureImage(this);
-      this.label = new TextureLabel(this);
+      this.image = new _TextureImage(this);
+      this.label = new _TextureLabel(this);
 
-      this.backgroundColor = Color.transparent();
+      this.backgroundColor = _flocknTypes.Color.transparent();
 
       // TODO: What to do when there is both an image and a label
-      this.on("image-loaded", function () {
+      this.on('image-loaded', function () {
         _this.width = _this.image.width;
         _this.height = _this.image.height;
       });
 
-      this.on("label-loaded", function () {
+      this.on('label-loaded', function () {
         _this.width = _this.label.width;
         _this.height = _this.label.height;
       });
@@ -2031,23 +1985,21 @@ define('flockn/texture', ["exports", "module", "flockn/types", "eventmap", "floc
     _inherits(Texture, _EventMap);
 
     return Texture;
-  })(EventMap);
+  })(_EventMap2);
 
-  serializable(Texture);
+  _serializable(Texture);
 
   module.exports = Texture;
 });
 
-define('flockn/texture/label', ["exports", "module", "flockn/types", "flockn/mixins/serializable"], function (exports, module, _flocknTypes, _flocknMixinsSerializable) {
-  "use strict";
+define('flockn/texture/label', ['exports', 'module', 'flockn/types', 'flockn/mixins/serializable'], function (exports, module, _flocknTypes, _flocknMixinsSerializable) {
+  'use strict';
 
-  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
 
-  var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+  var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
 
-  var Color = _flocknTypes.Color;
-
-  var serializable = _interopRequire(_flocknMixinsSerializable);
+  var _serializable = _interopRequire(_flocknMixinsSerializable);
 
   var TextureLabel = function TextureLabel(texture) {
     _classCallCheck(this, TextureLabel);
@@ -2056,21 +2008,21 @@ define('flockn/texture/label', ["exports", "module", "flockn/types", "flockn/mix
     this.drawable = false;
     this.font = {
       size: 10,
-      name: "Arial",
-      color: Color.black(),
+      name: 'Arial',
+      color: _flocknTypes.Color.black(),
       decoration: []
     };
 
     this.align = {
-      x: "center",
-      y: "center"
+      x: 'center',
+      y: 'center'
     };
     this.width = 0;
     this.height = 0;
 
-    var text = "";
+    var text = '';
 
-    Object.defineProperty(this, "text", {
+    Object.defineProperty(this, 'text', {
       get: function get() {
         return text;
       },
@@ -2079,25 +2031,25 @@ define('flockn/texture/label', ["exports", "module", "flockn/types", "flockn/mix
 
         // Calculate the size of the label and update the dimensions
         // TODO: This should be handled somewhere else, but I'm not sure where
-        var tmpElem = document.createElement("div");
+        var tmpElem = document.createElement('div');
         tmpElem.innerText = text;
-        tmpElem.style.position = "absolute";
-        tmpElem.style.left = "-9999px";
-        tmpElem.style.top = "-9999px";
-        tmpElem.style.fontSize = this.font.size + "px";
+        tmpElem.style.position = 'absolute';
+        tmpElem.style.left = '-9999px';
+        tmpElem.style.top = '-9999px';
+        tmpElem.style.fontSize = this.font.size + 'px';
         tmpElem.style.fontFamily = this.font.name;
         tmpElem.style.color = this.font.color;
 
         this.font.decoration.forEach(function (decoration) {
           switch (decoration) {
-            case "bold":
-              tmpElem.style.fontWeight = "bold";
+            case 'bold':
+              tmpElem.style.fontWeight = 'bold';
               break;
-            case "italic":
-              tmpElem.style.fontStyle = "italic";
+            case 'italic':
+              tmpElem.style.fontStyle = 'italic';
               break;
-            case "underline":
-              tmpElem.style.textDecoration = "underline";
+            case 'underline':
+              tmpElem.style.textDecoration = 'underline';
               break;
             default:
               break;
@@ -2112,28 +2064,26 @@ define('flockn/texture/label', ["exports", "module", "flockn/types", "flockn/mix
 
         document.body.removeChild(tmpElem);
 
-        texture.trigger("label-loaded");
+        texture.trigger('label-loaded');
       }
     });
   };
 
-  serializable(TextureLabel);
+  _serializable(TextureLabel);
 
   module.exports = TextureLabel;
 });
 
-define('flockn/types/color', ["exports", "module", "gamebox", "flockn/constants/color"], function (exports, module, _gamebox, _flocknConstantsColor) {
-  "use strict";
+define('flockn/types/color', ['exports', 'module', 'gamebox', 'flockn/constants/color'], function (exports, module, _gamebox, _flocknConstantsColor) {
+  'use strict';
 
-  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
 
-  var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+  var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
 
-  var Math = _gamebox.Math;
+  var _colorConstants = _interopRequire(_flocknConstantsColor);
 
-  var colorConstants = _interopRequire(_flocknConstantsColor);
-
-  var clamp = Math.clamp;
+  var clamp = _gamebox.Math.clamp;
 
   var Color = (function () {
     function Color() {
@@ -2196,12 +2146,12 @@ define('flockn/types/color', ["exports", "module", "gamebox", "flockn/constants/
     Color.prototype.toJSON = function toJSON() {
       if (this.a < 1) {
         if (this.a === 0) {
-          return "transparent";
+          return 'transparent';
         } else {
-          return "rgba(" + this.r + "," + this.g + "," + this.b + "," + this.a + ")";
+          return 'rgba(' + this.r + ',' + this.g + ',' + this.b + ',' + this.a + ')';
         }
       } else {
-        return "rgb(" + this.r + "," + this.g + "," + this.b + ")";
+        return 'rgb(' + this.r + ',' + this.g + ',' + this.b + ')';
       }
     };
 
@@ -2210,7 +2160,7 @@ define('flockn/types/color', ["exports", "module", "gamebox", "flockn/constants/
     };
 
     Color.prototype.toHex = function toHex() {
-      return "#" + this.r.toString(16) + "" + this.g.toString(16) + "" + this.b.toString(16);
+      return '#' + this.r.toString(16) + '' + this.g.toString(16) + '' + this.b.toString(16);
     };
 
     // Getting a random color for debugging is quite useful sometimes
@@ -2219,7 +2169,7 @@ define('flockn/types/color', ["exports", "module", "gamebox", "flockn/constants/
       var col = [0, 0, 0];
 
       col = col.map(function () {
-        return ~ ~(Math.random() * 255);
+        return ~ ~(_gamebox.Math.random() * 255);
       });
 
       return new Color(col[0], col[1], col[2]);
@@ -2228,8 +2178,8 @@ define('flockn/types/color', ["exports", "module", "gamebox", "flockn/constants/
     return Color;
   })();
 
-  for (var colorName in colorConstants) {
-    var colorValue = colorConstants[colorName];
+  for (var colorName in _colorConstants) {
+    var colorValue = _colorConstants[colorName];
 
     (function (colorName, colorValue) {
       Color[colorName] = function () {
@@ -2243,45 +2193,45 @@ define('flockn/types/color', ["exports", "module", "gamebox", "flockn/constants/
   module.exports = Color;
 });
 
-define('flockn/types', ["exports", "flockn/types/color", "flockn/types/vector2", "flockn/types/vector3", "flockn/types/rect"], function (exports, _flocknTypesColor, _flocknTypesVector2, _flocknTypesVector3, _flocknTypesRect) {
-  "use strict";
+define('flockn/types', ['exports', 'flockn/types/color', 'flockn/types/vector2', 'flockn/types/vector3', 'flockn/types/rect'], function (exports, _flocknTypesColor, _flocknTypesVector2, _flocknTypesVector3, _flocknTypesRect) {
+  'use strict';
 
-  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
 
-  Object.defineProperty(exports, "__esModule", {
+  Object.defineProperty(exports, '__esModule', {
     value: true
   });
 
-  var Color = _interopRequire(_flocknTypesColor);
+  var _Color = _interopRequire(_flocknTypesColor);
 
-  var Vector2 = _interopRequire(_flocknTypesVector2);
+  var _Vector2 = _interopRequire(_flocknTypesVector2);
 
-  var Vector3 = _interopRequire(_flocknTypesVector3);
+  var _Vector3 = _interopRequire(_flocknTypesVector3);
 
-  var Rect = _interopRequire(_flocknTypesRect);
+  var _Rect = _interopRequire(_flocknTypesRect);
 
   var Types = {};
 
-  Types.Color = Color;
-  Types.Vector2 = Vector2;
-  Types.Vector3 = Vector3;
-  Types.Rect = Rect;
+  Types.Color = _Color;
+  Types.Vector2 = _Vector2;
+  Types.Vector3 = _Vector3;
+  Types.Rect = _Rect;
 
-  exports["default"] = Types;
-  exports.Color = Color;
-  exports.Vector2 = Vector2;
-  exports.Vector3 = Vector3;
-  exports.Rect = Rect;
+  exports['default'] = Types;
+  exports.Color = _Color;
+  exports.Vector2 = _Vector2;
+  exports.Vector3 = _Vector3;
+  exports.Rect = _Rect;
 });
 
-define('flockn/types/rect', ["exports", "module", "flockn/types/vector2"], function (exports, module, _flocknTypesVector2) {
-  "use strict";
+define('flockn/types/rect', ['exports', 'module', 'flockn/types/vector2'], function (exports, module, _flocknTypesVector2) {
+  'use strict';
 
-  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
 
-  var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+  var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
 
-  var Vector2 = _interopRequire(_flocknTypesVector2);
+  var _Vector2 = _interopRequire(_flocknTypesVector2);
 
   var Rect = (function () {
     function Rect() {
@@ -2317,7 +2267,7 @@ define('flockn/types/rect', ["exports", "module", "flockn/types/vector2"], funct
     };
 
     Rect.prototype.center = function center() {
-      return new Vector2(this.x + this.w / 2, this.y + this.h / 2);
+      return new _Vector2(this.x + this.w / 2, this.y + this.h / 2);
     };
 
     Rect.prototype.contains = function contains(vector) {
@@ -2333,9 +2283,9 @@ define('flockn/types/rect', ["exports", "module", "flockn/types/vector2"], funct
 define('flockn/types/vector2', ["exports", "module"], function (exports, module) {
   "use strict";
 
-  var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
   var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+
+  var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
   var sqrMagnitude = function sqrMagnitude(v) {
     return Vector2.dot(v, v);
@@ -2426,23 +2376,22 @@ define('flockn/types/vector2', ["exports", "module"], function (exports, module)
       return this.x === v.x && this.y === v.y;
     };
 
-    _createClass(Vector2, {
-      magnitude: {
-        get: function () {
-          return Math.sqrt(sqrMagnitude(this));
-        }
-      },
-      sqrMagnitude: {
-        get: function () {
-          return sqrMagnitude(this);
-        }
-      },
-      angle: {
-        get: function () {
-          return Math.atan2(this.x, this.y);
-        }
+    _createClass(Vector2, [{
+      key: "magnitude",
+      get: function () {
+        return Math.sqrt(sqrMagnitude(this));
       }
-    });
+    }, {
+      key: "sqrMagnitude",
+      get: function () {
+        return sqrMagnitude(this);
+      }
+    }, {
+      key: "angle",
+      get: function () {
+        return Math.atan2(this.x, this.y);
+      }
+    }]);
 
     return Vector2;
   })();
@@ -2453,9 +2402,9 @@ define('flockn/types/vector2', ["exports", "module"], function (exports, module)
 define('flockn/types/vector3', ["exports", "module"], function (exports, module) {
   "use strict";
 
-  var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
   var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+
+  var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
   var sqrMagnitude = function sqrMagnitude(v) {
     return Vector3.dot(v, v);
@@ -2574,18 +2523,17 @@ define('flockn/types/vector3', ["exports", "module"], function (exports, module)
       return new Vector3(0, 0, 0);
     };
 
-    _createClass(Vector3, {
-      magnitude: {
-        get: function () {
-          return Math.sqrt(sqrMagnitude(this));
-        }
-      },
-      sqrMagnitude: {
-        get: function () {
-          return sqrMagnitude(this);
-        }
+    _createClass(Vector3, [{
+      key: "magnitude",
+      get: function () {
+        return Math.sqrt(sqrMagnitude(this));
       }
-    });
+    }, {
+      key: "sqrMagnitude",
+      get: function () {
+        return sqrMagnitude(this);
+      }
+    }]);
 
     return Vector3;
   })();
@@ -2613,13 +2561,13 @@ define('flockn/utils/checkforflag', ["exports", "module"], function (exports, mo
   module.exports = checkForFlag;
 });
 
-define('flockn/viewport', ["exports", "module"], function (exports, module) {
-  "use strict";
+define('flockn/viewport', ['exports', 'module'], function (exports, module) {
+  'use strict';
 
   var Viewport = {};
 
   Viewport.scale = {};
-  Viewport.scale.mode = "scaleToFit";
+  Viewport.scale.mode = 'scaleToFit';
   Viewport.scale.x = 1;
   Viewport.scale.y = 1;
 
@@ -2629,15 +2577,15 @@ define('flockn/viewport', ["exports", "module"], function (exports, module) {
   module.exports = Viewport;
 });
 
-define('flockn/world', ["exports", "module", "flockn/model"], function (exports, module, _flocknModel) {
-  "use strict";
+define('flockn/world', ['exports', 'module', 'flockn/model'], function (exports, module, _flocknModel) {
+  'use strict';
 
-  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
 
-  var Model = _interopRequire(_flocknModel);
+  var _Model = _interopRequire(_flocknModel);
 
   // `World` is an instance of a model
-  var world = new Model();
+  var world = new _Model();
 
   module.exports = world;
 });

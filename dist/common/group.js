@@ -1,14 +1,20 @@
-"use strict";
+'use strict';
 
-var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
 
-var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
 
-var Log = require("gamebox").Log;
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
 
-var serialize = _interopRequire(require("flockn/serialize"));
+var _Log = require('gamebox');
 
-var unidentified = "untitled";
+var _serialize = require('flockn/serialize');
+
+var _serialize2 = _interopRequireWildcard(_serialize);
+
+var unidentified = 'untitled';
 var unidentifiedCounter = 0;
 
 var Group = (function () {
@@ -35,7 +41,7 @@ var Group = (function () {
     tags = tags || [];
 
     if (this.ids[id] != null || this.names[name] != null) {
-      Log.w("An object with the name " + name + " or id " + id + " already exists");
+      _Log.Log.w('An object with the name ' + name + ' or id ' + id + ' already exists');
       return;
     }
 
@@ -72,12 +78,12 @@ var Group = (function () {
   };
 
   Group.prototype.values = function values() {
-    var _this = this;
+    var _this2 = this;
 
     return Object.keys(this.ids).filter(function (id) {
       return id != null;
     }).map(function (id) {
-      return _this.ids[id];
+      return _this2.ids[id];
     });
   };
 
@@ -85,15 +91,15 @@ var Group = (function () {
     var objects = [];
 
     var recurse = (function (_recurse) {
-      var _recurseWrapper = function recurse(_x) {
+      function recurse(_x) {
         return _recurse.apply(this, arguments);
-      };
+      }
 
-      _recurseWrapper.toString = function () {
+      recurse.toString = function () {
         return _recurse.toString();
       };
 
-      return _recurseWrapper;
+      return recurse;
     })(function (group) {
       group.forEach(function (obj) {
         if (filter) {
@@ -144,10 +150,10 @@ var Group = (function () {
   };
 
   Group.prototype.byType = function byType(type) {
-    var _this = this;
+    var _this3 = this;
 
     return this.types[type].map(function (index) {
-      return _this[index];
+      return _this3[index];
     });
   };
 
@@ -158,10 +164,10 @@ var Group = (function () {
   };
 
   Group.prototype.byTag = function byTag(tag) {
-    var _this = this;
+    var _this4 = this;
 
     return this.tags[tag].map(function (index) {
-      return _this[index];
+      return _this4[index];
     });
   };
 
@@ -179,7 +185,7 @@ var Group = (function () {
 
   Group.prototype.toJSON = function toJSON() {
     return this.values().map(function (child) {
-      if (child.toJSON && typeof child === "function") {
+      if (child.toJSON && typeof child === 'function') {
         return child.toJSON();
       } else {
         return child;
@@ -188,7 +194,7 @@ var Group = (function () {
   };
 
   Group.prototype.toString = function toString() {
-    return serialize.toString(this.toJSON());
+    return _serialize2['default'].toString(this.toJSON());
   };
 
   Group.fromJSON = function fromJSON(arr) {
@@ -206,14 +212,14 @@ var Group = (function () {
   };
 
   Group.prototype.remove = function remove(index) {
-    var _this = this;
+    var _this5 = this;
 
     var id = Object.keys(ids)[index];
 
     var obj = this.ids[id];
 
     if (obj == null) {
-      Log.w("Object at " + index + " does not exist");
+      _Log.Log.w('Object at ' + index + ' does not exist');
     }
 
     var name = obj.name;
@@ -227,9 +233,9 @@ var Group = (function () {
 
       if (position >= 0) {
         if (tag.length === 1) {
-          _this.tags[tag] = [];
+          _this5.tags[tag] = [];
         } else {
-          _this.tags[tag].splice(position, 1);
+          _this5.tags[tag].splice(position, 1);
         }
       }
     });
@@ -243,24 +249,25 @@ var Group = (function () {
   };
 
   Group.prototype.removeByTag = function removeByTag(tags) {
-    var _this = this;
+    var _this6 = this;
 
     if (!Array.isArray(tags)) {
       tags = [tags];
     }
 
     tags.forEach(function (tag) {
-      _this.tags[tag].forEach(function (index) {
-        return _this.remove(index);
+      _this6.tags[tag].forEach(function (index) {
+        return _this6.remove(index);
       });
-      _this.tags = [];
+      _this6.tags = [];
     });
   };
 
   return Group;
 })();
 
-module.exports = Group;
+exports['default'] = Group;
+module.exports = exports['default'];
 
 // TODO: There needs to be a parser here
 //# sourceMappingURL=group.js.map

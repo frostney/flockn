@@ -1,14 +1,20 @@
-"use strict";
+'use strict';
 
-var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
 
-var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
 
-var Math = require("gamebox").Math;
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
 
-var colorConstants = _interopRequire(require("flockn/constants/color"));
+var _Math = require('gamebox');
 
-var clamp = Math.clamp;
+var _colorConstants = require('flockn/constants/color');
+
+var _colorConstants2 = _interopRequireWildcard(_colorConstants);
+
+var clamp = _Math.Math.clamp;
 
 var Color = (function () {
   function Color() {
@@ -71,12 +77,12 @@ var Color = (function () {
   Color.prototype.toJSON = function toJSON() {
     if (this.a < 1) {
       if (this.a === 0) {
-        return "transparent";
+        return 'transparent';
       } else {
-        return "rgba(" + this.r + "," + this.g + "," + this.b + "," + this.a + ")";
+        return 'rgba(' + this.r + ',' + this.g + ',' + this.b + ',' + this.a + ')';
       }
     } else {
-      return "rgb(" + this.r + "," + this.g + "," + this.b + ")";
+      return 'rgb(' + this.r + ',' + this.g + ',' + this.b + ')';
     }
   };
 
@@ -85,7 +91,7 @@ var Color = (function () {
   };
 
   Color.prototype.toHex = function toHex() {
-    return "#" + this.r.toString(16) + "" + this.g.toString(16) + "" + this.b.toString(16);
+    return '#' + this.r.toString(16) + '' + this.g.toString(16) + '' + this.b.toString(16);
   };
 
   // Getting a random color for debugging is quite useful sometimes
@@ -94,7 +100,7 @@ var Color = (function () {
     var col = [0, 0, 0];
 
     col = col.map(function () {
-      return ~ ~(Math.random() * 255);
+      return ~ ~(_Math.Math.random() * 255);
     });
 
     return new Color(col[0], col[1], col[2]);
@@ -103,8 +109,8 @@ var Color = (function () {
   return Color;
 })();
 
-for (var colorName in colorConstants) {
-  var colorValue = colorConstants[colorName];
+for (var colorName in _colorConstants2['default']) {
+  var colorValue = _colorConstants2['default'][colorName];
 
   (function (colorName, colorValue) {
     Color[colorName] = function () {
@@ -115,5 +121,6 @@ for (var colorName in colorConstants) {
   })(colorName, colorValue);
 }
 
-module.exports = Color;
+exports['default'] = Color;
+module.exports = exports['default'];
 //# sourceMappingURL=color.js.map

@@ -1,8 +1,12 @@
 "use strict";
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 var Audio = {};
 
 Audio.play = function () {};
 
-module.exports = Audio;
+exports["default"] = Audio;
+module.exports = exports["default"];
 //# sourceMappingURL=audio.js.map

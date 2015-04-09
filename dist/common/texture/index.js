@@ -1,20 +1,32 @@
-"use strict";
+'use strict';
 
-var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
 
-var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
 
-var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+var _inherits = function (subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
 
-var Color = require("flockn/types").Color;
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
 
-var EventMap = _interopRequire(require("eventmap"));
+var _Color = require('flockn/types');
 
-var TextureImage = _interopRequire(require("flockn/texture/image"));
+var _EventMap2 = require('eventmap');
 
-var TextureLabel = _interopRequire(require("flockn/texture/label"));
+var _EventMap3 = _interopRequireWildcard(_EventMap2);
 
-var serializable = _interopRequire(require("flockn/mixins/serializable"));
+var _TextureImage = require('flockn/texture/image');
+
+var _TextureImage2 = _interopRequireWildcard(_TextureImage);
+
+var _TextureLabel = require('flockn/texture/label');
+
+var _TextureLabel2 = _interopRequireWildcard(_TextureLabel);
+
+var _serializable = require('flockn/mixins/serializable');
+
+var _serializable2 = _interopRequireWildcard(_serializable);
 
 var Texture = (function (_EventMap) {
   function Texture() {
@@ -31,18 +43,18 @@ var Texture = (function (_EventMap) {
     // Set parent property
     this.parent = null;
 
-    this.image = new TextureImage(this);
-    this.label = new TextureLabel(this);
+    this.image = new _TextureImage2['default'](this);
+    this.label = new _TextureLabel2['default'](this);
 
-    this.backgroundColor = Color.transparent();
+    this.backgroundColor = _Color.Color.transparent();
 
     // TODO: What to do when there is both an image and a label
-    this.on("image-loaded", function () {
+    this.on('image-loaded', function () {
       _this.width = _this.image.width;
       _this.height = _this.image.height;
     });
 
-    this.on("label-loaded", function () {
+    this.on('label-loaded', function () {
       _this.width = _this.label.width;
       _this.height = _this.label.height;
     });
@@ -51,9 +63,10 @@ var Texture = (function (_EventMap) {
   _inherits(Texture, _EventMap);
 
   return Texture;
-})(EventMap);
+})(_EventMap3['default']);
 
-serializable(Texture);
+_serializable2['default'](Texture);
 
-module.exports = Texture;
+exports['default'] = Texture;
+module.exports = exports['default'];
 //# sourceMappingURL=index.js.map

@@ -1,31 +1,34 @@
-"use strict";
+'use strict';
 
-var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
 
-var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
 
-var _flocknTypes = require("flockn/types");
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
 
-var Color = _flocknTypes.Color;
-var Vector2 = _flocknTypes.Vector2;
+var _Color$Vector2 = require('flockn/types');
 
-var serializable = _interopRequire(require("flockn/mixins/serializable"));
+var _serializable = require('flockn/mixins/serializable');
+
+var _serializable2 = _interopRequireWildcard(_serializable);
 
 var TextureImage = (function () {
   function TextureImage(texture) {
     _classCallCheck(this, TextureImage);
 
     // The default values for `image`
-    this.color = Color.transparent();
+    this.color = _Color$Vector2.Color.transparent();
     this.drawable = false;
-    this.offset = new Vector2(0, 0);
+    this.offset = new _Color$Vector2.Vector2(0, 0);
     this.data = null;
     this.width = 0;
     this.height = 0;
 
-    var filename = "";
+    var filename = '';
 
-    Object.defineProperty(this, "filename", {
+    Object.defineProperty(this, 'filename', {
       get: function get() {
         return filename;
       },
@@ -44,7 +47,7 @@ var TextureImage = (function () {
           _this.height = img.height;
           _this.drawable = true;
 
-          texture.trigger("image-loaded");
+          texture.trigger('image-loaded');
         };
       },
       enumerable: true
@@ -62,7 +65,8 @@ var TextureImage = (function () {
   return TextureImage;
 })();
 
-serializable(TextureImage);
+_serializable2['default'](TextureImage);
 
-module.exports = TextureImage;
+exports['default'] = TextureImage;
+module.exports = exports['default'];
 //# sourceMappingURL=image.js.map

@@ -1,27 +1,31 @@
-"use strict";
+'use strict';
 
-var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { "default": obj }; };
+var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
 
-var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+var _Vector2 = require('flockn/types');
 
-var Vector2 = require("flockn/types").Vector2;
+var _Graphics = require('flockn/graphics');
 
-var Graphics = _interopRequire(require("flockn/graphics"));
+var _Graphics2 = _interopRequireWildcard(_Graphics);
 
-var createRootElement = _interopRequire(require("flockn/graphics/rootelement"));
+var _createRootElement = require('flockn/graphics/rootelement');
 
-var mouse = _interopRequireWildcard(require("flockn/input/mouse"));
+var _createRootElement2 = _interopRequireWildcard(_createRootElement);
 
-Graphics.renderer = "Canvas";
+var _import = require('flockn/input/mouse');
+
+var mouse = _interopRequireWildcard(_import);
+
+_Graphics2['default'].renderer = 'Canvas';
 
 var rootElement = null;
 var context = null;
 
-Graphics.on("initialize", function (Game) {
-  rootElement = createRootElement.call(Game, "canvas", function (rootElement) {
+_Graphics2['default'].on('initialize', function (Game) {
+  rootElement = _createRootElement2['default'].call(Game, 'canvas', function (rootElement) {
     rootElement.width = Game.width;
     rootElement.height = Game.height;
-    context = rootElement.getContext("2d");
+    context = rootElement.getContext('2d');
   });
 
   mouse.events.forEach(function (eventName) {
@@ -37,9 +41,9 @@ Graphics.on("initialize", function (Game) {
   });
 });
 
-Graphics.before("render", function (obj) {
+_Graphics2['default'].before('render', function (obj) {
   switch (obj.type) {
-    case "Game":
+    case 'Game':
       context.clearRect(0, 0, obj.width, obj.height);
 
       context.fillStyle = obj.color.toString();
@@ -50,9 +54,9 @@ Graphics.before("render", function (obj) {
   }
 });
 
-Graphics.on("render", function (obj) {
+_Graphics2['default'].on('render', function (obj) {
   switch (obj.type) {
-    case "GameObject":
+    case 'GameObject':
       context.save();
 
       context.translate(obj.position.x + obj.origin.x, obj.position.y + obj.origin.y);
@@ -61,7 +65,7 @@ Graphics.on("render", function (obj) {
         context.rotate(obj.angle * (Math.PI / 180));
       }
 
-      if (obj.texture.backgroundColor.toString() !== "transparent") {
+      if (obj.texture.backgroundColor.toString() !== 'transparent') {
         context.fillStyle = obj.texture.backgroundColor.toString();
         context.fillRect(-obj.origin.x, -obj.origin.y, obj.width, obj.height);
       }
@@ -71,7 +75,7 @@ Graphics.on("render", function (obj) {
       }
 
       if (obj.texture.label.drawable) {
-        var fontName = obj.texture.label.font.size + "px " + obj.texture.label.font.name;
+        var fontName = obj.texture.label.font.size + 'px ' + obj.texture.label.font.name;
 
         context.fillStyle = obj.texture.label.font.color.toString();
         context.fillText(obj.texture.label.text, -obj.origin.x, -obj.origin.y);
@@ -79,7 +83,7 @@ Graphics.on("render", function (obj) {
 
       context.restore();
       break;
-    case "Scene":
+    case 'Scene':
       if (obj.parent.activeScene !== obj.name) {
         return;
       }

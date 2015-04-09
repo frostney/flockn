@@ -1,40 +1,38 @@
-define('flockn/plugins/movement', ["exports", "flockn/behavior", "flockn/model", "gamebox"], function (exports, _flocknBehavior, _flocknModel, _gamebox) {
-  "use strict";
+define('flockn/plugins/movement', ['exports', 'flockn/behavior', 'flockn/model', 'gamebox'], function (exports, _flocknBehavior, _flocknModel, _gamebox) {
+  'use strict';
 
-  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
 
-  var Behavior = _interopRequire(_flocknBehavior);
+  var _Behavior = _interopRequire(_flocknBehavior);
 
-  var Model = _interopRequire(_flocknModel);
+  var _Model = _interopRequire(_flocknModel);
 
-  var Input = _gamebox.Input;
+  var keyData = new _Model();
 
-  var keyData = new Model();
+  keyData.name = 'keys';
+  keyData.set('up', ['up', 'w']);
+  keyData.set('down', ['down', 's']);
+  keyData.set('left', ['left', 'a']);
+  keyData.set('right', ['right', 'd']);
 
-  keyData.name = "keys";
-  keyData.set("up", ["up", "w"]);
-  keyData.set("down", ["down", "s"]);
-  keyData.set("left", ["left", "a"]);
-  keyData.set("right", ["right", "d"]);
+  var movements = ['up', 'down', 'left', 'right'];
 
-  var movements = ["up", "down", "left", "right"];
-
-  Behavior.define("movement", function () {
+  _Behavior.define('movement', function () {
     var _this = this;
 
     this.addModel(keyData);
 
-    this.input.key.on("down", function (key) {
+    this.input.key.on('down', function (key) {
 
-      var upKeys = _this.data("keys").get("up");
+      var upKeys = _this.data('keys').get('up');
       if (!Array.isArray(upKeys)) {
         upKeys = [upKeys];
       }
 
-      _this.trigger("up");
-      _this.trigger("down");
-      _this.trigger("left");
-      _this.trigger("right");
+      _this.trigger('up');
+      _this.trigger('down');
+      _this.trigger('left');
+      _this.trigger('right');
     });
   });
 });

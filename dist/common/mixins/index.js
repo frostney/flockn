@@ -1,21 +1,29 @@
-"use strict";
+'use strict';
 
-var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
 
-Object.defineProperty(exports, "__esModule", {
+Object.defineProperty(exports, '__esModule', {
   value: true
 });
 
-var addable = _interopRequire(require("flockn/mixins/addable"));
+var _addable = require('flockn/mixins/addable');
 
-var renderable = _interopRequire(require("flockn/mixins/renderable"));
+var _addable2 = _interopRequireWildcard(_addable);
 
-var updateable = _interopRequire(require("flockn/mixins/updateable"));
+var _renderable = require('flockn/mixins/renderable');
 
-var serializable = _interopRequire(require("flockn/mixins/serializable"));
+var _renderable2 = _interopRequireWildcard(_renderable);
 
-exports.addable = addable;
-exports.renderable = renderable;
-exports.updateable = updateable;
-exports.serializable = serializable;
+var _updateable = require('flockn/mixins/updateable');
+
+var _updateable2 = _interopRequireWildcard(_updateable);
+
+var _serializable = require('flockn/mixins/serializable');
+
+var _serializable2 = _interopRequireWildcard(_serializable);
+
+exports.addable = _addable2['default'];
+exports.renderable = _renderable2['default'];
+exports.updateable = _updateable2['default'];
+exports.serializable = _serializable2['default'];
 //# sourceMappingURL=index.js.map

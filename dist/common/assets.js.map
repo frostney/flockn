@@ -1,1 +1,1 @@
-{"version":3,"sources":["src/assets.js"],"names":[],"mappings":";;AAAA,IAAI,MAAM,GAAG,EAAE,CAAC;;iBAED,MAAM","file":"src/assets.js","sourcesContent":["var Assets = {};\n\nexport default Assets;\n"]}
+{"version":3,"sources":["src/assets.js"],"names":[],"mappings":";;;;;AAAA,IAAI,MAAM,GAAG,EAAE,CAAC;;qBAED,MAAM","file":"src/assets.js","sourcesContent":["var Assets = {};\n\nexport default Assets;\n"]}

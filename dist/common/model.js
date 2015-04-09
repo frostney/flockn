@@ -1,14 +1,20 @@
-"use strict";
+'use strict';
 
-var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
 
-var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
 
-var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+var _inherits = function (subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
 
-var EventMap = _interopRequire(require("eventmap"));
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
 
-var serializable = require("flockn/mixins").serializable;
+var _EventMap2 = require('eventmap');
+
+var _EventMap3 = _interopRequireWildcard(_EventMap2);
+
+var _serializable = require('flockn/mixins');
 
 var Model = (function (_EventMap) {
   function Model() {
@@ -33,7 +39,7 @@ var Model = (function (_EventMap) {
     // Set or add an attribute
     this.data[name] = value;
     // Trigger the `change` event with `name` and `value` as its parameters
-    this.trigger("change", name, value);
+    this.trigger('change', name, value);
   };
 
   Model.prototype.bind = function bind() {};
@@ -43,9 +49,10 @@ var Model = (function (_EventMap) {
   };
 
   return Model;
-})(EventMap);
+})(_EventMap3['default']);
 
-serializable(Model);
+_serializable.serializable(Model);
 
-module.exports = Model;
+exports['default'] = Model;
+module.exports = exports['default'];
 //# sourceMappingURL=model.js.map

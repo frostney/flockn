@@ -1,5 +1,8 @@
 "use strict";
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 var checkForFlag = function checkForFlag(property) {
   return function (obj) {
     obj = obj || this;
@@ -14,5 +17,6 @@ var checkForFlag = function checkForFlag(property) {
   };
 };
 
-module.exports = checkForFlag;
+exports["default"] = checkForFlag;
+module.exports = exports["default"];
 //# sourceMappingURL=checkforflag.js.map

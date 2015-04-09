@@ -1,39 +1,43 @@
-"use strict";
+'use strict';
 
-var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { "default": obj }; };
+var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
 
-var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+var _Graphics = require('flockn/graphics');
 
-var Graphics = _interopRequire(require("flockn/graphics"));
+var _Graphics2 = _interopRequireWildcard(_Graphics);
 
-var createRootElement = _interopRequire(require("flockn/graphics/rootelement"));
+var _createRootElement = require('flockn/graphics/rootelement');
 
-var mouse = _interopRequireWildcard(require("flockn/input/mouse"));
+var _createRootElement2 = _interopRequireWildcard(_createRootElement);
+
+var _import = require('flockn/input/mouse');
+
+var mouse = _interopRequireWildcard(_import);
 
 var root = window;
 
 var pixelize = function pixelize(num) {
-  return num + "px";
+  return num + 'px';
 };
 
 var unpixelize = function unpixelize(str) {
   return parseFloat(str) || 0;
 };
 
-Graphics.renderer = "DOM";
+_Graphics2['default'].renderer = 'DOM';
 
 var rootElement = null;
 
-Graphics.on("initialize", function (Game) {
-  rootElement = createRootElement.call(Game, "div", function (rootElement) {
+_Graphics2['default'].on('initialize', function (Game) {
+  rootElement = _createRootElement2['default'].call(Game, 'div', function (rootElement) {
     rootElement.style.backgroundColor = this.color.toString();
-    rootElement.style.overflow = "hidden";
-    rootElement.style.cursor = "default";
-    rootElement.style.userSelect = rootElement.style.mozUserSelect = rootElement.style.webkitUserSelect = "none";
+    rootElement.style.overflow = 'hidden';
+    rootElement.style.cursor = 'default';
+    rootElement.style.userSelect = rootElement.style.mozUserSelect = rootElement.style.webkitUserSelect = 'none';
   });
 });
 
-Graphics.on("add", function (obj) {
+_Graphics2['default'].on('add', function (obj) {
   var elementId = obj.id.toLowerCase();
 
   // Remove previous elements of the same id
@@ -62,17 +66,17 @@ Graphics.on("add", function (obj) {
     }
   })();
 
-  var element = document.createElement("div");
+  var element = document.createElement('div');
   element.id = elementId;
-  element.className = [obj.type.toLowerCase(), obj.name.toLowerCase()].join(" ");
-  element.style.position = "absolute";
+  element.className = [obj.type.toLowerCase(), obj.name.toLowerCase()].join(' ');
+  element.style.position = 'absolute';
 
   switch (obj.type) {
-    case "Scene":
+    case 'Scene':
       element.style.width = pixelize(obj.parent.width);
       element.style.height = pixelize(obj.parent.height);
       break;
-    case "GameObject":
+    case 'GameObject':
       element.style.left = pixelize(obj.position.x);
       element.style.top = pixelize(obj.position.y);
       element.style.width = pixelize(obj.width);
@@ -85,12 +89,12 @@ Graphics.on("add", function (obj) {
       });
 
       // Mouseenter and Mouseleave are kinda special right now
-      root.addEventListener("mouseenter", function (evt) {
-        obj.trigger("mouseenter", evt);
+      root.addEventListener('mouseenter', function (evt) {
+        obj.trigger('mouseenter', evt);
       }, true);
 
-      root.addEventListener("mouseleave", function (evt) {
-        obj.trigger("mouseleave", evt);
+      root.addEventListener('mouseleave', function (evt) {
+        obj.trigger('mouseleave', evt);
       }, true);
 
       break;
@@ -101,17 +105,17 @@ Graphics.on("add", function (obj) {
   parentElem.appendChild(element);
 });
 
-Graphics.on("texture-image-loaded", function (obj, texture) {
+_Graphics2['default'].on('texture-image-loaded', function (obj, texture) {
   var element = document.getElementById(obj.id.toLowerCase());
 
   if (element != null) {
-    element.style.backgroundImage = "url(" + texture.image.filename + ")";
+    element.style.backgroundImage = 'url(' + texture.image.filename + ')';
     element.style.width = pixelize(obj.width);
     element.style.height = pixelize(obj.height);
   }
 });
 
-Graphics.on("texture-label-loaded", function (obj, texture) {
+_Graphics2['default'].on('texture-label-loaded', function (obj, texture) {
   var element = document.getElementById(obj.id.toLowerCase());
 
   if (element != null) {
@@ -122,13 +126,13 @@ Graphics.on("texture-label-loaded", function (obj, texture) {
 
 var dirtyObjects = {};
 
-Graphics.after("render", function (obj) {
+_Graphics2['default'].after('render', function (obj) {
   var objId = obj.id.toLowerCase();
 
   dirtyObjects[objId] = obj;
 });
 
-Graphics.on("render", function (obj) {
+_Graphics2['default'].on('render', function (obj) {
   var objId = obj.id.toLowerCase();
 
   // Update element attributes
@@ -138,11 +142,11 @@ Graphics.on("render", function (obj) {
     var prevObj = dirtyObjects[objId] || {};
 
     switch (obj.type) {
-      case "GameObject":
-        var elemVisible = element.style.display === "block";
+      case 'GameObject':
+        var elemVisible = element.style.display === 'block';
 
         if (elemVisible !== obj.visible) {
-          element.style.display = obj.visible ? "block" : "hidden";
+          element.style.display = obj.visible ? 'block' : 'hidden';
         }
 
         if (!elemVisible) {
@@ -171,7 +175,7 @@ Graphics.on("render", function (obj) {
         }
 
         if (obj.angle) {
-          element.style.transform = element.style.mozTransform = element.style.webkitTransform = "rotate(" + obj.angle + "deg)";
+          element.style.transform = element.style.mozTransform = element.style.webkitTransform = 'rotate(' + obj.angle + 'deg)';
         }
 
         if (obj.alpha !== 1) {
@@ -182,12 +186,12 @@ Graphics.on("render", function (obj) {
         element.style.backgroundColor = obj.texture.backgroundColor.toString();
 
         // Set origin
-        element.style.transformOrigin = element.style.mozTransformOrigin = element.webkitTransformOrigin = obj.origin.x + "px " + obj.origin.y + "px";
+        element.style.transformOrigin = element.style.mozTransformOrigin = element.webkitTransformOrigin = obj.origin.x + 'px ' + obj.origin.y + 'px';
 
         // Set border
         if (obj.border.width > 0) {
           element.style.borderWidth = pixelize(obj.border.width);
-          element.style.borderStyle = "solid";
+          element.style.borderStyle = 'solid';
           element.style.borderColor = obj.border.color.toString();
 
           if (obj.border.radius > 0) {
@@ -197,18 +201,18 @@ Graphics.on("render", function (obj) {
 
         if (obj.texture.image.drawable) {
           if (obj.texture.image.offset.x !== 0) {
-            element.style.backgroundPositionX = obj.texture.image.offset.x * -1 + "px";
+            element.style.backgroundPositionX = obj.texture.image.offset.x * -1 + 'px';
           }
 
           if (obj.texture.image.offset.y !== 0) {
-            element.style.backgroundPositionY = obj.texture.image.offset.y * -1 + "px";
+            element.style.backgroundPositionY = obj.texture.image.offset.y * -1 + 'px';
           }
         }
 
         if (obj.texture.label.drawable) {
           element.innerText = obj.texture.label.text;
 
-          element.style.whiteSpace = "nowrap";
+          element.style.whiteSpace = 'nowrap';
 
           if (obj.texture.label.font.size) {
             element.style.fontSize = pixelize(obj.texture.label.font.size);
@@ -224,14 +228,14 @@ Graphics.on("render", function (obj) {
 
           obj.texture.label.font.decoration.forEach(function (decoration) {
             switch (decoration) {
-              case "bold":
-                element.style.fontWeight = "bold";
+              case 'bold':
+                element.style.fontWeight = 'bold';
                 break;
-              case "italic":
-                element.style.fontStyle = "italic";
+              case 'italic':
+                element.style.fontStyle = 'italic';
                 break;
-              case "underline":
-                element.style.textDecoration = "underline";
+              case 'underline':
+                element.style.textDecoration = 'underline';
                 break;
               default:
                 break;
@@ -240,16 +244,16 @@ Graphics.on("render", function (obj) {
         }
 
         break;
-      case "Scene":
+      case 'Scene':
         var elemVisibleStyle = element.style.display;
 
         if (obj.parent.activeScene !== obj.name) {
-          if (elemVisibleStyle !== "hidden") {
-            element.style.display = "hidden";
+          if (elemVisibleStyle !== 'hidden') {
+            element.style.display = 'hidden';
           }
         } else {
-          if (elemVisibleStyle !== "block") {
-            element.style.display = "block";
+          if (elemVisibleStyle !== 'block') {
+            element.style.display = 'block';
           }
         }
         break;

@@ -1,34 +1,46 @@
-"use strict";
+'use strict';
 
-var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
 
-var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
 
-var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+var _inherits = function (subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
 
-var EventMap = _interopRequire(require("eventmap"));
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
 
-var Input = require("gamebox").Input;
+var _EventMap2 = require('eventmap');
 
-var Audio = _interopRequire(require("flockn/audio"));
+var _EventMap3 = _interopRequireWildcard(_EventMap2);
 
-var Group = _interopRequire(require("flockn/group"));
+var _Input = require('gamebox');
 
-var World = _interopRequire(require("flockn/world"));
+var _Audio = require('flockn/audio');
+
+var _Audio2 = _interopRequireWildcard(_Audio);
+
+var _Group = require('flockn/group');
+
+var _Group2 = _interopRequireWildcard(_Group);
+
+var _World = require('flockn/world');
+
+var _World2 = _interopRequireWildcard(_World);
 
 var objectIndex = 0;
 
 var prependMax = 10000;
 
 var numToIdString = function numToIdString(num) {
-  var stringNum = num + "";
+  var stringNum = num + '';
 
   if (num >= prependMax) {
     return stringNum;
   } else {
-    var prependLength = (prependMax + "").length - stringNum.length;
+    var prependLength = (prependMax + '').length - stringNum.length;
     for (var i = 0; i < prependLength; i++) {
-      stringNum = "0" + stringNum;
+      stringNum = '0' + stringNum;
     }
 
     return stringNum;
@@ -37,7 +49,7 @@ var numToIdString = function numToIdString(num) {
 
 var Base = (function (_EventMap) {
   function Base() {
-    var type = arguments[0] === undefined ? "Base" : arguments[0];
+    var type = arguments[0] === undefined ? 'Base' : arguments[0];
     var descriptor = arguments[1] === undefined ? function () {} : arguments[1];
 
     _classCallCheck(this, Base);
@@ -49,12 +61,12 @@ var Base = (function (_EventMap) {
 
     this.type = type;
 
-    var internalId = "" + this.type + "-" + Date.now() + "-" + currentObject;
+    var internalId = '' + this.type + '-' + Date.now() + '-' + currentObject;
 
     this.name = internalId;
 
     // The `id` property is read-only and returns the type and the stringified object index
-    Object.defineProperty(this, "id", {
+    Object.defineProperty(this, 'id', {
       get: function get() {
         return internalId;
       },
@@ -65,7 +77,7 @@ var Base = (function (_EventMap) {
     this.descriptor = descriptor;
 
     // Create a new group for all children elements
-    this.children = new Group();
+    this.children = new _Group2['default']();
 
     // Add a queue: All addable elements will be pushed into the queue first and called after everything else in
     // the `descriptor` has been called
@@ -74,13 +86,13 @@ var Base = (function (_EventMap) {
     this.parent = null;
 
     // `Input` should be available in instances derived from `Base`
-    this.input = Input;
+    this.input = _Input.Input;
 
     // As should `Audio`
-    this.audio = Audio;
+    this.audio = _Audio2['default'];
 
     // Emit an event
-    this.trigger("constructed");
+    this.trigger('constructed');
   }
 
   _inherits(Base, _EventMap);
@@ -94,10 +106,10 @@ var Base = (function (_EventMap) {
       // Call the `descriptor` property with `args`
 
       // Game, world, data
-      this.descriptor.call(this, data, World);
+      this.descriptor.call(this, data, _World2['default']);
 
       // Trigger an event
-      this.trigger("execute");
+      this.trigger('execute');
 
       // TODO: Impose an order in the queue, such as:
       // (Game) -> Scene -> GameObject -> Behavior -> Model
@@ -111,7 +123,7 @@ var Base = (function (_EventMap) {
       this.queue = [];
 
       // Find a way to directly before and after events
-      this.trigger("executed");
+      this.trigger('executed');
     }
   };
 
@@ -135,7 +147,7 @@ var Base = (function (_EventMap) {
       var argArray = [].slice.call(arguments);
 
       // Log with `console.log`: Prepend the type and name
-      argArray.unshift(":");
+      argArray.unshift(':');
       argArray.unshift(this.name);
       argArray.unshift(this.type);
 
@@ -144,9 +156,10 @@ var Base = (function (_EventMap) {
   };
 
   return Base;
-})(EventMap);
+})(_EventMap3['default']);
 
-Base.queueOrder = ["Game", "Scene", "GameObject", "Behavior", "Model"];
+Base.queueOrder = ['Game', 'Scene', 'GameObject', 'Behavior', 'Model'];
 
-module.exports = Base;
+exports['default'] = Base;
+module.exports = exports['default'];
 //# sourceMappingURL=base.js.map

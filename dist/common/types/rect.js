@@ -1,10 +1,16 @@
-"use strict";
+'use strict';
 
-var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
 
-var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
 
-var Vector2 = _interopRequire(require("flockn/types/vector2"));
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+
+var _Vector2 = require('flockn/types/vector2');
+
+var _Vector22 = _interopRequireWildcard(_Vector2);
 
 var Rect = (function () {
   function Rect() {
@@ -40,7 +46,7 @@ var Rect = (function () {
   };
 
   Rect.prototype.center = function center() {
-    return new Vector2(this.x + this.w / 2, this.y + this.h / 2);
+    return new _Vector22['default'](this.x + this.w / 2, this.y + this.h / 2);
   };
 
   Rect.prototype.contains = function contains(vector) {
@@ -50,5 +56,6 @@ var Rect = (function () {
   return Rect;
 })();
 
-module.exports = Rect;
+exports['default'] = Rect;
+module.exports = exports['default'];
 //# sourceMappingURL=rect.js.map

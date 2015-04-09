@@ -1,11 +1,18 @@
-"use strict";
+'use strict';
 
-var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
 
-var Model = _interopRequire(require("flockn/model"));
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+
+var _Model = require('flockn/model');
+
+var _Model2 = _interopRequireWildcard(_Model);
 
 // `World` is an instance of a model
-var world = new Model();
+var world = new _Model2['default']();
 
-module.exports = world;
+exports['default'] = world;
+module.exports = exports['default'];
 //# sourceMappingURL=world.js.map

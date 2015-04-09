@@ -1,5 +1,8 @@
 "use strict";
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 var colors = {
   aqua: {
     r: 0,
@@ -89,5 +92,6 @@ var colors = {
   }
 };
 
-module.exports = colors;
+exports["default"] = colors;
+module.exports = exports["default"];
 //# sourceMappingURL=color.js.map
