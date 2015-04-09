@@ -35,7 +35,6 @@ var addable = _flocknMixins.addable;
 var renderable = _flocknMixins.renderable;
 var updateable = _flocknMixins.updateable;
 var serializable = _flocknMixins.serializable;
-var storable = _flocknMixins.storable;
 
 var GameObject = (function (_Base) {
   function GameObject(descriptor) {
@@ -205,7 +204,6 @@ var GameObject = (function (_Base) {
 })(Base);
 
 serializable(GameObject);
-storable(GameObject);
 
 module.exports = GameObject;
 //# sourceMappingURL=gameobject.js.map

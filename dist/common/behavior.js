@@ -15,7 +15,6 @@ var _flocknMixins = require("flockn/mixins");
 var addable = _flocknMixins.addable;
 var updateable = _flocknMixins.updateable;
 var serializable = _flocknMixins.serializable;
-var storable = _flocknMixins.storable;
 
 // Behaviors only provide logic. There is no rendering involved.
 // Behaviors can attach any number of behaviors to itself
@@ -48,7 +47,6 @@ var Behavior = (function (_Base) {
 })(Base);
 
 serializable(Behavior);
-storable(Behavior);
 
 module.exports = Behavior;
 //# sourceMappingURL=behavior.js.map

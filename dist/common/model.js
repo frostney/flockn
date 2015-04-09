@@ -8,10 +8,7 @@ var _classCallCheck = function (instance, Constructor) { if (!(instance instance
 
 var EventMap = _interopRequire(require("eventmap"));
 
-var _flocknMixins = require("flockn/mixins");
-
-var serializable = _flocknMixins.serializable;
-var storable = _flocknMixins.storable;
+var serializable = require("flockn/mixins").serializable;
 
 var Model = (function (_EventMap) {
   function Model() {
@@ -49,7 +46,6 @@ var Model = (function (_EventMap) {
 })(EventMap);
 
 serializable(Model);
-storable(Model);
 
 module.exports = Model;
 //# sourceMappingURL=model.js.map

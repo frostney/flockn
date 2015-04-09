@@ -186,7 +186,6 @@ define('flockn/behavior', ["exports", "module", "flockn/base", "flockn/group", "
   var addable = _flocknMixins.addable;
   var updateable = _flocknMixins.updateable;
   var serializable = _flocknMixins.serializable;
-  var storable = _flocknMixins.storable;
 
   // Behaviors only provide logic. There is no rendering involved.
   // Behaviors can attach any number of behaviors to itself
@@ -219,7 +218,6 @@ define('flockn/behavior', ["exports", "module", "flockn/base", "flockn/group", "
   })(Base);
 
   serializable(Behavior);
-  storable(Behavior);
 
   module.exports = Behavior;
 });
@@ -516,7 +514,6 @@ define('flockn/gameobject', ["exports", "module", "flockn/base", "flockn/behavio
   var renderable = _flocknMixins.renderable;
   var updateable = _flocknMixins.updateable;
   var serializable = _flocknMixins.serializable;
-  var storable = _flocknMixins.storable;
 
   var GameObject = (function (_Base) {
     function GameObject(descriptor) {
@@ -686,7 +683,6 @@ define('flockn/gameobject', ["exports", "module", "flockn/base", "flockn/behavio
   })(Base);
 
   serializable(GameObject);
-  storable(GameObject);
 
   module.exports = GameObject;
 });
@@ -1118,24 +1114,16 @@ define('flockn/mixins/addable', ["exports", "module", "flockn/graphics"], functi
         args[_key - 1] = arguments[_key];
       }
 
-      if (!(child instanceof Factory)) {
-        if (typeof child === "string") {
-          if (Object.hasOwnProperty.call(Factory.store, child)) {
-            child = new Factory(Factory.store[child]);
-          }
-        } else {
-          if (typeof child === "function") {
-            child = new Factory(child);
-          } else {
-            // TODO: This should be also able to deep assign properties
-            child = new Factory(function () {
-              Object.keys(child).forEach(function (key) {
-                this[key] = child[key];
-              }, this);
-            });
-          }
-        }
+      // I have decided against letting anything other through than functions
+      // I feel that it more complexity than it tried to solve and I had to handle some edge cases
+      // and more thorough type checking
+
+      if (typeof child !== "function") {
+        throw new Error("A child has to be a function");
       }
+
+      child = new Factory(child);
+
       groupInstance.push(child);
       child.parent = this;
 
@@ -1164,7 +1152,7 @@ define('flockn/mixins/addable', ["exports", "module", "flockn/graphics"], functi
   module.exports = addable;
 });
 
-define('flockn/mixins', ["exports", "flockn/mixins/addable", "flockn/mixins/renderable", "flockn/mixins/updateable", "flockn/mixins/serializable", "flockn/mixins/storable"], function (exports, _flocknMixinsAddable, _flocknMixinsRenderable, _flocknMixinsUpdateable, _flocknMixinsSerializable, _flocknMixinsStorable) {
+define('flockn/mixins', ["exports", "flockn/mixins/addable", "flockn/mixins/renderable", "flockn/mixins/updateable", "flockn/mixins/serializable"], function (exports, _flocknMixinsAddable, _flocknMixinsRenderable, _flocknMixinsUpdateable, _flocknMixinsSerializable) {
   "use strict";
 
   var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
@@ -1181,13 +1169,10 @@ define('flockn/mixins', ["exports", "flockn/mixins/addable", "flockn/mixins/rend
 
   var serializable = _interopRequire(_flocknMixinsSerializable);
 
-  var storable = _interopRequire(_flocknMixinsStorable);
-
   exports.addable = addable;
   exports.renderable = renderable;
   exports.updateable = updateable;
   exports.serializable = serializable;
-  exports.storable = storable;
 });
 
 define('flockn/mixins/renderable', ["exports", "module", "flockn/utils/checkforflag", "flockn/graphics"], function (exports, module, _flocknUtilsCheckforflag, _flocknGraphics) {
@@ -1243,24 +1228,6 @@ define('flockn/mixins/serializable', ["exports", "module", "flockn/serialize"], 
   module.exports = serializable;
 });
 
-define('flockn/mixins/storable', ["exports", "module"], function (exports, module) {
-  "use strict";
-
-  var storable = function storable(Factory) {
-    Factory.store = {};
-
-    Factory.define = function (name, factory) {
-      if (Factory[store][name]) {
-        throw new Error("" + name + " does already exist.");
-      } else {
-        Factory[store][name] = factory;
-      }
-    };
-  };
-
-  module.exports = storable;
-});
-
 define('flockn/mixins/updateable', ["exports", "module", "flockn/utils/checkforflag"], function (exports, module, _flocknUtilsCheckforflag) {
   "use strict";
 
@@ -1305,7 +1272,6 @@ define('flockn/model', ["exports", "module", "eventmap", "flockn/mixins"], funct
   var EventMap = _interopRequire(_eventmap);
 
   var serializable = _flocknMixins.serializable;
-  var storable = _flocknMixins.storable;
 
   var Model = (function (_EventMap) {
     function Model() {
@@ -1343,7 +1309,6 @@ define('flockn/model', ["exports", "module", "eventmap", "flockn/mixins"], funct
   })(EventMap);
 
   serializable(Model);
-  storable(Model);
 
   module.exports = Model;
 });
@@ -1365,7 +1330,6 @@ define('flockn/scene', ["exports", "module", "flockn/base", "flockn/gameobject",
   var renderable = _flocknMixins.renderable;
   var updateable = _flocknMixins.updateable;
   var serializable = _flocknMixins.serializable;
-  var storable = _flocknMixins.storable;
 
   // A `Scene` instance is a layer for `GameObject` instances.
   // Any number of game objects can be added to a scene. Only one scene should be visible at the same time, depending
@@ -1395,7 +1359,6 @@ define('flockn/scene', ["exports", "module", "flockn/base", "flockn/gameobject",
   })(Base);
 
   serializable(Scene);
-  storable(Scene);
 
   module.exports = Scene;
 });

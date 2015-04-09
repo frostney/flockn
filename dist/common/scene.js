@@ -16,7 +16,6 @@ var addable = _flocknMixins.addable;
 var renderable = _flocknMixins.renderable;
 var updateable = _flocknMixins.updateable;
 var serializable = _flocknMixins.serializable;
-var storable = _flocknMixins.storable;
 
 // A `Scene` instance is a layer for `GameObject` instances.
 // Any number of game objects can be added to a scene. Only one scene should be visible at the same time, depending
@@ -46,7 +45,6 @@ var Scene = (function (_Base) {
 })(Base);
 
 serializable(Scene);
-storable(Scene);
 
 module.exports = Scene;
 //# sourceMappingURL=scene.js.map
