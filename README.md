@@ -62,7 +62,7 @@ Features
 
 Philosophy
 ----------
-* Friendly to JavaScript transpilers: CoffeeScript, TypeScript and more
+* Friendly to JavaScript transpilers: Babel, CoffeeScript, TypeScript and more
 * Transpilers are optional though: You don't need to use a transpiler with `flockn`
 * Lightweight
 * Events everywhere (Having an `EventEmitter`-like interface)
