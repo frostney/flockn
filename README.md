@@ -13,7 +13,6 @@ Alternatives:
 
 How does it work?
 -----------------
-
 ```javascript
 import flockn from 'flockn';
 
