@@ -14,6 +14,7 @@ Alternatives:
 How does it work?
 -----------------
 ```javascript
+// Import flockn function from the flockn module
 import flockn from 'flockn';
 
 // Create a game instance, no need to store it as a variable
