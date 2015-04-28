@@ -136,7 +136,7 @@ class Group {
     return values[values.length - 1];
   }
 
-  select(selector) {
+  find(selector) {
     // TODO: There needs to be a parser here
   }
 
