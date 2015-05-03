@@ -1,9 +1,9 @@
-import checkForFlag from 'flockn/utils/checkforflag';
+import checkForFlag from '../utils/checkforflag';
 
 var isStatic = checkForFlag('static');
 
 // TODO: This is not completely how I want it be as it only sets the children as static and not the element itself
-// TODO: Evaluate if it's a good idea if static elements shouldn't be able to interact with similar to PIXI's
+// TODO: Evaluate if it's a good idea if static elements shouldn't be able to interact with - similar to PIXI's
 //  interactive property
 var updatable = function updateable() {
   // Update all children
