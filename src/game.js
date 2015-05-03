@@ -35,12 +35,15 @@ class Game extends Base {
     // once a scene will be shown
     this.activeScene = null;
 
+    // Trigger the graphics initializer
+    this.on('execute', () => {
+      Graphics.trigger('initialize', this)
+    });
+    
     // A `Game` instance is the root element so the descriptor needs to be called directly,
     // because it won't be added to anywhere else
     this.call();
-
-    Graphics.trigger('initialize', this);
-
+    
     // Mix in `renderable` and `updateable`
     renderable.call(this);
     updateable.call(this);
@@ -110,6 +113,8 @@ class Game extends Base {
   }
 
   run(name) {
+    Graphics.trigger('add', this);
+    
     this.on('executed', () => {
       // Start the game loop
       Loop.run();
