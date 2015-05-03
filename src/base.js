@@ -2,9 +2,9 @@ import EventMap from 'eventmap';
 
 import {Input} from 'gamebox';
 
-import Audio from 'flockn/audio';
-import Group from 'flockn/group';
-import World from 'flockn/world';
+import Audio from './audio';
+import Group from './group';
+import World from './world';
 
 var objectIndex = 0;
 
