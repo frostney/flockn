@@ -1,5 +1,5 @@
-import {Color} from 'flockn/types';
-import serializable from 'flockn/mixins/serializable';
+import {Color} from '../types';
+import serializable from '../mixins/serializable';
 
 class TextureLabel {
   constructor(texture) {
