@@ -1,5 +1,7 @@
-import Behavior from 'flockn/behavior';
+export default function() {
 
-Behavior.define('sprite-animation', function() {
+  this.update(dt => {
 
-});
+  });
+
+}
