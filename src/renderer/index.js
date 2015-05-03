@@ -1,5 +1,5 @@
-import {DOMRenderer} from './dom';
-import {CanvasRenderer} from './canvas';
+import DOMRenderer from './dom';
+import CanvasRenderer from './canvas';
 
 let renderers = {};
 
@@ -11,7 +11,7 @@ Renderer.register = function(name, descriptor) {
 
 Renderer.use = function(name) {
   if (Object.hasOwnProperty.call(renderers, name)) {
-    renderers[name]();
+    renderers[name] && renderers[name]();
   }
 };
 
