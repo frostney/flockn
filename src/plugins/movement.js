@@ -13,7 +13,7 @@ keyData.set('right', ['right', 'd']);
 
 var movements = ['up', 'down', 'left', 'right'];
 
-Behavior.define('movement', function() {
+export default function() {
 
   this.addModel(keyData);
 
@@ -33,4 +33,4 @@ Behavior.define('movement', function() {
 
   });
 
-});
+}
