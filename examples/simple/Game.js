@@ -12,27 +12,29 @@ flockn(function () {
 
     // Add a new object onto the scene
     this.addGameObject(function () {
+      var self = this;
+      
       // Set its name
       this.name = 'myGameObject';
 
       // Load an image for the texture
       this.texture.image.filename = 'hero_front.png';
-
-      this.input.key.on('down', keyCode => {
+      
+      this.input.key.on('down', function(keyCode) {
         if (keyCode === this.up || keyCode === this.w) {
-          this.position.y -= 10;
+          self.position.y -= 10;
         }
 
         if (keyCode === this.down || keyCode === this.s) {
-          this.position.y += 10;
+          self.position.y += 10;
         }
 
         if (keyCode === this.left || keyCode === this.a) {
-          this.position.x -= 10;
+          self.position.x -= 10;
         }
 
         if (keyCode === this.right || keyCode === this.d) {
-          this.position.x += 10;
+          self.position.x += 10;
         }
       });
 
