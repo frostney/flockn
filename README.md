@@ -51,6 +51,10 @@ to put each gameobjects, behaviors and scene in separate files. For a more real-
 [template](http://github.com/freezedev/flockn-template).
 There is also an online playground.
 
+Examples
+--------
+To run the examples for yourself, run `npm run examples` after all dependencies have been installed (`npm install`).
+
 Features
 --------
 * Taggable game objects and behaviors
