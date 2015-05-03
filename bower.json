@@ -30,11 +30,5 @@
   "dependencies": {
     "eventmap": "~1.6.0",
     "gamebox": "0.2.0-beta1"
-  },
-  "devDependencies": {
-    "normalize-css": "~3.0.1",
-    "font-awesome": "~4.2.0",
-    "mocha": "~2.1.0",
-    "chai": "~1.10.0"
   }
 }
