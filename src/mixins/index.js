@@ -1,6 +1,6 @@
-import addable from 'flockn/mixins/addable';
-import renderable from 'flockn/mixins/renderable';
-import updateable from 'flockn/mixins/updateable';
-import serializable from 'flockn/mixins/serializable';
+import addable from './addable';
+import renderable from './renderable';
+import updateable from './updateable';
+import serializable from './serializable';
 
 export {addable, renderable, updateable, serializable};
