@@ -1,8 +1,8 @@
-import Game from 'flockn/game';
+import Game from './game';
 
-import GameObject from 'flockn/gameobject';
-import Scene from 'flockn/scene';
-import Behavior from 'flockn/behavior';
+import GameObject from './gameobject';
+import Scene from './scene';
+import Behavior from './behavior';
 
 var flockn = function flockn(descriptor) {
   return new Game(descriptor);
