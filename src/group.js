@@ -1,5 +1,5 @@
 import {Log} from 'gamebox';
-import serialize from 'flockn/serialize';
+import serialize from './serialize';
 
 var unidentified = 'untitled';
 var unidentifiedCounter = 0;
