@@ -1,6 +1,6 @@
-import Graphics from 'flockn/graphics';
-import createRootElement from 'flockn/graphics/rootelement';
-import * as mouse from 'flockn/input/mouse';
+import Graphics from '../graphics';
+import createRootElement from '../graphics/rootelement';
+import * as mouse from '../input/mouse';
 
 var root = window;
 
