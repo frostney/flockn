@@ -1,14 +1,14 @@
-import Base from 'flockn/base';
-import Behavior from 'flockn/behavior';
-import Graphics from 'flockn/graphics';
-import Group from 'flockn/group';
-import Model from 'flockn/model';
-import serialize from 'flockn/serialize';
-import Texture from 'flockn/texture';
+import Base from './base';
+import Behavior from './behavior';
+import Graphics from './graphics';
+import Group from './group';
+import Model from './model';
+import serialize from './serialize';
+import Texture from './texture';
 
-import {Vector2, Vector3, Color, Rect} from 'flockn/types';
+import {Vector2, Vector3, Color, Rect} from './types';
 
-import {addable, renderable, updateable, serializable} from 'flockn/mixins';
+import {addable, renderable, updateable, serializable} from './mixins';
 
 
 class GameObject extends Base {
