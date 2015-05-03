@@ -1,7 +1,7 @@
-import {Vector2} from 'flockn/types';
-import Graphics from 'flockn/graphics';
-import createRootElement from 'flockn/graphics/rootelement';
-import * as mouse from 'flockn/input/mouse';
+import {Vector2} from '../types';
+import Graphics from '../graphics';
+import createRootElement from '../graphics/rootelement';
+import * as mouse from '../input/mouse';
 
 Graphics.renderer = 'Canvas';
 
