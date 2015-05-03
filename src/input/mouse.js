@@ -1,6 +1,6 @@
 // These are things that might be moved into freezedev/gameboard
 
-import Vector2 from 'flockn/types/vector2';
+import Vector2 from '../types/vector2';
 
 var events = ['click', 'mousedown', 'mouseup', 'mouseover'];
 
