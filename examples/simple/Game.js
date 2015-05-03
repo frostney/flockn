@@ -1,4 +1,5 @@
 import flockn from 'flockn';
+flockn.setRenderer('canvas');
 
 flockn(function () {
 
