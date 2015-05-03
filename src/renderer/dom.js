@@ -27,6 +27,12 @@ let factory = () => {
   });
 
   Graphics.on('add', function (obj) {
+    // TODO: Models shouldn't be added to the DOM. Currently we do a check if has an id, but sometime in the
+    //  future they might have
+    if (!obj.id) {
+      return;
+    }
+    
     var elementId = obj.id.toLowerCase();
 
     // Remove previous elements of the same id
