@@ -7,10 +7,6 @@ flockn
 
 flockn is a lightweight declarative game engine. (While it uses [Babel](https://github.com/babel/babel) to generate ECMAScript 5 compatible output, the use of Babel or ES6 in flockn-related project is not enforced. There no ES6 features that need to be used as flockn exposes an easy-to-use ES5 interface.)
 
-Alternatives:
-* If you are just interested in the DOM/jQuery side of things and wish more control over what's getting added to the DOM, you should try [Lyria](https://github.com/freezedev/lyria).
-* For a full-blown and less opiniated game engine, you could try [Phaser](https://github.com/photonstorm/phaser).
-
 How does it work?
 -----------------
 ```javascript
@@ -78,11 +74,15 @@ Philosophy
 
 Some decisions that need to be made
 -----------------------------------
-- What is the best way to access game and world instances? Binding it to `this` doesn't seem logical, as its not a child from the object, but the other way around
 - Should game objects have the attributes of behaviors?
 - Should game objects have the attributes of models?
 - Should `Object.observe` be used for attributes? (Reducing the `Model#get` and `Model#set` overhead)
 - Is there a possibility to simplify the access of game objects from behaviors?
+
+Alternatives
+------------
+* If you are just interested in the DOM/jQuery side of things and wish more control over what's getting added to the DOM, you should try [Lyria](https://github.com/freezedev/lyria).
+* For a full-blown and less opiniated game engine, you could try [Phaser](https://github.com/photonstorm/phaser).
 
 Building for yourself
 ---------------------
