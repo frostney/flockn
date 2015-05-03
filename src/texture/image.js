@@ -1,5 +1,5 @@
-import {Color, Vector2} from 'flockn/types';
-import serializable from 'flockn/mixins/serializable';
+import {Color, Vector2} from '../types';
+import serializable from '../mixins/serializable';
 
 class TextureImage {
   constructor(texture) {
