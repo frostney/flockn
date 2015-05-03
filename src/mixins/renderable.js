@@ -1,5 +1,5 @@
-import checkForFlag from 'flockn/utils/checkforflag';
-import Graphics from 'flockn/graphics';
+import checkForFlag from '../utils/checkforflag';
+import Graphics from '../graphics';
 
 var isVisible = checkForFlag('visible');
 
