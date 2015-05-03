@@ -1,12 +1,12 @@
 import {Loop, AssetLoader} from 'gamebox';
 
-import Base from 'flockn/base';
-import Graphics from 'flockn/graphics';
-import Scene from 'flockn/scene';
-import Color from 'flockn/types/color';
-import Viewport from 'flockn/viewport';
+import Base from './base';
+import Graphics from './graphics';
+import Scene from './scene';
+import Color from './types/color';
+import Viewport from './viewport';
 
-import {addable, renderable, updateable, serializable} from 'flockn/mixins';
+import {addable, renderable, updateable, serializable} from './mixins';
 
 var root = window;
 
