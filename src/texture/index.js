@@ -1,8 +1,8 @@
-import {Color} from 'flockn/types';
+import {Color} from '../types';
 import EventMap from 'eventmap';
-import TextureImage from 'flockn/texture/image';
-import TextureLabel from 'flockn/texture/label';
-import serializable from 'flockn/mixins/serializable';
+import TextureImage from './image';
+import TextureLabel from './label';
+import serializable from '../mixins/serializable';
 
 class Texture extends EventMap {
   constructor() {
