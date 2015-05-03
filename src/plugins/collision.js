@@ -1,9 +1,7 @@
-import Behavior from 'flockn/behavior';
-
-Behavior.define('collision', function() {
-
+export default function() {
+  
   this.update(dt => {
-
+    
   });
-
-});
+  
+}
