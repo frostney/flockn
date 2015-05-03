@@ -32,7 +32,6 @@
     "gamebox": "0.2.0-beta1"
   },
   "devDependencies": {
-    "almond": "~0.3.0",
     "normalize-css": "~3.0.1",
     "font-awesome": "~4.2.0",
     "mocha": "~2.1.0",
