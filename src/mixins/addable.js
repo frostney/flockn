@@ -1,4 +1,4 @@
-import Graphics from 'flockn/graphics';
+import Graphics from '../graphics';
 
 var addable = function addable(Factory, groupInstance, extraFn) {
 
