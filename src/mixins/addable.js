@@ -4,15 +4,17 @@ var addable = function addable(Factory, groupInstance, extraFn) {
 
   var adder = function adder(child, ...args) {
 
-    // I have decided against letting anything other through than functions
+    // I have decided against letting anything other through than functions and instance references
     // I feel that it more complexity than it tried to solve and I had to handle some edge cases
     // and more thorough type checking
 
-    if (typeof child !== 'function') {
-      throw new Error('A child has to be a function');
-    }
+    if (!( child instanceof Factory)) {
+      if (typeof child !== 'function') {
+        throw new Error('A child has to be a function');
+      }
 
-    child = new Factory(child);
+      child = new Factory(child);
+    }
        
     groupInstance.push(child);
     child.parent = this;
