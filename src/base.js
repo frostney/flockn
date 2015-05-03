@@ -76,8 +76,8 @@ class Base extends EventMap {
 
       // Call the `descriptor` property with `args`
 
-      // Game, world, data
-      this.descriptor.call(this, data, World);
+      // object, {data, World}
+      this.descriptor.call(this, this, {data, World});
 
       // Trigger an event
       this.trigger('execute');
