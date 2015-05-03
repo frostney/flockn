@@ -1,14 +1,6 @@
-import Color from 'flockn/types/color';
-import Vector2 from 'flockn/types/vector2';
-import Vector3 from 'flockn/types/vector3';
-import Rect from 'flockn/types/rect';
-
-let Types = {};
+import Color from './color';
+import {Types} from 'gamebox';
 
 Types.Color = Color;
-Types.Vector2 = Vector2;
-Types.Vector3 = Vector3;
-Types.Rect = Rect;
 
 export default Types;
-export {Color, Vector2, Vector3, Rect};
