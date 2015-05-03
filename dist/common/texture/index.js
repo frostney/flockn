@@ -10,21 +10,21 @@ Object.defineProperty(exports, '__esModule', {
   value: true
 });
 
-var _Color = require('flockn/types');
+var _Color = require('../types');
 
 var _EventMap2 = require('eventmap');
 
 var _EventMap3 = _interopRequireWildcard(_EventMap2);
 
-var _TextureImage = require('flockn/texture/image');
+var _TextureImage = require('./image');
 
 var _TextureImage2 = _interopRequireWildcard(_TextureImage);
 
-var _TextureLabel = require('flockn/texture/label');
+var _TextureLabel = require('./label');
 
 var _TextureLabel2 = _interopRequireWildcard(_TextureLabel);
 
-var _serializable = require('flockn/mixins/serializable');
+var _serializable = require('../mixins/serializable');
 
 var _serializable2 = _interopRequireWildcard(_serializable);
 

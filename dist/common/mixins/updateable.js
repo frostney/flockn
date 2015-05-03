@@ -6,14 +6,14 @@ Object.defineProperty(exports, '__esModule', {
   value: true
 });
 
-var _checkForFlag = require('flockn/utils/checkforflag');
+var _checkForFlag = require('../utils/checkforflag');
 
 var _checkForFlag2 = _interopRequireWildcard(_checkForFlag);
 
 var isStatic = _checkForFlag2['default']('static');
 
 // TODO: This is not completely how I want it be as it only sets the children as static and not the element itself
-// TODO: Evaluate if it's a good idea if static elements shouldn't be able to interact with similar to PIXI's
+// TODO: Evaluate if it's a good idea if static elements shouldn't be able to interact with - similar to PIXI's
 //  interactive property
 var updatable = function updateable() {
   var _this = this;

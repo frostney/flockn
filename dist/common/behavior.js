@@ -10,15 +10,15 @@ Object.defineProperty(exports, '__esModule', {
   value: true
 });
 
-var _Base2 = require('flockn/base');
+var _Base2 = require('./base');
 
 var _Base3 = _interopRequireWildcard(_Base2);
 
-var _Group = require('flockn/group');
+var _Group = require('./group');
 
 var _Group2 = _interopRequireWildcard(_Group);
 
-var _addable$updateable$serializable = require('flockn/mixins');
+var _addable$updateable$serializable = require('./mixins');
 
 // Behaviors only provide logic. There is no rendering involved.
 // Behaviors can attach any number of behaviors to itself

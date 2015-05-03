@@ -1,4 +1,4 @@
-define('flockn/plugins/movement', ['exports', 'flockn/behavior', 'flockn/model', 'gamebox'], function (exports, _flocknBehavior, _flocknModel, _gamebox) {
+define('flockn/plugins/movement', ['exports', 'module', 'flockn/behavior', 'flockn/model', 'gamebox'], function (exports, module, _flocknBehavior, _flocknModel, _gamebox) {
   'use strict';
 
   var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
@@ -17,7 +17,7 @@ define('flockn/plugins/movement', ['exports', 'flockn/behavior', 'flockn/model',
 
   var movements = ['up', 'down', 'left', 'right'];
 
-  _Behavior.define('movement', function () {
+  module.exports = function () {
     var _this = this;
 
     this.addModel(keyData);
@@ -34,5 +34,5 @@ define('flockn/plugins/movement', ['exports', 'flockn/behavior', 'flockn/model',
       _this.trigger('left');
       _this.trigger('right');
     });
-  });
+  };
 });

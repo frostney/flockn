@@ -8,9 +8,9 @@ Object.defineProperty(exports, '__esModule', {
   value: true
 });
 
-var _Color$Vector2 = require('flockn/types');
+var _Color$Vector2 = require('../types');
 
-var _serializable = require('flockn/mixins/serializable');
+var _serializable = require('../mixins/serializable');
 
 var _serializable2 = _interopRequireWildcard(_serializable);
 

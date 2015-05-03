@@ -12,37 +12,37 @@ Object.defineProperty(exports, '__esModule', {
   value: true
 });
 
-var _Base2 = require('flockn/base');
+var _Base2 = require('./base');
 
 var _Base3 = _interopRequireWildcard(_Base2);
 
-var _Behavior = require('flockn/behavior');
+var _Behavior = require('./behavior');
 
 var _Behavior2 = _interopRequireWildcard(_Behavior);
 
-var _Graphics = require('flockn/graphics');
+var _Graphics = require('./graphics');
 
 var _Graphics2 = _interopRequireWildcard(_Graphics);
 
-var _Group = require('flockn/group');
+var _Group = require('./group');
 
 var _Group2 = _interopRequireWildcard(_Group);
 
-var _Model = require('flockn/model');
+var _Model = require('./model');
 
 var _Model2 = _interopRequireWildcard(_Model);
 
-var _serialize = require('flockn/serialize');
+var _serialize = require('./serialize');
 
 var _serialize2 = _interopRequireWildcard(_serialize);
 
-var _Texture = require('flockn/texture');
+var _Texture = require('./texture');
 
 var _Texture2 = _interopRequireWildcard(_Texture);
 
-var _Vector2$Vector3$Color$Rect = require('flockn/types');
+var _Vector2$Vector3$Color$Rect = require('./types');
 
-var _addable$renderable$updateable$serializable = require('flockn/mixins');
+var _addable$renderable$updateable$serializable = require('./mixins');
 
 var GameObject = (function (_Base) {
   function GameObject(descriptor) {

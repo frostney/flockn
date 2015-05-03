@@ -14,7 +14,7 @@ var _EventMap2 = require('eventmap');
 
 var _EventMap3 = _interopRequireWildcard(_EventMap2);
 
-var _serializable = require('flockn/mixins');
+var _serializable = require('./mixins');
 
 var Model = (function (_EventMap) {
   function Model() {

@@ -2,6 +2,10 @@
 
 var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
 
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+
 var _Behavior = require('flockn/behavior');
 
 var _Behavior2 = _interopRequireWildcard(_Behavior);
@@ -22,7 +26,7 @@ keyData.set('right', ['right', 'd']);
 
 var movements = ['up', 'down', 'left', 'right'];
 
-_Behavior2['default'].define('movement', function () {
+exports['default'] = function () {
   var _this = this;
 
   this.addModel(keyData);
@@ -39,5 +43,7 @@ _Behavior2['default'].define('movement', function () {
     _this.trigger('left');
     _this.trigger('right');
   });
-});
+};
+
+module.exports = exports['default'];
 //# sourceMappingURL=movement.js.map

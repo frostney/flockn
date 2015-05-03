@@ -1,10 +1,13 @@
-'use strict';
+"use strict";
 
-var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
-var _Behavior = require('flockn/behavior');
+exports["default"] = function () {
 
-var _Behavior2 = _interopRequireWildcard(_Behavior);
+  this.update(function (dt) {});
+};
 
-_Behavior2['default'].define('sprite-animation', function () {});
+module.exports = exports["default"];
 //# sourceMappingURL=spriteanimation.js.map

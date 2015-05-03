@@ -6,11 +6,11 @@ Object.defineProperty(exports, '__esModule', {
   value: true
 });
 
-var _checkForFlag = require('flockn/utils/checkforflag');
+var _checkForFlag = require('../utils/checkforflag');
 
 var _checkForFlag2 = _interopRequireWildcard(_checkForFlag);
 
-var _Graphics = require('flockn/graphics');
+var _Graphics = require('../graphics');
 
 var _Graphics2 = _interopRequireWildcard(_Graphics);
 

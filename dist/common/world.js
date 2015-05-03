@@ -6,7 +6,7 @@ Object.defineProperty(exports, '__esModule', {
   value: true
 });
 
-var _Model = require('flockn/model');
+var _Model = require('./model');
 
 var _Model2 = _interopRequireWildcard(_Model);
 

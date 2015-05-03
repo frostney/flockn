@@ -1,12 +1,8 @@
-define('flockn/plugins/collision', ['exports', 'flockn/behavior'], function (exports, _flocknBehavior) {
-  'use strict';
+define('flockn/plugins/collision', ["exports", "module"], function (exports, module) {
+  "use strict";
 
-  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
-
-  var _Behavior = _interopRequire(_flocknBehavior);
-
-  _Behavior.define('collision', function () {
+  module.exports = function () {
 
     this.update(function (dt) {});
-  });
+  };
 });

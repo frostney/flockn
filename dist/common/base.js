@@ -16,15 +16,15 @@ var _EventMap3 = _interopRequireWildcard(_EventMap2);
 
 var _Input = require('gamebox');
 
-var _Audio = require('flockn/audio');
+var _Audio = require('./audio');
 
 var _Audio2 = _interopRequireWildcard(_Audio);
 
-var _Group = require('flockn/group');
+var _Group = require('./group');
 
 var _Group2 = _interopRequireWildcard(_Group);
 
-var _World = require('flockn/world');
+var _World = require('./world');
 
 var _World2 = _interopRequireWildcard(_World);
 
@@ -105,8 +105,10 @@ var Base = (function (_EventMap) {
 
       // Call the `descriptor` property with `args`
 
-      // Game, world, data
-      this.descriptor.call(this, data, _World2['default']);
+      debugger;
+
+      // object, {data, World}
+      this.descriptor.call(this, this, { data: data, World: _World2['default'] });
 
       // Trigger an event
       this.trigger('execute');

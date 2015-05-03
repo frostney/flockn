@@ -6,36 +6,33 @@ Object.defineProperty(exports, '__esModule', {
   value: true
 });
 
-var _Game = require('flockn/game');
+var _Game = require('./game');
 
 var _Game2 = _interopRequireWildcard(_Game);
 
-var _GameObject = require('flockn/gameobject');
+var _GameObject = require('./gameobject');
 
 var _GameObject2 = _interopRequireWildcard(_GameObject);
 
-var _Scene = require('flockn/scene');
+var _Scene = require('./scene');
 
 var _Scene2 = _interopRequireWildcard(_Scene);
 
-var _Behavior = require('flockn/behavior');
+var _Behavior = require('./behavior');
 
 var _Behavior2 = _interopRequireWildcard(_Behavior);
+
+var _Renderer = require('./renderer');
+
+var _Renderer2 = _interopRequireWildcard(_Renderer);
 
 var flockn = function flockn(descriptor) {
   return new _Game2['default'](descriptor);
 };
 
-flockn.gameObject = function (name, factory) {
-  return _GameObject2['default'].define(name, factory);
-};
-
-flockn.scene = function (name, factory) {
-  return _Scene2['default'].define(name, factory);
-};
-
-flockn.behavior = function (name, factory) {
-  return _Behavior2['default'].define(name, factory);
+// TODO: Comtemplate if this should be a property
+flockn.setRenderer = function (name) {
+  _Renderer2['default'].use(name);
 };
 
 exports['default'] = flockn;

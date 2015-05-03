@@ -10,15 +10,15 @@ Object.defineProperty(exports, '__esModule', {
   value: true
 });
 
-var _Base2 = require('flockn/base');
+var _Base2 = require('./base');
 
 var _Base3 = _interopRequireWildcard(_Base2);
 
-var _GameObject = require('flockn/gameobject');
+var _GameObject = require('./gameobject');
 
 var _GameObject2 = _interopRequireWildcard(_GameObject);
 
-var _addable$renderable$updateable$serializable = require('flockn/mixins');
+var _addable$renderable$updateable$serializable = require('./mixins');
 
 // A `Scene` instance is a layer for `GameObject` instances.
 // Any number of game objects can be added to a scene. Only one scene should be visible at the same time, depending

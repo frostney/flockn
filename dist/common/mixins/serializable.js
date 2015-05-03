@@ -6,7 +6,7 @@ Object.defineProperty(exports, '__esModule', {
   value: true
 });
 
-var _serialize = require('flockn/serialize');
+var _serialize = require('../serialize');
 
 var _serialize2 = _interopRequireWildcard(_serialize);
 

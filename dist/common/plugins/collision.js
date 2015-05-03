@@ -1,13 +1,13 @@
-'use strict';
+"use strict";
 
-var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
-var _Behavior = require('flockn/behavior');
-
-var _Behavior2 = _interopRequireWildcard(_Behavior);
-
-_Behavior2['default'].define('collision', function () {
+exports["default"] = function () {
 
   this.update(function (dt) {});
-});
+};
+
+module.exports = exports["default"];
 //# sourceMappingURL=collision.js.map

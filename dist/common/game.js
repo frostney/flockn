@@ -12,27 +12,27 @@ Object.defineProperty(exports, '__esModule', {
 
 var _Loop$AssetLoader = require('gamebox');
 
-var _Base2 = require('flockn/base');
+var _Base2 = require('./base');
 
 var _Base3 = _interopRequireWildcard(_Base2);
 
-var _Graphics = require('flockn/graphics');
+var _Graphics = require('./graphics');
 
 var _Graphics2 = _interopRequireWildcard(_Graphics);
 
-var _Scene = require('flockn/scene');
+var _Scene = require('./scene');
 
 var _Scene2 = _interopRequireWildcard(_Scene);
 
-var _Color = require('flockn/types/color');
+var _Color = require('./types/color');
 
 var _Color2 = _interopRequireWildcard(_Color);
 
-var _Viewport = require('flockn/viewport');
+var _Viewport = require('./viewport');
 
 var _Viewport2 = _interopRequireWildcard(_Viewport);
 
-var _addable$renderable$updateable$serializable = require('flockn/mixins');
+var _addable$renderable$updateable$serializable = require('./mixins');
 
 var root = window;
 
@@ -66,11 +66,15 @@ var Game = (function (_Base) {
     // once a scene will be shown
     this.activeScene = null;
 
+    // Trigger the graphics initializer
+    this.on('execute', function () {
+      console.log('eX');
+      _Graphics2['default'].trigger('initialize', _this);
+    });
+
     // A `Game` instance is the root element so the descriptor needs to be called directly,
     // because it won't be added to anywhere else
     this.call();
-
-    _Graphics2['default'].trigger('initialize', this);
 
     // Mix in `renderable` and `updateable`
     _addable$renderable$updateable$serializable.renderable.call(this);
@@ -146,6 +150,8 @@ var Game = (function (_Base) {
 
   Game.prototype.run = function run(name) {
     var _this2 = this;
+
+    _Graphics2['default'].trigger('add', this);
 
     this.on('executed', function () {
       // Start the game loop

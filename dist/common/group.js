@@ -10,7 +10,7 @@ Object.defineProperty(exports, '__esModule', {
 
 var _Log = require('gamebox');
 
-var _serialize = require('flockn/serialize');
+var _serialize = require('./serialize');
 
 var _serialize2 = _interopRequireWildcard(_serialize);
 
@@ -181,7 +181,7 @@ var Group = (function () {
     return values[values.length - 1];
   };
 
-  Group.prototype.select = function select(selector) {};
+  Group.prototype.find = function find(selector) {};
 
   Group.prototype.toJSON = function toJSON() {
     return this.values().map(function (child) {

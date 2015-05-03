@@ -1,9 +1,8 @@
-define('flockn/plugins/spriteanimation', ['exports', 'flockn/behavior'], function (exports, _flocknBehavior) {
-  'use strict';
+define('flockn/plugins/spriteanimation', ["exports", "module"], function (exports, module) {
+  "use strict";
 
-  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
+  module.exports = function () {
 
-  var _Behavior = _interopRequire(_flocknBehavior);
-
-  _Behavior.define('sprite-animation', function () {});
+    this.update(function (dt) {});
+  };
 });
