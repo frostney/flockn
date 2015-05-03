@@ -1,4 +1,4 @@
-import serialize from 'flockn/serialize';
+import serialize from '../serialize';
 
 var serializable = function serializable(Factory) {
   Factory.prototype.toJSON = function() {
