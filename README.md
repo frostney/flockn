@@ -54,6 +54,7 @@ There is also an online playground.
 Examples
 --------
 To run the examples for yourself, run `npm run examples` after all dependencies have been installed (`npm install`).
+Then navigate to `http://localhost:8080` to see all the examples.
 
 Features
 --------
