@@ -1,7 +1,6 @@
 'use strict';
 
-import Rect from 'flockn/types/rect';
-import Vector2 from 'flockn/types/vector2';
+import {Rect, Vector2} from 'flockn/types';
 
 describe('flockn/types/rect', function () {
 
