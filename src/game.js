@@ -37,7 +37,7 @@ class Game extends Base {
 
     // Trigger the graphics initializer
     this.on('execute', () => {
-      Graphics.trigger('initialize', this)
+      Graphics.trigger('initialize', this);
     });
     
     // A `Game` instance is the root element so the descriptor needs to be called directly,
