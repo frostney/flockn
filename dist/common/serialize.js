@@ -1,14 +1,14 @@
 'use strict';
 
-var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
-
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
 
-var _EventMap = require('eventmap');
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-var _EventMap2 = _interopRequireWildcard(_EventMap);
+var _eventmap = require('eventmap');
+
+var _eventmap2 = _interopRequireDefault(_eventmap);
 
 var serialize = {};
 
@@ -18,7 +18,7 @@ serialize.json.filter = ['id', 'parent', 'audio', 'input', 'world', 'assetLoader
 serialize.json.defaultReplacer = [];
 
 serialize.json.defaultReplacer.push(function (key, value) {
-  if (key === 'events' && value instanceof _EventMap2['default']) {
+  if (key === 'events' && value instanceof _eventmap2['default']) {
     value = value.serialize();
   }
 

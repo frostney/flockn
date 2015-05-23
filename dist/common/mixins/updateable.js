@@ -1,16 +1,16 @@
 'use strict';
 
-var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
-
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
 
-var _checkForFlag = require('../utils/checkforflag');
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-var _checkForFlag2 = _interopRequireWildcard(_checkForFlag);
+var _utilsCheckforflag = require('../utils/checkforflag');
 
-var isStatic = _checkForFlag2['default']('static');
+var _utilsCheckforflag2 = _interopRequireDefault(_utilsCheckforflag);
+
+var isStatic = _utilsCheckforflag2['default']('static');
 
 // TODO: This is not completely how I want it be as it only sets the children as static and not the element itself
 // TODO: Evaluate if it's a good idea if static elements shouldn't be able to interact with - similar to PIXI's

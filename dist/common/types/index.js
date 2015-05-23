@@ -1,19 +1,19 @@
 'use strict';
 
-var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
-
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
 
-var _Color = require('./color');
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-var _Color2 = _interopRequireWildcard(_Color);
+var _color = require('./color');
 
-var _Types = require('gamebox');
+var _color2 = _interopRequireDefault(_color);
 
-_Types.Types.Color = _Color2['default'];
+var _gamebox = require('gamebox');
 
-exports['default'] = _Types.Types;
+_gamebox.Types.Color = _color2['default'];
+
+exports['default'] = _gamebox.Types;
 module.exports = exports['default'];
 //# sourceMappingURL=index.js.map

@@ -1,20 +1,20 @@
 'use strict';
 
-var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
-
-var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
-
-var _inherits = function (subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
-
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
 
-var _EventMap2 = require('eventmap');
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-var _EventMap3 = _interopRequireWildcard(_EventMap2);
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-var _serializable = require('./mixins');
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+
+var _eventmap = require('eventmap');
+
+var _eventmap2 = _interopRequireDefault(_eventmap);
+
+var _mixins = require('./mixins');
 
 var Model = (function (_EventMap) {
   function Model() {
@@ -49,9 +49,9 @@ var Model = (function (_EventMap) {
   };
 
   return Model;
-})(_EventMap3['default']);
+})(_eventmap2['default']);
 
-_serializable.serializable(Model);
+_mixins.serializable(Model);
 
 exports['default'] = Model;
 module.exports = exports['default'];

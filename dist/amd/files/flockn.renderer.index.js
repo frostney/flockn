@@ -1,7 +1,7 @@
 define('flockn/renderer', ['exports', 'module', './dom', './canvas'], function (exports, module, _dom, _canvas) {
   'use strict';
 
-  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
+  function _interopRequire(obj) { return obj && obj.__esModule ? obj['default'] : obj; }
 
   var _DOMRenderer = _interopRequire(_dom);
 

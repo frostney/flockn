@@ -1,33 +1,35 @@
 'use strict';
 
-var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
-
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
 
-var _Vector2 = require('../types');
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj['default'] = obj; return newObj; } }
 
-var _Graphics = require('../graphics');
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-var _Graphics2 = _interopRequireWildcard(_Graphics);
+var _types = require('../types');
 
-var _createRootElement = require('../graphics/rootelement');
+var _graphics = require('../graphics');
 
-var _createRootElement2 = _interopRequireWildcard(_createRootElement);
+var _graphics2 = _interopRequireDefault(_graphics);
 
-var _import = require('../input/mouse');
+var _graphicsRootelement = require('../graphics/rootelement');
 
-var mouse = _interopRequireWildcard(_import);
+var _graphicsRootelement2 = _interopRequireDefault(_graphicsRootelement);
+
+var _inputMouse = require('../input/mouse');
+
+var mouse = _interopRequireWildcard(_inputMouse);
 
 var factory = function factory() {
-  _Graphics2['default'].renderer = 'Canvas';
+  _graphics2['default'].renderer = 'Canvas';
 
   var rootElement = null;
   var context = null;
 
-  _Graphics2['default'].on('initialize', function (Game) {
-    rootElement = _createRootElement2['default'].call(Game, 'canvas', function (rootElement) {
+  _graphics2['default'].on('initialize', function (Game) {
+    rootElement = _graphicsRootelement2['default'].call(Game, 'canvas', function (rootElement) {
       rootElement.width = Game.width;
       rootElement.height = Game.height;
       context = rootElement.getContext('2d');
@@ -46,7 +48,7 @@ var factory = function factory() {
     });
   });
 
-  _Graphics2['default'].before('render', function (obj) {
+  _graphics2['default'].before('render', function (obj) {
     switch (obj.type) {
       case 'Game':
         context.clearRect(0, 0, obj.width, obj.height);
@@ -59,7 +61,7 @@ var factory = function factory() {
     }
   });
 
-  _Graphics2['default'].on('render', function (obj) {
+  _graphics2['default'].on('render', function (obj) {
     switch (obj.type) {
       case 'GameObject':
         context.save();

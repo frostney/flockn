@@ -1,18 +1,18 @@
 'use strict';
 
-var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
-
-var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
-
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
 
-var _Color = require('../types');
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-var _serializable = require('../mixins/serializable');
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-var _serializable2 = _interopRequireWildcard(_serializable);
+var _types = require('../types');
+
+var _mixinsSerializable = require('../mixins/serializable');
+
+var _mixinsSerializable2 = _interopRequireDefault(_mixinsSerializable);
 
 var TextureLabel = function TextureLabel(texture) {
   _classCallCheck(this, TextureLabel);
@@ -22,7 +22,7 @@ var TextureLabel = function TextureLabel(texture) {
   this.font = {
     size: 10,
     name: 'Arial',
-    color: _Color.Color.black(),
+    color: _types.Color.black(),
     decoration: []
   };
 
@@ -82,7 +82,7 @@ var TextureLabel = function TextureLabel(texture) {
   });
 };
 
-_serializable2['default'](TextureLabel);
+_mixinsSerializable2['default'](TextureLabel);
 
 exports['default'] = TextureLabel;
 module.exports = exports['default'];

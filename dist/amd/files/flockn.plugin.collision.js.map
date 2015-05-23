@@ -1,1 +1,0 @@
-{"version":3,"sources":["src/plugins/collision.js"],"names":[],"mappings":";;;mBAAe,YAAW;;AAExB,QAAI,CAAC,MAAM,CAAC,UAAA,EAAE,EAAI,EAEjB,CAAC,CAAC;GAEJ","file":"dist/amd/files/flockn.plugin.collision.js","sourcesContent":["export default function() {\n  \n  this.update(dt => {\n    \n  });\n  \n}\n"]}

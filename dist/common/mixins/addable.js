@@ -1,14 +1,14 @@
 'use strict';
 
-var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
-
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
 
-var _Graphics = require('../graphics');
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-var _Graphics2 = _interopRequireWildcard(_Graphics);
+var _graphics = require('../graphics');
+
+var _graphics2 = _interopRequireDefault(_graphics);
 
 var addable = function addable(Factory, groupInstance, extraFn) {
 
@@ -36,7 +36,7 @@ var addable = function addable(Factory, groupInstance, extraFn) {
       extraFn.call(this, child);
     }
 
-    _Graphics2['default'].trigger('add', child);
+    _graphics2['default'].trigger('add', child);
 
     // Only call apply if it's available. Models for example don't have one
     if (child.apply) {

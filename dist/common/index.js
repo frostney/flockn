@@ -1,38 +1,38 @@
 'use strict';
 
-var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
-
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
 
-var _Game = require('./game');
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-var _Game2 = _interopRequireWildcard(_Game);
+var _game = require('./game');
 
-var _GameObject = require('./gameobject');
+var _game2 = _interopRequireDefault(_game);
 
-var _GameObject2 = _interopRequireWildcard(_GameObject);
+var _gameobject = require('./gameobject');
 
-var _Scene = require('./scene');
+var _gameobject2 = _interopRequireDefault(_gameobject);
 
-var _Scene2 = _interopRequireWildcard(_Scene);
+var _scene = require('./scene');
 
-var _Behavior = require('./behavior');
+var _scene2 = _interopRequireDefault(_scene);
 
-var _Behavior2 = _interopRequireWildcard(_Behavior);
+var _behavior = require('./behavior');
 
-var _Renderer = require('./renderer');
+var _behavior2 = _interopRequireDefault(_behavior);
 
-var _Renderer2 = _interopRequireWildcard(_Renderer);
+var _renderer = require('./renderer');
+
+var _renderer2 = _interopRequireDefault(_renderer);
 
 var flockn = function flockn(descriptor) {
-  return new _Game2['default'](descriptor);
+  return new _game2['default'](descriptor);
 };
 
 // TODO: Comtemplate if this should be a property
 flockn.setRenderer = function (name) {
-  _Renderer2['default'].use(name);
+  _renderer2['default'].use(name);
 };
 
 exports['default'] = flockn;

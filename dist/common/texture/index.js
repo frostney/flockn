@@ -1,71 +1,71 @@
 'use strict';
 
-var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
-
-var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
-
-var _inherits = function (subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
-
 Object.defineProperty(exports, '__esModule', {
-  value: true
+    value: true
 });
 
-var _Color = require('../types');
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-var _EventMap2 = require('eventmap');
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-var _EventMap3 = _interopRequireWildcard(_EventMap2);
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
-var _TextureImage = require('./image');
+var _types = require('../types');
 
-var _TextureImage2 = _interopRequireWildcard(_TextureImage);
+var _eventmap = require('eventmap');
 
-var _TextureLabel = require('./label');
+var _eventmap2 = _interopRequireDefault(_eventmap);
 
-var _TextureLabel2 = _interopRequireWildcard(_TextureLabel);
+var _image = require('./image');
 
-var _serializable = require('../mixins/serializable');
+var _image2 = _interopRequireDefault(_image);
 
-var _serializable2 = _interopRequireWildcard(_serializable);
+var _label = require('./label');
+
+var _label2 = _interopRequireDefault(_label);
+
+var _mixinsSerializable = require('../mixins/serializable');
+
+var _mixinsSerializable2 = _interopRequireDefault(_mixinsSerializable);
 
 var Texture = (function (_EventMap) {
-  function Texture() {
-    var _this = this;
+    function Texture() {
+        var _this = this;
 
-    _classCallCheck(this, Texture);
+        _classCallCheck(this, Texture);
 
-    _EventMap.call(this);
+        _EventMap.call(this);
 
-    // Set up dimensions
-    this.width = 0;
-    this.height = 0;
+        // Set up dimensions
+        this.width = 0;
+        this.height = 0;
 
-    // Set parent property
-    this.parent = null;
+        // Set parent property
+        this.parent = null;
 
-    this.image = new _TextureImage2['default'](this);
-    this.label = new _TextureLabel2['default'](this);
+        this.image = new _image2['default'](this);
+        this.label = new _label2['default'](this);
 
-    this.backgroundColor = _Color.Color.transparent();
+        this.backgroundColor = _types.Color.transparent();
 
-    // TODO: What to do when there is both an image and a label
-    this.on('image-loaded', function () {
-      _this.width = _this.image.width;
-      _this.height = _this.image.height;
-    });
+        // TODO: What to do when there is both an image and a label
+        this.on('image-loaded', function () {
+            _this.width = _this.image.width;
+            _this.height = _this.image.height;
+        });
 
-    this.on('label-loaded', function () {
-      _this.width = _this.label.width;
-      _this.height = _this.label.height;
-    });
-  }
+        this.on('label-loaded', function () {
+            _this.width = _this.label.width;
+            _this.height = _this.label.height;
+        });
+    }
 
-  _inherits(Texture, _EventMap);
+    _inherits(Texture, _EventMap);
 
-  return Texture;
-})(_EventMap3['default']);
+    return Texture;
+})(_eventmap2['default']);
 
-_serializable2['default'](Texture);
+_mixinsSerializable2['default'](Texture);
 
 exports['default'] = Texture;
 module.exports = exports['default'];

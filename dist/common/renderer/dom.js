@@ -1,22 +1,24 @@
 'use strict';
 
-var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
-
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
 
-var _Graphics = require('../graphics');
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj['default'] = obj; return newObj; } }
 
-var _Graphics2 = _interopRequireWildcard(_Graphics);
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-var _createRootElement = require('../graphics/rootelement');
+var _graphics = require('../graphics');
 
-var _createRootElement2 = _interopRequireWildcard(_createRootElement);
+var _graphics2 = _interopRequireDefault(_graphics);
 
-var _import = require('../input/mouse');
+var _graphicsRootelement = require('../graphics/rootelement');
 
-var mouse = _interopRequireWildcard(_import);
+var _graphicsRootelement2 = _interopRequireDefault(_graphicsRootelement);
+
+var _inputMouse = require('../input/mouse');
+
+var mouse = _interopRequireWildcard(_inputMouse);
 
 var factory = function factory() {
   var root = window;
@@ -29,12 +31,12 @@ var factory = function factory() {
     return parseFloat(str) || 0;
   };
 
-  _Graphics2['default'].renderer = 'DOM';
+  _graphics2['default'].renderer = 'DOM';
 
   var rootElement = null;
 
-  _Graphics2['default'].on('initialize', function (Game) {
-    rootElement = _createRootElement2['default'].call(Game, 'div', function (rootElement) {
+  _graphics2['default'].on('initialize', function (Game) {
+    rootElement = _graphicsRootelement2['default'].call(Game, 'div', function (rootElement) {
       rootElement.style.backgroundColor = this.color.toString();
       rootElement.style.overflow = 'hidden';
       rootElement.style.cursor = 'default';
@@ -42,7 +44,7 @@ var factory = function factory() {
     });
   });
 
-  _Graphics2['default'].on('add', function (obj) {
+  _graphics2['default'].on('add', function (obj) {
     // TODO: Models shouldn't be added to the DOM. Currently we do a check if has an id, but sometime in the
     //  future they might have
     if (!obj.id) {
@@ -116,7 +118,7 @@ var factory = function factory() {
     parentElem.appendChild(element);
   });
 
-  _Graphics2['default'].on('texture-image-loaded', function (obj, texture) {
+  _graphics2['default'].on('texture-image-loaded', function (obj, texture) {
     var element = document.getElementById(obj.id.toLowerCase());
 
     if (element != null) {
@@ -126,7 +128,7 @@ var factory = function factory() {
     }
   });
 
-  _Graphics2['default'].on('texture-label-loaded', function (obj, texture) {
+  _graphics2['default'].on('texture-label-loaded', function (obj, texture) {
     var element = document.getElementById(obj.id.toLowerCase());
 
     if (element != null) {
@@ -137,13 +139,13 @@ var factory = function factory() {
 
   var dirtyObjects = {};
 
-  _Graphics2['default'].after('render', function (obj) {
+  _graphics2['default'].after('render', function (obj) {
     var objId = obj.id.toLowerCase();
 
     dirtyObjects[objId] = obj;
   });
 
-  _Graphics2['default'].on('render', function (obj) {
+  _graphics2['default'].on('render', function (obj) {
     var objId = obj.id.toLowerCase();
 
     // Update element attributes

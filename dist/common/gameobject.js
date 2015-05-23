@@ -1,48 +1,48 @@
 'use strict';
 
-var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
-
-var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-var _inherits = function (subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
-
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
 
-var _Base2 = require('./base');
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
-var _Base3 = _interopRequireWildcard(_Base2);
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-var _Behavior = require('./behavior');
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-var _Behavior2 = _interopRequireWildcard(_Behavior);
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
-var _Graphics = require('./graphics');
+var _base = require('./base');
 
-var _Graphics2 = _interopRequireWildcard(_Graphics);
+var _base2 = _interopRequireDefault(_base);
 
-var _Group = require('./group');
+var _behavior = require('./behavior');
 
-var _Group2 = _interopRequireWildcard(_Group);
+var _behavior2 = _interopRequireDefault(_behavior);
 
-var _Model = require('./model');
+var _graphics = require('./graphics');
 
-var _Model2 = _interopRequireWildcard(_Model);
+var _graphics2 = _interopRequireDefault(_graphics);
+
+var _group = require('./group');
+
+var _group2 = _interopRequireDefault(_group);
+
+var _model = require('./model');
+
+var _model2 = _interopRequireDefault(_model);
 
 var _serialize = require('./serialize');
 
-var _serialize2 = _interopRequireWildcard(_serialize);
+var _serialize2 = _interopRequireDefault(_serialize);
 
-var _Texture = require('./texture');
+var _texture = require('./texture');
 
-var _Texture2 = _interopRequireWildcard(_Texture);
+var _texture2 = _interopRequireDefault(_texture);
 
-var _Vector2$Vector3$Color$Rect = require('./types');
+var _types = require('./types');
 
-var _addable$renderable$updateable$serializable = require('./mixins');
+var _mixins = require('./mixins');
 
 var GameObject = (function (_Base) {
   function GameObject(descriptor) {
@@ -54,12 +54,12 @@ var GameObject = (function (_Base) {
 
     this.visible = true;
 
-    this.position = new _Vector2$Vector3$Color$Rect.Vector3();
+    this.position = new _types.Vector3();
 
     this.fitToTexture = true;
 
     // Create a new texture and bind it to the `texture` property
-    this.texture = new _Texture2['default']();
+    this.texture = new _texture2['default']();
     this.texture.parent = this;
 
     // Once the image is loaded, update width and height if `fitToTexture` is set
@@ -73,7 +73,7 @@ var GameObject = (function (_Base) {
       }
 
       // TODO: Evaluate if the Graphics trigger should only be in the texture
-      _Graphics2['default'].trigger('texture-image-loaded', _this, _this.texture);
+      _graphics2['default'].trigger('texture-image-loaded', _this, _this.texture);
     });
 
     // Once the label is loaded, update width and height if `fitToTexture` is set
@@ -86,7 +86,7 @@ var GameObject = (function (_Base) {
         _this.origin.y = _this.height / 2;
 
         // TODO: Evaluate if the Graphics trigger should only be in the texture
-        _Graphics2['default'].trigger('texture-label-loaded', _this, _this.texture);
+        _graphics2['default'].trigger('texture-label-loaded', _this, _this.texture);
       }
     });
 
@@ -97,25 +97,25 @@ var GameObject = (function (_Base) {
 
     this.alpha = 1;
 
-    this.scale = new _Vector2$Vector3$Color$Rect.Vector2(1, 1);
+    this.scale = new _types.Vector2(1, 1);
 
-    this.origin = new _Vector2$Vector3$Color$Rect.Vector2(this.width / 2, this.width / 2);
+    this.origin = new _types.Vector2(this.width / 2, this.width / 2);
 
     this.border = {
       width: 0,
-      color: new _Vector2$Vector3$Color$Rect.Color(),
+      color: new _types.Color(),
       radius: 0
     };
 
     // Add default model
-    var defaultModel = new _Model2['default']();
+    var defaultModel = new _model2['default']();
     defaultModel.name = 'default';
 
     this.addModel(defaultModel);
 
     // Mix in renderable and updateable
-    _addable$renderable$updateable$serializable.renderable.call(this);
-    _addable$renderable$updateable$serializable.updateable.call(this);
+    _mixins.renderable.call(this);
+    _mixins.updateable.call(this);
   }
 
   _inherits(GameObject, _Base);
@@ -123,24 +123,24 @@ var GameObject = (function (_Base) {
   GameObject.prototype.bounds = function bounds() {
     // TODO: Also take care of scale
     // TODO: Also take care of rotation
-    return new _Vector2$Vector3$Color$Rect.Rect(this.position.x, this.position.y, this.width, this.height);
+    return new _types.Rect(this.position.x, this.position.y, this.width, this.height);
   };
 
   GameObject.prototype.addGameObject = function addGameObject() {
     // Add a game object to this game object
-    this.queue.push(_addable$renderable$updateable$serializable.addable(GameObject, this.children).apply(this, arguments));
+    this.queue.push(_mixins.addable(GameObject, this.children).apply(this, arguments));
   };
 
   GameObject.prototype.addBehavior = function addBehavior() {
     // Add a `Behavior` instance to the the game object and update the `gameObject` property
-    this.queue.push(_addable$renderable$updateable$serializable.addable(_Behavior2['default'], this.children, function (child) {
+    this.queue.push(_mixins.addable(_behavior2['default'], this.children, function (child) {
       child.gameObject = this;
     }).apply(this, arguments));
   };
 
   GameObject.prototype.addModel = function addModel() {
     // Add a `Model` instance to the game object
-    this.queue.push(_addable$renderable$updateable$serializable.addable(_Model2['default'], this.children).apply(this, arguments));
+    this.queue.push(_mixins.addable(_model2['default'], this.children).apply(this, arguments));
   };
 
   GameObject.prototype.removeGameObject = function removeGameObject() {};
@@ -208,9 +208,9 @@ var GameObject = (function (_Base) {
   }]);
 
   return GameObject;
-})(_Base3['default']);
+})(_base2['default']);
 
-_addable$renderable$updateable$serializable.serializable(GameObject);
+_mixins.serializable(GameObject);
 
 exports['default'] = GameObject;
 module.exports = exports['default'];

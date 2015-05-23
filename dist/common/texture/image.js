@@ -1,27 +1,27 @@
 'use strict';
 
-var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
-
-var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
-
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
 
-var _Color$Vector2 = require('../types');
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-var _serializable = require('../mixins/serializable');
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-var _serializable2 = _interopRequireWildcard(_serializable);
+var _types = require('../types');
+
+var _mixinsSerializable = require('../mixins/serializable');
+
+var _mixinsSerializable2 = _interopRequireDefault(_mixinsSerializable);
 
 var TextureImage = (function () {
   function TextureImage(texture) {
     _classCallCheck(this, TextureImage);
 
     // The default values for `image`
-    this.color = _Color$Vector2.Color.transparent();
+    this.color = _types.Color.transparent();
     this.drawable = false;
-    this.offset = new _Color$Vector2.Vector2(0, 0);
+    this.offset = new _types.Vector2(0, 0);
     this.data = null;
     this.width = 0;
     this.height = 0;
@@ -65,7 +65,7 @@ var TextureImage = (function () {
   return TextureImage;
 })();
 
-_serializable2['default'](TextureImage);
+_mixinsSerializable2['default'](TextureImage);
 
 exports['default'] = TextureImage;
 module.exports = exports['default'];

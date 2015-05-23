@@ -1,22 +1,22 @@
 'use strict';
 
-var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
-
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
 
-var _Math$Types = require('gamebox');
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-var _colorConstants = require('../constants/color');
+var _gamebox = require('gamebox');
 
-var _colorConstants2 = _interopRequireWildcard(_colorConstants);
+var _constantsColor = require('../constants/color');
 
-var Color = _Math$Types.Types.Color;
-var clamp = _Math$Types.Math.clamp;
+var _constantsColor2 = _interopRequireDefault(_constantsColor);
 
-for (var colorName in _colorConstants2['default']) {
-  var colorValue = _colorConstants2['default'][colorName];
+var Color = _gamebox.Types.Color;
+var clamp = _gamebox.Math.clamp;
+
+for (var colorName in _constantsColor2['default']) {
+  var colorValue = _constantsColor2['default'][colorName];
 
   (function (colorName, colorValue) {
     Color[colorName] = function () {

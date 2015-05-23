@@ -1,24 +1,24 @@
 'use strict';
 
-var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
-
-var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
-
-var _inherits = function (subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
-
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
 
-var _Base2 = require('./base');
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-var _Base3 = _interopRequireWildcard(_Base2);
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-var _GameObject = require('./gameobject');
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
-var _GameObject2 = _interopRequireWildcard(_GameObject);
+var _base = require('./base');
 
-var _addable$renderable$updateable$serializable = require('./mixins');
+var _base2 = _interopRequireDefault(_base);
+
+var _gameobject = require('./gameobject');
+
+var _gameobject2 = _interopRequireDefault(_gameobject);
+
+var _mixins = require('./mixins');
 
 // A `Scene` instance is a layer for `GameObject` instances.
 // Any number of game objects can be added to a scene. Only one scene should be visible at the same time, depending
@@ -33,21 +33,21 @@ var Scene = (function (_Base) {
     this.visible = true;
 
     // Mix in `renderable` and `updateable`
-    _addable$renderable$updateable$serializable.renderable.call(this);
-    _addable$renderable$updateable$serializable.updateable.call(this);
+    _mixins.renderable.call(this);
+    _mixins.updateable.call(this);
   }
 
   _inherits(Scene, _Base);
 
   Scene.prototype.addGameObject = function addGameObject() {
     // Allow game objects to be added to scenes
-    this.queue.push(_addable$renderable$updateable$serializable.addable(_GameObject2['default'], this.children).apply(this, arguments));
+    this.queue.push(_mixins.addable(_gameobject2['default'], this.children).apply(this, arguments));
   };
 
   return Scene;
-})(_Base3['default']);
+})(_base2['default']);
 
-_addable$renderable$updateable$serializable.serializable(Scene);
+_mixins.serializable(Scene);
 
 exports['default'] = Scene;
 module.exports = exports['default'];

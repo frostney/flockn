@@ -1,32 +1,32 @@
 'use strict';
 
-var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
-
-var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
-
-var _inherits = function (subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
-
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
 
-var _EventMap2 = require('eventmap');
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-var _EventMap3 = _interopRequireWildcard(_EventMap2);
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-var _Input = require('gamebox');
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
-var _Audio = require('./audio');
+var _eventmap = require('eventmap');
 
-var _Audio2 = _interopRequireWildcard(_Audio);
+var _eventmap2 = _interopRequireDefault(_eventmap);
 
-var _Group = require('./group');
+var _gamebox = require('gamebox');
 
-var _Group2 = _interopRequireWildcard(_Group);
+var _audio = require('./audio');
 
-var _World = require('./world');
+var _audio2 = _interopRequireDefault(_audio);
 
-var _World2 = _interopRequireWildcard(_World);
+var _group = require('./group');
+
+var _group2 = _interopRequireDefault(_group);
+
+var _world = require('./world');
+
+var _world2 = _interopRequireDefault(_world);
 
 var objectIndex = 0;
 
@@ -77,7 +77,7 @@ var Base = (function (_EventMap) {
     this.descriptor = descriptor;
 
     // Create a new group for all children elements
-    this.children = new _Group2['default']();
+    this.children = new _group2['default']();
 
     // Add a queue: All addable elements will be pushed into the queue first and called after everything else in
     // the `descriptor` has been called
@@ -86,10 +86,10 @@ var Base = (function (_EventMap) {
     this.parent = null;
 
     // `Input` should be available in instances derived from `Base`
-    this.input = _Input.Input;
+    this.input = _gamebox.Input;
 
     // As should `Audio`
-    this.audio = _Audio2['default'];
+    this.audio = _audio2['default'];
 
     // Emit an event
     this.trigger('constructed');
@@ -105,10 +105,8 @@ var Base = (function (_EventMap) {
 
       // Call the `descriptor` property with `args`
 
-      debugger;
-
       // object, {data, World}
-      this.descriptor.call(this, this, { data: data, World: _World2['default'] });
+      this.descriptor.call(this, this, { data: data, World: _world2['default'] });
 
       // Trigger an event
       this.trigger('execute');
@@ -158,7 +156,7 @@ var Base = (function (_EventMap) {
   };
 
   return Base;
-})(_EventMap3['default']);
+})(_eventmap2['default']);
 
 Base.queueOrder = ['Game', 'Scene', 'GameObject', 'Behavior', 'Model'];
 

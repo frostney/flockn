@@ -1,18 +1,18 @@
 'use strict';
 
-var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
-
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
 
-var _DOMRenderer = require('./dom');
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-var _DOMRenderer2 = _interopRequireWildcard(_DOMRenderer);
+var _dom = require('./dom');
 
-var _CanvasRenderer = require('./canvas');
+var _dom2 = _interopRequireDefault(_dom);
 
-var _CanvasRenderer2 = _interopRequireWildcard(_CanvasRenderer);
+var _canvas = require('./canvas');
+
+var _canvas2 = _interopRequireDefault(_canvas);
 
 var renderers = {};
 
@@ -28,8 +28,8 @@ Renderer.use = function (name) {
   }
 };
 
-Renderer.register('dom', _DOMRenderer2['default']);
-Renderer.register('canvas', _CanvasRenderer2['default']);
+Renderer.register('dom', _dom2['default']);
+Renderer.register('canvas', _canvas2['default']);
 
 exports['default'] = Renderer;
 module.exports = exports['default'];

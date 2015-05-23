@@ -1,17 +1,17 @@
 'use strict';
 
-var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
-
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
 
-var _Model = require('./model');
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-var _Model2 = _interopRequireWildcard(_Model);
+var _model = require('./model');
+
+var _model2 = _interopRequireDefault(_model);
 
 // `World` is an instance of a model
-var world = new _Model2['default']();
+var world = new _model2['default']();
 
 exports['default'] = world;
 module.exports = exports['default'];

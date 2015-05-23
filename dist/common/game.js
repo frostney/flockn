@@ -1,38 +1,38 @@
 'use strict';
 
-var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
-
-var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
-
-var _inherits = function (subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
-
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
 
-var _Loop$AssetLoader = require('gamebox');
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-var _Base2 = require('./base');
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-var _Base3 = _interopRequireWildcard(_Base2);
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
-var _Graphics = require('./graphics');
+var _gamebox = require('gamebox');
 
-var _Graphics2 = _interopRequireWildcard(_Graphics);
+var _base = require('./base');
 
-var _Scene = require('./scene');
+var _base2 = _interopRequireDefault(_base);
 
-var _Scene2 = _interopRequireWildcard(_Scene);
+var _graphics = require('./graphics');
 
-var _Color = require('./types/color');
+var _graphics2 = _interopRequireDefault(_graphics);
 
-var _Color2 = _interopRequireWildcard(_Color);
+var _scene = require('./scene');
 
-var _Viewport = require('./viewport');
+var _scene2 = _interopRequireDefault(_scene);
 
-var _Viewport2 = _interopRequireWildcard(_Viewport);
+var _typesColor = require('./types/color');
 
-var _addable$renderable$updateable$serializable = require('./mixins');
+var _typesColor2 = _interopRequireDefault(_typesColor);
+
+var _viewport = require('./viewport');
+
+var _viewport2 = _interopRequireDefault(_viewport);
+
+var _mixins = require('./mixins');
 
 var root = window;
 
@@ -55,12 +55,12 @@ var Game = (function (_Base) {
     // By default, the width and height of a `Game` instance will be as large as the inside of the browser window.
     this.width = root.innerWidth;
     this.height = root.innerHeight;
-    this.color = new _Color2['default'](255, 255, 255);
+    this.color = new _typesColor2['default'](255, 255, 255);
 
-    this.assetLoader = new _Loop$AssetLoader.AssetLoader();
+    this.assetLoader = new _gamebox.AssetLoader();
 
     // Set the viewport object
-    this.viewport = _Viewport2['default'];
+    this.viewport = _viewport2['default'];
 
     // `this.activeScene` is set to `null` by default, but will change to the instance of the scene
     // once a scene will be shown
@@ -68,8 +68,7 @@ var Game = (function (_Base) {
 
     // Trigger the graphics initializer
     this.on('execute', function () {
-      console.log('eX');
-      _Graphics2['default'].trigger('initialize', _this);
+      _graphics2['default'].trigger('initialize', _this);
     });
 
     // A `Game` instance is the root element so the descriptor needs to be called directly,
@@ -77,18 +76,18 @@ var Game = (function (_Base) {
     this.call();
 
     // Mix in `renderable` and `updateable`
-    _addable$renderable$updateable$serializable.renderable.call(this);
-    _addable$renderable$updateable$serializable.updateable.call(this);
+    _mixins.renderable.call(this);
+    _mixins.updateable.call(this);
 
     // Bind the game loop to the `update` event
-    _Loop$AssetLoader.Loop.on('update', function (dt) {
+    _gamebox.Loop.on('update', function (dt) {
       // Deltatime should not be a millisecond value, but a second one.
       // It should be a value between 0 - 1
       _this.trigger('update', dt / 1000);
     });
 
     // Bind the game loop to the `render` event
-    _Loop$AssetLoader.Loop.on('render', function () {
+    _gamebox.Loop.on('render', function () {
       _this.trigger('render');
     });
 
@@ -118,7 +117,7 @@ var Game = (function (_Base) {
   Game.prototype.addScene = function addScene() {
     // When adding a scene, the dimension of scenes should be
     // exactly as large as the `Game` instance itself
-    this.queue.push(_addable$renderable$updateable$serializable.addable(_Scene2['default'], this.children, function (child) {
+    this.queue.push(_mixins.addable(_scene2['default'], this.children, function (child) {
       child.width = this.width;
       child.height = this.height;
     }).apply(this, arguments));
@@ -151,11 +150,11 @@ var Game = (function (_Base) {
   Game.prototype.run = function run(name) {
     var _this2 = this;
 
-    _Graphics2['default'].trigger('add', this);
+    _graphics2['default'].trigger('add', this);
 
     this.on('executed', function () {
       // Start the game loop
-      _Loop$AssetLoader.Loop.run();
+      _gamebox.Loop.run();
 
       if (!name) {
         // If there's only no name, take the first scene
@@ -170,9 +169,9 @@ var Game = (function (_Base) {
   };
 
   return Game;
-})(_Base3['default']);
+})(_base2['default']);
 
-_addable$renderable$updateable$serializable.serializable(Game);
+_mixins.serializable(Game);
 
 exports['default'] = Game;
 module.exports = exports['default'];

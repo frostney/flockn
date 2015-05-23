@@ -19,11 +19,11 @@ define('flockn/audio', ["exports", "module"], function (exports, module) {
 define('flockn/base', ['exports', 'module', 'eventmap', 'gamebox', './audio', './group', './world'], function (exports, module, _eventmap, _gamebox, _audio, _group, _world) {
   'use strict';
 
-  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
+  function _interopRequire(obj) { return obj && obj.__esModule ? obj['default'] : obj; }
 
-  var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
+  function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-  var _inherits = function (subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+  function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
   var _EventMap2 = _interopRequire(_eventmap);
 
@@ -110,8 +110,6 @@ define('flockn/base', ['exports', 'module', 'eventmap', 'gamebox', './audio', '.
 
         // Call the `descriptor` property with `args`
 
-        debugger;
-
         // object, {data, World}
         this.descriptor.call(this, this, { data: data, World: _World });
 
@@ -173,11 +171,11 @@ define('flockn/base', ['exports', 'module', 'eventmap', 'gamebox', './audio', '.
 define('flockn/behavior', ['exports', 'module', './base', './group', './mixins'], function (exports, module, _base, _group, _mixins) {
   'use strict';
 
-  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
+  function _interopRequire(obj) { return obj && obj.__esModule ? obj['default'] : obj; }
 
-  var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
+  function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-  var _inherits = function (subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+  function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
   var _Base2 = _interopRequire(_base);
 
@@ -316,11 +314,11 @@ define('flockn/constants/color', ["exports", "module"], function (exports, modul
 define('flockn/game', ['exports', 'module', 'gamebox', './base', './graphics', './scene', './types/color', './viewport', './mixins'], function (exports, module, _gamebox, _base, _graphics, _scene, _typesColor, _viewport, _mixins) {
   'use strict';
 
-  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
+  function _interopRequire(obj) { return obj && obj.__esModule ? obj['default'] : obj; }
 
-  var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
+  function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-  var _inherits = function (subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+  function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
   var _Base2 = _interopRequire(_base);
 
@@ -366,7 +364,6 @@ define('flockn/game', ['exports', 'module', 'gamebox', './base', './graphics', '
 
       // Trigger the graphics initializer
       this.on('execute', function () {
-        console.log('eX');
         _Graphics.trigger('initialize', _this);
       });
 
@@ -478,13 +475,13 @@ define('flockn/game', ['exports', 'module', 'gamebox', './base', './graphics', '
 define('flockn/gameobject', ['exports', 'module', './base', './behavior', './graphics', './group', './model', './serialize', './texture', './types', './mixins'], function (exports, module, _base, _behavior, _graphics, _group, _model, _serialize, _texture, _types, _mixins) {
   'use strict';
 
-  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
-
-  var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
-
   var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
-  var _inherits = function (subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+  function _interopRequire(obj) { return obj && obj.__esModule ? obj['default'] : obj; }
+
+  function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+  function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
   var _Base2 = _interopRequire(_base);
 
@@ -674,7 +671,7 @@ define('flockn/gameobject', ['exports', 'module', './base', './behavior', './gra
 define('flockn/graphics', ['exports', 'module', 'eventmap'], function (exports, module, _eventmap) {
   'use strict';
 
-  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
+  function _interopRequire(obj) { return obj && obj.__esModule ? obj['default'] : obj; }
 
   var _EventMap = _interopRequire(_eventmap);
 
@@ -757,9 +754,9 @@ define('flockn/graphics/rootelement', ['exports', 'module'], function (exports, 
 define('flockn/group', ['exports', 'module', 'gamebox', './serialize'], function (exports, module, _gamebox, _serialize) {
   'use strict';
 
-  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
+  function _interopRequire(obj) { return obj && obj.__esModule ? obj['default'] : obj; }
 
-  var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
+  function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
   var _serialize2 = _interopRequire(_serialize);
 
@@ -839,17 +836,7 @@ define('flockn/group', ['exports', 'module', 'gamebox', './serialize'], function
     Group.prototype.all = function all(filter) {
       var objects = [];
 
-      var recurse = (function (_recurse) {
-        function recurse(_x) {
-          return _recurse.apply(this, arguments);
-        }
-
-        recurse.toString = function () {
-          return _recurse.toString();
-        };
-
-        return recurse;
-      })(function (group) {
+      var recurse = function recurse(group) {
         group.forEach(function (obj) {
           if (filter) {
             if (filter(obj)) {
@@ -863,7 +850,7 @@ define('flockn/group', ['exports', 'module', 'gamebox', './serialize'], function
             recurse(obj.children);
           }
         });
-      });
+      };
 
       recurse(this);
 
@@ -1023,7 +1010,7 @@ define('flockn/group', ['exports', 'module', 'gamebox', './serialize'], function
 define('flockn', ['exports', 'module', './game', './gameobject', './scene', './behavior', './renderer'], function (exports, module, _game, _gameobject, _scene, _behavior, _renderer) {
   'use strict';
 
-  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
+  function _interopRequire(obj) { return obj && obj.__esModule ? obj['default'] : obj; }
 
   var _Game = _interopRequire(_game);
 
@@ -1076,7 +1063,7 @@ define('flockn/input/mouse', ['exports', '../types'], function (exports, _types)
 define('flockn/mixins/addable', ['exports', 'module', '../graphics'], function (exports, module, _graphics) {
   'use strict';
 
-  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
+  function _interopRequire(obj) { return obj && obj.__esModule ? obj['default'] : obj; }
 
   var _Graphics = _interopRequire(_graphics);
 
@@ -1130,11 +1117,11 @@ define('flockn/mixins/addable', ['exports', 'module', '../graphics'], function (
 define('flockn/mixins', ['exports', './addable', './renderable', './updateable', './serializable'], function (exports, _addable, _renderable, _updateable, _serializable) {
   'use strict';
 
-  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
-
   Object.defineProperty(exports, '__esModule', {
     value: true
   });
+
+  function _interopRequire(obj) { return obj && obj.__esModule ? obj['default'] : obj; }
 
   var _addable2 = _interopRequire(_addable);
 
@@ -1153,7 +1140,7 @@ define('flockn/mixins', ['exports', './addable', './renderable', './updateable',
 define('flockn/mixins/renderable', ['exports', 'module', '../utils/checkforflag', '../graphics'], function (exports, module, _utilsCheckforflag, _graphics) {
   'use strict';
 
-  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
+  function _interopRequire(obj) { return obj && obj.__esModule ? obj['default'] : obj; }
 
   var _checkForFlag = _interopRequire(_utilsCheckforflag);
 
@@ -1186,7 +1173,7 @@ define('flockn/mixins/renderable', ['exports', 'module', '../utils/checkforflag'
 define('flockn/mixins/serializable', ['exports', 'module', '../serialize'], function (exports, module, _serialize) {
   'use strict';
 
-  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
+  function _interopRequire(obj) { return obj && obj.__esModule ? obj['default'] : obj; }
 
   var _serialize2 = _interopRequire(_serialize);
 
@@ -1206,7 +1193,7 @@ define('flockn/mixins/serializable', ['exports', 'module', '../serialize'], func
 define('flockn/mixins/updateable', ['exports', 'module', '../utils/checkforflag'], function (exports, module, _utilsCheckforflag) {
   'use strict';
 
-  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
+  function _interopRequire(obj) { return obj && obj.__esModule ? obj['default'] : obj; }
 
   var _checkForFlag = _interopRequire(_utilsCheckforflag);
 
@@ -1238,11 +1225,11 @@ define('flockn/mixins/updateable', ['exports', 'module', '../utils/checkforflag'
 define('flockn/model', ['exports', 'module', 'eventmap', './mixins'], function (exports, module, _eventmap, _mixins) {
   'use strict';
 
-  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
+  function _interopRequire(obj) { return obj && obj.__esModule ? obj['default'] : obj; }
 
-  var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
+  function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-  var _inherits = function (subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+  function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
   var _EventMap2 = _interopRequire(_eventmap);
 
@@ -1286,67 +1273,10 @@ define('flockn/model', ['exports', 'module', 'eventmap', './mixins'], function (
   module.exports = Model;
 });
 
-define('flockn/plugins/collision', ["exports", "module"], function (exports, module) {
-  "use strict";
-
-  module.exports = function () {
-
-    this.update(function (dt) {});
-  };
-});
-
-define('flockn/plugins/movement', ['exports', 'module', 'flockn/behavior', 'flockn/model', 'gamebox'], function (exports, module, _flocknBehavior, _flocknModel, _gamebox) {
-  'use strict';
-
-  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
-
-  var _Behavior = _interopRequire(_flocknBehavior);
-
-  var _Model = _interopRequire(_flocknModel);
-
-  var keyData = new _Model();
-
-  keyData.name = 'keys';
-  keyData.set('up', ['up', 'w']);
-  keyData.set('down', ['down', 's']);
-  keyData.set('left', ['left', 'a']);
-  keyData.set('right', ['right', 'd']);
-
-  var movements = ['up', 'down', 'left', 'right'];
-
-  module.exports = function () {
-    var _this = this;
-
-    this.addModel(keyData);
-
-    this.input.key.on('down', function (key) {
-
-      var upKeys = _this.data('keys').get('up');
-      if (!Array.isArray(upKeys)) {
-        upKeys = [upKeys];
-      }
-
-      _this.trigger('up');
-      _this.trigger('down');
-      _this.trigger('left');
-      _this.trigger('right');
-    });
-  };
-});
-
-define('flockn/plugins/spriteanimation', ["exports", "module"], function (exports, module) {
-  "use strict";
-
-  module.exports = function () {
-
-    this.update(function (dt) {});
-  };
-});
-
 define('flockn/renderer/canvas', ['exports', 'module', '../types', '../graphics', '../graphics/rootelement', '../input/mouse'], function (exports, module, _types, _graphics, _graphicsRootelement, _inputMouse) {
   'use strict';
 
-  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
+  function _interopRequire(obj) { return obj && obj.__esModule ? obj['default'] : obj; }
 
   var _Graphics = _interopRequire(_graphics);
 
@@ -1437,7 +1367,7 @@ define('flockn/renderer/canvas', ['exports', 'module', '../types', '../graphics'
 define('flockn/renderer/dom', ['exports', 'module', '../graphics', '../graphics/rootelement', '../input/mouse'], function (exports, module, _graphics, _graphicsRootelement, _inputMouse) {
   'use strict';
 
-  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
+  function _interopRequire(obj) { return obj && obj.__esModule ? obj['default'] : obj; }
 
   var _Graphics = _interopRequire(_graphics);
 
@@ -1706,7 +1636,7 @@ define('flockn/renderer/dom', ['exports', 'module', '../graphics', '../graphics/
 define('flockn/renderer', ['exports', 'module', './dom', './canvas'], function (exports, module, _dom, _canvas) {
   'use strict';
 
-  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
+  function _interopRequire(obj) { return obj && obj.__esModule ? obj['default'] : obj; }
 
   var _DOMRenderer = _interopRequire(_dom);
 
@@ -1735,11 +1665,11 @@ define('flockn/renderer', ['exports', 'module', './dom', './canvas'], function (
 define('flockn/scene', ['exports', 'module', './base', './gameobject', './mixins'], function (exports, module, _base, _gameobject, _mixins) {
   'use strict';
 
-  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
+  function _interopRequire(obj) { return obj && obj.__esModule ? obj['default'] : obj; }
 
-  var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
+  function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-  var _inherits = function (subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+  function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
   var _Base2 = _interopRequire(_base);
 
@@ -1780,7 +1710,7 @@ define('flockn/scene', ['exports', 'module', './base', './gameobject', './mixins
 define('flockn/selector', ["exports", "module"], function (exports, module) {
   "use strict";
 
-  var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+  function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
   var Selector = (function () {
     function Selector(selectorString) {
@@ -1798,7 +1728,7 @@ define('flockn/selector', ["exports", "module"], function (exports, module) {
 define('flockn/serialize', ['exports', 'module', 'eventmap'], function (exports, module, _eventmap) {
   'use strict';
 
-  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
+  function _interopRequire(obj) { return obj && obj.__esModule ? obj['default'] : obj; }
 
   var _EventMap = _interopRequire(_eventmap);
 
@@ -1910,9 +1840,9 @@ define('flockn/serialize', ['exports', 'module', 'eventmap'], function (exports,
 define('flockn/texture/image', ['exports', 'module', '../types', '../mixins/serializable'], function (exports, module, _types, _mixinsSerializable) {
   'use strict';
 
-  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
+  function _interopRequire(obj) { return obj && obj.__esModule ? obj['default'] : obj; }
 
-  var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
+  function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
   var _serializable = _interopRequire(_mixinsSerializable);
 
@@ -1973,70 +1903,70 @@ define('flockn/texture/image', ['exports', 'module', '../types', '../mixins/seri
 });
 
 define('flockn/texture', ['exports', 'module', '../types', 'eventmap', './image', './label', '../mixins/serializable'], function (exports, module, _types, _eventmap, _image, _label, _mixinsSerializable) {
-  'use strict';
+    'use strict';
 
-  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
+    function _interopRequire(obj) { return obj && obj.__esModule ? obj['default'] : obj; }
 
-  var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
+    function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-  var _inherits = function (subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+    function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
-  var _EventMap2 = _interopRequire(_eventmap);
+    var _EventMap2 = _interopRequire(_eventmap);
 
-  var _TextureImage = _interopRequire(_image);
+    var _TextureImage = _interopRequire(_image);
 
-  var _TextureLabel = _interopRequire(_label);
+    var _TextureLabel = _interopRequire(_label);
 
-  var _serializable = _interopRequire(_mixinsSerializable);
+    var _serializable = _interopRequire(_mixinsSerializable);
 
-  var Texture = (function (_EventMap) {
-    function Texture() {
-      var _this = this;
+    var Texture = (function (_EventMap) {
+        function Texture() {
+            var _this = this;
 
-      _classCallCheck(this, Texture);
+            _classCallCheck(this, Texture);
 
-      _EventMap.call(this);
+            _EventMap.call(this);
 
-      // Set up dimensions
-      this.width = 0;
-      this.height = 0;
+            // Set up dimensions
+            this.width = 0;
+            this.height = 0;
 
-      // Set parent property
-      this.parent = null;
+            // Set parent property
+            this.parent = null;
 
-      this.image = new _TextureImage(this);
-      this.label = new _TextureLabel(this);
+            this.image = new _TextureImage(this);
+            this.label = new _TextureLabel(this);
 
-      this.backgroundColor = _types.Color.transparent();
+            this.backgroundColor = _types.Color.transparent();
 
-      // TODO: What to do when there is both an image and a label
-      this.on('image-loaded', function () {
-        _this.width = _this.image.width;
-        _this.height = _this.image.height;
-      });
+            // TODO: What to do when there is both an image and a label
+            this.on('image-loaded', function () {
+                _this.width = _this.image.width;
+                _this.height = _this.image.height;
+            });
 
-      this.on('label-loaded', function () {
-        _this.width = _this.label.width;
-        _this.height = _this.label.height;
-      });
-    }
+            this.on('label-loaded', function () {
+                _this.width = _this.label.width;
+                _this.height = _this.label.height;
+            });
+        }
 
-    _inherits(Texture, _EventMap);
+        _inherits(Texture, _EventMap);
 
-    return Texture;
-  })(_EventMap2);
+        return Texture;
+    })(_EventMap2);
 
-  _serializable(Texture);
+    _serializable(Texture);
 
-  module.exports = Texture;
+    module.exports = Texture;
 });
 
 define('flockn/texture/label', ['exports', 'module', '../types', '../mixins/serializable'], function (exports, module, _types, _mixinsSerializable) {
   'use strict';
 
-  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
+  function _interopRequire(obj) { return obj && obj.__esModule ? obj['default'] : obj; }
 
-  var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
+  function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
   var _serializable = _interopRequire(_mixinsSerializable);
 
@@ -2116,7 +2046,7 @@ define('flockn/texture/label', ['exports', 'module', '../types', '../mixins/seri
 define('flockn/types/color', ['exports', 'module', 'gamebox', '../constants/color'], function (exports, module, _gamebox, _constantsColor) {
   'use strict';
 
-  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
+  function _interopRequire(obj) { return obj && obj.__esModule ? obj['default'] : obj; }
 
   var _colorConstants = _interopRequire(_constantsColor);
 
@@ -2141,7 +2071,7 @@ define('flockn/types/color', ['exports', 'module', 'gamebox', '../constants/colo
 define('flockn/types', ['exports', 'module', './color', 'gamebox'], function (exports, module, _color, _gamebox) {
   'use strict';
 
-  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
+  function _interopRequire(obj) { return obj && obj.__esModule ? obj['default'] : obj; }
 
   var _Color = _interopRequire(_color);
 
@@ -2189,7 +2119,7 @@ define('flockn/viewport', ['exports', 'module'], function (exports, module) {
 define('flockn/world', ['exports', 'module', './model'], function (exports, module, _model) {
   'use strict';
 
-  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
+  function _interopRequire(obj) { return obj && obj.__esModule ? obj['default'] : obj; }
 
   var _Model = _interopRequire(_model);
 

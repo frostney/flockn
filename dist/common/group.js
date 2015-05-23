@@ -1,18 +1,18 @@
 'use strict';
 
-var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
-
-var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
-
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
 
-var _Log = require('gamebox');
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+var _gamebox = require('gamebox');
 
 var _serialize = require('./serialize');
 
-var _serialize2 = _interopRequireWildcard(_serialize);
+var _serialize2 = _interopRequireDefault(_serialize);
 
 var unidentified = 'untitled';
 var unidentifiedCounter = 0;
@@ -41,7 +41,7 @@ var Group = (function () {
     tags = tags || [];
 
     if (this.ids[id] != null || this.names[name] != null) {
-      _Log.Log.w('An object with the name ' + name + ' or id ' + id + ' already exists');
+      _gamebox.Log.w('An object with the name ' + name + ' or id ' + id + ' already exists');
       return;
     }
 
@@ -90,17 +90,7 @@ var Group = (function () {
   Group.prototype.all = function all(filter) {
     var objects = [];
 
-    var recurse = (function (_recurse) {
-      function recurse(_x) {
-        return _recurse.apply(this, arguments);
-      }
-
-      recurse.toString = function () {
-        return _recurse.toString();
-      };
-
-      return recurse;
-    })(function (group) {
+    var recurse = function recurse(group) {
       group.forEach(function (obj) {
         if (filter) {
           if (filter(obj)) {
@@ -114,7 +104,7 @@ var Group = (function () {
           recurse(obj.children);
         }
       });
-    });
+    };
 
     recurse(this);
 
@@ -219,7 +209,7 @@ var Group = (function () {
     var obj = this.ids[id];
 
     if (obj == null) {
-      _Log.Log.w('Object at ' + index + ' does not exist');
+      _gamebox.Log.w('Object at ' + index + ' does not exist');
     }
 
     var name = obj.name;

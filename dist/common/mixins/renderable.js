@@ -1,20 +1,20 @@
 'use strict';
 
-var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
-
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
 
-var _checkForFlag = require('../utils/checkforflag');
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-var _checkForFlag2 = _interopRequireWildcard(_checkForFlag);
+var _utilsCheckforflag = require('../utils/checkforflag');
 
-var _Graphics = require('../graphics');
+var _utilsCheckforflag2 = _interopRequireDefault(_utilsCheckforflag);
 
-var _Graphics2 = _interopRequireWildcard(_Graphics);
+var _graphics = require('../graphics');
 
-var isVisible = _checkForFlag2['default']('visible');
+var _graphics2 = _interopRequireDefault(_graphics);
+
+var isVisible = _utilsCheckforflag2['default']('visible');
 
 var renderable = function renderable() {
   var _this = this;
@@ -26,7 +26,7 @@ var renderable = function renderable() {
     }
 
     // Emit `render` event on the `Graphics` object
-    _Graphics2['default'].trigger('render', _this);
+    _graphics2['default'].trigger('render', _this);
 
     // Render all children elements
     _this.children.forEach(function (child) {

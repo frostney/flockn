@@ -1,14 +1,14 @@
 'use strict';
 
-var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
-
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
 
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
 var _serialize = require('../serialize');
 
-var _serialize2 = _interopRequireWildcard(_serialize);
+var _serialize2 = _interopRequireDefault(_serialize);
 
 var serializable = function serializable(Factory) {
   Factory.prototype.toJSON = function () {
