@@ -64,6 +64,6 @@
   },
   "dependencies": {
     "eventmap": "^1.6.0",
-    "gamebox": "^0.2.0-beta1"
+    "gamebox": "^0.2.0"
   }
 }
