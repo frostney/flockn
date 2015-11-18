@@ -63,7 +63,7 @@
     "webpack-dev-server": "^1.8.2"
   },
   "dependencies": {
-    "eventmap": "^1.6.0",
+    "eventmap": "^2.1.0",
     "gamebox": "^0.2.0"
   }
 }
