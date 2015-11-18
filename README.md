@@ -14,28 +14,28 @@ How does it work?
 import flockn from 'flockn';
 
 // Create a game instance, no need to store it as a variable
-// Using the flockn module is a shorthand for: 
+// Using the flockn module is a shorthand for:
 //    import Game from 'flockn/game'; new Game(function() { ...
-flockn(function() {
+flockn(function(game) {
   // The logic for the game itself
 
   // Add a scene to the game
-  this.addScene(function() {
+  game.addScene(function(scene) {
     // The logic for this scene
 
     // Give the scene a name
-      this.name = 'myscene';
+      scene.name = 'myscene';
 
       // Create a new game object inside the scene
-      this.addGameObject(function() {
+      scene.addGameObject(function(gameObject) {
         // The logic for this game object
 
         // Set the position for this game object
-          this.position.x = 100;
-          this.position.y = 100;
+          gameObject.position.x = 100;
+          gameObject.position.y = 100;
 
           // This game object now holds a label with the text "Hello World"
-          this.texture.label.text = 'Hello World';
+          gameObject.texture.label.text = 'Hello World';
       });
   });
 
@@ -73,9 +73,9 @@ Philosophy
   * A flockn game instance binds scenes on itself. In other game engines, a scene director usually handles these things and is mounted to the game/application instance
   * A texture can either be an image, a text, a color or a combination of these. In other game engines, a texture only holds the data of a texture whereas other objects need a texture to display the texture data on the screen
 * Functions are the best way to describe an object
-* Split entity-component model into 
+* Split entity-component model into
     * Game objects (base object)
-    * Behaviors (logic) 
+    * Behaviors (logic)
     * Models (data)
 
 Some decisions that need to be made
