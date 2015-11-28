@@ -1,6 +1,6 @@
 import EventMap from 'eventmap';
 
-var serialize = {};
+const serialize = {};
 
 serialize.json = {};
 
@@ -15,7 +15,7 @@ serialize.json.defaultReplacer.push(function(key, value) {
   return value;
 });
 
-serialize.json.defaultReplacer.push(function(key, value) {
+serialize.json.defaultReplacer.push((key, value) => {
   // Convert image to Base64
   if (value instanceof Image) {
     let canvas = document.createElement('canvas');
@@ -47,7 +47,7 @@ serialize.json.defaultReplacer.push(function(key, value) {
   return value;
 });
 
-serialize.json.defaultReplacer.push(function(key, value) {
+serialize.json.defaultReplacer.push((key, value) => {
   // Functions are not allowed expect for the descriptor
   if (typeof value !== 'function') {
     return value;
@@ -62,7 +62,7 @@ serialize.toJSON = function(obj, replacer) {
   var clonedObj = {};
 
   var replacers = [].concat.apply([], [serialize.json.defaultReplacer, replacer]);
-  
+
 
   for (var key in obj) {
     (function(key, value) {

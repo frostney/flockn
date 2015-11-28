@@ -1,5 +1,4 @@
 import Base from './base';
-import Group from './group';
 
 import {addable, updateable, serializable} from './mixins';
 
@@ -19,7 +18,7 @@ class Behavior extends Base {
 
   addBehavior() {
     // When a behavior is added, the reference to the game object is set
-    this.queue.push(addable(Behavior, this.children, function(child) {
+    this.queue.push(addable(Behavior, this.children, child => {
       child.gameObject = this.gameObject;
     }).apply(this, arguments));
   }

@@ -1,8 +1,8 @@
 import {Log} from 'gamebox';
 import serialize from './serialize';
 
-var unidentified = 'untitled';
-var unidentifiedCounter = 0;
+const unidentified = 'untitled';
+const unidentifiedCounter = 0;
 
 class Group {
   constructor() {

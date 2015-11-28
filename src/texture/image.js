@@ -11,17 +11,15 @@ class TextureImage {
     this.width = 0;
     this.height = 0;
 
-    var filename = '';
+    let filename = '';
 
     Object.defineProperty(this, 'filename', {
-      get: function () {
-        return filename;
-      },
-      set: function (value) {
+      get: () => filename,
+      set: function setFilename(value) {
         filename = value;
 
         // TODO: Most of this should already be handled by the preloader
-        var img = new Image();
+        const img = new Image();
         img.src = filename;
 
         img.onload = () => {
@@ -33,16 +31,16 @@ class TextureImage {
           texture.trigger('image-loaded');
         };
       },
-      enumerable: true
+      enumerable: true,
     });
   }
 
   toJSON() {
-    return serialize.toJSON(this);
+    return serializable.toJSON(this);
   }
 
   toString() {
-    return serialize.toString(this);
+    return serializable.toString(this);
   }
 }
 

@@ -8,7 +8,7 @@ import Viewport from './viewport';
 
 import {addable, renderable, updateable, serializable} from './mixins';
 
-var root = window;
+const root = window;
 
 // Game is the entry point for all games made with flockn.
 // Any number of `Scene` instances can be attached to a `Game` instance
@@ -39,11 +39,11 @@ class Game extends Base {
     this.on('execute', () => {
       Graphics.trigger('initialize', this);
     });
-    
+
     // A `Game` instance is the root element so the descriptor needs to be called directly,
     // because it won't be added to anywhere else
     this.call();
-    
+
     // Mix in `renderable` and `updateable`
     renderable.call(this);
     updateable.call(this);
@@ -62,16 +62,15 @@ class Game extends Base {
 
     // Add a `resize` event to each `Game` instance
     root.addEventListener('resize', () => {
-      var newWidth = root.innerWidth;
-      var newHeight = root.innerHeight;
+      const {innerWidth, innerHeight} = root;
 
-      this.trigger('resize', newWidth, newHeight);
+      this.trigger('resize', innerWidth, innerHeight);
 
       // Trigger resize event for the current scene
-      var currentScene = this.children.byName(this.activeScene);
+      const currentScene = this.children.byName(this.activeScene);
 
       if (currentScene) {
-        currentScene.trigger('resize', root.innerWidth, root.innerHeight);
+        currentScene.trigger('resize', innerWidth, innerHeight);
       }
     }, false);
 
@@ -84,7 +83,7 @@ class Game extends Base {
   addScene() {
     // When adding a scene, the dimension of scenes should be
     // exactly as large as the `Game` instance itself
-    this.queue.push(addable(Scene, this.children, function (child) {
+    this.queue.push(addable(Scene, this.children, child => {
       child.width = this.width;
       child.height = this.height;
     }).apply(this, arguments));
@@ -114,20 +113,22 @@ class Game extends Base {
 
   run(name) {
     Graphics.trigger('add', this);
-    
+
+    let sceneName = name;
+
     this.on('executed', () => {
       // Start the game loop
       Loop.run();
 
-      if (!name) {
+      if (!sceneName) {
         // If there's only no name, take the first scene
         if (this.children.length >= 1) {
-          name = this.children.first().name;
+          sceneName = this.children.first().name;
         }
       }
 
       // Show the scene if a parameter has been specified
-      this.showScene(name);
+      this.showScene(sceneName);
     });
   }
 }

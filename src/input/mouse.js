@@ -2,15 +2,15 @@
 
 import {Vector2} from '../types';
 
-var events = ['click', 'mousedown', 'mouseup', 'mouseover'];
+const events = ['click', 'mousedown', 'mouseup', 'mouseover'];
 
-var absolutePosition = function(event, rootElement) {
+const absolutePosition = function absolutePosition(event, rootElement) {
   return new Vector2(event.pageX - rootElement.offsetLeft, event.pageY - rootElement.offsetTop);
 };
 
-var relativePosition = function(event, rootElement, offset) {
+const relativePosition = function relativePosition(event, rootElement, offset) {
   // Normalize offset
-  var offsetVector = (Object.hasOwnProperty.call(offset, 'x') && Object.hasOwnProperty.call(offset, 'y')) ? offset : new Vector2(offset.left, offset.top);
+  const offsetVector = (Object.hasOwnProperty.call(offset, 'x') && Object.hasOwnProperty.call(offset, 'y')) ? offset : new Vector2(offset.left, offset.top);
 
   return absolutePosition(event, rootElement).subtract(offsetVector);
 };

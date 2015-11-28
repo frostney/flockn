@@ -1,9 +1,9 @@
 import checkForFlag from '../utils/checkforflag';
 import Graphics from '../graphics';
 
-var isVisible = checkForFlag('visible');
+const isVisible = checkForFlag('visible');
 
-var renderable = function renderable() {
+const renderable = function renderable() {
   this.on('render', () => {
     // Only render if element is visible
     if (!isVisible.call(this)) {

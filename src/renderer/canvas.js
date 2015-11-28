@@ -1,16 +1,15 @@
-import {Vector2} from '../types';
 import Graphics from '../graphics';
 import createRootElement from '../graphics/rootelement';
 import * as mouse from '../input/mouse';
 
-let factory = () => {
+const factory = () => {
   Graphics.renderer = 'Canvas';
 
-  var rootElement = null;
-  var context = null;
+  let rootElement = null;
+  let context = null;
 
-  Graphics.on('initialize', function (Game) {
-    rootElement = createRootElement.call(Game, 'canvas', function (rootElement) {
+  Graphics.on('initialize', function initialize(Game) {
+    rootElement = createRootElement.call(Game, 'canvas', rootElement => {
       rootElement.width = Game.width;
       rootElement.height = Game.height;
       context = rootElement.getContext('2d');

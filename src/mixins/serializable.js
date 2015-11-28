@@ -1,11 +1,11 @@
 import serialize from '../serialize';
 
-var serializable = function serializable(Factory) {
-  Factory.prototype.toJSON = function() {
+const serializable = function serializable(Factory) {
+  Factory.prototype.toJSON = function toJSON() {
     return serialize.toJSON(this);
   };
 
-  Factory.prototype.toString = function() {
+  Factory.prototype.toString = function toString() {
     return serialize.toString(this);
   };
 };

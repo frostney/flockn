@@ -1,9 +1,7 @@
 import Graphics from '../graphics';
 
-var addable = function addable(Factory, groupInstance, extraFn) {
-
-  var adder = function adder(child, ...args) {
-
+const addable = function addable(Factory, groupInstance, extraFn) {
+  const adder = function adder(child, ...args) {
     // I have decided against letting anything other through than functions and instance references
     // I feel that it more complexity than it tried to solve and I had to handle some edge cases
     // and more thorough type checking
@@ -15,7 +13,7 @@ var addable = function addable(Factory, groupInstance, extraFn) {
 
       child = new Factory(child);
     }
-       
+
     groupInstance.push(child);
     child.parent = this;
 
@@ -33,13 +31,12 @@ var addable = function addable(Factory, groupInstance, extraFn) {
     child.trigger('add', child, args);
   };
 
-  return function() {
-    var args = [].slice.call(arguments);
+  return function willBeAdded() {
+    const args = [].slice.call(arguments);
     args.unshift(this);
 
     return adder.bind.apply(adder, args);
   };
-
 };
 
 export default addable;

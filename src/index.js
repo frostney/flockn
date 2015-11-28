@@ -6,12 +6,12 @@ import Behavior from './behavior';
 
 import Renderer from './renderer';
 
-var flockn = function flockn(descriptor) {
+const flockn = function flockn(descriptor) {
   return new Game(descriptor);
 };
 
 // TODO: Comtemplate if this should be a property
-flockn.setRenderer = function(name) {
+flockn.setRenderer = function setRenderer(name) {
   Renderer.use(name);
 };
 

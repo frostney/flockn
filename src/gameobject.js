@@ -1,9 +1,7 @@
 import Base from './base';
 import Behavior from './behavior';
 import Graphics from './graphics';
-import Group from './group';
 import Model from './model';
-import serialize from './serialize';
 import Texture from './texture';
 
 import {Vector2, Vector3, Color, Rect} from './types';
@@ -67,11 +65,11 @@ class GameObject extends Base {
     this.border = {
       width: 0,
       color: new Color(),
-      radius: 0
+      radius: 0,
     };
 
     // Add default model
-    var defaultModel = new Model();
+    const defaultModel = new Model();
     defaultModel.name = 'default';
 
     this.addModel(defaultModel);
@@ -126,7 +124,7 @@ class GameObject extends Base {
 
   addBehavior() {
     // Add a `Behavior` instance to the the game object and update the `gameObject` property
-    this.queue.push(addable(Behavior, this.children, function(child) {
+    this.queue.push(addable(Behavior, this.children, child => {
       child.gameObject = this;
     }).apply(this, arguments));
   }
@@ -151,15 +149,15 @@ class GameObject extends Base {
   data(name) {
     if (!name) {
       return this.models.byName('default');
-    } else {
-      return this.models.byName(name);
     }
+
+    return this.models.byName(name);
   }
 
   animate(property, end, time, callback) {
     // TODO: Tweening does not work yet
-    if ( typeof this[property] === 'number') {
-      var distance = end - this[property];
+    if (typeof this[property] === 'number') {
+      const distance = end - this[property];
       var timeInS = (time / 1000);
 
       var animateName = 'animate-' + Date.now();
