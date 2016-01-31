@@ -22,7 +22,7 @@
     "lightweight"
   ],
   "author": "Johannes Stein",
-  "license": "(Unlicense+MIT)",
+  "license": "(Unlicense OR MIT)",
   "bugs": {
     "url": "https://github.com/freezedev/flockn/issues"
   },
