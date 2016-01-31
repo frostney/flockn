@@ -15,4 +15,8 @@ flockn.setRenderer = function setRenderer(name) {
   Renderer.use(name);
 };
 
+flockn.Scene = Scene;
+flockn.GameObject = GameObject;
+flockn.Behavior = Behavior;
+
 export default flockn;
