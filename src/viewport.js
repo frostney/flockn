@@ -1,4 +1,4 @@
-var Viewport = {};
+const Viewport = {};
 
 Viewport.scale = {};
 Viewport.scale.mode = 'scaleToFit';

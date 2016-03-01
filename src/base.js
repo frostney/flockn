@@ -8,42 +8,40 @@ import World from './world';
 
 let objectIndex = 0;
 
-let prependMax = 10000;
+const prependMax = 10000;
 
-const numToIdString = function(num) {
-  var stringNum = num + '';
+const numToIdString = num => {
+  let stringNum = num + '';
 
   if (num >= prependMax) {
     return stringNum;
-  } else {
-    var prependLength = (prependMax + '').length - stringNum.length;
-    for (var i = 0; i < prependLength; i++) {
-      stringNum = '0' + stringNum;
-    }
-
-    return stringNum;
   }
+
+  const prependLength = (prependMax + '').length - stringNum.length;
+  for (let i = 0; i < prependLength; i++) {
+    stringNum = '0' + stringNum;
+  }
+
+  return stringNum;
 };
 
 class Base extends EventMap {
-  constructor(type = 'Base', descriptor = function() {}) {
+  constructor(type = 'Base', descriptor = () => ({})) {
     super();
 
     // Count up `objectIndex` and stringify it
-    var currentObject = numToIdString(++objectIndex);
+    const currentObject = numToIdString(++objectIndex);
 
     this.type = type;
 
-    var internalId = `${this.type}-${Date.now()}-${currentObject}`;
+    const internalId = `${this.type}-${Date.now()}-${currentObject}`;
 
     this.name = internalId;
 
     // The `id` property is read-only and returns the type and the stringified object index
     Object.defineProperty(this, 'id', {
-      get: function() {
-        return internalId;
-      },
-      enumerable: true
+      get: () => internalId,
+      enumerable: true,
     });
 
     // Save the descriptor
@@ -68,11 +66,13 @@ class Base extends EventMap {
     this.trigger('constructed');
   }
 
-  apply(data) {
+  apply(initialData) {
+    let data;
+
     // TODO: Reflect if function check should be enforced here
     if (this.descriptor) {
       // If args is not an array or array-like, provide an empty one
-      data = data || {};
+      data = initialData || {};
 
       // Call the `descriptor` property with `args`
 
@@ -86,8 +86,10 @@ class Base extends EventMap {
       // (Game) -> Scene -> GameObject -> Behavior -> Model
 
       // TODO: Implement z-order
-      this.queue.forEach(function(q) {
-        q && q();
+      this.queue.forEach(q => {
+        if (q) {
+          q();
+        }
       });
 
       // Reset the queue
@@ -118,7 +120,7 @@ class Base extends EventMap {
 
   log() {
     if (console && console.log) {
-      var argArray = [].slice.call(arguments);
+      const argArray = [].slice.call(arguments);
 
       // Log with `console.log`: Prepend the type and name
       argArray.unshift(':');

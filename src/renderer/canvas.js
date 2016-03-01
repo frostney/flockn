@@ -9,14 +9,14 @@ const factory = () => {
   let context = null;
 
   Graphics.on('initialize', function initialize(Game) {
-    rootElement = createRootElement.call(Game, 'canvas', rootElement => {
+    rootElement = createRootElement.call(Game, 'canvas', rootEl => {
       rootElement.width = Game.width;
       rootElement.height = Game.height;
-      context = rootElement.getContext('2d');
+      context = rootEl.getContext('2d');
     });
 
-    mouse.events.forEach(function (eventName) {
-      rootElement.addEventListener(eventName, function (e) {
+    mouse.events.forEach(eventName => {
+      rootElement.addEventListener(eventName, e => {
         if (Game.activeScene) {
           Game.activeScene.children
             .all(obj => obj.visible && obj.bounds().contains(mouse.relativePosition(e, rootElement, obj)))
@@ -26,55 +26,55 @@ const factory = () => {
     });
   });
 
-  Graphics.before('render', function (obj) {
+  Graphics.before('render', obj => {
     switch (obj.type) {
-      case 'Game':
-        context.clearRect(0, 0, obj.width, obj.height);
+    case 'Game':
+      context.clearRect(0, 0, obj.width, obj.height);
 
-        context.fillStyle = obj.color.toString();
-        context.fillRect(0, 0, obj.width, obj.height);
-        break;
-      default:
-        break;
+      context.fillStyle = obj.color.toString();
+      context.fillRect(0, 0, obj.width, obj.height);
+      break;
+    default:
+      break;
     }
   });
 
-  Graphics.on('render', function (obj) {
+  Graphics.on('render', obj => {
     switch (obj.type) {
-      case 'GameObject':
-        context.save();
+    case 'GameObject':
+      context.save();
 
-        context.translate(obj.position.x + obj.origin.x, obj.position.y + obj.origin.y);
+      context.translate(obj.position.x + obj.origin.x, obj.position.y + obj.origin.y);
 
-        if (obj.angle !== 0) {
-          context.rotate(obj.angle * (Math.PI / 180));
-        }
+      if (obj.angle !== 0) {
+        context.rotate(obj.angle * (Math.PI / 180));
+      }
 
-        if (obj.texture.backgroundColor.toString() !== 'transparent') {
-          context.fillStyle = obj.texture.backgroundColor.toString();
-          context.fillRect(-obj.origin.x, -obj.origin.y, obj.width, obj.height);
-        }
+      if (obj.texture.backgroundColor.toString() !== 'transparent') {
+        context.fillStyle = obj.texture.backgroundColor.toString();
+        context.fillRect(-obj.origin.x, -obj.origin.y, obj.width, obj.height);
+      }
 
-        if (obj.texture.image.drawable) {
-          context.drawImage(obj.texture.image.data, -obj.origin.x, -obj.origin.y);
-        }
+      if (obj.texture.image.drawable) {
+        context.drawImage(obj.texture.image.data, -obj.origin.x, -obj.origin.y);
+      }
 
-        if (obj.texture.label.drawable) {
-          var fontName = obj.texture.label.font.size + 'px ' + obj.texture.label.font.name;
+      if (obj.texture.label.drawable) {
+        // const fontName = obj.texture.label.font.size + 'px ' + obj.texture.label.font.name;
 
-          context.fillStyle = obj.texture.label.font.color.toString();
-          context.fillText(obj.texture.label.text, -obj.origin.x, -obj.origin.y);
-        }
+        context.fillStyle = obj.texture.label.font.color.toString();
+        context.fillText(obj.texture.label.text, -obj.origin.x, -obj.origin.y);
+      }
 
-        context.restore();
-        break;
-      case 'Scene':
-        if (obj.parent.activeScene !== obj.name) {
-          return;
-        }
-        break;
-      default:
-        break;
+      context.restore();
+      break;
+    case 'Scene':
+      if (obj.parent.activeScene !== obj.name) {
+        return;
+      }
+      break;
+    default:
+      break;
     }
   });
 };

@@ -1,17 +1,19 @@
 import DOMRenderer from './dom';
 import CanvasRenderer from './canvas';
 
-let renderers = {};
+const renderers = {};
 
-let Renderer = {};
+const Renderer = {};
 
-Renderer.register = function(name, descriptor) {
+Renderer.register = (name, descriptor) => {
   renderers[name] = descriptor;
 };
 
-Renderer.use = function(name) {
+Renderer.use = name => {
   if (Object.hasOwnProperty.call(renderers, name)) {
-    renderers[name] && renderers[name]();
+    if (renderers[name]) {
+      renderers[name]();
+    }
   }
 };
 

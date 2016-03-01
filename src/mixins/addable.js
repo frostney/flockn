@@ -1,17 +1,19 @@
 import Graphics from '../graphics';
 
 const addable = function addable(Factory, groupInstance, extraFn) {
-  const adder = function adder(child, ...args) {
+  const adder = function adder(initialChild, ...args) {
     // I have decided against letting anything other through than functions and instance references
     // I feel that it more complexity than it tried to solve and I had to handle some edge cases
     // and more thorough type checking
 
-    if (!( child instanceof Factory)) {
-      if (typeof child !== 'function') {
+    let child;
+
+    if (!( initialChild instanceof Factory)) {
+      if (typeof initialChild !== 'function') {
         throw new Error('A child has to be a function');
       }
 
-      child = new Factory(child);
+      child = new Factory(initialChild);
     }
 
     groupInstance.push(child);

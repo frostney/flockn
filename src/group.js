@@ -23,7 +23,7 @@ class Group {
 
     if (this.ids[id] != null || this.names[name] != null) {
       Log.w(`An object with the name ${name} or id ${id} already exists`);
-      return;
+      return this.length;
     }
 
     const currentLength = Object.keys(this.ids);
@@ -42,6 +42,7 @@ class Group {
     }
 
     this.length = this.values().length;
+
     return this.length;
   }
 
@@ -65,9 +66,9 @@ class Group {
   }
 
   all(filter) {
-    var objects = [];
+    const objects = [];
 
-    var recurse = function(group) {
+    const recurse = group => {
       group.forEach(obj => {
         if (filter) {
           if (filter(obj)) {
@@ -93,7 +94,7 @@ class Group {
   }
 
   map(callback) {
-    var mappedArray = new Group();
+    const mappedArray = new Group();
 
     this.forEach(obj => mappedArray.push(callback(obj)));
 
@@ -101,7 +102,7 @@ class Group {
   }
 
   filter(callback) {
-    var filteredArray = new Group();
+    const filteredArray = new Group();
 
     this.forEach(obj => {
       if (callback(obj)) {
@@ -117,7 +118,7 @@ class Group {
   }
 
   byName(name) {
-    var index = this.names[name];
+    const index = this.names[name];
 
     return this.ids[Object.keys(this.ids)[index]];
   }
@@ -131,12 +132,12 @@ class Group {
   }
 
   last() {
-    var values = this.values();
+    const values = this.values();
 
     return values[values.length - 1];
   }
 
-  find(selector) {
+  find(/* selector */) {
     // TODO: There needs to be a parser here
   }
 
@@ -144,9 +145,9 @@ class Group {
     return this.values().map(child => {
       if (child.toJSON && typeof child === 'function') {
         return child.toJSON();
-      } else {
-        return child;
       }
+
+      return child;
     });
   }
 
@@ -155,7 +156,7 @@ class Group {
   }
 
   static fromJSON(arr) {
-    var group = new Group();
+    const group = new Group();
 
     arr.forEach(obj => group.push(obj));
 
@@ -167,21 +168,21 @@ class Group {
   }
 
   remove(index) {
-    var id = Object.keys(ids)[index];
+    const id = Object.keys(this.ids)[index];
 
-    var obj = this.ids[id];
+    const obj = this.ids[id];
 
     if (obj == null) {
       Log.w(`Object at ${index} does not exist`);
     }
 
-    var {name, tags} = obj;
+    const { name } = obj;
 
     this.ids[id] = null;
     this.names[name] = null;
 
     this.tags.forEach(tag => {
-      var position = tag.indexOf(index);
+      const position = tag.indexOf(index);
 
       if (position >= 0) {
         if (tag.length === 1) {
@@ -192,17 +193,19 @@ class Group {
       }
     });
 
-    this.length = all().length;
+    this.length = this.all().length;
   }
 
   removeByName(name) {
-    var index = this.names[name];
+    const index = this.names[name];
     this.remove(index);
   }
 
-  removeByTag(tags) {
-    if (!Array.isArray(tags)) {
-      tags = [tags];
+  removeByTag(initialTags) {
+    let tags;
+
+    if (!Array.isArray(initialTags)) {
+      tags = [initialTags];
     }
 
     tags.forEach(tag => {

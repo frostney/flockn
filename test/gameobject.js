@@ -1,27 +1,25 @@
-'use strict';
+import { expect } from 'chai';
 
 import GameObject from 'flockn/gameobject';
 import Base from 'flockn/base';
 
-describe('flockn/gameobject', function () {
-
-  it('is a function', function () {
+describe('flockn/gameobject', () => {
+  it('is a function', () => {
     expect(GameObject).to.be.a('function');
   });
 
-  describe('constructor', function () {
-    it('can be instantiated', function () {
-      var gameObject = new GameObject();
+  describe('constructor', () => {
+    it('can be instantiated', () => {
+      const gameObject = new GameObject();
 
       expect(gameObject).to.be.a('object');
       expect(gameObject).to.be.an.instanceOf(GameObject);
     });
 
-    it('inherits from Base', function() {
-      var gameObject = new GameObject();
+    it('inherits from Base', () => {
+      const gameObject = new GameObject();
 
       expect(gameObject).to.be.an.instanceOf(Base);
     });
   });
-
 });

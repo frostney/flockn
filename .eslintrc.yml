@@ -1,0 +1,6 @@
+extends: airbnb/base
+parser: babel-eslint
+rules:
+  eqeqeq:
+    - 2
+    - smart

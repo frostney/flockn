@@ -154,7 +154,7 @@ class GameObject extends Base {
     return this.models.byName(name);
   }
 
-  animate(property, end, time, callback) {
+  /* animate(property, end, time, callback) {
     // TODO: Tweening does not work yet
     if (typeof this[property] === 'number') {
       const distance = end - this[property];
@@ -166,7 +166,7 @@ class GameObject extends Base {
         this.off(animateName);
       });
     }
-  }
+  } */
 
   static fromString() {
 

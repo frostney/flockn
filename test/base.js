@@ -1,33 +1,32 @@
-'use strict';
-
 import EventMap from 'eventmap';
 import Base from 'flockn/base';
 
-describe('flockn/base', function () {
+import { expect } from 'chai';
 
-  it('is a function', function () {
+describe('flockn/base', () => {
+  it('is a function', () => {
     expect(Base).to.be.a('function');
   });
 
-  describe('constructor', function () {
-    it('can be instantiated', function () {
-      var base = new Base();
+  describe('constructor', () => {
+    it('can be instantiated', () => {
+      const base = new Base();
 
       expect(base).to.be.a('object');
       expect(base).to.be.an.instanceOf(Base);
     });
 
-    it('inherits from EventMap', function() {
-      var base = new Base();
+    it('inherits from EventMap', () => {
+      const base = new Base();
 
       expect(base).to.be.an.instanceOf(EventMap);
-    })
+    });
   });
 
-  describe('properties', function() {
-    var base = new Base();
+  describe('properties', () => {
+    const base = new Base();
 
-    it('has the correct type', function() {
+    it('has the correct type', () => {
       expect(base.type).to.be.a('string');
       expect(base.type).to.equal('Base');
     });

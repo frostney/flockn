@@ -1,33 +1,32 @@
-'use strict';
+import { expect } from 'chai';
 
 import Scene from 'flockn/scene';
 import Base from 'flockn/base';
 
-describe('flockn/scene', function () {
-
-  it('is a function', function () {
+describe('flockn/scene', () => {
+  it('is a function', () => {
     expect(Scene).to.be.a('function');
   });
 
-  describe('constructor', function () {
-    it('can be instantiated', function () {
-      var scene = new Scene();
+  describe('constructor', () => {
+    it('can be instantiated', () => {
+      const scene = new Scene();
 
       expect(scene).to.be.a('object');
       expect(scene).to.be.an.instanceOf(Scene);
     });
 
     it('inherits from Base', function() {
-      var scene = new Scene();
+      const scene = new Scene();
 
-      expect(scene).to.be.an.instanceOf(Scene);
+      expect(scene).to.be.an.instanceOf(Base);
     });
   });
 
-  describe('properties', function() {
-    var scene = new Scene();
+  describe('properties', () => {
+    const scene = new Scene();
 
-    it('has the correct type', function() {
+    it('has the correct type', () => {
       expect(scene.type).to.be.a('string');
       expect(scene.type).to.equal('Scene');
     });

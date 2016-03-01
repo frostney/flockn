@@ -7,7 +7,7 @@ serialize.json = {};
 serialize.json.filter = ['id', 'parent', 'audio', 'input', 'world', 'assetLoader'];
 serialize.json.defaultReplacer = [];
 
-serialize.json.defaultReplacer.push(function(key, value) {
+serialize.json.defaultReplacer.push((key, value) => {
   if (key === 'events' && value instanceof EventMap) {
     value = value.serialize();
   }
@@ -19,16 +19,16 @@ serialize.json.defaultReplacer.push((key, value) => {
   // Convert image to Base64
   if (value instanceof Image) {
     let canvas = document.createElement('canvas');
-    let context = canvas.getContext('2d');
+    const context = canvas.getContext('2d');
     canvas.height = this.height;
     canvas.width = this.width;
     context.drawImage(this.data, 0, 0);
-    let dataURL = canvas.toDataURL('image/png');
+    const dataURL = canvas.toDataURL('image/png');
     canvas = null;
 
-    value = {
+    return {
       data: dataURL,
-      type: 'image/png'
+      type: 'image/png',
     };
   }
 
@@ -58,14 +58,14 @@ serialize.json.defaultReplacer.push((key, value) => {
   }
 });
 
-serialize.toJSON = function(obj, replacer) {
-  var clonedObj = {};
+serialize.toJSON = (obj, replacer) => {
+  const clonedObj = {};
 
-  var replacers = [].concat.apply([], [serialize.json.defaultReplacer, replacer]);
+  const replacers = [].concat.apply([], [serialize.json.defaultReplacer, replacer]);
 
 
-  for (var key in obj) {
-    (function(key, value) {
+  for (let key in obj) {
+    ((key, value) => {
       if (!Object.hasOwnProperty.call(obj, key)) {
         return;
       }
@@ -74,8 +74,8 @@ serialize.toJSON = function(obj, replacer) {
         return;
       }
 
-      for (var i = 0, j = replacers.length; i < j; i++) {
-        (function(rep) {
+      for (let i = 0, j = replacers.length; i < j; i++) {
+        ((rep) => {
           if (rep) {
             value = rep.call(obj, key, value);
           }
@@ -91,8 +91,8 @@ serialize.toJSON = function(obj, replacer) {
   return clonedObj;
 };
 
-serialize.toString = function(obj) {
-  return JSON.stringify(serialize.toJSON(obj), function(key, value) {
+serialize.toString = obj => {
+  return JSON.stringify(serialize.toJSON(obj), (key, value) => {
     // Functions that are still left should be stringified
 
     if (typeof value === 'function') {

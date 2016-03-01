@@ -1,23 +1,22 @@
-'use strict';
+import { expect } from 'chai';
 
 import Group from 'flockn/group';
 import Behavior from 'flockn/behavior';
 
-describe('flockn/group', function () {
-
-  it('is a function', function () {
+describe('flockn/group', () => {
+  it('is a function', () => {
     expect(Group).to.be.a('function');
   });
 
-  describe('constructor', function () {
-    var group = new Group();
+  describe('constructor', () => {
+    const group = new Group();
 
-    it('can be instantiated', function () {
+    it('can be instantiated', () => {
       expect(group).to.be.a('object');
       expect(group).to.be.an.instanceOf(Group);
     });
 
-    it('has default values', function() {
+    it('has default values', () => {
       expect(group.length).to.be.a('number');
       expect(group.length).to.equal(0);
 
@@ -29,16 +28,15 @@ describe('flockn/group', function () {
     });
   });
 
-  describe('Using behaviors', function() {
-    var group = new Group();
+  describe('Using behaviors', () => {
+    const group = new Group();
 
-    it('adds behavior', function() {
-      var b = new Behavior();
+    it('adds behavior', () => {
+      const b = new Behavior();
 
       group.push(b);
 
       expect(group.length).to.equal(1);
     });
   });
-
 });

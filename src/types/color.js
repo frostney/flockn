@@ -1,16 +1,18 @@
-import {Math, Types} from 'gamebox';
+/* eslint guard-for-in: 0 */
+/* eslint no-loop-func: 0 */
+/* eslint no-shadow: 0 */
+
+import { Types } from 'gamebox';
 import colorConstants from '../constants/color';
 
-let {Color} = Types;
+const { Color } = Types;
 
-const {clamp} = Math;
+for (const colorName in colorConstants) {
+  const colorValue = colorConstants[colorName];
 
-for (var colorName in colorConstants) {
-  var colorValue = colorConstants[colorName];
-
-  (function(colorName, colorValue) {
-    Color[colorName] = function() {
-      var col = new Color(colorValue.r, colorValue.g, colorValue.b, colorValue.a);
+  ((colorName, colorValue) => {
+    Color[colorName] = () => {
+      const col = new Color(colorValue.r, colorValue.g, colorValue.b, colorValue.a);
       col.name = colorName;
       return col;
     };
