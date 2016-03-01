@@ -1,3 +1,3 @@
-var Assets = {};
+const Assets = {};
 
 export default Assets;

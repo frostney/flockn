@@ -32,7 +32,7 @@ let factory = () => {
     if (!obj.id) {
       return;
     }
-    
+
     var elementId = obj.id.toLowerCase();
 
     // Remove previous elements of the same id

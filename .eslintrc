@@ -5,6 +5,6 @@
   ],
   "extends": "airbnb/base",
   "rules": {
-    "eqeqeq": [2, "allow-null"]
+    "eqeqeq": [2, "smart"]
   }
 }

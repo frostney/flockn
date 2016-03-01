@@ -1,14 +1,14 @@
-var checkForFlag = function checkForFlag(property) {
-  return function(obj) {
-    obj = obj || this;
+const checkForFlag = function checkForFlag(property) {
+  return function(initialObj) {
+    const obj = initialObj || this;
 
-    var hasFlag = Object.hasOwnProperty.call(obj, property);
+    const hasFlag = Object.hasOwnProperty.call(obj, property);
 
     if (hasFlag) {
       return obj[property];
-    } else {
-      return true;
     }
+
+    return true;
   };
 };
 

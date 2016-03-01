@@ -1,6 +1,4 @@
 import Color from './color';
-import {Types} from 'gamebox';
+import { Rect, Vector2, Vector3 } from 'gamebox';
 
-Types.Color = Color;
-
-export default Types;
+export { Rect, Vector2, Vector3, Color };

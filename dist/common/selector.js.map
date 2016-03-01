@@ -1,1 +1,0 @@
-{"version":3,"sources":["src/selector.js"],"names":[],"mappings":";;;;;;;;IAAM,QAAQ;AACD,WADP,QAAQ,CACA,cAAc,EAAE;0BADxB,QAAQ;GAGX;;AAHG,UAAQ,WAKZ,KAAK,GAAA,iBAAG,EAEP;;SAPG,QAAQ;;;qBAUC,QAAQ","file":"src/selector.js","sourcesContent":["class Selector {\n  constructor(selectorString) {\n    \n  }\n  \n  parse() {\n    \n  }\n}\n\nexport default Selector;\n"]}

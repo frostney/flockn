@@ -2,7 +2,7 @@ import {Log} from 'gamebox';
 import serialize from './serialize';
 
 const unidentified = 'untitled';
-const unidentifiedCounter = 0;
+let unidentifiedCounter = 0;
 
 class Group {
   constructor() {
@@ -15,7 +15,7 @@ class Group {
   }
 
   push(obj) {
-    var {name, tags, id} = obj;
+    let {name, tags, id} = obj;
 
     name = name || (unidentified + unidentifiedCounter++);
     id = id || (unidentified + unidentifiedCounter++);
@@ -26,7 +26,7 @@ class Group {
       return;
     }
 
-    var currentLength = Object.keys(this.ids);
+    const currentLength = Object.keys(this.ids);
     this.ids[id] = obj;
 
     Object.keys(this.tags).forEach(tag => {
@@ -46,10 +46,10 @@ class Group {
   }
 
   pop() {
-    var ids = Object.keys(this.ids);
+    const ids = Object.keys(this.ids);
 
-    for (var i = ids.length, j = 0; j > i; i--) {
-      var obj = this.ids[ids[i]];
+    for (let i = ids.length, j = 0; j > i; i--) {
+      const obj = this.ids[ids[i]];
 
       if (obj != null) {
         this.remove(i);

@@ -1,7 +1,7 @@
-var Audio = {};
+const Audio = {
+  play() {
 
-Audio.play = function() {
-
+  },
 };
 
 export default Audio;

@@ -6,11 +6,11 @@ import Audio from './audio';
 import Group from './group';
 import World from './world';
 
-var objectIndex = 0;
+let objectIndex = 0;
 
-var prependMax = 10000;
+let prependMax = 10000;
 
-var numToIdString = function(num) {
+const numToIdString = function(num) {
   var stringNum = num + '';
 
   if (num >= prependMax) {

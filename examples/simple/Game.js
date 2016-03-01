@@ -1,44 +1,40 @@
 import flockn from 'flockn';
 flockn.setRenderer('canvas');
 
-flockn(function () {
-
+flockn(() => {
   // Set the width & height of the game
   this.width = 300;
   this.height = 300;
 
   // Add a new scene
-  this.addScene(function () {
-
+  this.addScene(() => {
     // Add a new object onto the scene
-    this.addGameObject(function () {
-      var self = this;
-      
+    this.addGameObject(() => {
       // Set its name
       this.name = 'myGameObject';
 
       // Load an image for the texture
       this.texture.image.filename = 'hero_front.png';
-      
-      this.input.key.on('down', function(keyCode) {
+
+      this.input.key.on('down', keyCode => {
         if (keyCode === this.up || keyCode === this.w) {
-          self.position.y -= 10;
+          this.position.y -= 10;
         }
 
         if (keyCode === this.down || keyCode === this.s) {
-          self.position.y += 10;
+          this.position.y += 10;
         }
 
         if (keyCode === this.left || keyCode === this.a) {
-          self.position.x -= 10;
+          this.position.x -= 10;
         }
 
         if (keyCode === this.right || keyCode === this.d) {
-          self.position.x += 10;
+          this.position.x += 10;
         }
       });
 
-      this.on('click', function () {
+      this.on('click', () => {
         alert('You clicked that hero guy.');
       });
 
@@ -47,7 +43,7 @@ flockn(function () {
       });
     });
 
-    this.addGameObject(function () {
+    this.addGameObject(() => {
       this.texture.backgroundColor.set(255, 0, 0);
 
       this.position.x = 100;
@@ -57,7 +53,7 @@ flockn(function () {
       this.height = 80;
     });
 
-    this.addGameObject(function () {
+    this.addGameObject(() => {
       this.texture.label.text = 'Hello World';
 
       this.top = 8;
@@ -66,5 +62,4 @@ flockn(function () {
   });
 
   this.run();
-
 });
