@@ -1,4 +1,4 @@
-const colors = {
+const Colors = {
   aqua: {
     r: 0,
     g: 255,
@@ -87,4 +87,4 @@ const colors = {
   },
 };
 
-export default colors;
+export default Colors;
