@@ -1,7 +1,7 @@
 import Base from './base';
 import GameObject from './gameobject';
 
-import {addable, renderable, updateable, serializable} from './mixins';
+import { addable, renderable, updateable, serializable } from './mixins';
 
 // A `Scene` instance is a layer for `GameObject` instances.
 // Any number of game objects can be added to a scene. Only one scene should be visible at the same time, depending

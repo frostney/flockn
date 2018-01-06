@@ -1,4 +1,4 @@
-import {Color} from '../types';
+import { Color } from '../types';
 import EventMap from 'eventmap';
 import TextureImage from './image';
 import TextureLabel from './label';

@@ -4,9 +4,9 @@ import Graphics from './graphics';
 import Model from './model';
 import Texture from './texture';
 
-import {Vector2, Vector3, Color, Rect} from './types';
+import { Vector2, Vector3, Color, Rect } from './types';
 
-import {addable, renderable, updateable, serializable} from './mixins';
+import { addable, renderable, updateable, serializable } from './mixins';
 
 
 class GameObject extends Base {
@@ -124,7 +124,7 @@ class GameObject extends Base {
 
   addBehavior() {
     // Add a `Behavior` instance to the the game object and update the `gameObject` property
-    this.queue.push(addable(Behavior, this.children, child => {
+    this.queue.push(addable(Behavior, this.children, (child) => {
       child.gameObject = this;
     }).apply(this, arguments));
   }

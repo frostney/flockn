@@ -1,6 +1,6 @@
 // These are things that might be moved into freezedev/gameboard
 
-import {Vector2} from '../types';
+import { Vector2 } from '../types';
 
 const events = ['click', 'mousedown', 'mouseup', 'mouseover'];
 
@@ -15,4 +15,4 @@ const relativePosition = function relativePosition(event, rootElement, offset) {
   return absolutePosition(event, rootElement).subtract(offsetVector);
 };
 
-export {events, absolutePosition, relativePosition};
+export { events, absolutePosition, relativePosition };

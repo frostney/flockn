@@ -35,7 +35,7 @@ serialize.json.defaultReplacer.push((key, value) => {
   return value;
 });
 
-serialize.json.defaultReplacer.push(function(key, value) {
+serialize.json.defaultReplacer.push((key, value) => {
   if (value === null) {
     return value;
   }
@@ -51,10 +51,9 @@ serialize.json.defaultReplacer.push((key, value) => {
   // Functions are not allowed expect for the descriptor
   if (typeof value !== 'function') {
     return value;
-  } else {
-    if (key === 'descriptor') {
-      return value;
-    }
+  }
+  if (key === 'descriptor') {
+    return value;
   }
 });
 
@@ -64,7 +63,7 @@ serialize.toJSON = (obj, replacer) => {
   const replacers = [].concat.apply([], [serialize.json.defaultReplacer, replacer]);
 
 
-  for (let key in obj) {
+  for (const key in obj) {
     ((key, value) => {
       if (!Object.hasOwnProperty.call(obj, key)) {
         return;
@@ -91,16 +90,14 @@ serialize.toJSON = (obj, replacer) => {
   return clonedObj;
 };
 
-serialize.toString = obj => {
-  return JSON.stringify(serialize.toJSON(obj), (key, value) => {
-    // Functions that are still left should be stringified
+serialize.toString = obj => JSON.stringify(serialize.toJSON(obj), (key, value) => {
+  // Functions that are still left should be stringified
 
-    if (typeof value === 'function') {
-      value = value.toString();
-    }
+  if (typeof value === 'function') {
+    value = value.toString();
+  }
 
-    return value;
-  });
-};
+  return value;
+});
 
 export default serialize;

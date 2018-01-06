@@ -1,4 +1,5 @@
 import flockn from 'flockn';
+
 flockn.setRenderer('canvas');
 
 flockn(() => {
@@ -16,7 +17,7 @@ flockn(() => {
       // Load an image for the texture
       this.texture.image.filename = 'hero_front.png';
 
-      this.input.key.on('down', keyCode => {
+      this.input.key.on('down', (keyCode) => {
         if (keyCode === this.up || keyCode === this.w) {
           this.position.y -= 10;
         }
@@ -38,7 +39,7 @@ flockn(() => {
         alert('You clicked that hero guy.');
       });
 
-      this.on('update', dt => {
+      this.on('update', (dt) => {
         this.angle += (dt * 10);
       });
     });

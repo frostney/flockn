@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import {Rect, Vector2} from 'flockn/types';
+import { Rect, Vector2 } from 'flockn/types';
 
 describe('flockn/types/rect', () => {
   it('is a function', () => {
@@ -55,16 +55,24 @@ describe('flockn/types/rect', () => {
     const rect = new Rect();
     const rect2 = new Rect(20, 20, 40, 40);
 
-    it('stringified empty rect', () => expect(rect.toJSON()).to.deep.equal({x: 0, y: 0, w: 0, h: 0}));
-    it('stringified custom rect', () => expect(rect2.toJSON()).to.deep.equal({x: 20, y: 20, w: 40, h: 40}));
+    it('stringified empty rect', () => expect(rect.toJSON()).to.deep.equal({
+      x: 0, y: 0, w: 0, h: 0,
+    }));
+    it('stringified custom rect', () => expect(rect2.toJSON()).to.deep.equal({
+      x: 20, y: 20, w: 40, h: 40,
+    }));
   });
 
   describe('#toString', () => {
     const rect = new Rect();
     const rect2 = new Rect(20, 20, 40, 40);
 
-    it('stringified empty rect', () => expect(rect.toString()).to.equal(JSON.stringify({x: 0, y: 0, w: 0, h: 0})));
-    it('stringified custom rect', () => expect(rect2.toString()).to.equal(JSON.stringify({x: 20, y: 20, w: 40, h: 40})));
+    it('stringified empty rect', () => expect(rect.toString()).to.equal(JSON.stringify({
+      x: 0, y: 0, w: 0, h: 0,
+    })));
+    it('stringified custom rect', () => expect(rect2.toString()).to.equal(JSON.stringify({
+      x: 20, y: 20, w: 40, h: 40,
+    })));
   });
 
   describe('#contains', () => {
@@ -88,7 +96,9 @@ describe('flockn/types/rect', () => {
   });
 
   describe('.fromString', () => {
-    const obj = {x: 10, y: 10, w: 50, h: 50};
+    const obj = {
+      x: 10, y: 10, w: 50, h: 50,
+    };
     const string = JSON.stringify(obj);
 
     const rect = Rect.fromString(string);

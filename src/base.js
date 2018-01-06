@@ -1,6 +1,6 @@
 import EventMap from 'eventmap';
 
-import {Input} from 'gamebox';
+import { Input } from 'gamebox';
 
 import Audio from './audio';
 import Group from './group';
@@ -10,16 +10,16 @@ let objectIndex = 0;
 
 const prependMax = 10000;
 
-const numToIdString = num => {
-  let stringNum = num + '';
+const numToIdString = (num) => {
+  let stringNum = `${num}`;
 
   if (num >= prependMax) {
     return stringNum;
   }
 
-  const prependLength = (prependMax + '').length - stringNum.length;
+  const prependLength = (`${prependMax}`).length - stringNum.length;
   for (let i = 0; i < prependLength; i++) {
-    stringNum = '0' + stringNum;
+    stringNum = `0${stringNum}`;
   }
 
   return stringNum;
@@ -77,7 +77,7 @@ class Base extends EventMap {
       // Call the `descriptor` property with `args`
 
       // object, {data, World}
-      this.descriptor.call(this, this, {data, World});
+      this.descriptor.call(this, this, { data, World });
 
       // Trigger an event
       this.trigger('execute');
@@ -86,7 +86,7 @@ class Base extends EventMap {
       // (Game) -> Scene -> GameObject -> Behavior -> Model
 
       // TODO: Implement z-order
-      this.queue.forEach(q => {
+      this.queue.forEach((q) => {
         if (q) {
           q();
         }
@@ -127,7 +127,7 @@ class Base extends EventMap {
       argArray.unshift(this.name);
       argArray.unshift(this.type);
 
-      return console.log.apply(console, argArray);
+      return console.log(...argArray);
     }
   }
 }

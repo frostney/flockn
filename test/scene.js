@@ -16,7 +16,7 @@ describe('flockn/scene', () => {
       expect(scene).to.be.an.instanceOf(Scene);
     });
 
-    it('inherits from Base', function() {
+    it('inherits from Base', () => {
       const scene = new Scene();
 
       expect(scene).to.be.an.instanceOf(Base);

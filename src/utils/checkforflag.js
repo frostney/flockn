@@ -1,5 +1,5 @@
 const checkForFlag = function checkForFlag(property) {
-  return function(initialObj) {
+  return function (initialObj) {
     const obj = initialObj || this;
 
     const hasFlag = Object.hasOwnProperty.call(obj, property);

@@ -1,4 +1,4 @@
-import {Log} from 'gamebox';
+import { Log } from 'gamebox';
 import serialize from './serialize';
 
 const unidentified = 'untitled';
@@ -15,7 +15,7 @@ class Group {
   }
 
   push(obj) {
-    let {name, tags, id} = obj;
+    let { name, tags, id } = obj;
 
     name = name || (unidentified + unidentifiedCounter++);
     id = id || (unidentified + unidentifiedCounter++);
@@ -29,7 +29,7 @@ class Group {
     const currentLength = Object.keys(this.ids);
     this.ids[id] = obj;
 
-    Object.keys(this.tags).forEach(tag => {
+    Object.keys(this.tags).forEach((tag) => {
       this.tags[tag] = this.tags[tag] || [];
       this.tags[tag].push(currentLength);
     });
@@ -68,8 +68,8 @@ class Group {
   all(filter) {
     const objects = [];
 
-    const recurse = group => {
-      group.forEach(obj => {
+    const recurse = (group) => {
+      group.forEach((obj) => {
         if (filter) {
           if (filter(obj)) {
             objects.push(obj);
@@ -104,7 +104,7 @@ class Group {
   filter(callback) {
     const filteredArray = new Group();
 
-    this.forEach(obj => {
+    this.forEach((obj) => {
       if (callback(obj)) {
         filteredArray.push(obj);
       }
@@ -142,7 +142,7 @@ class Group {
   }
 
   toJSON() {
-    return this.values().map(child => {
+    return this.values().map((child) => {
       if (child.toJSON && typeof child === 'function') {
         return child.toJSON();
       }
@@ -181,7 +181,7 @@ class Group {
     this.ids[id] = null;
     this.names[name] = null;
 
-    this.tags.forEach(tag => {
+    this.tags.forEach((tag) => {
       const position = tag.indexOf(index);
 
       if (position >= 0) {
@@ -208,7 +208,7 @@ class Group {
       tags = [initialTags];
     }
 
-    tags.forEach(tag => {
+    tags.forEach((tag) => {
       this.tags[tag].forEach(index => this.remove(index));
       this.tags = [];
     });

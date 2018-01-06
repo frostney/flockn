@@ -7,12 +7,12 @@ const isStatic = checkForFlag('static');
 //  interactive property
 const updatable = function updateable() {
   // Update all children
-  this.on('update', dt => {
+  this.on('update', (dt) => {
     if (!isStatic.call(this)) {
       return;
     }
 
-    this.children.forEach(child => {
+    this.children.forEach((child) => {
       if (child.update) {
         child.trigger('update', dt);
       }

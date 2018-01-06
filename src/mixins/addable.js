@@ -8,7 +8,7 @@ const addable = function addable(Factory, groupInstance, extraFn) {
 
     let child;
 
-    if (!( initialChild instanceof Factory)) {
+    if (!(initialChild instanceof Factory)) {
       if (typeof initialChild !== 'function') {
         throw new Error('A child has to be a function');
       }
@@ -37,7 +37,7 @@ const addable = function addable(Factory, groupInstance, extraFn) {
     const args = [].slice.call(arguments);
     args.unshift(this);
 
-    return adder.bind.apply(adder, args);
+    return adder.bind(...args);
   };
 };
 

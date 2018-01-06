@@ -1,6 +1,6 @@
 import Base from './base';
 
-import {addable, updateable, serializable} from './mixins';
+import { addable, updateable, serializable } from './mixins';
 
 
 // Behaviors only provide logic. There is no rendering involved.
@@ -18,7 +18,7 @@ class Behavior extends Base {
 
   addBehavior() {
     // When a behavior is added, the reference to the game object is set
-    this.queue.push(addable(Behavior, this.children, child => {
+    this.queue.push(addable(Behavior, this.children, (child) => {
       child.gameObject = this.gameObject;
     }).apply(this, arguments));
   }

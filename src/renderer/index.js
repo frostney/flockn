@@ -9,7 +9,7 @@ Renderer.register = (name, descriptor) => {
   renderers[name] = descriptor;
 };
 
-Renderer.use = name => {
+Renderer.use = (name) => {
   if (Object.hasOwnProperty.call(renderers, name)) {
     if (renderers[name]) {
       renderers[name]();

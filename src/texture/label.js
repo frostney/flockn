@@ -1,4 +1,4 @@
-import {Color} from '../types';
+import { Color } from '../types';
 import serializable from '../mixins/serializable';
 
 class TextureLabel {
@@ -33,23 +33,23 @@ class TextureLabel {
         tmpElem.style.position = 'absolute';
         tmpElem.style.left = '-9999px';
         tmpElem.style.top = '-9999px';
-        tmpElem.style.fontSize = this.font.size + 'px';
+        tmpElem.style.fontSize = `${this.font.size}px`;
         tmpElem.style.fontFamily = this.font.name;
         tmpElem.style.color = this.font.color;
 
-        this.font.decoration.forEach(decoration => {
+        this.font.decoration.forEach((decoration) => {
           switch (decoration) {
-          case 'bold':
-            tmpElem.style.fontWeight = 'bold';
-            break;
-          case 'italic':
-            tmpElem.style.fontStyle = 'italic';
-            break;
-          case 'underline':
-            tmpElem.style.textDecoration = 'underline';
-            break;
-          default:
-            break;
+            case 'bold':
+              tmpElem.style.fontWeight = 'bold';
+              break;
+            case 'italic':
+              tmpElem.style.fontStyle = 'italic';
+              break;
+            case 'underline':
+              tmpElem.style.textDecoration = 'underline';
+              break;
+            default:
+              break;
           }
         });
 

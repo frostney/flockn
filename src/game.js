@@ -1,4 +1,4 @@
-import {Loop, AssetLoader} from 'gamebox';
+import { Loop, AssetLoader } from 'gamebox';
 
 import Base from './base';
 import Graphics from './graphics';
@@ -6,7 +6,7 @@ import Scene from './scene';
 import Color from './types/color';
 import Viewport from './viewport';
 
-import {addable, renderable, updateable, serializable} from './mixins';
+import { addable, renderable, updateable, serializable } from './mixins';
 
 const root = window;
 
@@ -62,7 +62,7 @@ class Game extends Base {
 
     // Add a `resize` event to each `Game` instance
     root.addEventListener('resize', () => {
-      const {innerWidth, innerHeight} = root;
+      const { innerWidth, innerHeight } = root;
 
       this.trigger('resize', innerWidth, innerHeight);
 
@@ -83,7 +83,7 @@ class Game extends Base {
   addScene() {
     // When adding a scene, the dimension of scenes should be
     // exactly as large as the `Game` instance itself
-    this.queue.push(addable(Scene, this.children, child => {
+    this.queue.push(addable(Scene, this.children, (child) => {
       child.width = this.width;
       child.height = this.height;
     }).apply(this, arguments));

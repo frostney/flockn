@@ -1,4 +1,4 @@
-import {Color, Vector2} from '../types';
+import { Color, Vector2 } from '../types';
 import serializable from '../mixins/serializable';
 
 class TextureImage {
