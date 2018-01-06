@@ -7,7 +7,7 @@ import colorConstants from '../constants/color';
 
 const { Color } = Types;
 
-for (const colorName in colorConstants) {
+Object.keys(colorConstants).forEach((colorName) => {
   const colorValue = colorConstants[colorName];
 
   ((colorName, colorValue) => {
@@ -17,6 +17,6 @@ for (const colorName in colorConstants) {
       return col;
     };
   })(colorName, colorValue);
-}
+});
 
 export default Color;

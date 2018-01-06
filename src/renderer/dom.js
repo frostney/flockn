@@ -14,16 +14,21 @@ const factory = () => {
 
   Graphics.on('initialize', (Game) => {
     rootElement = createRootElement.call(Game, 'div', (rootEl) => {
+      /* eslint no-param-reassign: 0 */
+
       rootEl.style.backgroundColor = this.color.toString();
       rootEl.style.overflow = 'hidden';
       rootEl.style.cursor = 'default';
-      rootEl.style.userSelect = rootElement.style.mozUserSelect = rootElement.style.webkitUserSelect =
-        'none';
+
+      ['userSelect', 'mozUserSelect', 'webkitUserSelect'].forEach((select) => {
+        rootEl.style[select] = 'none';
+      });
     });
   });
 
   Graphics.on('add', (obj) => {
-    // TODO: Models shouldn't be added to the DOM. Currently we do a check if has an id, but sometime in the
+    // TODO: Models shouldn't be added to the DOM.
+    // Currently we do a check if has an id, but sometime in the
     //  future they might have
     if (!obj.id) {
       return;
@@ -41,7 +46,7 @@ const factory = () => {
       })();
     }
 
-    const parent = obj.parent;
+    const { parent } = obj;
 
     const parentElem = (() => {
       if ((parent && parent.isRoot) || parent == null) {
@@ -141,7 +146,7 @@ const factory = () => {
       // const prevObj = dirtyObjects[objId] || {};
 
       switch (obj.type) {
-        case 'GameObject':
+        case 'GameObject': {
           const elemVisible = element.style.display === 'block';
 
           if (elemVisible !== obj.visible) {
@@ -174,9 +179,9 @@ const factory = () => {
           }
 
           if (obj.angle) {
-            element.style.transform = element.style.mozTransform = element.style.webkitTransform = `rotate(${
-              obj.angle
-            }deg)`;
+            ['transform', 'mozTransform', 'webkitTransform'].forEach((transform) => {
+              element.style[transform] = `rotate(${obj.angle}deg)`;
+            });
           }
 
           if (obj.alpha !== 1) {
@@ -187,9 +192,9 @@ const factory = () => {
           element.style.backgroundColor = obj.texture.backgroundColor.toString();
 
           // Set origin
-          element.style.transformOrigin = element.style.mozTransformOrigin = element.webkitTransformOrigin = `${
-            obj.origin.x
-          }px ${obj.origin.y}px`;
+          ['transformOrigin', 'mozTransformOrigin', 'webkitTransformOrigin'].forEach((transformOrigin) => {
+            element.style[transformOrigin] = `${obj.origin.x}px ${obj.origin.y}px`;
+          });
 
           // Set border
           if (obj.border.width > 0) {
@@ -247,7 +252,8 @@ const factory = () => {
           }
 
           break;
-        case 'Scene':
+        }
+        case 'Scene': {
           const elemVisibleStyle = element.style.display;
 
           if (obj.parent.activeScene !== obj.name) {
@@ -258,6 +264,7 @@ const factory = () => {
             element.style.display = 'block';
           }
           break;
+        }
         default:
           break;
       }

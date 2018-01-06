@@ -14,6 +14,8 @@ class Model extends EventMap {
     if (Object.hasOwnProperty.call(this.data, name)) {
       return this.data[name];
     }
+
+    return null;
   }
 
   set(name, value) {
@@ -22,8 +24,6 @@ class Model extends EventMap {
     // Trigger the `change` event with `name` and `value` as its parameters
     this.trigger('change', name, value);
   }
-
-  bind() {}
 
   has(name) {
     return Object.hasOwnProperty.call(this.data, name);

@@ -4,7 +4,6 @@ import Graphics from './graphics';
 import Model from './model';
 import Texture from './texture';
 
-import * as types from './types';
 import { Vector2, Vector3, Color, Rect } from './types';
 
 import { addable, renderable, updateable, serializable } from './mixins';
@@ -117,28 +116,24 @@ class GameObject extends Base {
     return new Rect(this.position.x, this.position.y, this.width, this.height);
   }
 
-  addGameObject() {
+  addGameObject(...args) {
     // Add a game object to this game object
-    this.queue.push(addable(GameObject, this.children).apply(this, arguments));
+    this.queue.push(addable(GameObject, this.children).apply(this, args));
   }
 
-  addBehavior() {
+  addBehavior(...args) {
     // Add a `Behavior` instance to the the game object and update the `gameObject` property
     this.queue.push(addable(Behavior, this.children, (child) => {
+      /* eslint no-param-reassign: 0 */
+
       child.gameObject = this;
-    }).apply(this, arguments));
+    }).apply(this, args));
   }
 
-  addModel() {
+  addModel(...args) {
     // Add a `Model` instance to the game object
-    this.queue.push(addable(Model, this.children).apply(this, arguments));
+    this.queue.push(addable(Model, this.children).apply(this, args));
   }
-
-  removeGameObject() {}
-
-  removeBehavior() {}
-
-  removeModel() {}
 
   data(name) {
     if (!name) {

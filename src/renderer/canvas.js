@@ -71,6 +71,9 @@ const factory = () => {
         break;
       case 'Scene':
         if (obj.parent.activeScene !== obj.name) {
+          context.save();
+
+          context.restore();
         }
         break;
       default:

@@ -2,9 +2,11 @@ import checkForFlag from '../utils/checkforflag';
 
 const isStatic = checkForFlag('static');
 
-// TODO: This is not completely how I want it be as it only sets the children as static and not the element itself
-// TODO: Evaluate if it's a good idea if static elements shouldn't be able to interact with - similar to PIXI's
-//  interactive property
+// TODO: This is not completely how I want it be as it only sets
+//  the children as static and not the element itself
+
+// TODO: Evaluate if it's a good idea if static elements shouldn't
+//  be able to interact with - similar to PIXI's interactive property
 const updatable = function updateable() {
   // Update all children
   this.on('update', (dt) => {

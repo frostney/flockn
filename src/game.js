@@ -21,7 +21,8 @@ class Game extends Base {
     // If it's not given, it should create a new element. This should be handled by the renderer.
     this.container = null;
 
-    // By default, the width and height of a `Game` instance will be as large as the inside of the browser window.
+    // By default, the width and height of a `Game` instance will
+    // be as large as the inside of the browser window.
     this.width = root.innerWidth;
     this.height = root.innerHeight;
     this.color = new Color(255, 255, 255);
@@ -88,18 +89,22 @@ class Game extends Base {
     );
   }
 
-  addScene() {
+  addScene(...args) {
     // When adding a scene, the dimension of scenes should be
     // exactly as large as the `Game` instance itself
     this.queue.push(addable(Scene, this.children, (child) => {
+      /* eslint no-param-reassign: 0 */
+
       child.width = this.width;
       child.height = this.height;
-    }).apply(this, arguments));
+    }).apply(this, args));
   }
 
   showScene(name) {
     // TODO: Add transitions
-    this.children.forEach(scene => (scene.visible = false));
+    this.children.forEach((scene) => {
+      scene.visible = false;
+    });
 
     // Set the `activeScene` property
     this.activeScene = this.children.byName(name);

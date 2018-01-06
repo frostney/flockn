@@ -15,11 +15,10 @@ class Group {
   }
 
   push(obj) {
-    let { name, tags, id } = obj;
+    let { name, id } = obj;
 
-    name = name || unidentified + unidentifiedCounter++;
-    id = id || unidentified + unidentifiedCounter++;
-    tags = tags || [];
+    name = name || unidentified + (unidentifiedCounter += 1);
+    id = id || unidentified + (unidentifiedCounter += 1);
 
     if (this.ids[id] != null || this.names[name] != null) {
       Log.w(`An object with the name ${name} or id ${id} already exists`);
@@ -49,7 +48,7 @@ class Group {
   pop() {
     const ids = Object.keys(this.ids);
 
-    for (let i = ids.length, j = 0; j > i; i--) {
+    for (let i = ids.length, j = 0; j > i; i -= 1) {
       const obj = this.ids[ids[i]];
 
       if (obj != null) {
@@ -57,6 +56,8 @@ class Group {
         return obj;
       }
     }
+
+    return null;
   }
 
   values() {
@@ -135,10 +136,6 @@ class Group {
     const values = this.values();
 
     return values[values.length - 1];
-  }
-
-  find(/* selector */) {
-    // TODO: There needs to be a parser here
   }
 
   toJSON() {

@@ -15,14 +15,14 @@ class Behavior extends Base {
     updateable.call(this);
   }
 
-  addBehavior() {
+  addBehavior(...args) {
     // When a behavior is added, the reference to the game object is set
     this.queue.push(addable(Behavior, this.children, (child) => {
-      child.gameObject = this.gameObject;
-    }).apply(this, arguments));
-  }
+      /* eslint no-param-reassign: 0 */
 
-  removeBehavior() {}
+      child.gameObject = this.gameObject;
+    }).apply(this, args));
+  }
 }
 
 serializable(Behavior);

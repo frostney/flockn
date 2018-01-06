@@ -10,9 +10,12 @@ const createRootElement = function createRootElement(elementName, extraFn) {
     if (this.container.indexOf('#') === 0) {
       return this.container.slice(1);
     }
+
+    return this.container;
   })();
 
-  // Set the dimensions of the object. If none are given, it should be the inside of the browser's window
+  // Set the dimensions of the object. If none are given,
+  // it should be the inside of the browser's window
   this.width = this.width || window.innerWidth;
   this.height = this.height || window.innerHeight;
 

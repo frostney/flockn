@@ -4,7 +4,8 @@ import GameObject from './gameobject';
 import { addable, renderable, updateable, serializable } from './mixins';
 
 // A `Scene` instance is a layer for `GameObject` instances.
-// Any number of game objects can be added to a scene. Only one scene should be visible at the same time, depending
+// Any number of game objects can be added to a scene.
+// Only one scene should be visible at the same time, depending
 // on what was set in the `activeScene` property of a `Game` instance.
 class Scene extends Base {
   constructor(descriptor) {
@@ -17,9 +18,9 @@ class Scene extends Base {
     updateable.call(this);
   }
 
-  addGameObject() {
+  addGameObject(...args) {
     // Allow game objects to be added to scenes
-    this.queue.push(addable(GameObject, this.children).apply(this, arguments));
+    this.queue.push(addable(GameObject, this.children).apply(this, args));
   }
 }
 

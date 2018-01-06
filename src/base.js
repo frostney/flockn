@@ -27,6 +27,7 @@ const numToIdString = (num) => {
 
 class Base extends EventMap {
   constructor(type = 'Base', descriptor = () => ({})) {
+    /* eslint no-plusplus: 0 */
     super();
 
     // Count up `objectIndex` and stringify it
@@ -50,7 +51,8 @@ class Base extends EventMap {
     // Create a new group for all children elements
     this.children = new Group();
 
-    // Add a queue: All addable elements will be pushed into the queue first and called after everything else in
+    // Add a queue: All addable elements will be pushed
+    // into the queue first and called after everything else in
     // the `descriptor` has been called
     this.queue = [];
 
@@ -100,31 +102,22 @@ class Base extends EventMap {
     }
   }
 
-  call() {
+  call(...args) {
     // Call `Base#apply` with the arguments object
-    this.apply(arguments);
+    this.apply(args);
   }
 
-  // Alias for `Base#call`
-  reset() {
-    return this.call.apply(this, arguments);
-  }
-
-  closest() {}
-
-  find() {}
-
-  log() {
+  log(...args) {
     if (console && console.log) {
-      const argArray = [].slice.call(arguments);
-
       // Log with `console.log`: Prepend the type and name
-      argArray.unshift(':');
-      argArray.unshift(this.name);
-      argArray.unshift(this.type);
+      args.unshift(':');
+      args.unshift(this.name);
+      args.unshift(this.type);
 
-      return console.log(...argArray);
+      return console.log(...args);
     }
+
+    return null;
   }
 }
 

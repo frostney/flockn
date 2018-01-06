@@ -9,7 +9,7 @@ serialize.json.defaultReplacer = [];
 
 serialize.json.defaultReplacer.push((key, value) => {
   if (key === 'events' && value instanceof EventMap) {
-    value = value.serialize();
+    return value.serialize();
   }
 
   return value;
@@ -41,7 +41,7 @@ serialize.json.defaultReplacer.push((key, value) => {
   }
 
   if (value.toJSON && typeof value.toJSON === 'function') {
-    value = value.toJSON();
+    return value.toJSON();
   }
 
   return value;
@@ -52,9 +52,12 @@ serialize.json.defaultReplacer.push((key, value) => {
   if (typeof value !== 'function') {
     return value;
   }
+
   if (key === 'descriptor') {
     return value;
   }
+
+  return value;
 });
 
 serialize.toJSON = (obj, replacer) => {
@@ -62,29 +65,25 @@ serialize.toJSON = (obj, replacer) => {
 
   const replacers = [].concat.apply([], [serialize.json.defaultReplacer, replacer]);
 
-  for (const key in obj) {
-    ((key, value) => {
-      if (!Object.hasOwnProperty.call(obj, key)) {
-        return;
-      }
+  Object.keys(obj).forEach((key) => {
+    let value = obj[key];
 
-      if (serialize.json.filter.indexOf(key) >= 0) {
-        return;
-      }
+    if (!Object.hasOwnProperty.call(obj, key)) {
+      return;
+    }
 
-      for (let i = 0, j = replacers.length; i < j; i++) {
-        ((rep) => {
-          if (rep) {
-            value = rep.call(obj, key, value);
-          }
-        })(replacers[i]);
-      }
+    if (serialize.json.filter.indexOf(key) >= 0) {
+      return;
+    }
 
-      if (typeof value !== 'undefined') {
-        clonedObj[key] = value;
-      }
-    })(key, obj[key]);
-  }
+    replacers.filter(rep => !!rep).forEach((rep) => {
+      value = rep.call(obj, key, value);
+    });
+
+    if (typeof value !== 'undefined') {
+      clonedObj[key] = value;
+    }
+  });
 
   return clonedObj;
 };
@@ -94,7 +93,7 @@ serialize.toString = obj =>
     // Functions that are still left should be stringified
 
     if (typeof value === 'function') {
-      value = value.toString();
+      return value.toString();
     }
 
     return value;

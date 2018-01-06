@@ -13,6 +13,7 @@
     "build": "rollup-babel-lib-bundler src/index.js",
     "lint": "eslint .",
     "format": "prettier-eslint --write \"src/**/*.js\"",
+    "pretest": "npm run lint",
     "test": "cross-env NODE_ENV=test jest"
   },
   "repository": {

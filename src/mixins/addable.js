@@ -33,8 +33,7 @@ const addable = function addable(Factory, groupInstance, extraFn) {
     child.trigger('add', child, args);
   };
 
-  return function willBeAdded() {
-    const args = [].slice.call(arguments);
+  return function willBeAdded(...args) {
     args.unshift(this);
 
     return adder.bind(...args);
