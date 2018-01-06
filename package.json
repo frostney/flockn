@@ -14,7 +14,9 @@
     "lint": "eslint .",
     "format": "prettier-eslint --write \"src/**/*.js\"",
     "pretest": "npm run lint",
-    "test": "cross-env NODE_ENV=test jest"
+    "test": "cross-env NODE_ENV=test jest",
+    "precommit": "lint-staged",
+    "prepush": "npm run test"
   },
   "repository": {
     "type": "git",
@@ -60,6 +62,12 @@
   "dependencies": {
     "eventmap": "^2.1.0",
     "gamebox": "^0.2.0"
+  },
+  "lint-staged": {
+    "src/**/*.js": [
+      "npm run format",
+      "npm run lint -- --"
+    ]
   },
   "jest": {
     "collectCoverage": true
