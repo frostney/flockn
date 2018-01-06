@@ -6,7 +6,7 @@ import { addable, updateable, serializable } from './mixins';
 // Behaviors can attach any number of behaviors to itself
 class Behavior extends Base {
   constructor(descriptor) {
-    super('Behavior', descriptor);
+    super(descriptor);
 
     // Reference to the game object itself
     this.gameObject = null;

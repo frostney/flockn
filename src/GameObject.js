@@ -10,7 +10,7 @@ import { addable, renderable, updateable, serializable } from './mixins';
 
 class GameObject extends Base {
   constructor(descriptor) {
-    super('GameObject', descriptor);
+    super(descriptor);
 
     this.visible = true;
 

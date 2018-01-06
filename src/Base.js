@@ -26,14 +26,14 @@ const numToIdString = (num) => {
 };
 
 class Base extends EventMap {
-  constructor(type = 'Base', descriptor = () => ({})) {
+  constructor(descriptor = () => ({})) {
     /* eslint no-plusplus: 0 */
     super();
 
     // Count up `objectIndex` and stringify it
     const currentObject = numToIdString(++objectIndex);
 
-    this.type = type;
+    this.type = this.constructor.name;
 
     const internalId = `${this.type}-${Date.now()}-${currentObject}`;
 

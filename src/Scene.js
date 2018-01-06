@@ -9,7 +9,7 @@ import { addable, renderable, updateable, serializable } from './mixins';
 // on what was set in the `activeScene` property of a `Game` instance.
 class Scene extends Base {
   constructor(descriptor) {
-    super('Scene', descriptor);
+    super(descriptor);
 
     this.visible = true;
 

@@ -15,7 +15,7 @@ const root = window;
 class Game extends Base {
   constructor(descriptor) {
     // Extend the `Base` class
-    super('Game', descriptor);
+    super(descriptor);
 
     // `this.container` is a string, which is the id of the element.
     // If it's not given, it should create a new element. This should be handled by the renderer.
