@@ -2,7 +2,6 @@ import Base from './base';
 
 import { addable, updateable, serializable } from './mixins';
 
-
 // Behaviors only provide logic. There is no rendering involved.
 // Behaviors can attach any number of behaviors to itself
 class Behavior extends Base {
@@ -23,9 +22,7 @@ class Behavior extends Base {
     }).apply(this, arguments));
   }
 
-  removeBehavior() {
-
-  }
+  removeBehavior() {}
 }
 
 serializable(Behavior);

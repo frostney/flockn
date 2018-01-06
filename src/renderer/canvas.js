@@ -19,7 +19,8 @@ const factory = () => {
       rootElement.addEventListener(eventName, (e) => {
         if (Game.activeScene) {
           Game.activeScene.children
-            .all(obj => obj.visible && obj.bounds().contains(mouse.relativePosition(e, rootElement, obj)))
+            .all(obj =>
+              obj.visible && obj.bounds().contains(mouse.relativePosition(e, rootElement, obj)))
             .forEach(obj => obj.trigger(eventName, mouse.relativePosition(e, rootElement, obj)));
         }
       });
@@ -60,7 +61,7 @@ const factory = () => {
         }
 
         if (obj.texture.label.drawable) {
-        // const fontName = obj.texture.label.font.size + 'px ' + obj.texture.label.font.name;
+          // const fontName = obj.texture.label.font.size + 'px ' + obj.texture.label.font.name;
 
           context.fillStyle = obj.texture.label.font.color.toString();
           context.fillText(obj.texture.label.text, -obj.origin.x, -obj.origin.y);
@@ -70,7 +71,6 @@ const factory = () => {
         break;
       case 'Scene':
         if (obj.parent.activeScene !== obj.name) {
-
         }
         break;
       default:

@@ -62,7 +62,6 @@ serialize.toJSON = (obj, replacer) => {
 
   const replacers = [].concat.apply([], [serialize.json.defaultReplacer, replacer]);
 
-
   for (const key in obj) {
     ((key, value) => {
       if (!Object.hasOwnProperty.call(obj, key)) {
@@ -90,14 +89,15 @@ serialize.toJSON = (obj, replacer) => {
   return clonedObj;
 };
 
-serialize.toString = obj => JSON.stringify(serialize.toJSON(obj), (key, value) => {
-  // Functions that are still left should be stringified
+serialize.toString = obj =>
+  JSON.stringify(serialize.toJSON(obj), (key, value) => {
+    // Functions that are still left should be stringified
 
-  if (typeof value === 'function') {
-    value = value.toString();
-  }
+    if (typeof value === 'function') {
+      value = value.toString();
+    }
 
-  return value;
-});
+    return value;
+  });
 
 export default serialize;

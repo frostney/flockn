@@ -43,12 +43,12 @@ const createRootElement = function createRootElement(elementName, extraFn) {
   // Center the element if it's smaller than the inside of the browser's window
   if (this.width < window.innerWidth) {
     rootElement.style.left = '50%';
-    rootElement.style.marginLeft = `${this.width * (-0.5)}px`;
+    rootElement.style.marginLeft = `${this.width * -0.5}px`;
   }
 
   if (this.height < window.innerHeight) {
     rootElement.style.top = '50%';
-    rootElement.style.marginTop = `${this.width * (-0.5)}px`;
+    rootElement.style.marginTop = `${this.width * -0.5}px`;
   }
 
   // Return the element, in case someone wants to meddle with it

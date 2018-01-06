@@ -53,24 +53,40 @@ describe('flockn/types/rect', () => {
     const rect = new Rect();
     const rect2 = new Rect(20, 20, 40, 40);
 
-    it('stringified empty rect', () => expect(rect.toJSON()).toEqual({
-      x: 0, y: 0, w: 0, h: 0,
-    }));
-    it('stringified custom rect', () => expect(rect2.toJSON()).toEqual({
-      x: 20, y: 20, w: 40, h: 40,
-    }));
+    it('stringified empty rect', () =>
+      expect(rect.toJSON()).toEqual({
+        x: 0,
+        y: 0,
+        w: 0,
+        h: 0,
+      }));
+    it('stringified custom rect', () =>
+      expect(rect2.toJSON()).toEqual({
+        x: 20,
+        y: 20,
+        w: 40,
+        h: 40,
+      }));
   });
 
   describe('#toString', () => {
     const rect = new Rect();
     const rect2 = new Rect(20, 20, 40, 40);
 
-    it('stringified empty rect', () => expect(rect.toString()).toBe(JSON.stringify({
-      x: 0, y: 0, w: 0, h: 0,
-    })));
-    it('stringified custom rect', () => expect(rect2.toString()).toBe(JSON.stringify({
-      x: 20, y: 20, w: 40, h: 40,
-    })));
+    it('stringified empty rect', () =>
+      expect(rect.toString()).toBe(JSON.stringify({
+        x: 0,
+        y: 0,
+        w: 0,
+        h: 0,
+      })));
+    it('stringified custom rect', () =>
+      expect(rect2.toString()).toBe(JSON.stringify({
+        x: 20,
+        y: 20,
+        w: 40,
+        h: 40,
+      })));
   });
 
   describe('#contains', () => {
@@ -95,7 +111,10 @@ describe('flockn/types/rect', () => {
 
   describe('.fromString', () => {
     const obj = {
-      x: 10, y: 10, w: 50, h: 50,
+      x: 10,
+      y: 10,
+      w: 50,
+      h: 50,
     };
     const string = JSON.stringify(obj);
 

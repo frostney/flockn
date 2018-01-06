@@ -17,8 +17,8 @@ class Group {
   push(obj) {
     let { name, tags, id } = obj;
 
-    name = name || (unidentified + unidentifiedCounter++);
-    id = id || (unidentified + unidentifiedCounter++);
+    name = name || unidentified + unidentifiedCounter++;
+    id = id || unidentified + unidentifiedCounter++;
     tags = tags || [];
 
     if (this.ids[id] != null || this.names[name] != null) {

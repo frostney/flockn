@@ -17,7 +17,7 @@ const numToIdString = (num) => {
     return stringNum;
   }
 
-  const prependLength = (`${prependMax}`).length - stringNum.length;
+  const prependLength = `${prependMax}`.length - stringNum.length;
   for (let i = 0; i < prependLength; i++) {
     stringNum = `0${stringNum}`;
   }
@@ -110,13 +110,9 @@ class Base extends EventMap {
     return this.call.apply(this, arguments);
   }
 
-  closest() {
+  closest() {}
 
-  }
-
-  find() {
-
-  }
+  find() {}
 
   log() {
     if (console && console.log) {

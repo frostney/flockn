@@ -61,23 +61,31 @@ class Game extends Base {
     });
 
     // Add a `resize` event to each `Game` instance
-    root.addEventListener('resize', () => {
-      const { innerWidth, innerHeight } = root;
+    root.addEventListener(
+      'resize',
+      () => {
+        const { innerWidth, innerHeight } = root;
 
-      this.trigger('resize', innerWidth, innerHeight);
+        this.trigger('resize', innerWidth, innerHeight);
 
-      // Trigger resize event for the current scene
-      const currentScene = this.children.byName(this.activeScene);
+        // Trigger resize event for the current scene
+        const currentScene = this.children.byName(this.activeScene);
 
-      if (currentScene) {
-        currentScene.trigger('resize', innerWidth, innerHeight);
-      }
-    }, false);
+        if (currentScene) {
+          currentScene.trigger('resize', innerWidth, innerHeight);
+        }
+      },
+      false,
+    );
 
     // Add an `orientationchange` event to each `Game` instance
-    root.addEventListener('orientationchange', () => {
-      this.trigger('orientationchange');
-    }, false);
+    root.addEventListener(
+      'orientationchange',
+      () => {
+        this.trigger('orientationchange');
+      },
+      false,
+    );
   }
 
   addScene() {
@@ -91,7 +99,7 @@ class Game extends Base {
 
   showScene(name) {
     // TODO: Add transitions
-    this.children.forEach(scene => scene.visible = false);
+    this.children.forEach(scene => (scene.visible = false));
 
     // Set the `activeScene` property
     this.activeScene = this.children.byName(name);

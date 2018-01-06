@@ -1,11 +1,7 @@
 class Selector {
-  constructor(/* selectorString */) {
+  constructor(/* selectorString */) {}
 
-  }
-
-  parse() {
-
-  }
+  parse() {}
 }
 
 export default Selector;

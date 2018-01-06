@@ -1,7 +1,5 @@
 const Audio = {
-  play() {
-
-  },
+  play() {},
 };
 
 export default Audio;

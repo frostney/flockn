@@ -9,7 +9,6 @@ import { Vector2, Vector3, Color, Rect } from './types';
 
 import { addable, renderable, updateable, serializable } from './mixins';
 
-
 class GameObject extends Base {
   constructor(descriptor) {
     super('GameObject', descriptor);
@@ -30,8 +29,8 @@ class GameObject extends Base {
         this.width = this.texture.image.width;
         this.height = this.texture.image.height;
 
-        this.origin.x = (this.width / 2);
-        this.origin.y = (this.height / 2);
+        this.origin.x = this.width / 2;
+        this.origin.y = this.height / 2;
       }
 
       // TODO: Evaluate if the Graphics trigger should only be in the texture
@@ -44,8 +43,8 @@ class GameObject extends Base {
         this.width = this.texture.label.width;
         this.height = this.texture.label.height;
 
-        this.origin.x = (this.width / 2);
-        this.origin.y = (this.height / 2);
+        this.origin.x = this.width / 2;
+        this.origin.y = this.height / 2;
 
         // TODO: Evaluate if the Graphics trigger should only be in the texture
         Graphics.trigger('texture-label-loaded', this, this.texture);
@@ -135,17 +134,11 @@ class GameObject extends Base {
     this.queue.push(addable(Model, this.children).apply(this, arguments));
   }
 
-  removeGameObject() {
+  removeGameObject() {}
 
-  }
+  removeBehavior() {}
 
-  removeBehavior() {
-
-  }
-
-  removeModel() {
-
-  }
+  removeModel() {}
 
   data(name) {
     if (!name) {
@@ -169,9 +162,7 @@ class GameObject extends Base {
     }
   } */
 
-  static fromString() {
-
-  }
+  static fromString() {}
 }
 
 serializable(GameObject);

@@ -53,3 +53,4 @@ bower_components
 # Generated files #
 ###################
 dist
+coverage

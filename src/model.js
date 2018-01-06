@@ -23,9 +23,7 @@ class Model extends EventMap {
     this.trigger('change', name, value);
   }
 
-  bind() {
-
-  }
+  bind() {}
 
   has(name) {
     return Object.hasOwnProperty.call(this.data, name);

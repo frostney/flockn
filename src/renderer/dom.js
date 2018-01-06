@@ -17,7 +17,8 @@ const factory = () => {
       rootEl.style.backgroundColor = this.color.toString();
       rootEl.style.overflow = 'hidden';
       rootEl.style.cursor = 'default';
-      rootEl.style.userSelect = rootElement.style.mozUserSelect = rootElement.style.webkitUserSelect = 'none';
+      rootEl.style.userSelect = rootElement.style.mozUserSelect = rootElement.style.webkitUserSelect =
+        'none';
     });
   });
 
@@ -78,15 +79,22 @@ const factory = () => {
           });
         });
 
-
         // Mouseenter and Mouseleave are kinda special right now
-        root.addEventListener('mouseenter', (evt) => {
-          obj.trigger('mouseenter', evt);
-        }, true);
+        root.addEventListener(
+          'mouseenter',
+          (evt) => {
+            obj.trigger('mouseenter', evt);
+          },
+          true,
+        );
 
-        root.addEventListener('mouseleave', (evt) => {
-          obj.trigger('mouseleave', evt);
-        }, true);
+        root.addEventListener(
+          'mouseleave',
+          (evt) => {
+            obj.trigger('mouseleave', evt);
+          },
+          true,
+        );
 
         break;
       default:
@@ -137,7 +145,7 @@ const factory = () => {
           const elemVisible = element.style.display === 'block';
 
           if (elemVisible !== obj.visible) {
-            element.style.display = (obj.visible) ? 'block' : 'hidden';
+            element.style.display = obj.visible ? 'block' : 'hidden';
           }
 
           if (!elemVisible) {
@@ -166,7 +174,9 @@ const factory = () => {
           }
 
           if (obj.angle) {
-            element.style.transform = element.style.mozTransform = element.style.webkitTransform = `rotate(${obj.angle}deg)`;
+            element.style.transform = element.style.mozTransform = element.style.webkitTransform = `rotate(${
+              obj.angle
+            }deg)`;
           }
 
           if (obj.alpha !== 1) {
@@ -177,7 +187,9 @@ const factory = () => {
           element.style.backgroundColor = obj.texture.backgroundColor.toString();
 
           // Set origin
-          element.style.transformOrigin = element.style.mozTransformOrigin = element.webkitTransformOrigin = `${obj.origin.x}px ${obj.origin.y}px`;
+          element.style.transformOrigin = element.style.mozTransformOrigin = element.webkitTransformOrigin = `${
+            obj.origin.x
+          }px ${obj.origin.y}px`;
 
           // Set border
           if (obj.border.width > 0) {
@@ -192,11 +204,11 @@ const factory = () => {
 
           if (obj.texture.image.drawable) {
             if (obj.texture.image.offset.x !== 0) {
-              element.style.backgroundPositionX = `${obj.texture.image.offset.x * (-1)}px`;
+              element.style.backgroundPositionX = `${obj.texture.image.offset.x * -1}px`;
             }
 
             if (obj.texture.image.offset.y !== 0) {
-              element.style.backgroundPositionY = `${obj.texture.image.offset.y * (-1)}px`;
+              element.style.backgroundPositionY = `${obj.texture.image.offset.y * -1}px`;
             }
           }
 

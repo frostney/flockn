@@ -1,5 +1,6 @@
-import { Color } from '../types';
 import EventMap from 'eventmap';
+
+import { Color } from '../types';
 import TextureImage from './image';
 import TextureLabel from './label';
 import serializable from '../mixins/serializable';
