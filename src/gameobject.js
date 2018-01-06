@@ -4,6 +4,7 @@ import Graphics from './graphics';
 import Model from './model';
 import Texture from './texture';
 
+import * as types from './types';
 import { Vector2, Vector3, Color, Rect } from './types';
 
 import { addable, renderable, updateable, serializable } from './mixins';

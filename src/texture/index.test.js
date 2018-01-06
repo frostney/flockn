@@ -1,32 +1,30 @@
-import { expect } from 'chai';
-
 import EventMap from 'eventmap';
-import Texture from 'flockn/texture';
+import Texture from './';
 
 describe('flockn/texture', () => {
   it('is a function', () => {
-    expect(Texture).to.be.a('function');
+    expect(typeof Texture).toBe('function');
   });
 
   describe('constructor', () => {
     it('can be instantiated', () => {
       const texture = new Texture();
 
-      expect(texture).to.be.a('object');
-      expect(texture).to.be.an.instanceOf(Texture);
+      expect(typeof texture).toBe('object');
+      expect(texture).toBeInstanceOf(Texture);
     });
 
     it('inherits from EventMap', () => {
       const texture = new Texture();
 
-      expect(texture).to.be.an.instanceOf(EventMap);
+      expect(texture).toBeInstanceOf(EventMap);
     });
   });
 
   it('has dimension properties', () => {
     const texture = new Texture();
 
-    expect(texture.width).to.be.a('number');
-    expect(texture.height).to.be.a('number');
+    expect(typeof texture.width).toBe('number');
+    expect(typeof texture.height).toBe('number');
   });
 });

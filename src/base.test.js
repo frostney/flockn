@@ -1,25 +1,23 @@
 import EventMap from 'eventmap';
-import Base from 'flockn/base';
-
-import { expect } from 'chai';
+import Base from './base';
 
 describe('flockn/base', () => {
   it('is a function', () => {
-    expect(Base).to.be.a('function');
+    expect(typeof Base).toBe('function');
   });
 
   describe('constructor', () => {
     it('can be instantiated', () => {
       const base = new Base();
 
-      expect(base).to.be.a('object');
-      expect(base).to.be.an.instanceOf(Base);
+      expect(typeof base).toBe('object');
+      expect(base).toBeInstanceOf(Base);
     });
 
     it('inherits from EventMap', () => {
       const base = new Base();
 
-      expect(base).to.be.an.instanceOf(EventMap);
+      expect(base).toBeInstanceOf(EventMap);
     });
   });
 
@@ -27,8 +25,8 @@ describe('flockn/base', () => {
     const base = new Base();
 
     it('has the correct type', () => {
-      expect(base.type).to.be.a('string');
-      expect(base.type).to.equal('Base');
+      expect(typeof base.type).toBe('string');
+      expect(base.type).toBe('Base');
     });
   });
 });

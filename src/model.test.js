@@ -1,25 +1,23 @@
-import { expect } from 'chai';
-
 import EventMap from 'eventmap';
-import Model from 'flockn/model';
+import Model from './model';
 
 describe('flockn/model', () => {
   it('is a function', () => {
-    expect(Model).to.be.a('function');
+    expect(typeof Model).toBe('function');
   });
 
   describe('constructor', () => {
     it('can be instantiated', () => {
       const model = new Model();
 
-      expect(model).to.be.a('object');
-      expect(model).to.be.an.instanceOf(Model);
+      expect(typeof model).toBe('object');
+      expect(model).toBeInstanceOf(Model);
     });
 
     it('inherits from EventMap', () => {
       const model = new Model();
 
-      expect(model).to.be.an.instanceOf(EventMap);
+      expect(model).toBeInstanceOf(EventMap);
     });
   });
 
@@ -29,14 +27,14 @@ describe('flockn/model', () => {
     it('undefined when there is no valid property', () => {
       const test = model.get('test');
 
-      expect(test).to.equal(undefined);
+      expect(test).toBe(undefined);
     });
 
     it('exact property value', () => {
       model.set('test', 5);
       const test = model.get('test');
 
-      expect(test).to.equal(5);
+      expect(test).toBe(5);
     });
   });
 
@@ -47,7 +45,7 @@ describe('flockn/model', () => {
       model.set('test', 8);
       const test = model.get('test');
 
-      expect(test).to.equal(8);
+      expect(test).toBe(8);
     });
 
     it('overwrites previous value', () => {
@@ -55,7 +53,7 @@ describe('flockn/model', () => {
       model.set('test', 12);
       const test = model.get('test');
 
-      expect(test).to.equal(12);
+      expect(test).toBe(12);
     });
   });
 });

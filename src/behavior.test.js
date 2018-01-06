@@ -1,25 +1,23 @@
-import { expect } from 'chai';
-
-import Behavior from 'flockn/behavior';
-import Base from 'flockn/base';
+import Behavior from './behavior';
+import Base from './base';
 
 describe('flockn/behavior', () => {
   it('is a function', () => {
-    expect(Behavior).to.be.a('function');
+    expect(typeof Behavior).toBe('function');
   });
 
   describe('constructor', () => {
     it('can be instantiated', () => {
       const behavior = new Behavior();
 
-      expect(behavior).to.be.a('object');
-      expect(behavior).to.be.an.instanceOf(Behavior);
+      expect(typeof behavior).toBe('object');
+      expect(behavior).toBeInstanceOf(Behavior);
     });
 
     it('inherits from Base', () => {
       const behavior = new Behavior();
 
-      expect(behavior).to.be.an.instanceOf(Base);
+      expect(behavior).toBeInstanceOf(Base);
     });
   });
 
@@ -27,8 +25,8 @@ describe('flockn/behavior', () => {
     const behavior = new Behavior();
 
     it('has the correct type', () => {
-      expect(behavior.type).to.be.a('string');
-      expect(behavior.type).to.equal('Behavior');
+      expect(typeof behavior.type).toBe('string');
+      expect(behavior.type).toBe('Behavior');
     });
   });
 });

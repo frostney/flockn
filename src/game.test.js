@@ -1,25 +1,23 @@
-import { expect } from 'chai';
-
-import Game from 'flockn/game';
-import Base from 'flockn/base';
+import Game from './game';
+import Base from './base';
 
 describe('flockn/game', () => {
   it('is a function', () => {
-    expect(Game).to.be.a('function');
+    expect(typeof Game).toBe('function');
   });
 
   describe('constructor', () => {
     it('can be instantiated', () => {
       const game = new Game();
 
-      expect(game).to.be.a('object');
-      expect(game).to.be.an.instanceOf(Game);
+      expect(typeof game).toBe('object');
+      expect(game).toBeInstanceOf(Game);
     });
 
     it('inherits from Base', () => {
       const game = new Game();
 
-      expect(game).to.be.an.instanceOf(Base);
+      expect(game).toBeInstanceOf(Base);
     });
   });
 
@@ -27,8 +25,8 @@ describe('flockn/game', () => {
     const game = new Game();
 
     it('has the correct type', () => {
-      expect(game.type).to.be.a('string');
-      expect(game.type).to.equal('Game');
+      expect(typeof game.type).toBe('string');
+      expect(game.type).toBe('Game');
     });
   });
 });

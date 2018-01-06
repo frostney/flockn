@@ -1,25 +1,23 @@
-import { expect } from 'chai';
-
-import Scene from 'flockn/scene';
-import Base from 'flockn/base';
+import Scene from './scene';
+import Base from './base';
 
 describe('flockn/scene', () => {
   it('is a function', () => {
-    expect(Scene).to.be.a('function');
+    expect(typeof Scene).toBe('function');
   });
 
   describe('constructor', () => {
     it('can be instantiated', () => {
       const scene = new Scene();
 
-      expect(scene).to.be.a('object');
-      expect(scene).to.be.an.instanceOf(Scene);
+      expect(typeof scene).toBe('object');
+      expect(scene).toBeInstanceOf(Scene);
     });
 
     it('inherits from Base', () => {
       const scene = new Scene();
 
-      expect(scene).to.be.an.instanceOf(Base);
+      expect(scene).toBeInstanceOf(Base);
     });
   });
 
@@ -27,8 +25,8 @@ describe('flockn/scene', () => {
     const scene = new Scene();
 
     it('has the correct type', () => {
-      expect(scene.type).to.be.a('string');
-      expect(scene.type).to.equal('Scene');
+      expect(typeof scene.type).toBe('string');
+      expect(scene.type).toBe('Scene');
     });
   });
 });

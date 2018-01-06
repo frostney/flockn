@@ -1,4 +1,6 @@
 import Color from './color';
-import { Rect, Vector2, Vector3 } from 'gamebox';
+import { Types } from 'gamebox';
+
+const { Rect, Vector2, Vector3 } = Types;
 
 export { Rect, Vector2, Vector3, Color };
