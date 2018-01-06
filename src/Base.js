@@ -2,9 +2,9 @@ import EventMap from 'eventmap';
 
 import { Input } from 'gamebox';
 
-import Audio from './audio';
-import Group from './group';
-import World from './world';
+import Audio from './Audio';
+import Group from './Group';
+import World from './World';
 
 let objectIndex = 0;
 

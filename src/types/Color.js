@@ -3,7 +3,7 @@
 /* eslint no-shadow: 0 */
 
 import { Types } from 'gamebox';
-import colorConstants from '../constants/color';
+import colorConstants from '../constants/Colors';
 
 const { Color } = Types;
 

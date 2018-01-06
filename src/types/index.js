@@ -1,6 +1,6 @@
 import { Types } from 'gamebox';
 
-import Color from './color';
+import Color from './Color';
 
 const { Rect, Vector2, Vector3 } = Types;
 

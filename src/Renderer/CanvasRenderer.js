@@ -1,5 +1,5 @@
-import Graphics from '../graphics';
-import createRootElement from '../graphics/rootelement';
+import Graphics from '../Graphics';
+import createRootElement from '../Graphics/createRootElement';
 import * as mouse from '../input/mouse';
 
 const factory = () => {

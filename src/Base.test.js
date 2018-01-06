@@ -1,5 +1,6 @@
 import EventMap from 'eventmap';
-import Base from './base';
+
+import Base from './Base';
 
 describe('flockn/base', () => {
   it('is a function', () => {

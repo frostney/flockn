@@ -1,8 +1,8 @@
-import Base from './base';
-import Behavior from './behavior';
-import Graphics from './graphics';
-import Model from './model';
-import Texture from './texture';
+import Base from './Base';
+import Behavior from './Behavior';
+import Graphics from './Graphics';
+import Model from './Model';
+import Texture from './Texture';
 
 import { Vector2, Vector3, Color, Rect } from './types';
 

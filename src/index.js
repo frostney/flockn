@@ -1,8 +1,8 @@
-import Game from './game';
+import Game from './Game';
 
-import GameObject from './gameobject';
-import Scene from './scene';
-import Behavior from './behavior';
+import GameObject from './GameObject';
+import Scene from './Scene';
+import Behavior from './Behavior';
 
 // import Renderer from './renderer';
 

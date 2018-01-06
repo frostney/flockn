@@ -1,5 +1,5 @@
-import DOMRenderer from './dom';
-import CanvasRenderer from './canvas';
+import DOMRenderer from './DOMRenderer';
+import CanvasRenderer from './CanvasRenderer';
 
 const renderers = {};
 

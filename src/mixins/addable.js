@@ -1,4 +1,4 @@
-import Graphics from '../graphics';
+import Graphics from '../Graphics';
 
 const addable = function addable(Factory, groupInstance, extraFn) {
   const adder = function adder(initialChild, ...args) {

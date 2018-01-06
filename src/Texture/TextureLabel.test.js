@@ -1,4 +1,4 @@
-import TextureLabel from './label';
+import TextureLabel from './TextureLabel';
 
 describe('flockn/texture/label', () => {
   it('is a function', () => {

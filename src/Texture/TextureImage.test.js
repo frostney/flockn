@@ -1,4 +1,4 @@
-import TextureImage from './image';
+import TextureImage from './TextureImage';
 
 describe('flockn/texture/image', () => {
   it('is a function', () => {

@@ -1,5 +1,5 @@
 import checkForFlag from '../utils/checkforflag';
-import Graphics from '../graphics';
+import Graphics from '../Graphics';
 
 const isVisible = checkForFlag('visible');
 

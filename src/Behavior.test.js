@@ -1,5 +1,5 @@
-import Behavior from './behavior';
-import Base from './base';
+import Behavior from './Behavior';
+import Base from './Base';
 
 describe('flockn/behavior', () => {
   it('is a function', () => {

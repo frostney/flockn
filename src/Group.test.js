@@ -1,5 +1,5 @@
-import Group from './group';
-import Behavior from './behavior';
+import Group from './Group';
+import Behavior from './Behavior';
 
 describe('flockn/group', () => {
   it('is a function', () => {

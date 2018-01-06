@@ -1,5 +1,5 @@
-import Scene from './scene';
-import Base from './base';
+import Scene from './Scene';
+import Base from './Base';
 
 describe('flockn/scene', () => {
   it('is a function', () => {

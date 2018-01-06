@@ -1,5 +1,5 @@
-import GameObject from './gameobject';
-import Base from './base';
+import GameObject from './GameObject';
+import Base from './Base';
 
 describe('flockn/gameobject', () => {
   it('is a function', () => {

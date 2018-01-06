@@ -1,5 +1,5 @@
-import Game from './game';
-import Base from './base';
+import Game from './Game';
+import Base from './Base';
 
 describe('flockn/game', () => {
   it('is a function', () => {

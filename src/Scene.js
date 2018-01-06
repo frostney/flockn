@@ -1,5 +1,5 @@
-import Base from './base';
-import GameObject from './gameobject';
+import Base from './Base';
+import GameObject from './GameObject';
 
 import { addable, renderable, updateable, serializable } from './mixins';
 

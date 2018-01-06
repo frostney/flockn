@@ -1,4 +1,4 @@
-import Base from './base';
+import Base from './Base';
 
 import { addable, updateable, serializable } from './mixins';
 

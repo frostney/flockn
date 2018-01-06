@@ -1,8 +1,8 @@
 import EventMap from 'eventmap';
 
 import { Color } from '../types';
-import TextureImage from './image';
-import TextureLabel from './label';
+import TextureImage from './TextureImage';
+import TextureLabel from './TextureLabel';
 import serializable from '../mixins/serializable';
 
 class Texture extends EventMap {

@@ -1,10 +1,10 @@
 import { Loop, AssetLoader } from 'gamebox';
 
-import Base from './base';
-import Graphics from './graphics';
-import Scene from './scene';
-import Color from './types/color';
-import Viewport from './viewport';
+import Base from './Base';
+import Graphics from './Graphics';
+import Scene from './Scene';
+import { Color } from './types';
+import Viewport from './Viewport';
 
 import { addable, renderable, updateable, serializable } from './mixins';
 

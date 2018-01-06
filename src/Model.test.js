@@ -1,5 +1,5 @@
 import EventMap from 'eventmap';
-import Model from './model';
+import Model from './Model';
 
 describe('flockn/model', () => {
   it('is a function', () => {
@@ -27,7 +27,7 @@ describe('flockn/model', () => {
     it('undefined when there is no valid property', () => {
       const test = model.get('test');
 
-      expect(test).toBe(undefined);
+      expect(test).toBe(null);
     });
 
     it('exact property value', () => {
