@@ -41,8 +41,8 @@ flockn(function(game) {
 
   // Start the game loop
   // Since only have one scene, we don't need to specify a scene name.
-  // In any other case it would be: `this.run('myscene');`
-  this.run();
+  // In any other case it would be: `game.run('myscene');`
+  game.run();
 
 });
 ```
@@ -62,13 +62,15 @@ Features
 * Taggable game objects and behaviors
 * Small (less than 30kB minified)
 
+Mission statement
+-----------------
+* Made for super quick prototyping (Game Jams, mockups, etc.)
+
 Philosophy
 ----------
 * Friendly to JavaScript transpilers: Babel, CoffeeScript, TypeScript and more
 * Transpilers are optional though: You don't need to use a transpiler with `flockn`
 * Lightweight
-* Events everywhere (Having an `EventEmitter`-like interface)
-* Pluggable
 * Over-simplification of things. Examples:
   * A flockn game instance binds scenes on itself. In other game engines, a scene director usually handles these things and is mounted to the game/application instance
   * A texture can either be an image, a text, a color or a combination of these. In other game engines, a texture only holds the data of a texture whereas other objects need a texture to display the texture data on the screen
@@ -82,7 +84,6 @@ Some decisions that need to be made
 -----------------------------------
 - Should game objects have the attributes of behaviors?
 - Should game objects have the attributes of models?
-- Should `Object.observe` be used for attributes? (Reducing the `Model#get` and `Model#set` overhead)
 - Is there a possibility to simplify the access of game objects from behaviors?
 
 Alternatives
@@ -94,9 +95,7 @@ Building for yourself
 ---------------------
 flockn uses Grunt as its task runner.
 Grunt can either be installed through `npm install -g grunt-cli` or you can use it as a local dependency.
-After that, navigate to the flockn root folder and type `npm install` to install all necessary dependencies.  
-
-Type `grunt` (or `npm run grunt`) to build everything. You also need to have Bower installed to take a look at the examples.
+After that, navigate to the flockn root folder and type `npm install` to install all necessary dependencies.
 
 License
 -------
