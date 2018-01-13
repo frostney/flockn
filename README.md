@@ -68,8 +68,6 @@ Mission statement
 
 Philosophy
 ----------
-* Friendly to JavaScript transpilers: Babel, CoffeeScript, TypeScript and more
-* Transpilers are optional though: You don't need to use a transpiler with `flockn`
 * Lightweight
 * Over-simplification of things. Examples:
   * A flockn game instance binds scenes on itself. In other game engines, a scene director usually handles these things and is mounted to the game/application instance
