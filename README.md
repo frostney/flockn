@@ -5,7 +5,7 @@ flockn
 [![Dependency Status](https://david-dm.org/freezedev/flockn.svg)](https://david-dm.org/freezedev/flockn)
 [![devDependency Status](https://david-dm.org/freezedev/flockn/dev-status.svg)](https://david-dm.org/freezedev/flockn#info=devDependencies)
 
-flockn is a lightweight declarative game engine. (While it uses [Babel](https://github.com/babel/babel) to generate ECMAScript 5 compatible output, the use of Babel or ES6 in flockn-related project is not enforced. There no ES6 features that need to be used as flockn exposes an easy-to-use ES5 interface.)
+flockn is a lightweight declarative game engine.
 
 How does it work?
 -----------------
@@ -45,6 +45,22 @@ flockn(function(game) {
   game.run();
 
 });
+```
+
+```javascript
+import { Game, Scene, GameObject } from 'flockn';
+
+const hero = new GameObject();
+hero.position.x = 100;
+hero.position.y = 100;
+hero.texture.label.text = 'Hello World';
+
+const scene = new Scene();
+scene.addGameObject(hero);
+
+const myGame = new Game();
+myGame.addScene(scene);
+myGame.run();
 ```
 Putting everything in one file doesn't work for anything bigger than a small experiment, so I would recommend to
 to put each gameobjects, behaviors and scene in separate files. For a more real-life example, take a look at the
