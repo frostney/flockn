@@ -54,6 +54,9 @@ const hero = new GameObject();
 hero.position.x = 100;
 hero.position.y = 100;
 hero.texture.label.text = 'Hello World';
+hero.onUpdate = function(dt) {
+  hero.angle += dt * 10;
+};
 
 const scene = new Scene();
 scene.addGameObject(hero);
