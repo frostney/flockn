@@ -1,9 +1,9 @@
 flockn
 ======
 
-[![Build Status](https://travis-ci.org/freezedev/flockn.svg?branch=master)](https://travis-ci.org/freezedev/flockn)
-[![Dependency Status](https://david-dm.org/freezedev/flockn.svg)](https://david-dm.org/freezedev/flockn)
-[![devDependency Status](https://david-dm.org/freezedev/flockn/dev-status.svg)](https://david-dm.org/freezedev/flockn#info=devDependencies)
+[![Build Status](https://travis-ci.org/flockn/flockn.svg?branch=master)](https://travis-ci.org/flockn/flockn)
+[![Dependency Status](https://david-dm.org/flockn/flockn.svg)](https://david-dm.org/flockn/flockn)
+[![devDependency Status](https://david-dm.org/flockn/flockn/dev-status.svg)](https://david-dm.org/flockn/flockn#info=devDependencies)
 
 flockn is a lightweight declarative game engine.
 
