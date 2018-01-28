@@ -4,7 +4,6 @@ import { Input } from 'gamebox';
 
 import Audio from './Audio';
 import Group from './Group';
-import World from './World';
 
 let objectIndex = 0;
 
@@ -78,8 +77,7 @@ class Base extends EventMap {
 
       // Call the `descriptor` property with `args`
 
-      // object, {data, World}
-      this.descriptor.call(this, this, { data, World });
+      this.descriptor.call(this, this, { data });
 
       // Trigger an event
       this.trigger('execute');
