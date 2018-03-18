@@ -48,12 +48,13 @@ flockn(function(game) {
 ```
 
 ```javascript
-import { Game, Scene, GameObject } from 'flockn';
+import { Game, Scene, GameObject, Texture } from 'flockn';
 
 const hero = new GameObject();
 hero.position.x = 100;
 hero.position.y = 100;
-hero.texture.label.text = 'Hello World';
+hero.texture = new Texture.Label();
+hero.texture.text = 'Hello World';
 hero.onUpdate = function(dt) {
   hero.angle += dt * 10;
 };
