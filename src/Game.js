@@ -100,7 +100,7 @@ class Game extends Base {
     }).apply(this, args));
   }
 
-  showScene(name) {
+  showScene(name: string) {
     // TODO: Add transitions
     this.children.forEach((scene) => {
       scene.visible = false;
@@ -124,7 +124,7 @@ class Game extends Base {
     return this.assetLoader;
   }
 
-  run(name) {
+  run(name: string) {
     Graphics.trigger('add', this);
 
     let sceneName = name;
