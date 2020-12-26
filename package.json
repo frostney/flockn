@@ -6,6 +6,20 @@
   "main": "dist/flockn.js",
   "exports": "dist/flockn.modern.js",
   "module": "dist/flockn.module.js",
+  "size-limit": [
+    {
+      "path": "dist/flockn.js",
+      "limit": "10 KB"
+    },
+    {
+      "path": "dist/flockn.modern.js",
+      "limit": "10 KB"
+    },
+    {
+      "path": "dist/flockn.module.js",
+      "limit": "10 KB"
+    }
+  ],
   "directories": {
     "example": "examples",
     "test": "test"
