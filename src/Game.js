@@ -76,7 +76,7 @@ class Game extends Base {
           currentScene.trigger('resize', innerWidth, innerHeight);
         }
       },
-      false,
+      false
     );
 
     // Add an `orientationchange` event to each `Game` instance
@@ -85,22 +85,24 @@ class Game extends Base {
       () => {
         this.trigger('orientationchange');
       },
-      false,
+      false
     );
   }
 
   addScene(...args) {
     // When adding a scene, the dimension of scenes should be
     // exactly as large as the `Game` instance itself
-    this.queue.push(addable(Scene, this.children, (child) => {
-      /* eslint no-param-reassign: 0 */
+    this.queue.push(
+      addable(Scene, this.children, (child) => {
+        /* eslint no-param-reassign: 0 */
 
-      child.width = this.width;
-      child.height = this.height;
-    }).apply(this, args));
+        child.width = this.width;
+        child.height = this.height;
+      }).apply(this, args)
+    );
   }
 
-  showScene(name: string) {
+  showScene(name) {
     // TODO: Add transitions
     this.children.forEach((scene) => {
       scene.visible = false;
@@ -124,7 +126,7 @@ class Game extends Base {
     return this.assetLoader;
   }
 
-  run(name: string) {
+  run(name) {
     Graphics.trigger('add', this);
 
     let sceneName = name;

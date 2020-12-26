@@ -19,7 +19,7 @@ flockn(function (game) {
     // The logic for this scene
 
     // Give the scene a name
-    scene.name = "myscene";
+    scene.name = 'myscene';
 
     // Create a new game object inside the scene
     scene.addGameObject(function (gameObject) {
@@ -30,7 +30,7 @@ flockn(function (game) {
       gameObject.position.y = 100;
 
       // This game object now holds a label with the text "Hello World"
-      gameObject.texture.label.text = "Hello World";
+      gameObject.texture.label.text = 'Hello World';
     });
   });
 
@@ -49,7 +49,7 @@ const hero = new GameObject();
 hero.position.x = 100;
 hero.position.y = 100;
 hero.texture = new Label();
-hero.texture.text = "Hello World";
+hero.texture.text = 'Hello World';
 hero.onUpdate = function (dt) {
   hero.angle += dt * 10;
 };

@@ -14,7 +14,7 @@ const renderable = function renderable() {
     Graphics.trigger('render', this);
 
     // Render all children elements
-    this.children.forEach(child => child.trigger('render'));
+    this.children.forEach((child) => child.trigger('render'));
   });
 };
 

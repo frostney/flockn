@@ -5,8 +5,8 @@ import * as mouse from '../input/mouse';
 const factory = () => {
   const root = window;
 
-  const pixelize = num => `${num}px`;
-  const unpixelize = str => parseFloat(str) || 0;
+  const pixelize = (num) => `${num}px`;
+  const unpixelize = (str) => parseFloat(str) || 0;
 
   Graphics.renderer = 'DOM';
 
@@ -64,7 +64,9 @@ const factory = () => {
 
     const element = document.createElement('div');
     element.id = elementId;
-    element.className = [obj.type.toLowerCase(), obj.name.toLowerCase()].join(' ');
+    element.className = [obj.type.toLowerCase(), obj.name.toLowerCase()].join(
+      ' '
+    );
     element.style.position = 'absolute';
 
     switch (obj.type) {
@@ -90,7 +92,7 @@ const factory = () => {
           (evt) => {
             obj.trigger('mouseenter', evt);
           },
-          true,
+          true
         );
 
         root.addEventListener(
@@ -98,7 +100,7 @@ const factory = () => {
           (evt) => {
             obj.trigger('mouseleave', evt);
           },
-          true,
+          true
         );
 
         break;
@@ -179,9 +181,11 @@ const factory = () => {
           }
 
           if (obj.angle) {
-            ['transform', 'mozTransform', 'webkitTransform'].forEach((transform) => {
-              element.style[transform] = `rotate(${obj.angle}deg)`;
-            });
+            ['transform', 'mozTransform', 'webkitTransform'].forEach(
+              (transform) => {
+                element.style[transform] = `rotate(${obj.angle}deg)`;
+              }
+            );
           }
 
           if (obj.alpha !== 1) {
@@ -192,8 +196,14 @@ const factory = () => {
           element.style.backgroundColor = obj.texture.backgroundColor.toString();
 
           // Set origin
-          ['transformOrigin', 'mozTransformOrigin', 'webkitTransformOrigin'].forEach((transformOrigin) => {
-            element.style[transformOrigin] = `${obj.origin.x}px ${obj.origin.y}px`;
+          [
+            'transformOrigin',
+            'mozTransformOrigin',
+            'webkitTransformOrigin',
+          ].forEach((transformOrigin) => {
+            element.style[
+              transformOrigin
+            ] = `${obj.origin.x}px ${obj.origin.y}px`;
           });
 
           // Set border
@@ -209,11 +219,15 @@ const factory = () => {
 
           if (obj.texture.image.drawable) {
             if (obj.texture.image.offset.x !== 0) {
-              element.style.backgroundPositionX = `${obj.texture.image.offset.x * -1}px`;
+              element.style.backgroundPositionX = `${
+                obj.texture.image.offset.x * -1
+              }px`;
             }
 
             if (obj.texture.image.offset.y !== 0) {
-              element.style.backgroundPositionY = `${obj.texture.image.offset.y * -1}px`;
+              element.style.backgroundPositionY = `${
+                obj.texture.image.offset.y * -1
+              }px`;
             }
           }
 

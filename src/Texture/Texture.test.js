@@ -1,5 +1,5 @@
 import EventMap from 'eventmap';
-import Texture from './';
+import Texture from './Texture';
 
 describe('flockn/texture', () => {
   it('is a function', () => {

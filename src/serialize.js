@@ -4,7 +4,14 @@ const serialize = {};
 
 serialize.json = {};
 
-serialize.json.filter = ['id', 'parent', 'audio', 'input', 'world', 'assetLoader'];
+serialize.json.filter = [
+  'id',
+  'parent',
+  'audio',
+  'input',
+  'world',
+  'assetLoader',
+];
 serialize.json.defaultReplacer = [];
 
 serialize.json.defaultReplacer.push((key, value) => {
@@ -63,7 +70,10 @@ serialize.json.defaultReplacer.push((key, value) => {
 serialize.toJSON = (obj, replacer) => {
   const clonedObj = {};
 
-  const replacers = [].concat.apply([], [serialize.json.defaultReplacer, replacer]);
+  const replacers = [].concat.apply(
+    [],
+    [serialize.json.defaultReplacer, replacer]
+  );
 
   Object.keys(obj).forEach((key) => {
     let value = obj[key];
@@ -76,9 +86,11 @@ serialize.toJSON = (obj, replacer) => {
       return;
     }
 
-    replacers.filter(rep => !!rep).forEach((rep) => {
-      value = rep.call(obj, key, value);
-    });
+    replacers
+      .filter((rep) => !!rep)
+      .forEach((rep) => {
+        value = rep.call(obj, key, value);
+      });
 
     if (typeof value !== 'undefined') {
       clonedObj[key] = value;
@@ -88,7 +100,7 @@ serialize.toJSON = (obj, replacer) => {
   return clonedObj;
 };
 
-serialize.toString = obj =>
+serialize.toString = (obj) =>
   JSON.stringify(serialize.toJSON(obj), (key, value) => {
     // Functions that are still left should be stringified
 
