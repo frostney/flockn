@@ -1,5 +1,0 @@
-{
-  "ignore": [
-    "dist/**", "doc/**", "**/node_modules/**", "bower_components/**"
-  ]
-}
