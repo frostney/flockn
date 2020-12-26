@@ -40,7 +40,7 @@ flockn(() => {
       });
 
       this.on('update', (dt) => {
-        this.angle += (dt * 10);
+        this.angle += dt * 10;
       });
     });
 

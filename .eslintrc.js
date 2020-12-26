@@ -1,7 +1,7 @@
 module.exports = {
-  extends: "airbnb-base",
+  extends: ['airbnb-base', 'prettier'],
   rules: {
-    eqeqeq: [2, "smart"],
+    eqeqeq: [2, 'smart'],
   },
   env: {
     browser: true,

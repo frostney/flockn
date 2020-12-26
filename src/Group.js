@@ -62,8 +62,8 @@ class Group {
 
   values() {
     return Object.keys(this.ids)
-      .filter(id => id != null)
-      .map(id => this.ids[id]);
+      .filter((id) => id != null)
+      .map((id) => this.ids[id]);
   }
 
   all(filter) {
@@ -91,13 +91,13 @@ class Group {
   }
 
   forEach(callback) {
-    this.values().forEach(obj => callback(obj));
+    this.values().forEach((obj) => callback(obj));
   }
 
   map(callback) {
     const mappedArray = new Group();
 
-    this.forEach(obj => mappedArray.push(callback(obj)));
+    this.forEach((obj) => mappedArray.push(callback(obj)));
 
     return mappedArray;
   }
@@ -115,7 +115,7 @@ class Group {
   }
 
   byType(type) {
-    return this.types[type].map(index => this[index]);
+    return this.types[type].map((index) => this[index]);
   }
 
   byName(name) {
@@ -125,7 +125,7 @@ class Group {
   }
 
   byTag(tag) {
-    return this.tags[tag].map(index => this[index]);
+    return this.tags[tag].map((index) => this[index]);
   }
 
   first() {
@@ -155,7 +155,7 @@ class Group {
   static fromJSON(arr) {
     const group = new Group();
 
-    arr.forEach(obj => group.push(obj));
+    arr.forEach((obj) => group.push(obj));
 
     return group;
   }
@@ -206,7 +206,7 @@ class Group {
     }
 
     tags.forEach((tag) => {
-      this.tags[tag].forEach(index => this.remove(index));
+      this.tags[tag].forEach((index) => this.remove(index));
       this.tags = [];
     });
   }

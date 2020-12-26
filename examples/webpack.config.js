@@ -7,13 +7,14 @@ function isDirectory(dir) {
 }
 
 module.exports = {
-
   devtool: 'inline-source-map',
 
   entry: fs.readdirSync(__dirname).reduce((entries, dir) => {
     const isDraft = dir.charAt(0) === '_';
 
-    if (!isDraft && isDirectory(path.join(__dirname, dir))) { entries[dir] = path.join(__dirname, dir, 'Game.js'); }
+    if (!isDraft && isDirectory(path.join(__dirname, dir))) {
+      entries[dir] = path.join(__dirname, dir, 'Game.js');
+    }
 
     return entries;
   }, {}),
@@ -36,5 +37,4 @@ module.exports = {
       flockn: '../../src/index',
     },
   },
-
 };

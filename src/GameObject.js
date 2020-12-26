@@ -116,18 +116,20 @@ class GameObject extends Base {
     return new Rect(this.position.x, this.position.y, this.width, this.height);
   }
 
-  addGameObject(...args: GameObject[]) {
+  addGameObject(...args) {
     // Add a game object to this game object
     this.queue.push(addable(GameObject, this.children).apply(this, args));
   }
 
-  addBehavior(...args: Behavior[]) {
+  addBehavior(...args) {
     // Add a `Behavior` instance to the the game object and update the `gameObject` property
-    this.queue.push(addable(Behavior, this.children, (child) => {
-      /* eslint no-param-reassign: 0 */
+    this.queue.push(
+      addable(Behavior, this.children, (child) => {
+        /* eslint no-param-reassign: 0 */
 
-      child.gameObject = this;
-    }).apply(this, args));
+        child.gameObject = this;
+      }).apply(this, args)
+    );
   }
 
   addModel(...args) {

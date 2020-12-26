@@ -1,4 +1,4 @@
-import { Rect, Vector2 } from './';
+import { Rect, Vector2 } from '.';
 
 describe('flockn/types/rect', () => {
   it('is a function', () => {
@@ -43,10 +43,14 @@ describe('flockn/types/rect', () => {
   describe('#center', () => {
     const rect = new Rect();
 
-    it('x value should return a number', () => expect(typeof rect.center().x).toBe('number'));
-    it('y value should return a number', () => expect(typeof rect.center().y).toBe('number'));
-    it('x value should be 0 if x, y, w and h are 0', () => expect(rect.center().x).toBe(0));
-    it('y value should be 0 if x, y, w and h are 0', () => expect(rect.center().y).toBe(0));
+    it('x value should return a number', () =>
+      expect(typeof rect.center().x).toBe('number'));
+    it('y value should return a number', () =>
+      expect(typeof rect.center().y).toBe('number'));
+    it('x value should be 0 if x, y, w and h are 0', () =>
+      expect(rect.center().x).toBe(0));
+    it('y value should be 0 if x, y, w and h are 0', () =>
+      expect(rect.center().y).toBe(0));
   });
 
   describe('#toJSON', () => {
@@ -74,19 +78,23 @@ describe('flockn/types/rect', () => {
     const rect2 = new Rect(20, 20, 40, 40);
 
     it('stringified empty rect', () =>
-      expect(rect.toString()).toBe(JSON.stringify({
-        x: 0,
-        y: 0,
-        w: 0,
-        h: 0,
-      })));
+      expect(rect.toString()).toBe(
+        JSON.stringify({
+          x: 0,
+          y: 0,
+          w: 0,
+          h: 0,
+        })
+      ));
     it('stringified custom rect', () =>
-      expect(rect2.toString()).toBe(JSON.stringify({
-        x: 20,
-        y: 20,
-        w: 40,
-        h: 40,
-      })));
+      expect(rect2.toString()).toBe(
+        JSON.stringify({
+          x: 20,
+          y: 20,
+          w: 40,
+          h: 40,
+        })
+      ));
   });
 
   describe('#contains', () => {
@@ -94,8 +102,10 @@ describe('flockn/types/rect', () => {
     const rect2 = new Rect(50, 50, 30, 30);
     const vector = new Vector2(10, 10);
 
-    it('vector contained in rect', () => expect(rect.contains(vector)).toBe(true));
-    it('vector not contained in rect', () => expect(rect2.contains(vector)).toBe(false));
+    it('vector contained in rect', () =>
+      expect(rect.contains(vector)).toBe(true));
+    it('vector not contained in rect', () =>
+      expect(rect2.contains(vector)).toBe(false));
   });
 
   describe('#center', () => {

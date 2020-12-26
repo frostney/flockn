@@ -19,9 +19,19 @@ const factory = () => {
       rootElement.addEventListener(eventName, (e) => {
         if (Game.activeScene) {
           Game.activeScene.children
-            .all(obj =>
-              obj.visible && obj.bounds().contains(mouse.relativePosition(e, rootElement, obj)))
-            .forEach(obj => obj.trigger(eventName, mouse.relativePosition(e, rootElement, obj)));
+            .all(
+              (obj) =>
+                obj.visible &&
+                obj
+                  .bounds()
+                  .contains(mouse.relativePosition(e, rootElement, obj))
+            )
+            .forEach((obj) =>
+              obj.trigger(
+                eventName,
+                mouse.relativePosition(e, rootElement, obj)
+              )
+            );
         }
       });
     });
@@ -45,7 +55,10 @@ const factory = () => {
       case 'GameObject':
         context.save();
 
-        context.translate(obj.position.x + obj.origin.x, obj.position.y + obj.origin.y);
+        context.translate(
+          obj.position.x + obj.origin.x,
+          obj.position.y + obj.origin.y
+        );
 
         if (obj.angle !== 0) {
           context.rotate(obj.angle * (Math.PI / 180));
@@ -57,14 +70,22 @@ const factory = () => {
         }
 
         if (obj.texture.image.drawable) {
-          context.drawImage(obj.texture.image.data, -obj.origin.x, -obj.origin.y);
+          context.drawImage(
+            obj.texture.image.data,
+            -obj.origin.x,
+            -obj.origin.y
+          );
         }
 
         if (obj.texture.label.drawable) {
           // const fontName = obj.texture.label.font.size + 'px ' + obj.texture.label.font.name;
 
           context.fillStyle = obj.texture.label.font.color.toString();
-          context.fillText(obj.texture.label.text, -obj.origin.x, -obj.origin.y);
+          context.fillText(
+            obj.texture.label.text,
+            -obj.origin.x,
+            -obj.origin.y
+          );
         }
 
         context.restore();

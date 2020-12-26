@@ -12,7 +12,12 @@ Object.keys(colorConstants).forEach((colorName) => {
 
   ((colorName, colorValue) => {
     Color[colorName] = () => {
-      const col = new Color(colorValue.r, colorValue.g, colorValue.b, colorValue.a);
+      const col = new Color(
+        colorValue.r,
+        colorValue.g,
+        colorValue.b,
+        colorValue.a
+      );
       col.name = colorName;
       return col;
     };

@@ -31,7 +31,10 @@ const createRootElement = function createRootElement(elementName, extraFn) {
     rootElement = element;
   }
 
-  rootElement.className = [this.type.toLowerCase(), this.name.toLowerCase()].join(' ');
+  rootElement.className = [
+    this.type.toLowerCase(),
+    this.name.toLowerCase(),
+  ].join(' ');
 
   // Set the dimensions of the `rootElement`
   rootElement.style.position = 'absolute';
