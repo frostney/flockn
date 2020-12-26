@@ -6,7 +6,7 @@ flockn is a lightweight declarative game engine.
 
 ```javascript
 // Import flockn function from the flockn module
-import flockn from "flockn";
+import flockn from 'flockn';
 
 // Create a game instance, no need to store it as a variable
 // Using the flockn module is a shorthand for:
@@ -42,7 +42,7 @@ flockn(function (game) {
 ```
 
 ```javascript
-import { Game, Scene, GameObject, Texture } from "flockn";
+import { Game, Scene, GameObject, Texture } from 'flockn';
 const { Label } = Texture;
 
 const hero = new GameObject();
