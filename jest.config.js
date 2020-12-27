@@ -1,4 +1,4 @@
 module.exports = {
-    collectCoverage: true,
-    coverageReporters: ['json', 'lcov']
-}
+  collectCoverage: true,
+  coverageReporters: ['json', 'lcov'],
+};

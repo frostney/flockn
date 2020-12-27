@@ -1834,6 +1834,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/node@npm:^14.6.4":
+  version: 14.14.16
+  resolution: "@types/node@npm:14.14.16"
+  checksum: 220a7496ec73861ad7fb4ae762618bb46ac9d5d5f92f3a2fcebfd1a81a509ff558eface7bcd1d632598a8a28f856a74b324e7165918e8334a59c221cb06d15e3
+  languageName: node
+  linkType: hard
+
 "@types/normalize-package-data@npm:^2.4.0":
   version: 2.4.0
   resolution: "@types/normalize-package-data@npm:2.4.0"
@@ -3754,7 +3761,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"commander@npm:^6.2.0":
+"commander@npm:^6.1.0, commander@npm:^6.2.0":
   version: 6.2.1
   resolution: "commander@npm:6.2.1"
   checksum: 47856aae6f194404122e359d8463e5e1a18f7cbab26722ce69f1379be8514bd49a160ef81a983d3d2091e3240022643354101d1276c797dcdd0b5bfc3c3f04a3
@@ -4533,7 +4540,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"detect-newline@npm:^3.0.0":
+"detect-indent@npm:^6.0.0":
+  version: 6.0.0
+  resolution: "detect-indent@npm:6.0.0"
+  checksum: ad0619414151942d278c06cd4b6b79feb96c16eebf4979ef1d03433941f1a85c9bba7daba73a73814d629923716169da5416bbc4290c232d53a2dc06f462da5f
+  languageName: node
+  linkType: hard
+
+"detect-newline@npm:3.1.0, detect-newline@npm:^3.0.0":
   version: 3.1.0
   resolution: "detect-newline@npm:3.1.0"
   checksum: 6d3f67971da681403c1b1920eb3994c0718a4e70d32ae4cfc5369f3e30b4746f075a3986cb5a5c762fac36597d8f8a33b6c98bd5ce822589773313f29ce4544f
@@ -5442,7 +5456,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fast-glob@npm:^3.1.1":
+"fast-glob@npm:^3.0.3, fast-glob@npm:^3.1.1":
   version: 3.2.4
   resolution: "fast-glob@npm:3.2.4"
   dependencies:
@@ -5717,7 +5731,9 @@ __metadata:
     lint-staged: ^10.5.3
     microbundle: ^0.13.0
     prettier: ^2.2.1
+    prettier-plugin-packagejson: ^2.2.8
     rimraf: ^3.0.2
+    scriptlint: ^2.1.2
     size-limit: ^4.9.1
     webpack: 5.11.0
     webpack-dev-server: 3.11.0
@@ -6024,6 +6040,13 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
+"git-hooks-list@npm:1.0.3":
+  version: 1.0.3
+  resolution: "git-hooks-list@npm:1.0.3"
+  checksum: 9db6dfcb95d5c6c55959cde458d40fa3f1f544334e98d905fe5cc4bf58a796efd8fc2faebcc7233fb57807fab639036d54fa747fee77302f065be419ac2f7de8
+  languageName: node
+  linkType: hard
+
 "glob-parent@npm:^3.1.0":
   version: 3.1.0
   resolution: "glob-parent@npm:3.1.0"
@@ -6098,6 +6121,22 @@ fsevents@~2.1.2:
   version: 0.1.0
   resolution: "globalyzer@npm:0.1.0"
   checksum: 44d8bd60b2ad2b976e54352d40a3166c9c80a19f72be029e2873fdea19f5ad09e696e12f712aa8a1449a24c391712e0769f1a537c7744e78f597e695b0d3ca12
+  languageName: node
+  linkType: hard
+
+"globby@npm:10.0.0":
+  version: 10.0.0
+  resolution: "globby@npm:10.0.0"
+  dependencies:
+    "@types/glob": ^7.1.1
+    array-union: ^2.1.0
+    dir-glob: ^3.0.1
+    fast-glob: ^3.0.3
+    glob: ^7.1.3
+    ignore: ^5.1.1
+    merge2: ^1.2.3
+    slash: ^3.0.0
+  checksum: 4c782b2cbf509aef181d115b4ffeb0518ea13dbb673bd396e028814e101eec255f033b0824e96418eccf4f7000e2b9b95216b70efb840708d4d9335eb48fe333
   languageName: node
   linkType: hard
 
@@ -6569,7 +6608,7 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"ignore@npm:^5.1.4":
+"ignore@npm:^5.1.1, ignore@npm:^5.1.4":
   version: 5.1.8
   resolution: "ignore@npm:5.1.8"
   checksum: b08e3d5b5d94eca13475f29a5d47d221060e9cdd7e38d7647088e29d90130669a970fecbc4cdb41b8fa295c6673740c729d3dc05dadc381f593efb42282cbf9f
@@ -7074,6 +7113,13 @@ fsevents@~2.1.2:
   dependencies:
     path-is-inside: ^1.0.2
   checksum: e289fc4ec6df457600bac34068b7c564bf17eee703888d9eea2b0a363a0ac67bb5864e715ba428904dd683287154cab0f7f9536d7e4c23e3410c5cc024a5839b
+  languageName: node
+  linkType: hard
+
+"is-plain-obj@npm:2.1.0":
+  version: 2.1.0
+  resolution: "is-plain-obj@npm:2.1.0"
+  checksum: 2314302f9140d1e9607731d523f207d8000281aebbabe0083210342c0758976f75f0f5db405e55910bd4dc9a04baddbeab9d476290642b5a0d31431cc9bda4b3
   languageName: node
   linkType: hard
 
@@ -8359,7 +8405,7 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"merge2@npm:^1.3.0":
+"merge2@npm:^1.2.3, merge2@npm:^1.3.0":
   version: 1.4.1
   resolution: "merge2@npm:1.4.1"
   checksum: 7ad40d8b140a5ed4e621b916858410e4f0dd4ced1e5a2b675563347e70f0661d95ba6c3c8007dd3c4e242d0b8eee44559fa75bb90a146cf168debffc0cbc18f3
@@ -10149,6 +10195,17 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
+"prettier-plugin-packagejson@npm:^2.2.8":
+  version: 2.2.8
+  resolution: "prettier-plugin-packagejson@npm:2.2.8"
+  dependencies:
+    sort-package-json: 1.48.0
+  peerDependencies:
+    prettier: ">= 1.16.0"
+  checksum: 282ab560a11705a4f7bda14bd81b3e399a8b19d0b13b482b3d7f1373004d9214c77e4777733a3c47a40467ca28fc21af9959b2bca41fc85877131e4ecf2c0069
+  languageName: node
+  linkType: hard
+
 "prettier@npm:^2.2.1":
   version: 2.2.1
   resolution: "prettier@npm:2.2.1"
@@ -11112,6 +11169,21 @@ resolve@1.17.0:
   languageName: node
   linkType: hard
 
+"scriptlint@npm:^2.1.2":
+  version: 2.1.2
+  resolution: "scriptlint@npm:2.1.2"
+  dependencies:
+    "@types/node": ^14.6.4
+    chalk: ^4.1.0
+    commander: ^6.1.0
+    cosmiconfig: ^7.0.0
+    detect-indent: ^6.0.0
+  bin:
+    scriptlint: dist/cli.js
+  checksum: f035dd478bff95442bcff3b25b38d4886218bcb6e0da8e75d20fed89c0e287b09238202961f6763ce6bd0c692e227b821fb454c922650b72792427c7630f15f4
+  languageName: node
+  linkType: hard
+
 "select-hose@npm:^2.0.0":
   version: 2.0.0
   resolution: "select-hose@npm:2.0.0"
@@ -11465,6 +11537,29 @@ resolve@1.17.0:
     uuid: ^3.4.0
     websocket-driver: 0.6.5
   checksum: 9a8596f800e66bdb718165e1e51bb20d04ebf2f9f837cb459a83060b78230ae787bb6bbbc75ded3c20409b935a6cf0e03fc762cf26b558cc1f7b557b6acc9fbc
+  languageName: node
+  linkType: hard
+
+"sort-object-keys@npm:^1.1.3":
+  version: 1.1.3
+  resolution: "sort-object-keys@npm:1.1.3"
+  checksum: ac682381b3dea1441b8c0b53244792f6c5fa3688d179a8e02f35c8dab77d11ef23a9c9f542cdd9feb306d3838701f88b51f9944203490958f90728fd392866dd
+  languageName: node
+  linkType: hard
+
+"sort-package-json@npm:1.48.0":
+  version: 1.48.0
+  resolution: "sort-package-json@npm:1.48.0"
+  dependencies:
+    detect-indent: ^6.0.0
+    detect-newline: 3.1.0
+    git-hooks-list: 1.0.3
+    globby: 10.0.0
+    is-plain-obj: 2.1.0
+    sort-object-keys: ^1.1.3
+  bin:
+    sort-package-json: cli.js
+  checksum: 42cba5356ead7ae6c51f4d3d35d3ed730b1416d55d68d713363d62cceebbbd6cba2936c35117897d03d07038cddd53fb8fdafcf7a79539cf500c16bce7a6dc10
   languageName: node
   linkType: hard
 
