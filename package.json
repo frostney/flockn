@@ -2,46 +2,6 @@
   "name": "flockn",
   "version": "0.1.0",
   "description": "Micro game engine",
-  "source": "src/index.js",
-  "main": "dist/flockn.js",
-  "exports": "dist/flockn.modern.js",
-  "module": "dist/flockn.module.js",
-  "size-limit": [
-    {
-      "path": "dist/flockn.js",
-      "limit": "10 KB"
-    },
-    {
-      "path": "dist/flockn.modern.js",
-      "limit": "10 KB"
-    },
-    {
-      "path": "dist/flockn.module.js",
-      "limit": "10 KB"
-    }
-  ],
-  "directories": {
-    "example": "examples",
-    "test": "test"
-  },
-  "scripts": {
-    "clean": "rimraf dist",
-    "prebuild": "npm run clean",
-    "build": "microbundle --external none",
-    "dev": "microbundle watch",
-    "lint": "eslint .",
-    "format": "prettier --write . && eslint . --fix",
-    "pretest": "npm run lint",
-    "test": "cross-env NODE_ENV=test jest",
-    "precommit": "lint-staged",
-    "prepush": "npm run test",
-    "size": "size-limit",
-    "analyze": "size-limit --why"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/freezedev/flockn.git"
-  },
   "keywords": [
     "game",
     "engine",
@@ -49,12 +9,58 @@
     "small",
     "lightweight"
   ],
-  "author": "Johannes Stein",
-  "license": "(Unlicense OR MIT)",
+  "homepage": "https://github.com/freezedev/flockn",
   "bugs": {
     "url": "https://github.com/freezedev/flockn/issues"
   },
-  "homepage": "https://github.com/freezedev/flockn",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/freezedev/flockn.git"
+  },
+  "license": "(Unlicense OR MIT)",
+  "author": "Johannes Stein",
+  "exports": "dist/flockn.modern.js",
+  "main": "dist/flockn.js",
+  "module": "dist/flockn.module.js",
+  "source": "src/index.js",
+  "directories": {
+    "example": "examples",
+    "test": "test"
+  },
+  "scripts": {
+    "analyze": "size-limit --why",
+    "prebuild": "npm run clean",
+    "build": "microbundle --external none",
+    "clean": "rimraf dist",
+    "dev": "microbundle watch",
+    "format": "prettier --write . && eslint . --fix",
+    "lint": "eslint .",
+    "lint-package": "scriptlint --strict",
+    "precommit": "lint-staged",
+    "prepush": "jest --changedSince master",
+    "size": "size-limit",
+    "pretest": "npm run lint",
+    "test": "cross-env NODE_ENV=test jest"
+  },
+  "lint-staged": {
+    "**/*.js": [
+      "prettier --write",
+      "eslint . --fix"
+    ],
+    "**/*.{md,json,yml}": [
+      "prettier --write"
+    ],
+    "package.json": [
+      "scriptlint --strict"
+    ]
+  },
+  "jest": {
+    "collectCoverage": true
+  },
+  "dependencies": {
+    "eventmap": "^2.1.0",
+    "gamebox": "^0.2.0"
+  },
   "devDependencies": {
     "@babel/core": "^7.12.10",
     "@babel/preset-env": "^7.12.11",
@@ -71,21 +77,25 @@
     "lint-staged": "^10.5.3",
     "microbundle": "^0.13.0",
     "prettier": "^2.2.1",
+    "prettier-plugin-packagejson": "^2.2.8",
     "rimraf": "^3.0.2",
+    "scriptlint": "^2.1.2",
     "size-limit": "^4.9.1",
     "webpack": "5.11.0",
     "webpack-dev-server": "3.11.0"
   },
-  "dependencies": {
-    "eventmap": "^2.1.0",
-    "gamebox": "^0.2.0"
-  },
-  "lint-staged": {
-    "src/**/*.js": [
-      "npm run lint -- --"
-    ]
-  },
-  "jest": {
-    "collectCoverage": true
-  }
+  "size-limit": [
+    {
+      "path": "dist/flockn.js",
+      "limit": "10 KB"
+    },
+    {
+      "path": "dist/flockn.modern.js",
+      "limit": "10 KB"
+    },
+    {
+      "path": "dist/flockn.module.js",
+      "limit": "10 KB"
+    }
+  ]
 }

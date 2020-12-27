@@ -76,7 +76,7 @@ There is also an online playground.
 ## Features
 
 - Taggable game objects and behaviors
-- Small (less than 30kB minified)
+- Small (less than 10kB minified)
 
 ## Mission statement
 
