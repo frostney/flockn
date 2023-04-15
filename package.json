@@ -81,7 +81,7 @@
     "rimraf": "^3.0.2",
     "scriptlint": "^2.1.2",
     "size-limit": "^4.9.1",
-    "webpack": "5.11.0",
+    "webpack": "5.76.0",
     "webpack-dev-server": "3.11.0"
   },
   "size-limit": [
